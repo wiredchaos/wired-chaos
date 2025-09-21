@@ -163,8 +163,8 @@ const CSNPage = () => {
               <div className="frequency">33.3 FM</div>
               <div className="station">DOGECHAIN</div>
             </div>
-            <p>🎵 Broadcasting Live</p>
-            <p>Listen: @cryptospacesnet</p>
+            <p>🎵 Broadcasting on 33.3FM DOGECHAIN</p>
+            <p>Listen: cryptospaces.net or @cryptospacesnet</p>
             <div className="stream-controls">
               <Button className="listen-btn">🎧 Join Live Stream</Button>
             </div>
