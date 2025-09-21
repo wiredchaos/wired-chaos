@@ -894,8 +894,64 @@ body {
   text-shadow: 0 0 10px #39FF14;
 }
 
-.station {
-  font-size: 1rem;
+/* X.com Feed Widget Styles */
+.x-feed-widget {
+  background: rgba(0, 26, 26, 0.9);
+  border: 2px solid #004d4d;
+  border-radius: 12px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.x-feed-widget:hover {
+  border-color: #00FFFF;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.x-feed-widget h3 {
   color: #00FFFF;
-  margin-top: 0.5rem;
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.x-feed-container {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.x-fallback {
+  text-align: center;
+}
+
+.x-fallback p {
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.x-follow-btn {
+  background: linear-gradient(45deg, #1DA1F2, #0d8bd9);
+  border: 2px solid #1DA1F2;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.x-follow-btn:hover {
+  background: linear-gradient(45deg, #0d8bd9, #0a7bc4);
+  box-shadow: 0 0 15px rgba(29, 161, 242, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Twitter Timeline Styling */
+.twitter-timeline {
+  border-radius: 8px !important;
 }
