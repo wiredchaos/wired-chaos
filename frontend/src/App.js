@@ -16,57 +16,75 @@ const MotherboardHub = () => {
   const agents = [
     {
       id: 'csn',
-      name: 'CSN',
+      name: 'CRYPTO SPACES NET',
       icon: '📡',
-      title: 'Crypto Spaces Network',
-      description: '33.3FM Live Radio',
-      position: { top: '15%', left: '25%' },
+      title: 'CSN',
+      description: 'Live Stream Hub',
+      position: { top: '10%', left: '20%' },
       route: '/csn'
     },
     {
-      id: 'neuro',
-      name: 'NEUROLAB',
-      icon: '🧠⛓️',
-      title: 'AI Academy',
-      description: 'Education Hub',
-      position: { top: '15%', right: '25%' },
+      id: 'neurolab',
+      name: 'NEURO LAB',
+      icon: '🧠',
+      title: 'NEURO LAB',
+      description: 'AI Content Hub',
+      position: { top: '10%', right: '20%' },
       route: '/neurolab'
     },
     {
       id: 'bwb',
-      name: 'BWB',
+      name: 'BARBED WIRED BROADCAST',
       icon: '📰',
-      title: 'Digital Motherboard',
-      description: 'RSS → AI Pipeline',
-      position: { top: '50%', left: '15%' },
+      title: 'BWB',
+      description: 'Newsletter & RSS',
+      position: { top: '35%', left: '10%' },
       route: '/bwb'
     },
     {
       id: 'vault33',
-      name: 'VRG33589',
+      name: 'VAULT 33',
       icon: '🔐',
-      title: 'University',
-      description: 'Lore & Gamification',
-      position: { top: '50%', right: '15%' },
-      route: '/vrg33589'
+      title: 'VAULT 33',
+      description: 'Quest System',
+      position: { top: '35%', right: '10%' },
+      route: '/vault33'
     },
     {
       id: 'b2b',
-      name: 'CONTACT',
+      name: 'B2B / PROFESSIONAL',
       icon: '💼',
-      title: 'NEURO Intake',
-      description: 'Professional Hub',
-      position: { bottom: '15%', left: '25%' },
-      route: '/contact'
+      title: 'B2B',
+      description: 'Business Intake',
+      position: { bottom: '20%', left: '15%' },
+      route: '/b2b'
     },
     {
-      id: 'vrg',
-      name: 'TINFOIL',
+      id: 'vrg33589',
+      name: 'VRG-33-589',
       icon: '👁️',
-      title: 'Community Bot',
-      description: 'Conspiracy Hub',
-      position: { bottom: '15%', right: '25%' },
-      route: '/tinfoil'
+      title: 'VRG-33-589',
+      description: 'AKASHIC Bot',
+      position: { bottom: '20%', right: '15%' },
+      route: '/vrg33589'
+    },
+    {
+      id: 'groups',
+      name: 'GROUPS',
+      icon: '👥',
+      title: 'GROUPS',
+      description: 'Community Links',
+      position: { bottom: '10%', left: '30%' },
+      route: '/groups'
+    },
+    {
+      id: 'merch',
+      name: 'MERCH',
+      icon: '🛍️',
+      title: 'MERCH',
+      description: 'Store & Gear',
+      position: { bottom: '10%', right: '30%' },
+      route: '/merch'
     }
   ];
 
@@ -124,7 +142,7 @@ const MotherboardHub = () => {
         >
           <div className="node-content">
             <div className="node-icon">{agent.icon}</div>
-            <div className="node-name">{agent.name}</div>
+            <div className="node-name">{agent.title}</div>
             <div className="node-description">{agent.description}</div>
             <div className="node-glow"></div>
           </div>
@@ -133,13 +151,13 @@ const MotherboardHub = () => {
 
       {/* Footer Info */}
       <div className="footer-info">
-        <p>Select an agent to enter the network</p>
+        <p>Select a node to enter the network</p>
       </div>
     </div>
   );
 };
 
-// CSN - Crypto Spaces Network Page
+// CSN - Crypto Spaces Net Page
 const CSNPage = () => {
   const navigate = useNavigate();
   
@@ -147,62 +165,56 @@ const CSNPage = () => {
     <div className="agent-page csn-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>📡 CRYPTO SPACES NETWORK</h1>
-        <p>Broadcasting on 33.3FM DOGECHAIN • cryptospaces.net • @cryptospacesnet</p>
+        <h1>📡 CRYPTO SPACES NET</h1>
+        <p>Live Stream & Community Hub</p>
       </div>
       
-      <div className="hero-section">
-        <h2>Community is Utility</h2>
-      </div>
-      
-      <div className="streaming-section">
-        <Card className="stream-player">
-          <h3>🔴 LIVE ON 33.3FM</h3>
-          <div className="player-embed">
-            <div className="radio-display">
-              <div className="frequency">33.3 FM</div>
-              <div className="station">DOGECHAIN</div>
-            </div>
-            <p>🎵 Broadcasting on 33.3FM DOGECHAIN</p>
-            <p>Listen: cryptospaces.net or @cryptospacesnet</p>
-            <div className="stream-controls">
-              <Button className="listen-btn">🎧 Join Live Stream</Button>
-            </div>
+      <div className="widget-grid">
+        {/* YouTube Live Stream */}
+        <Card className="widget-card youtube-widget">
+          <h3>🔴 LIVE STREAM</h3>
+          <div className="iframe-container">
+            <iframe
+              width="100%"
+              height="315"
+              src="https://www.youtube.com/embed/jfKfPfyJRdk"
+              title="Crypto Spaces Network Live"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
           </div>
         </Card>
         
-        <Card className="stream-info">
-          <h3>📡 NETWORK STATUS</h3>
-          <div className="status-indicators">
-            <div className="status-item">
-              <span className="status-dot active"></span>
-              <span>Broadcasting Live</span>
-            </div>
-            <div className="status-item">
-              <span className="status-dot active"></span>
-              <span>Community Active</span>
-            </div>
-            <div className="status-item">
-              <span className="status-dot active"></span>
-              <span>Onboarding Open</span>
-            </div>
+        {/* Spotify Embed */}
+        <Card className="widget-card spotify-widget">
+          <h3>🎵 PODCAST</h3>
+          <div className="iframe-container">
+            <iframe
+              src="https://open.spotify.com/embed/show/4rOoJ6Egrf8K2IrywzwOMk"
+              width="100%"
+              height="232"
+              frameBorder="0"
+              allowtransparency="true"
+              allow="encrypted-media"
+            ></iframe>
           </div>
         </Card>
-      </div>
-
-      <div className="cta-section">
-        <Button 
-          onClick={() => window.open('https://cryptospaces.net', '_blank')} 
-          className="external-cta"
-        >
-          Join us live → cryptospaces.net
-        </Button>
+        
+        {/* Contact Form Widget */}
+        <Card className="widget-card contact-widget">
+          <h3>📞 GET IN TOUCH</h3>
+          <p>Want to be featured or collaborate?</p>
+          <Button onClick={() => navigate('/b2b')} className="contact-cta">
+            Professional Inquiries →
+          </Button>
+        </Card>
       </div>
     </div>
   );
 };
 
-// NEUROLAB AI Academy Page
+// NEURO Lab Page
 const NeuroLabPage = () => {
   const navigate = useNavigate();
   
@@ -210,99 +222,119 @@ const NeuroLabPage = () => {
     <div className="agent-page neuro-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>🧠⛓️ NEUROLAB AI ACADEMY</h1>
-        <p>AI Education without the jargon</p>
+        <h1>🧠 NEURO LAB</h1>
+        <p>AI Content & Social Hub</p>
       </div>
       
-      <div className="hero-section">
-        <h2>Front-facing education: AI for Kids, SMB training, Coding Bootcamp</h2>
-      </div>
-      
-      <div className="education-grid">
-        <Card className="education-card">
-          <div className="card-icon">👶</div>
-          <h3>AI for Kids</h3>
-          <p>Safe playful intros to artificial intelligence</p>
-          <Button className="course-btn">Explore Course</Button>
+      <div className="widget-grid">
+        {/* Chirp Follow Widget */}
+        <Card className="widget-card chirp-widget">
+          <h3>🐦 FOLLOW ON CHIRP</h3>
+          <p>Stay updated with latest NEURO content</p>
+          <Button 
+            onClick={() => window.open('https://chirp.me/neurometa', '_blank')}
+            className="chirp-btn"
+          >
+            Follow @neurometa
+          </Button>
         </Card>
         
-        <Card className="education-card">
-          <div className="card-icon">🏢</div>
-          <h3>AI for Local Business</h3>
-          <p>Group training sessions for small-medium businesses</p>
-          <Button className="course-btn">Book Training</Button>
+        {/* Shibo Embed */}
+        <Card className="widget-card shibo-widget">
+          <h3>🐕 SHIBO INTEGRATION</h3>
+          <div className="iframe-container">
+            <iframe
+              src="https://www.shibocrypto.com/"
+              width="100%"
+              height="400"
+              frameBorder="0"
+              title="Shibo Integration"
+            ></iframe>
+          </div>
         </Card>
         
-        <Card className="education-card">
-          <div className="card-icon">💻</div>
-          <h3>Coding Plus Bootcamp</h3>
-          <p>5 comprehensive modules covering modern development</p>
-          <Button className="course-btn">Start Bootcamp</Button>
+        {/* RSS Feed Widget */}
+        <Card className="widget-card rss-widget">
+          <h3>📡 CONTENT FEED</h3>
+          <div className="feed-container">
+            <div className="feed-item">
+              <span className="feed-date">Latest</span>
+              <span className="feed-title">AI Content Generation Pipeline</span>
+            </div>
+            <div className="feed-item">
+              <span className="feed-date">Recent</span>
+              <span className="feed-title">Neural Network Training Updates</span>
+            </div>
+            <div className="feed-item">
+              <span className="feed-date">Archive</span>
+              <span className="feed-title">Machine Learning Best Practices</span>
+            </div>
+          </div>
         </Card>
-        
-        <Card className="education-card">
-          <div className="card-icon">🎯</div>
-          <h3>Strength Mapping</h3>
-          <p>AI-powered assessment of your skills and potential</p>
-          <Button className="course-btn">Take Assessment</Button>
-        </Card>
-      </div>
-
-      <div className="cta-section">
-        <Button onClick={() => navigate('/contact')} className="cta-btn">
-          Contact NEURO for Training 🧠
-        </Button>
       </div>
     </div>
   );
 };
 
-// BWB - Digital Motherboard Tools Page
+// BWB - Barbed Wired Broadcast Page
 const BWBPage = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    // Integration with Buttondown would go here
+    alert('Newsletter signup functionality - integrate with Buttondown API');
+  };
+  
   return (
     <div className="agent-page bwb-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>📰 DIGITAL MOTHERBOARD</h1>
-        <p>Live feeds in, prompts out — RSS → FreshRSS → briefs → X blasts</p>
+        <h1>📰 BARBED WIRED BROADCAST</h1>
+        <p>Newsletter & RSS Automation</p>
       </div>
       
-      <div className="hero-section">
-        <h2>Build your AI-powered RSS pipeline</h2>
-      </div>
-
-      <div className="tools-grid">
-        <Card className="tool-card">
-          <div className="card-icon">📡</div>
-          <h3>RSS Aggregator</h3>
-          <p>Collect feeds from multiple sources automatically</p>
-          <Button className="tool-btn">Setup Feeds</Button>
+      <div className="widget-grid">
+        {/* Newsletter Signup */}
+        <Card className="widget-card newsletter-widget">
+          <h3>📬 SUBSCRIBE TO BWB</h3>
+          <p>Get weekly updates on AI, crypto, and digital chaos</p>
+          <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="newsletter-input"
+              required
+            />
+            <Button type="submit" className="subscribe-btn">
+              Subscribe
+            </Button>
+          </form>
         </Card>
         
-        <Card className="tool-card">
-          <div className="card-icon">🤖</div>
-          <h3>AI Brief Generator</h3>
-          <p>Transform RSS content into digestible summaries</p>
-          <Button className="tool-btn">Generate Briefs</Button>
-        </Card>
-        
-        <Card className="tool-card">
-          <div className="card-icon">🚀</div>
-          <h3>Social Blaster</h3>
-          <p>Automated posting to X and other platforms</p>
-          <Button className="tool-btn">Configure Posts</Button>
-        </Card>
-      </div>
-
-      <div className="pipeline-section">
-        <Card className="pipeline-card">
-          <h3>📊 Current Pipeline Status</h3>
-          <div className="pipeline-flow">
-            <div className="flow-step">RSS Feeds <span className="arrow">→</span></div>
-            <div className="flow-step">FreshRSS <span className="arrow">→</span></div>
-            <div className="flow-step">AI Processing <span className="arrow">→</span></div>
-            <div className="flow-step">Social Blast</div>
+        {/* RSS Feed */}
+        <Card className="widget-card rss-feed-widget">
+          <h3>📡 LIVE FEED</h3>
+          <div className="feed-container">
+            <div className="feed-item">
+              <span className="feed-date">Today</span>
+              <span className="feed-title">Digital Chaos Weekly Roundup</span>
+            </div>
+            <div className="feed-item">
+              <span className="feed-date">Yesterday</span>
+              <span className="feed-title">AI Pipeline Automation Update</span>
+            </div>
+            <div className="feed-item">
+              <span className="feed-date">2 days ago</span>
+              <span className="feed-title">Crypto Market Analysis</span>
+            </div>
+            <div className="feed-item">
+              <span className="feed-date">3 days ago</span>
+              <span className="feed-title">RSS to Social Media Pipeline</span>
+            </div>
           </div>
         </Card>
       </div>
@@ -310,84 +342,95 @@ const BWBPage = () => {
   );
 };
 
-// VRG33589 University Page
-const VRG33589Page = () => {
+// Vault 33 Quest System
+const Vault33Page = () => {
   const navigate = useNavigate();
+  const [currentLayer, setCurrentLayer] = useState(1);
+  
   return (
-    <div className="agent-page vrg-page">
+    <div className="agent-page vault33-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>🔐 WIRED CHAOS UNIVERSITY — VRG33589</h1>
-        <p>Decode the Gamma Vault. Choose your path. Earn whitelist rewards.</p>
+        <h1>🔐 VAULT 33</h1>
+        <p>Merovingian Sigil Quest System</p>
       </div>
       
-      <div className="hero-section">
-        <h2>VRG33589 is the lore vault of WIRED CHAOS</h2>
-      </div>
-
-      <div className="paths-grid">
-        <Card className="path-card cipher">
-          <div className="path-icon">🔢</div>
-          <h3>Cipher Path</h3>
-          <p>Decode 589 loops and Fibonacci codes</p>
-          <Button className="path-btn">Enter Path</Button>
-        </Card>
-        
-        <Card className="path-card chronicle">
-          <div className="path-icon">📚</div>
-          <h3>Chronicle Path</h3>
-          <p>XRPL history, tinfoil timelines</p>
-          <Button className="path-btn">Enter Path</Button>
-        </Card>
-        
-        <Card className="path-card vault">
-          <div className="path-icon">🏛️</div>
-          <h3>Vault Path</h3>
-          <p>NFT burns and Akashic puzzles</p>
-          <Button className="path-btn">Enter Path</Button>
-        </Card>
-        
-        <Card className="path-card signal">
-          <div className="path-icon">📶</div>
-          <h3>Signal Path</h3>
-          <p>Whitelist gamification + engagement</p>
-          <Button className="path-btn">Enter Path</Button>
-        </Card>
-      </div>
-
-      <div className="vault-section">
-        <Card className="gamma-vault">
-          <h3>🔮 Access the Gamma Vault</h3>
-          <p>589 Akashic essays tied into XRPL NFT lore</p>
-          <div className="vault-stats">
-            <div className="stat">
-              <span className="stat-number">589</span>
-              <span className="stat-label">Essays</span>
+      <div className="quest-system">
+        <Card className="quest-widget">
+          <h3>🎮 QUEST LAYERS</h3>
+          <div className="layer-progress">
+            <div className="layer-indicator">
+              Layer {currentLayer} / 9
             </div>
-            <div className="stat">
-              <span className="stat-number">∞</span>
-              <span className="stat-label">Theories</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">33</span>
-              <span className="stat-label">Paths</span>
+            <div className="progress-bar">
+              <div 
+                className="progress-fill" 
+                style={{width: `${(currentLayer / 9) * 100}%`}}
+              ></div>
             </div>
           </div>
-          <Button className="vault-btn">🚀 Enter Gamma Vault</Button>
+          
+          <div className="quest-content">
+            <h4>🔍 Current Challenge</h4>
+            <p>Decode the Merovingian Sigil fragments hidden in the digital matrix.</p>
+            
+            <div className="sigil-fragment">
+              <div className="sigil-display">
+                {/* Placeholder for sigil visualization */}
+                <div className="sigil-symbols">⧨ ⟐ ◊ ⟢ ▣</div>
+              </div>
+            </div>
+            
+            <div className="quest-actions">
+              <Button 
+                onClick={() => setCurrentLayer(Math.min(9, currentLayer + 1))}
+                className="quest-btn"
+                disabled={currentLayer >= 9}
+              >
+                Advance Layer
+              </Button>
+              <Button 
+                onClick={() => setCurrentLayer(1)}
+                className="reset-btn"
+              >
+                Reset Quest
+              </Button>
+            </div>
+          </div>
+        </Card>
+        
+        <Card className="vault-stats">
+          <h3>📊 VAULT STATUS</h3>
+          <div className="stat-grid">
+            <div className="stat-item">
+              <span className="stat-value">33</span>
+              <span className="stat-label">Sealed Vaults</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">{currentLayer}</span>
+              <span className="stat-label">Current Layer</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">∞</span>
+              <span className="stat-label">Possibilities</span>
+            </div>
+          </div>
         </Card>
       </div>
     </div>
   );
 };
 
-// Contact/B2B Page
-const ContactPage = () => {
+// B2B Professional Page
+const B2BPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    service: '',
-    message: ''
+    company: '',
+    budget: '',
+    timeline: '',
+    need: ''
   });
 
   const handleSubmit = async (e) => {
@@ -397,13 +440,13 @@ const ContactPage = () => {
       const response = await axios.post(`${API}/referral/submit`, {
         name: formData.name,
         email: formData.email,
-        service_interest: formData.service,
-        source_agent: 'contact_form'
+        service_interest: formData.need,
+        source_agent: 'b2b_professional'
       });
       
       if (response.data) {
-        alert('✅ Your inquiry has been submitted to NEURO successfully!');
-        setFormData({ name: '', email: '', service: '', message: '' });
+        alert('✅ Your professional inquiry has been submitted!');
+        setFormData({ name: '', email: '', company: '', budget: '', timeline: '', need: '' });
       }
     } catch (error) {
       console.error('Form submission error:', error);
@@ -412,22 +455,20 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="agent-page contact-page">
+    <div className="agent-page b2b-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>💼 CONTACT NEURO</h1>
-        <p>All inquiries go through NEURO</p>
+        <h1>💼 B2B / PROFESSIONAL</h1>
+        <p>Business & Enterprise Solutions</p>
       </div>
-
-      <div className="contact-section">
-        <Card className="contact-form-card">
-          <h3>📋 NEURO Intake System</h3>
-          <p>Professional inquiries, partnerships, and service requests</p>
-          
-          <form onSubmit={handleSubmit} className="contact-form">
+      
+      <div className="widget-grid">
+        <Card className="widget-card intake-widget">
+          <h3>📋 PROFESSIONAL INTAKE</h3>
+          <form onSubmit={handleSubmit} className="intake-form">
             <input
               type="text"
-              placeholder="Your Name"
+              placeholder="Name"
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
               className="form-input"
@@ -436,107 +477,255 @@ const ContactPage = () => {
             
             <input
               type="email"
-              placeholder="Email Address"
+              placeholder="Email"
               value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
               className="form-input"
               required
             />
             
+            <input
+              type="text"
+              placeholder="Company"
+              value={formData.company}
+              onChange={(e) => setFormData({...formData, company: e.target.value})}
+              className="form-input"
+            />
+            
             <select
-              value={formData.service}
-              onChange={(e) => setFormData({...formData, service: e.target.value})}
+              value={formData.budget}
+              onChange={(e) => setFormData({...formData, budget: e.target.value})}
               className="form-select"
-              required
             >
-              <option value="">Select Service Interest</option>
-              <option value="ai-training">AI Training</option>
-              <option value="rss-automation">RSS Automation</option>
-              <option value="content-creation">Content Creation</option>
-              <option value="consultation">Business Consultation</option>
-              <option value="partnership">Partnership</option>
-              <option value="other">Other</option>
+              <option value="">Select Budget Range</option>
+              <option value="5k-10k">$5K - $10K</option>
+              <option value="10k-25k">$10K - $25K</option>
+              <option value="25k-50k">$25K - $50K</option>
+              <option value="50k+">$50K+</option>
+            </select>
+            
+            <select
+              value={formData.timeline}
+              onChange={(e) => setFormData({...formData, timeline: e.target.value})}
+              className="form-select"
+            >
+              <option value="">Project Timeline</option>
+              <option value="asap">ASAP</option>
+              <option value="1-3months">1-3 Months</option>
+              <option value="3-6months">3-6 Months</option>
+              <option value="6months+">6+ Months</option>
             </select>
             
             <textarea
-              placeholder="Tell us about your project or inquiry..."
-              value={formData.message}
-              onChange={(e) => setFormData({...formData, message: e.target.value})}
+              placeholder="What do you need?"
+              value={formData.need}
+              onChange={(e) => setFormData({...formData, need: e.target.value})}
               className="form-textarea"
               rows="4"
               required
             ></textarea>
             
             <Button type="submit" className="submit-btn">
-              Submit to NEURO 🧠
+              Submit Professional Inquiry
             </Button>
           </form>
-          
-
+        </Card>
+        
+        <Card className="widget-card cta-widget">
+          <h3>🎧 LISTEN ON CSN</h3>
+          <p>Catch our business discussions and industry insights</p>
+          <Button onClick={() => navigate('/csn')} className="csn-cta">
+            Listen Live →
+          </Button>
         </Card>
       </div>
     </div>
   );
 };
 
-// Tinfoil Community Bot Page
-const TinfoilPage = () => {
+// VRG-33-589 AKASHIC Bot Page
+const VRG33589Page = () => {
   const navigate = useNavigate();
+  const [botStatus, setBotStatus] = useState('active');
+  
   return (
-    <div className="agent-page tinfoil-page">
+    <div className="agent-page vrg-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>👁️ TINFOIL COMMUNITY</h1>
-        <p>RSS → AI text-to-video with robotic voice</p>
+        <h1>👁️ VRG-33-589</h1>
+        <p>AKASHIC-589 Intelligence Bot</p>
       </div>
       
-      <div className="hero-section">
-        <h2>Conspiracy theories meet AI automation</h2>
-      </div>
-
-      <div className="tinfoil-grid">
-        <Card className="tinfoil-card">
-          <div className="card-icon">🤖</div>
-          <h3>AI Video Generator</h3>
-          <p>Transform RSS feeds into conspiracy theory videos</p>
-          <Button className="tinfoil-btn">Generate Video</Button>
-        </Card>
-        
-        <Card className="tinfoil-card">
-          <div className="card-icon">🎙️</div>
-          <h3>Robotic Voice</h3>
-          <p>Text-to-speech with that classic conspiracy vibe</p>
-          <Button className="tinfoil-btn">Voice Settings</Button>
-        </Card>
-        
-        <Card className="tinfoil-card">
-          <div className="card-icon">📡</div>
-          <h3>RSS Scanner</h3>
-          <p>Monitor feeds for conspiracy-worthy content</p>
-          <Button className="tinfoil-btn">Setup Scanner</Button>
-        </Card>
-      </div>
-
-      <div className="community-section">
-        <Card className="community-card">
-          <h3>👥 Community Hub</h3>
-          <p>Join fellow truth seekers in the tinfoil network</p>
-          <div className="community-stats">
-            <div className="stat">
-              <span className="stat-number">∞</span>
-              <span className="stat-label">Theories</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">589</span>
-              <span className="stat-label">Members</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">33</span>
-              <span className="stat-label">Videos/Day</span>
+      <div className="bot-interface">
+        <Card className="bot-widget">
+          <h3>🤖 AKASHIC-589 STATUS</h3>
+          <div className="bot-status">
+            <span className={`status-indicator ${botStatus}`}></span>
+            <span className="status-text">Bot Status: {botStatus.toUpperCase()}</span>
+          </div>
+          
+          <div className="bot-skills">
+            <h4>🧠 Bot Capabilities</h4>
+            <div className="skill-list">
+              <div className="skill-item">
+                <span className="skill-icon">📡</span>
+                <span className="skill-name">RSS → Summary</span>
+                <span className="skill-status">✅ Active</span>
+              </div>
+              <div className="skill-item">
+                <span className="skill-icon">🎤</span>
+                <span className="skill-name">TTS → Video</span>
+                <span className="skill-status">✅ Active</span>
+              </div>
             </div>
           </div>
-          <Button className="community-btn">Join Community</Button>
+          
+          <div className="bot-actions">
+            <Button className="bot-action-btn">Generate Summary</Button>
+            <Button className="bot-action-btn">Create Video</Button>
+            <Button className="bot-action-btn">View Archives</Button>
+          </div>
         </Card>
+        
+        <Card className="akashic-feed">
+          <h3>📜 AKASHIC RECORDS</h3>
+          <div className="record-list">
+            <div className="record-item">
+              <span className="record-timestamp">15:33:59</span>
+              <span className="record-content">RSS feed processed: 42 articles summarized</span>
+            </div>
+            <div className="record-item">
+              <span className="record-timestamp">15:30:12</span>
+              <span className="record-content">TTS video generated: "Crypto Market Analysis"</span>
+            </div>
+            <div className="record-item">
+              <span className="record-timestamp">15:25:44</span>
+              <span className="record-content">AKASHIC pattern detected in data stream</span>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+// Groups Page
+const GroupsPage = () => {
+  const navigate = useNavigate();
+  
+  const groups = [
+    { label: "Wired Chaos Group", href: "https://t.me/wiredchaos", members: "1.2K" },
+    { label: "VRG-33-589 Group", href: "https://t.me/vrg33589", members: "589" },
+    { label: "B2B / Professional", href: "/b2b", members: "Internal" }
+  ];
+  
+  return (
+    <div className="agent-page groups-page">
+      <div className="page-header">
+        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
+        <h1>👥 GROUPS</h1>
+        <p>Community & Professional Networks</p>
+      </div>
+      
+      <div className="groups-grid">
+        {groups.map((group, index) => (
+          <Card key={index} className="group-card">
+            <h3>{group.label}</h3>
+            <div className="group-stats">
+              <span className="member-count">{group.members} members</span>
+            </div>
+            <Button 
+              onClick={() => group.href.startsWith('http') ? 
+                window.open(group.href, '_blank') : 
+                navigate(group.href)
+              }
+              className="join-btn"
+            >
+              {group.href.startsWith('http') ? 'Join Group' : 'Access Hub'}
+            </Button>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Merch Page
+const MerchPage = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="agent-page merch-page">
+      <div className="page-header">
+        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
+        <h1>🛍️ MERCH</h1>
+        <p>WIRED CHAOS Store & Gear</p>
+      </div>
+      
+      <div className="merch-grid">
+        <Card className="merch-card">
+          <div className="merch-image">🧠</div>
+          <h3>WIRED CHAOS Brain Tee</h3>
+          <p className="merch-price">$33.00</p>
+          <Button className="buy-btn">Add to Cart</Button>
+        </Card>
+        
+        <Card className="merch-card">
+          <div className="merch-image">👁️</div>
+          <h3>VRG-33-589 Hoodie</h3>
+          <p className="merch-price">$89.00</p>
+          <Button className="buy-btn">Add to Cart</Button>
+        </Card>
+        
+        <Card className="merch-card">
+          <div className="merch-image">📡</div>
+          <h3>CSN Radio Pin</h3>
+          <p className="merch-price">$15.00</p>
+          <Button className="buy-btn">Add to Cart</Button>
+        </Card>
+        
+        <Card className="merch-card">
+          <div className="merch-image">🔐</div>
+          <h3>VAULT 33 Keychain</h3>
+          <p className="merch-price">$25.00</p>
+          <Button className="buy-btn">Add to Cart</Button>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+// Signal Ghost Hub (SEO)
+const SignalPage = () => {
+  const navigate = useNavigate();
+  
+  const industries = [
+    "Finance", "Gaming", "Music", "Fashion", "Real Estate", 
+    "Healthcare", "Education", "Technology", "Marketing", "Legal",
+    "Manufacturing", "Retail", "Entertainment", "Transportation", "Energy"
+  ];
+  
+  return (
+    <div className="agent-page signal-page">
+      <div className="page-header">
+        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
+        <h1>📡 SIGNAL</h1>
+        <p>Industry Solutions Hub</p>
+      </div>
+      
+      <div className="industry-grid">
+        {industries.map((industry, index) => (
+          <Card key={index} className="industry-card">
+            <h3>Industry: {industry}</h3>
+            <p>Specialized solutions for {industry.toLowerCase()} sector</p>
+            <Button 
+              onClick={() => navigate(`/industry/${industry.toLowerCase()}`)}
+              className="industry-btn"
+            >
+              Explore {industry}
+            </Button>
+          </Card>
+        ))}
       </div>
     </div>
   );
@@ -564,9 +753,12 @@ function App() {
           <Route path="/csn" element={<CSNPage />} />
           <Route path="/neurolab" element={<NeuroLabPage />} />
           <Route path="/bwb" element={<BWBPage />} />
+          <Route path="/vault33" element={<Vault33Page />} />
+          <Route path="/b2b" element={<B2BPage />} />
           <Route path="/vrg33589" element={<VRG33589Page />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/tinfoil" element={<TinfoilPage />} />
+          <Route path="/groups" element={<GroupsPage />} />
+          <Route path="/merch" element={<MerchPage />} />
+          <Route path="/signal" element={<SignalPage />} />
         </Routes>
       </BrowserRouter>
     </div>
