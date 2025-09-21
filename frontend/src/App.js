@@ -239,19 +239,7 @@ const NeuroLabPage = () => {
           </Button>
         </Card>
         
-        {/* Shibo Embed */}
-        <Card className="widget-card shibo-widget">
-          <h3>🐕 SHIBO INTEGRATION</h3>
-          <div className="iframe-container">
-            <iframe
-              src="https://www.shibocrypto.com/"
-              width="100%"
-              height="400"
-              frameBorder="0"
-              title="Shibo Integration"
-            ></iframe>
-          </div>
-        </Card>
+
         
         {/* RSS Feed Widget */}
         <Card className="widget-card rss-widget">
