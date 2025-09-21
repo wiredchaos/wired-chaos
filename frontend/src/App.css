@@ -844,3 +844,58 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* 33.3FM Section Styles */
+.fm-section {
+  background: rgba(0, 26, 26, 0.9);
+  border: 2px solid #004d4d;
+  border-radius: 12px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.fm-section:hover {
+  border-color: #39FF14;
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+.fm-section h3 {
+  color: #39FF14;
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.fm-playlist {
+  margin-top: 1.5rem;
+}
+
+.fm-playlist h4 {
+  color: #00FFFF;
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.radio-display {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #39FF14;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.frequency {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  color: #39FF14;
+  text-shadow: 0 0 10px #39FF14;
+}
+
+.station {
+  font-size: 1rem;
+  color: #00FFFF;
+  margin-top: 0.5rem;
+}
