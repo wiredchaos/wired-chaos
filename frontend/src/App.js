@@ -170,6 +170,31 @@ const CSNPage = () => {
       </div>
       
       <div className="widget-grid">
+        {/* 33.3FM Section with Spotify */}
+        <Card className="widget-card fm-section">
+          <h3>📻 33.3FM DOGECHAIN</h3>
+          <div className="radio-display">
+            <div className="frequency">33.3 FM</div>
+            <div className="station">DOGECHAIN</div>
+          </div>
+          
+          {/* Spotify Playlist in 33.3FM Section */}
+          <div className="fm-playlist">
+            <h4>🎵 WIRED CHAOS PLAYLIST</h4>
+            <div className="iframe-container">
+              <iframe
+                src="https://open.spotify.com/embed/playlist/2VwOYrB1C93gNIPiBZNxhH?utm_source=generator"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        </Card>
+        
         {/* YouTube Live Stream */}
         <Card className="widget-card youtube-widget">
           <h3>🔴 LIVE STREAM</h3>
@@ -182,22 +207,6 @@ const CSNPage = () => {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-            ></iframe>
-          </div>
-        </Card>
-        
-        {/* Spotify Embed */}
-        <Card className="widget-card spotify-widget">
-          <h3>🎵 WIRED CHAOS PLAYLIST</h3>
-          <div className="iframe-container">
-            <iframe
-              src="https://open.spotify.com/embed/playlist/2VwOYrB1C93gNIPiBZNxhH?utm_source=generator"
-              width="100%"
-              height="352"
-              frameBorder="0"
-              allowfullscreen=""
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
             ></iframe>
           </div>
         </Card>
