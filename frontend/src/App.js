@@ -188,15 +188,16 @@ const CSNPage = () => {
         
         {/* Spotify Embed */}
         <Card className="widget-card spotify-widget">
-          <h3>🎵 PODCAST</h3>
+          <h3>🎵 WIRED CHAOS PLAYLIST</h3>
           <div className="iframe-container">
             <iframe
-              src="https://open.spotify.com/embed/show/4rOoJ6Egrf8K2IrywzwOMk"
+              src="https://open.spotify.com/embed/playlist/2VwOYrB1C93gNIPiBZNxhH?utm_source=generator"
               width="100%"
-              height="232"
+              height="352"
               frameBorder="0"
-              allowtransparency="true"
-              allow="encrypted-media"
+              allowfullscreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
             ></iframe>
           </div>
         </Card>
