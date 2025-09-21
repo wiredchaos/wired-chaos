@@ -392,8 +392,23 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    
+    try {
+      const response = await axios.post(`${API}/referral/submit`, {
+        name: formData.name,
+        email: formData.email,
+        service_interest: formData.service,
+        source_agent: 'contact_form'
+      });
+      
+      if (response.data) {
+        alert('✅ Your inquiry has been submitted to NEURO successfully!');
+        setFormData({ name: '', email: '', service: '', message: '' });
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('❌ Failed to submit inquiry. Please try again.');
+    }
   };
 
   return (
