@@ -472,9 +472,7 @@ const ContactPage = () => {
             </Button>
           </form>
           
-          <div className="contact-note">
-            <p><strong>Note:</strong> No Shibo contact. All requests routed to NEURO.</p>
-          </div>
+
         </Card>
       </div>
     </div>
