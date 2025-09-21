@@ -211,6 +211,31 @@ const CSNPage = () => {
           </div>
         </Card>
         
+        {/* X.com Feed */}
+        <Card className="widget-card x-feed-widget">
+          <h3>🐦 @CRYPTOSPACESNET</h3>
+          <div className="x-feed-container">
+            <a 
+              className="twitter-timeline" 
+              data-theme="dark" 
+              data-chrome="nofooter noborders transparent" 
+              data-tweet-limit="5"
+              href="https://twitter.com/cryptospacesnet"
+            >
+              Tweets by @cryptospacesnet
+            </a>
+          </div>
+          <div className="x-fallback">
+            <p>Latest updates from Crypto Spaces Network</p>
+            <Button 
+              onClick={() => window.open('https://x.com/cryptospacesnet?s=21', '_blank')}
+              className="x-follow-btn"
+            >
+              Follow @cryptospacesnet →
+            </Button>
+          </div>
+        </Card>
+        
         {/* Contact Form Widget */}
         <Card className="widget-card contact-widget">
           <h3>📞 GET IN TOUCH</h3>
