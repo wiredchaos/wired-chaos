@@ -148,7 +148,7 @@ const CSNPage = () => {
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
         <h1>📡 CRYPTO SPACES NETWORK</h1>
-        <p>Live radio + onboarding hub at 33.3FM DOGECHAIN</p>
+        <p>Broadcasting on 33.3FM DOGECHAIN • cryptospaces.net • @cryptospacesnet</p>
       </div>
       
       <div className="hero-section">
