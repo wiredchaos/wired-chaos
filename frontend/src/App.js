@@ -161,6 +161,20 @@ const MotherboardHub = () => {
 const CSNPage = () => {
   const navigate = useNavigate();
   
+  useEffect(() => {
+    // Load Twitter widgets script
+    const script = document.createElement('script');
+    script.src = 'https://platform.twitter.com/widgets.js';
+    script.async = true;
+    script.charset = 'utf-8';
+    document.head.appendChild(script);
+    
+    return () => {
+      // Cleanup script on unmount
+      document.head.removeChild(script);
+    };
+  }, []);
+  
   return (
     <div className="agent-page csn-page">
       <div className="page-header">
