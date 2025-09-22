@@ -186,6 +186,41 @@ const MotherboardHub = () => {
       {/* Animated Background Grid */}
       <div className="cyber-grid"></div>
       
+      {/* Brain Overlay System */}
+      <div className="brain-overlay">
+        <div className="brain-container">
+          <div className="brain-core">
+            <div className="brain-veins">
+              <div className="vein vein-1"></div>
+              <div className="vein vein-2"></div>
+              <div className="vein vein-3"></div>
+              <div className="vein vein-4"></div>
+              <div className="vein vein-5"></div>
+              <div className="vein vein-6"></div>
+            </div>
+            <div className="brain-symbol">🧠</div>
+          </div>
+          
+          {/* Barbed Wire Ring */}
+          <div className="barbed-wire-ring">
+            {agents.map((agent, index) => (
+              <div
+                key={agent.id}
+                className={`barbed-wire wire-${index + 1} ${selectedNode === agent.route ? 'wire-active' : ''}`}
+                style={{
+                  '--wire-angle': `${(360 / agents.length) * index}deg`,
+                  '--target-x': agent.position.left ? `${agent.position.left}` : `${100 - parseInt(agent.position.right)}%`,
+                  '--target-y': agent.position.top ? `${agent.position.top}` : `${100 - parseInt(agent.position.bottom)}%`
+                }}
+              >
+                <div className="wire-segment"></div>
+                <div className="wire-barb"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      
       {/* Main Title */}
       <div className="main-title">
         <h1 className="wired-chaos-title">
