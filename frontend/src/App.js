@@ -770,18 +770,23 @@ const B2BPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    const payload = Object.fromEntries(formData.entries());
     
     try {
       const response = await axios.post(`${API}/referral/submit`, {
-        name: formData.name,
-        email: formData.email,
-        service_interest: formData.need,
-        source_agent: 'b2b_professional'
+        name: payload.name,
+        email: payload.email,
+        service_interest: payload.need || 'B2B Inquiry',
+        source_agent: 'b2b_professional',
+        company: payload.company,
+        budget: payload.budget,
+        timeline: payload.timeline
       });
       
       if (response.data) {
-        alert('✅ Your professional inquiry has been submitted!');
-        setFormData({ name: '', email: '', company: '', budget: '', timeline: '', need: '' });
+        alert('Thanks! NEURO received your request.');
+        e.target.reset();
       }
     } catch (error) {
       console.error('Form submission error:', error);
