@@ -90,8 +90,8 @@
   }
 }
 
-/* Panel Chip System */
-.panel-chip {
+/* Panel Chip System - Scoped to motherboard container */
+.motherboard-container .panel-chip {
   position: relative;
   background: linear-gradient(145deg, 
     rgba(0, 255, 240, 0.08) 0%,
