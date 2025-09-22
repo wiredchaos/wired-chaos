@@ -329,7 +329,7 @@ const CSNPage = () => {
   );
 };
 
-// 33.3 FM Page (all FM content moved here)
+// 33.3 FM Page (new radio design)
 const FM333Page = () => {
   const navigate = useNavigate();
   
@@ -337,84 +337,44 @@ const FM333Page = () => {
     <div className="agent-page fm333-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>📻 33.3 FM DOGECHAIN</h1>
-        <p>DBN • Dogechain Radio • NEURO Transmissions</p>
       </div>
       
-      <div className="widget-grid">
-        {/* Radio Station Display */}
-        <Card className="widget-card fm-station">
-          <h3>📻 LIVE ON AIR</h3>
-          <div className="radio-display">
-            <div className="frequency">33.3 FM</div>
-            <div className="station">DOGECHAIN</div>
-            <div className="network">DBN</div>
+      <div className="fm-console">
+        <div className="fm-hdr">
+          <div className="fm-pulse"></div>
+          <h1>33.3 FM — WIRED CHAOS RADIO</h1>
+        </div>
+        <div className="fm-sub">Streaming Barbed Wired Broadcasts, DJ Red Fang sets, and Evening Vibes 🔥</div>
+
+        {/* Spotify Player Embed */}
+        <iframe 
+          src="https://open.spotify.com/embed/playlist/2VwOYrB1C93gNIPiBZNxhH?utm_source=generator" 
+          className="fm-iframe"
+          allowtransparency="true" 
+          allow="encrypted-media"
+          title="WIRED CHAOS Radio Playlist"
+        ></iframe>
+
+        {/* Neon tuner effect */}
+        <div className="fm-tuner">
+          <div className="fm-dial">
+            <div className="fm-needle"></div>
           </div>
-          <div class="status-indicators">
-            <div class="status-item">
-              <span class="status-dot active"></span>
-              <span>Broadcasting Live</span>
-            </div>
-            <div class="status-item">
-              <span class="status-dot active"></span>
-              <span>NEURO Transmissions Active</span>
-            </div>
-          </div>
-        </Card>
-        
-        {/* Spotify Playlist */}
-        <Card className="widget-card spotify-widget">
-          <h3>🎵 WIRED CHAOS PLAYLIST</h3>
-          <div className="iframe-container">
-            <iframe
-              src="https://open.spotify.com/embed/playlist/2VwOYrB1C93gNIPiBZNxhH?utm_source=generator"
-              width="100%"
-              height="352"
-              frameBorder="0"
-              allowFullScreen=""
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-            ></iframe>
-          </div>
-        </Card>
-        
-        {/* NEURO Transmissions */}
-        <Card className="widget-card neuro-transmissions">
-          <h3>🧠 NEURO TRANSMISSIONS</h3>
-          <div className="transmission-list">
-            <div className="transmission-item">
-              <span className="transmission-time">NOW PLAYING</span>
-              <span className="transmission-title">Web3 Onboarding Hour</span>
-            </div>
-            <div className="transmission-item">
-              <span className="transmission-time">NEXT UP</span>
-              <span className="transmission-title">DeFi Deep Dive</span>
-            </div>
-            <div className="transmission-item">
-              <span className="transmission-time">LATER</span>
-              <span className="transmission-title">NFT Market Analysis</span>
-            </div>
-          </div>
-          <Button onClick={() => navigate('/neurolab')} className="neuro-cta">
-            Visit NEURO LAB →
+          <p className="fm-tiny">Tuned to frequency <b>33.3</b> • Independent broadcast • WIRED CHAOS aesthetic</p>
+        </div>
+
+        {/* CTAs */}
+        <div className="fm-cta-row">
+          <Button onClick={() => navigate('/bwb')} className="fm-btn">
+            Barbed Wired Broadcast Newsletter
           </Button>
-        </Card>
-        
-        {/* Dogechain Integration */}
-        <Card className="widget-card dogechain-widget">
-          <h3>🐕 DOGECHAIN NETWORK</h3>
-          <p>Broadcasting on the Dogechain network, powered by community</p>
-          <div className="dogechain-stats">
-            <div className="stat">
-              <span className="stat-value">24/7</span>
-              <span className="stat-label">Broadcasting</span>
-            </div>
-            <div className="stat">
-              <span className="stat-value">∞</span>
-              <span className="stat-label">Community</span>
-            </div>
-          </div>
-        </Card>
+          <Button onClick={() => navigate('/eveningvibes')} className="fm-btn">
+            Evening Vibes Lounge
+          </Button>
+          <Button onClick={() => navigate('/csn')} className="fm-btn">
+            Crypto Spaces Net (separate)
+          </Button>
+        </div>
       </div>
     </div>
   );
