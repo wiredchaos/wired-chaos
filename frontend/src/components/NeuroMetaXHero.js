@@ -1,10 +1,12 @@
 /**
  * WIRED CHAOS - NEURO META X Hero & About Component (Enhanced)
- * Portal between what was, what is, what will be - with integrated holograms
+ * Portal between what was, what is, what will be - with integrated holograms and 3D Brain Assistant
  */
 import React, { useState } from 'react';
 import NeuroHologram from './NeuroHologram';
 import NFTNeuroHologram from './NFTNeuroHologram';
+import BrainAssistant3D from './BrainAssistant3D';
+import AnimatedMotherboardGuide from './AnimatedMotherboardGuide';
 import './NeuroMetaXHero.css';
 
 const NeuroMetaXHero = ({ pfpImage = '/images/neuro_meta_x_pfp.jpg' }) => {
