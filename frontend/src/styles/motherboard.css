@@ -56,8 +56,8 @@
   100% { transform: translate(40px, 40px); opacity: 0.6; }
 }
 
-/* Energy Pulse System */
-.energy-pulse {
+/* Energy Pulse System - Scoped to motherboard container */
+.motherboard-container .energy-pulse {
   position: absolute;
   width: 4px;
   height: 4px;
