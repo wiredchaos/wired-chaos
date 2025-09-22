@@ -158,7 +158,12 @@ const MotherboardHub = () => {
   ];
 
   const handleNodeClick = (route) => {
-    navigate(route);
+    setSelectedNode(route);
+    // Brief delay to show connection animation before navigation
+    setTimeout(() => {
+      navigate(route);
+      setSelectedNode(null);
+    }, 800);
   };
 
   const handleBotRoute = (route) => {
