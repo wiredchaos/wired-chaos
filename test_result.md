@@ -166,6 +166,18 @@ frontend:
         - agent: "main"
         - comment: "Social links added to main hub: Joe Rogan & Doginal Dogs blog post, DDNYC Takeover story, @wired.chaos TikTok, Quora Profile with proper styling"
 
+  - task: "Fix VRG-33-589 mint supply calculation"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+        - agent: "main"
+        - comment: "BUGFIX: Corrected mint supply from incorrect totals to 9 layers of 333 each = 3,933 total. Updated display, burn functionality, echo cap, and lore text. Verified working with screenshots."
+
   - task: "Integrate groups.js and blog system"
     implemented: false
     working: "NA"
