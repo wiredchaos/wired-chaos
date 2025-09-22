@@ -1134,14 +1134,14 @@ const IndustryPage = ({ industry }) => {
         <Card className="network-card">
           <h3>Explore Our Network</h3>
           <div className="network-links">
-            <a href="https://cryptospaces.net" target="_blank" rel="noopener noreferrer">
-              CryptoSpaces.net - Live Community
-            </a>
             <a href="https://www.doginaldogs.com/" target="_blank" rel="noopener noreferrer">
               DoginalDogs.com - NFT Collections
             </a>
-            <a href="https://barkmeta.io" target="_blank" rel="noopener noreferrer">
-              BarkMeta.io - Metaverse Assets
+            <a href="https://cryptospaces.net" target="_blank" rel="noopener noreferrer">
+              CryptoSpaces.net - Live Community
+            </a>
+            <a href="https://wiredchaos.xyz" target="_blank" rel="noopener noreferrer">
+              WiredChaos.xyz - Digital Ecosystem
             </a>
           </div>
         </Card>
