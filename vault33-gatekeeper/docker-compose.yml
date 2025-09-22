@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  vault33-gatekeeper:
+    build: .
+    container_name: vault33-gatekeeper
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - MONGO_DB_NAME=vault33_gatekeeper
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - vault33
+
+  mongo:
+    image: mongo:7.0
+    container_name: vault33-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=vault33_gatekeeper
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
+    networks:
+      - vault33
+
+volumes:
+  mongo_data:
+
+networks:
+  vault33:
+    driver: bridge
