@@ -927,10 +927,15 @@ const B2BPage = () => {
 const VRG33589Page = () => {
   const navigate = useNavigate();
   const [supply, setSupply] = useState({
-    Common: 150,
-    Uncommon: 100,
-    Rare: 50,
-    SuperRare: 33
+    Layer1: 333,
+    Layer2: 333,
+    Layer3: 333,
+    Layer4: 333,
+    Layer5: 333,
+    Layer6: 333,
+    Layer7: 333,
+    Layer8: 333,
+    Layer9: 333
   });
   const [echoes, setEchoes] = useState(0);
   const [burnMsg, setBurnMsg] = useState('');
