@@ -1,11 +1,18 @@
 /**
- * WIRED CHAOS - NFT NEURO HOLOGRAM Component
- * Glitch-enhanced hologram for NFT collections and digital assets
+ * WIRED CHAOS - NFT NEURO HOLOGRAM Component (Enhanced)
+ * Glitch-enhanced hologram for NFT collections with voice synthesis
  */
 import React, { useState, useEffect, useRef } from 'react';
 import './NFTNeuroHologram.css';
 
-const NFTNeuroHologram = ({ isOpen, onClose, nftImages = [] }) => {
+const NFTNeuroHologram = ({ 
+  isOpen, 
+  onClose, 
+  nftImages = [],
+  voiceIntro = "Signal breach confirmed. Neuro Meta X online. Portal between what was what is what will be. Brains chains.",
+  audioConfig = { frequency: 66, type: 'square', gain: 0.05 },
+  voiceConfig = { rate: 1.02, pitch: 0.96 }
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const audioContextRef = useRef(null);
   const oscillatorRef = useRef(null);
@@ -22,17 +29,23 @@ const NFTNeuroHologram = ({ isOpen, onClose, nftImages = [] }) => {
 
   const imageUrls = nftImages.length > 0 ? nftImages : defaultNFTImages;
 
-  // Start NFT hologram audio effect (66Hz square wave)
-  const playHum = () => {
+  // Create NFT hologram audio (square wave for glitch effect)
+  const createNFTHum = () => {
     try {
       if (!audioContextRef.current) {
         audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
         oscillatorRef.current = audioContextRef.current.createOscillator();
         const gainNode = audioContextRef.current.createGain();
         
-        oscillatorRef.current.type = 'square'; // Different from business hologram
-        oscillatorRef.current.frequency.value = 66; // Lower frequency for NFT vibe
-        gainNode.gain.value = 0.04; // Slightly quieter
+        oscillatorRef.current.type = audioConfig.type; // Square wave for NFT glitch
+        oscillatorRef.current.frequency.value = audioConfig.frequency; // Lower frequency
+        gainNode.gain.value = 0.0001;
+        
+        // Gradual gain ramp with slight modulation for glitch effect
+        gainNode.gain.exponentialRampToValueAtTime(
+          audioConfig.gain, 
+          audioContextRef.current.currentTime + 0.5
+        );
         
         oscillatorRef.current.connect(gainNode);
         gainNode.connect(audioContextRef.current.destination);
@@ -43,8 +56,8 @@ const NFTNeuroHologram = ({ isOpen, onClose, nftImages = [] }) => {
     }
   };
 
-  // Stop NFT hologram audio effect
-  const stopHum = () => {
+  // Stop NFT hologram audio
+  const stopNFTHum = () => {
     try {
       if (oscillatorRef.current) {
         oscillatorRef.current.stop();
@@ -60,11 +73,33 @@ const NFTNeuroHologram = ({ isOpen, onClose, nftImages = [] }) => {
     }
   };
 
-  // Start NFT image cycling (4 second intervals)
+  // Enhanced voice synthesis for NFT intro
+  const speakNFTIntro = () => {
+    try {
+      if (!('speechSynthesis' in window)) return;
+      
+      // Cancel any existing speech
+      speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(voiceIntro);
+      utterance.lang = 'en-US';
+      utterance.rate = voiceConfig.rate; // Slightly faster for NFT vibe
+      utterance.pitch = voiceConfig.pitch; // Slightly lower pitch
+      utterance.volume = 1;
+      
+      speechSynthesis.speak(utterance);
+    } catch (error) {
+      console.warn('Speech synthesis not supported:', error);
+    }
+  };
+
+  // Start NFT image cycling (faster for more dynamic effect)
   const startImageCycle = () => {
-    cycleIntervalRef.current = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
-    }, 4000); // Faster cycling for NFTs
+    if (imageUrls.length > 1) {
+      cycleIntervalRef.current = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
+      }, 4000); // Faster cycling for NFTs
+    }
   };
 
   // Stop image cycling
@@ -80,16 +115,24 @@ const NFTNeuroHologram = ({ isOpen, onClose, nftImages = [] }) => {
     if (isOpen) {
       setCurrentImageIndex(0);
       startImageCycle();
-      playHum();
+      createNFTHum();
+      speakNFTIntro();
     } else {
       stopImageCycle();
-      stopHum();
+      stopNFTHum();
+      // Cancel speech when closing
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+      }
     }
 
     // Cleanup on component unmount
     return () => {
       stopImageCycle();
-      stopHum();
+      stopNFTHum();
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+      }
     };
   }, [isOpen]);
 
@@ -110,16 +153,19 @@ const NFTNeuroHologram = ({ isOpen, onClose, nftImages = [] }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="nft-holo-modal open" onClick={onClose}>
-      <div className="nft-holo-content" onClick={(e) => e.stopPropagation()}>
+    <div className="nft-holo-modal open" onClick={onClose} aria-hidden="false">
+      <div className="nft-holo-content stage" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="NFT Neuro Hologram">
+        {/* Enhanced close button */}
+        <div className="nft-close-x x" onClick={onClose}>✕</div>
+        
         {/* Holographic base disc - red theme for NFTs */}
-        <div className="nft-holo-disc"></div>
+        <div className="nft-holo-disc disc"></div>
         
         {/* Light beam effect */}
-        <div className="nft-holo-beam"></div>
+        <div className="nft-holo-beam beam"></div>
         
         {/* Floating hologram with glitch effects */}
-        <div className="nft-holo glitch">
+        <div className="nft-holo holo">
           <img 
             id="nftImage" 
             src={imageUrls[currentImageIndex]} 
@@ -131,7 +177,7 @@ const NFTNeuroHologram = ({ isOpen, onClose, nftImages = [] }) => {
           />
           
           {/* Enhanced glitch scan lines */}
-          <div className="nft-glitch-overlay"></div>
+          <div className="nft-glitch-overlay scan"></div>
         </div>
         
         {/* NFT NEURO META branding */}
@@ -144,14 +190,11 @@ const NFTNeuroHologram = ({ isOpen, onClose, nftImages = [] }) => {
           </div>
         </div>
         
-        {/* Close button */}
-        <div className="nft-close-x" onClick={onClose}>✕</div>
-        
         {/* Audio and glitch indicators */}
         <div className="nft-system-status">
           <div className="nft-audio-indicator">
             <div className="nft-audio-wave"></div>
-            <span>66Hz SQUARE WAVE</span>
+            <span>{audioConfig.frequency}Hz {audioConfig.type.toUpperCase()} WAVE</span>
           </div>
           <div className="glitch-indicator">
             <div className="glitch-bar"></div>
