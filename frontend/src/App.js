@@ -1416,81 +1416,11 @@ const VRG33589Page = () => {
   );
 };
 
-// Merch Hub - WIRED CHAOS & BEASTCOAST
-const MerchPage = () => {
-  const navigate = useNavigate();
-  
+// NEURO META X Dedicated Page
+const NeuroMetaXPage = () => {
   return (
-    <div className="agent-page merch-page">
-      <div className="page-header">
-        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-      </div>
-      
-      {/* WIRED CHAOS Merch */}
-      <div className="hub wc-hub">
-        <h1>WIRED CHAOS MERCH 🧠</h1>
-        <div className="sub">Stealth apparel • barbed-wire minimalism • glitch couture</div>
-        
-        <div className="grid">
-          <div className="item">
-            <div className="item-image">🧥</div>
-            <h3>Barbed Wire Hoodie</h3>
-            <p>Neon cyan embroidery • black base</p>
-            <a className="btn" href="#" onClick={(e) => e.preventDefault()}>Shop Now</a>
-          </div>
-          <div className="item">
-            <div className="item-image">🧥</div>
-            <h3>Cropped Trench</h3>
-            <p>Cybernetic cut • motherboard accents</p>
-            <a className="btn" href="#" onClick={(e) => e.preventDefault()}>Shop Now</a>
-          </div>
-          <div className="item">
-            <div className="item-image">👕</div>
-            <h3>Neural Network Tee</h3>
-            <p>Binary pattern • soft cotton blend</p>
-            <a className="btn" href="#" onClick={(e) => e.preventDefault()}>Shop Now</a>
-          </div>
-          <div className="item">
-            <div className="item-image">👟</div>
-            <h3>Cyber Sneakers</h3>
-            <p>LED accents • future tech sole</p>
-            <a className="btn" href="#" onClick={(e) => e.preventDefault()}>Shop Now</a>
-          </div>
-        </div>
-      </div>
-
-      {/* BEASTCOAST Merch */}
-      <div className="hub bc-hub">
-        <h1>BEASTCOAST MERCH 🐉</h1>
-        <div className="sub">Leather fits • purple + orange alt colorways • street x cyber couture</div>
-        
-        <div className="grid">
-          <div className="item">
-            <div className="item-image">🧥</div>
-            <h3>Purple Leather Jacket</h3>
-            <p>Beastcoast sigil patch • limited drop</p>
-            <a className="btn" href="#" onClick={(e) => e.preventDefault()}>Shop Now</a>
-          </div>
-          <div className="item">
-            <div className="item-image">🥾</div>
-            <h3>Combat Boots</h3>
-            <p>Orange highlight stitching • heavy sole</p>
-            <a className="btn" href="#" onClick={(e) => e.preventDefault()}>Shop Now</a>
-          </div>
-          <div className="item">
-            <div className="item-image">👕</div>
-            <h3>Dragon Tee</h3>
-            <p>Purple gradient • beast mode design</p>
-            <a className="btn" href="#" onClick={(e) => e.preventDefault()}>Shop Now</a>
-          </div>
-          <div className="item">
-            <div className="item-image">🎒</div>
-            <h3>Street Backpack</h3>
-            <p>Orange details • urban tactical</p>
-            <a className="btn" href="#" onClick={(e) => e.preventDefault()}>Shop Now</a>
-          </div>
-        </div>
-      </div>
+    <div className="neuro-meta-x-page">
+      <NeuroMetaXHero pfpImage="/images/neuro_meta_x_avatar.jpg" />
     </div>
   );
 };
