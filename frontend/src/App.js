@@ -1028,10 +1028,19 @@ const VRG33589Page = () => {
               In VRG-33-589, a burn splits the frequency: <b>+1 Rare Echo</b> and <b>+2 Super Rare Echoes</b>.
             </p>
             <div className="vrg-row">
-              <button className="vrg-btn" onClick={() => demoBurn('Common')}>Burn Common</button>
-              <button className="vrg-btn" onClick={() => demoBurn('Uncommon')}>Burn Uncommon</button>
-              <button className="vrg-btn" onClick={() => demoBurn('Rare')}>Burn Rare</button>
-              <button className="vrg-btn" onClick={() => demoBurn('SuperRare')}>Burn Super Rare</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Layer1')}>Burn Layer 1</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Layer2')}>Burn Layer 2</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Layer3')}>Burn Layer 3</button>
+            </div>
+            <div className="vrg-row">
+              <button className="vrg-btn" onClick={() => demoBurn('Layer4')}>Burn Layer 4</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Layer5')}>Burn Layer 5</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Layer6')}>Burn Layer 6</button>
+            </div>
+            <div className="vrg-row">
+              <button className="vrg-btn" onClick={() => demoBurn('Layer7')}>Burn Layer 7</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Layer8')}>Burn Layer 8</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Layer9')}>Burn Layer 9</button>
             </div>
             <p className="vrg-tiny">Echoes minted: <b>{echoes}</b> / 936</p>
             <p className={`vrg-tiny ${isWarn ? 'vrg-warn' : 'vrg-success'}`}>{burnMsg}</p>
