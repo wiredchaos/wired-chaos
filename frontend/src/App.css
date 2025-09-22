@@ -2728,3 +2728,70 @@ a:hover {
   box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
   transform: translateY(-2px);
 }
+
+/* WIRED CHAOS Social Links Styles */
+.wired-chaos-links {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.social-links-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.social-link {
+  background: linear-gradient(45deg, #001A1A, #000000);
+  border: 1px solid #FF3131;
+  color: #00FFFF;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 49, 49, 0.3);
+  letter-spacing: 1px;
+}
+
+.social-link:hover {
+  border-color: #00FFFF;
+  background: linear-gradient(45deg, #002626, #001A1A);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  transform: translateY(-2px);
+  color: #39FF14;
+  text-shadow: 0 0 10px #39FF14;
+}
+
+.blog-link {
+  border-color: #FF6B00;
+}
+
+.blog-link:hover {
+  border-color: #39FF14;
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+.tiktok-link {
+  border-color: #FF00FF;
+}
+
+.tiktok-link:hover {
+  border-color: #00FFFF;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+.quora-link {
+  border-color: #39FF14;
+}
+
+.quora-link:hover {
+  border-color: #FF3131;
+  box-shadow: 0 0 20px rgba(255, 49, 49, 0.4);
+}
