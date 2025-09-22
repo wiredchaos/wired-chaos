@@ -1079,8 +1079,8 @@ const VRG33589Page = () => {
         <details className="vrg-details vrg-lore">
           <summary>Lore: Distribution & Rules</summary>
           <div className="vrg-mono">
-            Commons = whispers (150). Uncommons = frequency carriers (100). Rares = gatewardens (50). Super Rares = Merovingian sparks (33).
-            A burn in VRG-33-589 is a frequency split → +1 Rare Echo +2 Super Rare Echoes. Max echo archive = 936 across 6 tiers × 4 factions.
+            9 Layers = frequency resonance (333 each). Layer 1-3 = whispers. Layer 4-6 = frequency carriers. Layer 7-9 = Merovingian sparks.
+            A burn in VRG-33-589 is a frequency split → +1 Rare Echo +2 Super Rare Echoes. Max echo archive = 3,933 across 9 layers × 4 factions.
           </div>
         </details>
       </div>
