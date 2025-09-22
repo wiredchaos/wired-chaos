@@ -760,9 +760,10 @@ const EveningVibesPage = () => {
   );
 };
 
-// NEURO Lab Page (with Lurky integration)
+// NEURO Lab Page (with Lurky integration and Hologram)
 const NeuroLabPage = () => {
   const navigate = useNavigate();
+  const [showHologram, setShowHologram] = useState(false);
   
   return (
     <div className="agent-page neuro-page">
@@ -773,6 +774,18 @@ const NeuroLabPage = () => {
       </div>
       
       <div className="widget-grid">
+        {/* Hologram Portal Widget */}
+        <Card className="widget-card hologram-widget">
+          <h3>🧠⛓️‍💥 NEURO HOLOGRAM</h3>
+          <p>Interactive business portal with holographic projections</p>
+          <button 
+            className="neuro-btn" 
+            onClick={() => setShowHologram(true)}
+          >
+            ENTER NEURO LAB 🧠⛓️‍💥
+          </button>
+        </Card>
+        
         {/* Chirp Follow Widget */}
         <Card className="widget-card chirp-widget">
           <h3>🐦 FOLLOW ON CHIRP</h3>
@@ -866,6 +879,18 @@ const NeuroLabPage = () => {
           </div>
         </Card>
       </div>
+
+      {/* Hologram Modal */}
+      <NeuroHologram 
+        isOpen={showHologram}
+        onClose={() => setShowHologram(false)}
+        images={[
+          '/images/neuro_business1.jpg',
+          '/images/neuro_business2.jpg',
+          '/images/portal_echo.jpg',
+          '/images/wired_chaos_brain.jpg'
+        ]}
+      />
     </div>
   );
 };
