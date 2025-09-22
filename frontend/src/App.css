@@ -129,7 +129,7 @@ a:hover {
     radial-gradient(circle at 20% 80%, rgba(255, 49, 49, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 50% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 70%),
-    linear-gradient(45deg, #000000 0%, #0a0a0f 50%, #000000 100%);
+    linear-gradient(45deg, var(--bg-black) 0%, #0a0a0f 50%, var(--bg-black) 100%);
   overflow: hidden;
 }
 
@@ -167,11 +167,11 @@ a:hover {
   font-family: 'Orbitron', monospace;
   font-size: 3.5rem;
   font-weight: 900;
-  color: #00FFFF;
+  color: var(--cyan);
   text-shadow: 
-    0 0 10px #00FFFF,
-    0 0 20px #00FFFF,
-    0 0 40px #00FFFF;
+    0 0 10px var(--cyan),
+    0 0 20px var(--cyan),
+    0 0 40px var(--cyan);
   margin-bottom: 0.5rem;
   position: relative;
   display: flex;
@@ -206,13 +206,13 @@ a:hover {
 
 .glitch::before {
   animation: glitch-1 0.5s infinite;
-  color: #FF3131;
+  color: var(--red);
   z-index: -1;
 }
 
 .glitch::after {
   animation: glitch-2 0.5s infinite;
-  color: #FF00FF;
+  color: var(--pink);
   z-index: -2;
 }
 
@@ -227,7 +227,7 @@ a:hover {
 }
 
 .subtitle {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: 1.2rem;
   font-weight: 300;
   color: #888;
