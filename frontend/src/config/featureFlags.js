@@ -3,27 +3,8 @@
  * Control system for experimental features and UI variants
  */
 
-export interface FeatureFlags {
-  // Motherboard UI Controls
-  useMotherboardOS: boolean;
-  enable3DTransforms: boolean;
-  enableUniversalGrid: boolean;
-  
-  // Component Variants
-  useLegacyHub: boolean;
-  enablePanelChips: boolean;
-  
-  // Experimental Features
-  enableHologramEffects: boolean;
-  enableCircuitAnimations: boolean;
-  
-  // Development Controls
-  debugMode: boolean;
-  showPerformanceMetrics: boolean;
-}
-
 // Default feature flag configuration - ROLLBACK TO STABLE
-const defaultFlags: FeatureFlags = {
+const defaultFlags = {
   // Motherboard UI - DISABLED for rollback
   useMotherboardOS: false,
   enable3DTransforms: false,
@@ -43,7 +24,7 @@ const defaultFlags: FeatureFlags = {
 };
 
 // Feature flag override from environment or localStorage
-const getFeatureFlags = (): FeatureFlags => {
+const getFeatureFlags = () => {
   try {
     // Check localStorage for overrides (useful for testing)
     const stored = localStorage.getItem('wired-chaos-feature-flags');
@@ -59,7 +40,7 @@ const getFeatureFlags = (): FeatureFlags => {
 };
 
 // Set feature flag overrides (for development/testing)
-export const setFeatureFlag = (key: keyof FeatureFlags, value: boolean): void => {
+export const setFeatureFlag = (key, value) => {
   try {
     const current = getFeatureFlags();
     const updated = { ...current, [key]: value };
@@ -74,7 +55,7 @@ export const setFeatureFlag = (key: keyof FeatureFlags, value: boolean): void =>
 };
 
 // Reset all feature flags to defaults
-export const resetFeatureFlags = (): void => {
+export const resetFeatureFlags = () => {
   try {
     localStorage.removeItem('wired-chaos-feature-flags');
     console.log('Feature flags reset to defaults');
@@ -91,12 +72,14 @@ if (defaultFlags.debugMode) {
   console.log('WIRED CHAOS Feature Flags:', featureFlags);
   
   // Make flags available globally for easy testing
-  (window as any).wireFlags = {
-    get: getFeatureFlags,
-    set: setFeatureFlag,
-    reset: resetFeatureFlags,
-    current: featureFlags
-  };
+  if (typeof window !== 'undefined') {
+    window.wireFlags = {
+      get: getFeatureFlags,
+      set: setFeatureFlag,
+      reset: resetFeatureFlags,
+      current: featureFlags
+    };
+  }
 }
 
 export default featureFlags;
