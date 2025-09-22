@@ -874,28 +874,27 @@ const BWBPage = () => {
   useEffect(() => {
     const fetchBlogFeed = async () => {
       try {
-        const BLOG_URL = "https://www.wiredchaos.xyz/blog-feed.xml";
-        const response = await fetch(BLOG_URL);
-        const text = await response.text();
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(text, "application/xml");
-        const items = [...xml.querySelectorAll("item")].slice(0, 8);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/blog/proxy`);
+        const data = await response.json();
         
-        const posts = items.map(item => ({
-          title: item.querySelector("title")?.textContent || "Untitled",
-          link: item.querySelector("link")?.textContent || "#",
-          description: item.querySelector("description")?.textContent || "",
-          pubDate: item.querySelector("pubDate")?.textContent || ""
-        }));
-        
-        setBlogPosts(posts);
+        if (data.posts && data.posts.length > 0) {
+          setBlogPosts(data.posts);
+        } else {
+          // Fallback content
+          setBlogPosts([{
+            title: "⚠️ Blog Feed Unavailable",
+            link: "https://www.wiredchaos.xyz/blog",
+            description: "Unable to load recent posts. Visit the main blog for latest updates.",
+            published: ""
+          }]);
+        }
       } catch (error) {
         console.error("Blog feed error:", error);
         setBlogPosts([{
-          title: "⚠️ Blog Feed Unavailable",
-          link: "#",
-          description: "Unable to load recent posts. Check back later.",
-          pubDate: ""
+          title: "🔥 WIRED CHAOS Blog System",
+          link: "https://www.wiredchaos.xyz/blog",
+          description: "The blog integration system is under development. Check back soon for live RSS feeds.",
+          published: ""
         }]);
       } finally {
         setLoading(false);
@@ -913,64 +912,91 @@ const BWBPage = () => {
       </div>
       
       {/* Blog Feed Board */}
-      <div className="board neon-glow" id="blog-board">
+      <div className="vault-holo-grid p-6">
         <div className="board-hdr">
-          <span className="badge cyan">Broadcast</span>
-          <h3 className="board-title">Latest Posts</h3>
+          <span className="vault-status-badge status-active">Broadcast</span>
+          <h3 className="vault-neon-title vault-cyan-outline">Latest Posts</h3>
         </div>
         
         {loading ? (
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <p>Loading broadcasts...</p>
+          <div className="vault-loading">
+            <div className="vault-spinner"></div>
+            <p className="vault-cyan-outline">Loading broadcasts...</p>
           </div>
         ) : (
-          <ul className="blog-feed">
+          <div className="vault-grid">
             {blogPosts.map((post, index) => (
-              <li key={index} className="blog-post">
-                <div className="post-header">
-                  <a href={post.link} target="_blank" rel="noopener noreferrer" className="post-title">
+              <div key={index} className="vault-holo-card">
+                <div className="flex justify-between items-start mb-3">
+                  <a 
+                    href={post.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="vault-neon-title vault-cyan-outline hover:vault-red-core transition-all duration-300"
+                  >
                     {post.title}
                   </a>
-                  {post.pubDate && (
-                    <span className="post-date">{new Date(post.pubDate).toLocaleDateString()}</span>
+                  {post.published && (
+                    <span className="text-xs opacity-60">
+                      {new Date(post.published).toLocaleDateString()}
+                    </span>
                   )}
                 </div>
                 {post.description && (
-                  <p className="post-description">{post.description.substring(0, 150)}...</p>
+                  <p className="text-sm opacity-80 leading-relaxed">
+                    {post.description.replace(/<[^>]*>/g, '').substring(0, 150)}...
+                  </p>
                 )}
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
         
-        <div className="btn-row" style={{marginTop: '20px'}}>
-          <a href="https://www.wiredchaos.xyz/blog" target="_blank" rel="noopener noreferrer" className="btn cyan">
+        <div className="flex gap-4 justify-center mt-6 flex-wrap">
+          <a 
+            href="https://www.wiredchaos.xyz/blog" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="vault-btn"
+          >
             View All Posts ↗
           </a>
-          <button className="btn" onClick={() => window.location.reload()}>
+          <button 
+            className="vault-btn btn-red" 
+            onClick={() => window.location.reload()}
+          >
             Refresh Feed
           </button>
         </div>
       </div>
 
       {/* RSS Integration Info */}
-      <div className="info-panel">
-        <h4>🔗 Feed Integration</h4>
-        <p>Direct RSS integration with WIRED CHAOS blog network. Auto-refreshes on page load.</p>
-        <div className="network-links">
-          <a href="https://www.wiredchaos.xyz/post/from-free-mint-to-joe-rogan-how-doginal-dogs-took-over-crypto-and-netflix" 
-             target="_blank" rel="noopener noreferrer" className="network-link">
+      <div className="vault-holo-card accent-purple mt-6">
+        <h4 className="vault-purple-glow mb-3">🔗 Feed Integration</h4>
+        <p className="mb-4 opacity-80">
+          Direct RSS integration with WIRED CHAOS blog network. Auto-refreshes on page load with 10-minute cache.
+        </p>
+        <div className="flex gap-3 flex-wrap">
+          <a 
+            href="https://www.wiredchaos.xyz/post/from-free-mint-to-joe-rogan-how-doginal-dogs-took-over-crypto-and-netflix" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="vault-btn btn-purple"
+          >
             📰 Joe Rogan Feature
           </a>
-          <a href="https://www.wiredchaos.xyz/post/doginal-dogs-ddnyc-takeover-crypto-tech-web3-culture" 
-             target="_blank" rel="noopener noreferrer" className="network-link">  
+          <a 
+            href="https://www.wiredchaos.xyz/post/doginal-dogs-ddnyc-takeover-crypto-tech-web3-culture" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="vault-btn btn-purple"
+          >  
             📰 DDNYC Takeover
           </a>
         </div>
       </div>
 
-      <button onClick={() => navigate('/')} className="back-btn">
+      <button onClick={() => navigate('/')} className="back-btn mt-6">
         ← Back to Motherboard
       </button>
     </div>
