@@ -769,6 +769,7 @@ const NeuroLabPage = () => {
   const navigate = useNavigate();
   const [showHologram, setShowHologram] = useState(false);
   const [showNFTHologram, setShowNFTHologram] = useState(false);
+  const [showCertMinter, setShowCertMinter] = useState(false);
   
   return (
     <div className="agent-page neuro-page">
@@ -779,6 +780,18 @@ const NeuroLabPage = () => {
       </div>
       
       <div className="widget-grid">
+        {/* Certificate Minter Widget */}
+        <Card className="widget-card cert-minter-widget">
+          <h3>🎓 CERTIFICATE MINTER</h3>
+          <p>Issue blockchain-verified certificates of completion across multiple networks</p>
+          <button 
+            className="cert-minter-btn" 
+            onClick={() => setShowCertMinter(true)}
+          >
+            🎓 MINT CERTIFICATE
+          </button>
+        </Card>
+
         {/* Business Hologram Portal Widget */}
         <Card className="widget-card hologram-widget">
           <h3>🧠⛓️‍💥 NEURO HOLOGRAM</h3>
@@ -896,6 +909,18 @@ const NeuroLabPage = () => {
           </div>
         </Card>
       </div>
+
+      {/* Certificate Minter Modal */}
+      {showCertMinter && (
+        <div className="modal-overlay" onClick={() => setShowCertMinter(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <button className="modal-close" onClick={() => setShowCertMinter(false)}>✕</button>
+            </div>
+            <CertificateMinter />
+          </div>
+        </div>
+      )}
 
       {/* Business Hologram Modal */}
       <NeuroHologram 
