@@ -1546,7 +1546,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MotherboardHub />} />
+          <Route path="/" element={
+            featureFlags.useLegacyHub ? <MotherboardHubLegacy /> : <MotherboardHub />
+          } />
           <Route path="/csn" element={<CSNPage />} />
           <Route path="/fm333" element={<FM333Page />} />
           <Route path="/eveningvibes" element={<EveningVibesPage />} />
