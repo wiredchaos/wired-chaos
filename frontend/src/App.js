@@ -71,6 +71,7 @@ const MotherboardHub = () => {
   const navigate = useNavigate();
   const [hoveredNode, setHoveredNode] = useState(null);
   const [showBot, setShowBot] = useState(false);
+  const [selectedNode, setSelectedNode] = useState(null);
 
   const agents = [
     {
