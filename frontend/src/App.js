@@ -4,8 +4,11 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { MotherboardHub } from "./components/MotherboardUI";
-import featureFlags from "./config/featureFlags";
+import featureFlags, { FEATURES } from "./config/featureFlags";
 import axios from "axios";
+
+// Import the new locked theme motherboard component
+const Motherboard = React.lazy(() => import('./components/Motherboard'));
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
