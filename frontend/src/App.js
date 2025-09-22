@@ -766,6 +766,7 @@ const EveningVibesPage = () => {
 const NeuroLabPage = () => {
   const navigate = useNavigate();
   const [showHologram, setShowHologram] = useState(false);
+  const [showNFTHologram, setShowNFTHologram] = useState(false);
   
   return (
     <div className="agent-page neuro-page">
@@ -776,7 +777,7 @@ const NeuroLabPage = () => {
       </div>
       
       <div className="widget-grid">
-        {/* Hologram Portal Widget */}
+        {/* Business Hologram Portal Widget */}
         <Card className="widget-card hologram-widget">
           <h3>🧠⛓️‍💥 NEURO HOLOGRAM</h3>
           <p>Interactive business portal with holographic projections</p>
@@ -785,6 +786,18 @@ const NeuroLabPage = () => {
             onClick={() => setShowHologram(true)}
           >
             ENTER NEURO LAB 🧠⛓️‍💥
+          </button>
+        </Card>
+
+        {/* NFT Hologram Portal Widget */}
+        <Card className="widget-card nft-hologram-widget">
+          <h3>🐾🧠 NFT NEURO META X</h3>
+          <p>Glitch-enhanced hologram for NFT collections and digital assets</p>
+          <button 
+            className="neuro-nft-btn" 
+            onClick={() => setShowNFTHologram(true)}
+          >
+            ACTIVATE NEURO META X 🧠⛓️‍💥
           </button>
         </Card>
         
@@ -882,7 +895,7 @@ const NeuroLabPage = () => {
         </Card>
       </div>
 
-      {/* Hologram Modal */}
+      {/* Business Hologram Modal */}
       <NeuroHologram 
         isOpen={showHologram}
         onClose={() => setShowHologram(false)}
@@ -891,6 +904,19 @@ const NeuroLabPage = () => {
           '/images/neuro_business2.jpg',
           '/images/portal_echo.jpg',
           '/images/wired_chaos_brain.jpg'
+        ]}
+      />
+
+      {/* NFT Hologram Modal */}
+      <NFTNeuroHologram 
+        isOpen={showNFTHologram}
+        onClose={() => setShowNFTHologram(false)}
+        nftImages={[
+          '/images/neurokiba.png',
+          '/images/portal_echo.png',
+          '/images/doginal_dog1787.png',
+          '/images/nft_brain_meta.png',
+          '/images/wired_chaos_nft.png'
         ]}
       />
     </div>
