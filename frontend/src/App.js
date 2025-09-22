@@ -1550,7 +1550,7 @@ function App() {
           <Route path="/vault33" element={<Vault33Page />} />
           <Route path="/b2b" element={<B2BPage />} />
           <Route path="/vrg33589" element={<VRG33589Page />} />
-          <Route path="/merch" element={<MerchPage />} />
+          <Route path="/merch" element={<NeuroMetaXPage />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />
