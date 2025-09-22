@@ -4,8 +4,9 @@ from pydantic import BaseModel
 import httpx
 from starlette.middleware.cors import CORSMiddleware
 
-# Import certificate API
+# Import certificate API and brain assistant API
 from cert_api import router as cert_router
+from brain_assistant_api import router as brain_router
 
 PORT = int(os.getenv("PORT", "8080"))
 OPENAI_KEY = os.getenv("OPENAI_API_KEY", "")
