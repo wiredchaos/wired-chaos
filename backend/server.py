@@ -10,6 +10,10 @@ BRAND_TONE = os.getenv("BRAND_TONE", "Wired Chaos tone")
 
 app = FastAPI(title="WIRED CHAOS Bot Brain")
 
+@app.get("/api")
+async def api_health():
+    return {"status": "WIRED CHAOS Bot Brain API is running", "version": "1.0"}
+
 SECTIONS = {
     "hub": "Motherboard hub and routing.",
     "csn": "Crypto Spaces Net (separate from 33.3FM).",
