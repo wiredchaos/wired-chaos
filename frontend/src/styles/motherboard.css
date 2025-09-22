@@ -12,8 +12,7 @@
   --energy-pulse: rgba(255, 42, 42, 0.8);
 }
 
-/* Universal Motherboard Background */
-.motherboard-universe {
+.motherboard-container .motherboard-universe {
   position: fixed;
   top: 0;
   left: 0;
@@ -24,7 +23,7 @@
   overflow: hidden;
 }
 
-.motherboard-universe::before {
+.motherboard-container .motherboard-universe::before {
   content: '';
   position: absolute;
   top: 0;
