@@ -517,8 +517,8 @@ const NeuroLabPage = () => {
             <a href="https://cryptospaces.net" target="_blank" rel="noopener noreferrer" className="network-link">
               CryptoSpaces.net
             </a>
-            <a href="https://barkmeta.io" target="_blank" rel="noopener noreferrer" className="network-link">
-              BarkMeta.io
+            <a href="https://wiredchaos.xyz" target="_blank" rel="noopener noreferrer" className="network-link">
+              WiredChaos.xyz
             </a>
           </div>
         </Card>
