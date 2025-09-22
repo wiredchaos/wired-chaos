@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+Sitemap: https://wiredchaos.xyz/sitemap.xml
+
+# WIRED CHAOS - Digital Ecosystem Motherboard
+# Allow all crawlers to index content
+User-agent: *
+Allow: /csn
+Allow: /bwb  
+Allow: /vault33
+Allow: /neurolab
+Allow: /eveningvibes
+Allow: /fm333
+Allow: /vrg33589
+Allow: /b2b
+Allow: /merch
+
+# SEO Ghost Pages
+Allow: /industry/
+Allow: /level-up-lounge
+Allow: /crypto-spaces-net
+
+# Prevent crawling of admin/internal paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+Crawl-delay: 1
