@@ -1147,25 +1147,279 @@ body {
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
 
-/* Update FM CTA button */
-.fm-cta {
-  background: linear-gradient(45deg, #1a4d1a, #2d6b2d);
-  border: 2px solid #39FF14;
-  color: #39FF14;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+/* VRG-33-589 Lore Console Styles */
+.vrg-console {
+  max-width: 980px;
+  margin: 24px auto;
+  color: #00FFFF;
+  background: #000000;
+  border: 2px solid #00FFFF;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.6);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-.fm-cta:hover {
-  background: linear-gradient(45deg, #2d6b2d, #4d8f4d);
-  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
-  transform: translateY(-2px);
+.vrg-hdr {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.vrg-halo {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #FF3131;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #FF3131;
+}
+
+.vrg-console h1,
+.vrg-console h2,
+.vrg-console h3 {
+  margin: 0;
+  color: #00FFFF;
+}
+
+.vrg-console h1 {
+  font-size: 28px;
+  letter-spacing: 0.06em;
+}
+
+.vrg-sub {
+  color: #99ffff;
+  font-size: 13px;
+  opacity: 0.85;
+  margin-bottom: 16px;
+}
+
+.vrg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.vrg-card {
+  background: #020202;
+  border: 1px solid #004444;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.vrg-card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.vrg-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid #00FFFF;
+  border-radius: 999px;
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.vrg-stat {
+  color: #aaffff;
+  font-weight: 700;
+}
+
+.vrg-cta-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.vrg-btn {
+  border: 2px solid #00FFFF;
+  color: #00FFFF;
+  background: #000000;
+  padding: 10px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vrg-btn:hover {
+  border-color: #FF3131;
+  color: #FF3131;
+  text-shadow: 0 0 8px #FF3131;
+}
+
+.vrg-details {
+  border: 1px dashed #006666;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.vrg-details summary {
+  cursor: pointer;
+  color: #bbffff;
+}
+
+.vrg-mono {
+  font-family: inherit;
+  background: #010101;
+  padding: 8px;
+  border-radius: 8px;
+  overflow: auto;
+  border: 1px solid #003333;
+}
+
+.vrg-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.vrg-pill {
+  padding: 6px 10px;
+  border: 1px solid #006666;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #99ffff;
+}
+
+.vrg-warn {
+  color: #FF3131;
+  font-weight: 700;
+}
+
+.vrg-success {
+  color: #39FF14;
+  font-weight: 700;
+}
+
+.vrg-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #004444, transparent);
+  margin: 14px 0;
+}
+
+.vrg-tiny {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.vrg-lore {
+  margin-top: 14px;
+}
+
+/* 33.3 FM Radio Console Styles */
+.fm-console {
+  max-width: 960px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #000000;
+  border: 2px solid #00FFFF;
+  border-radius: 20px;
+  box-shadow: 0 0 24px rgba(0, 255, 255, 0.6);
+  color: #00FFFF;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+.fm-hdr {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.fm-pulse {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #FF3131;
+  box-shadow: 0 0 10px #FF3131, 0 0 20px #FF3131;
+  animation: fmPulse 1.2s infinite alternate;
+}
+
+@keyframes fmPulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; transform: scale(1.2); }
+}
+
+.fm-console h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.06em;
+}
+
+.fm-sub {
+  font-size: 13px;
+  color: #aaffff;
+  margin-bottom: 16px;
+}
+
+.fm-iframe {
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+  height: 380px;
+  box-shadow: 0 0 16px #FF00FF;
+}
+
+.fm-tuner {
+  margin: 20px 0;
+  background: #020202;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #003333;
+}
+
+.fm-dial {
+  height: 10px;
+  background: linear-gradient(90deg, #FF3131, #FF00FF, #00FFFF, #39FF14);
+  border-radius: 999px;
+  position: relative;
+}
+
+.fm-needle {
+  width: 4px;
+  height: 20px;
+  background: #00FFFF;
+  position: absolute;
+  top: -5px;
+  left: 33%;
+  box-shadow: 0 0 12px #00FFFF;
+}
+
+.fm-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.fm-btn {
+  border: 2px solid #00FFFF;
+  padding: 10px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  color: #00FFFF;
+  background: #000000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fm-btn:hover {
+  border-color: #FF3131;
+  color: #FF3131;
+  text-shadow: 0 0 10px #FF3131;
+}
+
+.fm-tiny {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 10px;
 }
 
 /* X.com Feed Widget Styles */
