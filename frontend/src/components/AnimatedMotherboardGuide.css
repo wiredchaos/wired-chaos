@@ -1,0 +1,712 @@
+/* WIRED CHAOS - Animated Motherboard Guide Styles */
+
+.motherboard-guide-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: rgba(6, 7, 11, 0.1);
+  backdrop-filter: blur(2px);
+  animation: guideOverlayFadeIn 0.5s ease-out;
+}
+
+@keyframes guideOverlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(2px);
+  }
+}
+
+/* Section highlighting */
+.section-highlight {
+  position: absolute;
+  border: 3px solid #27e5ff;
+  border-radius: 15px;
+  box-shadow: 
+    0 0 30px rgba(39, 229, 255, 0.6),
+    inset 0 0 30px rgba(39, 229, 255, 0.2);
+  animation: sectionPulse 2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+@keyframes sectionPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 30px rgba(39, 229, 255, 0.6),
+      inset 0 0 30px rgba(39, 229, 255, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 50px rgba(255, 43, 43, 0.8),
+      inset 0 0 50px rgba(255, 43, 43, 0.3);
+  }
+}
+
+/* Position highlights for different sections */
+.section-highlight.neuro {
+  top: 6%;
+  right: 13%;
+  width: 180px;
+  height: 120px;
+}
+
+.section-highlight.csn {
+  top: 6%;
+  left: 13%;
+  width: 180px;
+  height: 120px;
+}
+
+.section-highlight.bwb {
+  top: 28%;
+  right: 6%;
+  width: 180px;
+  height: 120px;
+}
+
+.section-highlight.fm333 {
+  top: 28%;
+  left: 6%;
+  width: 180px;
+  height: 120px;
+}
+
+.section-highlight.vault33 {
+  bottom: 32%;
+  left: 6%;
+  width: 180px;
+  height: 120px;
+}
+
+.section-highlight.vrg33589 {
+  bottom: 32%;
+  right: 6%;
+  width: 180px;
+  height: 120px;
+}
+
+.section-highlight.b2b {
+  bottom: 6%;
+  left: 13%;
+  width: 180px;
+  height: 120px;
+}
+
+.section-highlight.eveningvibes {
+  bottom: 6%;
+  left: 23%;
+  width: 180px;
+  height: 120px;
+}
+
+/* Main guide interface */
+.guide-interface {
+  pointer-events: all;
+  z-index: 10000;
+  animation: guideInterfaceSlideIn 0.7s ease-out;
+}
+
+@keyframes guideInterfaceSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.guide-card {
+  background: linear-gradient(135deg, 
+    rgba(6, 7, 11, 0.95) 0%,
+    rgba(39, 229, 255, 0.08) 50%,
+    rgba(255, 43, 43, 0.08) 100%
+  );
+  border: 2px solid rgba(39, 229, 255, 0.4);
+  border-radius: 20px;
+  padding: 25px;
+  min-width: 400px;
+  max-width: 500px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(39, 229, 255, 0.3);
+  backdrop-filter: blur(15px);
+  position: relative;
+  overflow: hidden;
+}
+
+.guide-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(39, 229, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 43, 43, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* 3D Brain Icon */
+.guide-brain-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.brain-3d {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  animation: brainFloat 3s ease-in-out infinite;
+}
+
+@keyframes brainFloat {
+  0%, 100% {
+    transform: translateY(0px) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotateY(180deg);
+  }
+}
+
+.brain-hemisphere {
+  width: 30px;
+  height: 40px;
+  background: linear-gradient(135deg, #ff6b9d, #ff8a9b);
+  border-radius: 15px 15px 5px 5px;
+  position: absolute;
+  top: 0;
+  box-shadow: 
+    0 0 20px rgba(255, 107, 157, 0.4),
+    inset 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.brain-hemisphere.left {
+  left: 0;
+  animation: brainPulseLeft 2s ease-in-out infinite;
+}
+
+.brain-hemisphere.right {
+  right: 0;
+  animation: brainPulseRight 2s ease-in-out infinite 0.5s;
+}
+
+@keyframes brainPulseLeft {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(255, 107, 157, 0.4),
+      inset 0 0 15px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(39, 229, 255, 0.6),
+      inset 0 0 25px rgba(39, 229, 255, 0.3);
+  }
+}
+
+@keyframes brainPulseRight {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(255, 107, 157, 0.4),
+      inset 0 0 15px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(255, 43, 43, 0.6),
+      inset 0 0 25px rgba(255, 43, 43, 0.3);
+  }
+}
+
+.brain-stem {
+  width: 12px;
+  height: 20px;
+  background: linear-gradient(180deg, #ff8a9b, #ffaac7);
+  border-radius: 0 0 6px 6px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(255, 138, 155, 0.4);
+}
+
+.neural-activity {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: #27e5ff;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #27e5ff;
+  animation: neuralPulse 1s ease-in-out infinite;
+}
+
+@keyframes neuralPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+/* Content Styles */
+.guide-content {
+  text-align: center;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-title {
+  color: #27e5ff;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  text-shadow: 0 0 15px rgba(39, 229, 255, 0.5);
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  0% {
+    text-shadow: 0 0 15px rgba(39, 229, 255, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 25px rgba(255, 43, 43, 0.6);
+  }
+}
+
+.guide-description {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+}
+
+.guide-features {
+  text-align: left;
+  background: rgba(39, 229, 255, 0.05);
+  border: 1px solid rgba(39, 229, 255, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.guide-features h4 {
+  color: #27e5ff;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.guide-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-features li {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  padding: 3px 0;
+  position: relative;
+  padding-left: 15px;
+}
+
+.guide-features li::before {
+  content: '▶';
+  color: #27e5ff;
+  position: absolute;
+  left: 0;
+  font-size: 10px;
+}
+
+/* Controls */
+.guide-controls {
+  position: relative;
+  z-index: 1;
+}
+
+.guide-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(39, 229, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #27e5ff, #ff2b2b);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  animation: progressGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes progressGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(39, 229, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(255, 43, 43, 0.6);
+  }
+}
+
+.progress-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 40px;
+}
+
+.guide-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.guide-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.guide-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.guide-btn:hover::before {
+  left: 100%;
+}
+
+.guide-btn.primary {
+  background: linear-gradient(135deg, #27e5ff, #ff2b2b);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(39, 229, 255, 0.3);
+}
+
+.guide-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(39, 229, 255, 0.4);
+}
+
+.guide-btn.secondary {
+  background: rgba(39, 229, 255, 0.1);
+  border: 2px solid rgba(39, 229, 255, 0.4);
+  color: #27e5ff;
+}
+
+.guide-btn.secondary:hover {
+  background: rgba(39, 229, 255, 0.2);
+  border-color: #27e5ff;
+  transform: translateY(-1px);
+}
+
+.guide-btn.explore {
+  background: linear-gradient(135deg, #ff8a2b, #ff2b2b);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 138, 43, 0.3);
+}
+
+.guide-btn.explore:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 138, 43, 0.4);
+}
+
+/* Step dots navigation */
+.step-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.step-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(39, 229, 255, 0.4);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.step-dot.active {
+  background: #27e5ff;
+  border-color: #27e5ff;
+  box-shadow: 0 0 15px rgba(39, 229, 255, 0.6);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+.step-dot.completed {
+  background: #ff2b2b;
+  border-color: #ff2b2b;
+  box-shadow: 0 0 10px rgba(255, 43, 43, 0.4);
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.step-dot:hover {
+  transform: scale(1.3);
+  border-color: #27e5ff;
+}
+
+/* Close button */
+.guide-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #ff2b2b, #ff8a2b);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10001;
+  transition: all 0.3s ease;
+  pointer-events: all;
+  box-shadow: 0 0 20px rgba(255, 43, 43, 0.3);
+}
+
+.guide-close-btn:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 0 30px rgba(255, 43, 43, 0.6);
+}
+
+/* Mini-map */
+.guide-minimap {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, 
+    rgba(6, 7, 11, 0.9),
+    rgba(39, 229, 255, 0.05)
+  );
+  border: 2px solid rgba(39, 229, 255, 0.3);
+  border-radius: 15px;
+  padding: 15px;
+  min-width: 200px;
+  backdrop-filter: blur(10px);
+  pointer-events: all;
+}
+
+.guide-minimap h4 {
+  color: #27e5ff;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+.minimap-sections {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.minimap-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(39, 229, 255, 0.05);
+  border: 1px solid rgba(39, 229, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.minimap-section:hover {
+  background: rgba(39, 229, 255, 0.15);
+  border-color: rgba(39, 229, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.minimap-section.highlighted {
+  background: rgba(255, 43, 43, 0.2);
+  border-color: rgba(255, 43, 43, 0.4);
+  color: white;
+  animation: minimapHighlight 1s ease-in-out infinite alternate;
+}
+
+@keyframes minimapHighlight {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 43, 43, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 43, 43, 0.6);
+  }
+}
+
+.section-icon {
+  font-size: 14px;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .guide-card {
+    min-width: 320px;
+    max-width: 380px;
+    padding: 20px;
+  }
+  
+  .guide-title {
+    font-size: 20px;
+  }
+  
+  .guide-description {
+    font-size: 14px;
+  }
+  
+  .guide-buttons {
+    flex-direction: column;
+  }
+  
+  .guide-btn {
+    width: 100%;
+  }
+  
+  .guide-minimap {
+    position: static;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .minimap-sections {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .section-label {
+    display: none;
+  }
+}
+
+@media (max-height: 600px) {
+  .guide-card {
+    padding: 15px;
+  }
+  
+  .guide-brain-icon {
+    margin-bottom: 10px;
+  }
+  
+  .brain-3d {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .guide-features {
+    display: none;
+  }
+}
+
+/* Accessibility */
+.guide-card:focus-within {
+  border-color: #27e5ff;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(39, 229, 255, 0.5);
+}
+
+.guide-btn:focus,
+.step-dot:focus,
+.minimap-section:focus,
+.guide-close-btn:focus {
+  outline: 2px solid #27e5ff;
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .guide-card {
+    border-color: #27e5ff;
+    background: rgba(0, 0, 0, 0.95);
+  }
+  
+  .section-highlight {
+    border-color: #27e5ff;
+  }
+  
+  .guide-btn.primary {
+    background: #27e5ff;
+    color: black;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .motherboard-guide-overlay,
+  .guide-interface,
+  .brain-3d,
+  .section-highlight,
+  .neural-activity,
+  .progress-fill,
+  .step-dot,
+  .minimap-section {
+    animation: none;
+    transition: none;
+  }
+  
+  .guide-btn::before {
+    display: none;
+  }
+}
