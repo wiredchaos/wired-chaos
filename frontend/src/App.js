@@ -625,68 +625,114 @@ const NeuroLabPage = () => {
   );
 };
 
-// BWB - Barbed Wired Broadcast Page
+// BWB - Barbed Wired Broadcast (Blog Feed)
 const BWBPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    // Integration with Buttondown would go here
-    alert('Newsletter signup functionality - integrate with Buttondown API');
-  };
-  
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogFeed = async () => {
+      try {
+        const BLOG_URL = "https://www.wiredchaos.xyz/blog-feed.xml";
+        const response = await fetch(BLOG_URL);
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, "application/xml");
+        const items = [...xml.querySelectorAll("item")].slice(0, 8);
+        
+        const posts = items.map(item => ({
+          title: item.querySelector("title")?.textContent || "Untitled",
+          link: item.querySelector("link")?.textContent || "#",
+          description: item.querySelector("description")?.textContent || "",
+          pubDate: item.querySelector("pubDate")?.textContent || ""
+        }));
+        
+        setBlogPosts(posts);
+      } catch (error) {
+        console.error("Blog feed error:", error);
+        setBlogPosts([{
+          title: "⚠️ Blog Feed Unavailable",
+          link: "#",
+          description: "Unable to load recent posts. Check back later.",
+          pubDate: ""
+        }]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogFeed();
+  }, []);
+
   return (
-    <div className="agent-page bwb-page">
-      <div className="page-header">
-        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>📰 BARBED WIRED BROADCAST</h1>
-        <p>Newsletter & RSS Automation</p>
+    <div className="agent-container">
+      <div className="agent-header">
+        <h2>📰 BARBED WIRED BROADCAST</h2>
+        <p>Live feed • WIRED CHAOS Blog Network</p>
       </div>
       
-      <div className="widget-grid">
-        {/* Newsletter Signup */}
-        <Card className="widget-card newsletter-widget">
-          <h3>📬 SUBSCRIBE TO BWB</h3>
-          <p>Get weekly updates on AI, crypto, and digital chaos</p>
-          <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="newsletter-input"
-              required
-            />
-            <Button type="submit" className="subscribe-btn">
-              Subscribe
-            </Button>
-          </form>
-        </Card>
+      {/* Blog Feed Board */}
+      <div className="board neon-glow" id="blog-board">
+        <div className="board-hdr">
+          <span className="badge cyan">Broadcast</span>
+          <h3 className="board-title">Latest Posts</h3>
+        </div>
         
-        {/* RSS Feed */}
-        <Card className="widget-card rss-feed-widget">
-          <h3>📡 LIVE FEED</h3>
-          <div className="feed-container">
-            <div className="feed-item">
-              <span className="feed-date">Today</span>
-              <span className="feed-title">Digital Chaos Weekly Roundup</span>
-            </div>
-            <div className="feed-item">
-              <span className="feed-date">Yesterday</span>
-              <span className="feed-title">AI Pipeline Automation Update</span>
-            </div>
-            <div className="feed-item">
-              <span className="feed-date">2 days ago</span>
-              <span className="feed-title">Crypto Market Analysis</span>
-            </div>
-            <div className="feed-item">
-              <span className="feed-date">3 days ago</span>
-              <span className="feed-title">RSS to Social Media Pipeline</span>
-            </div>
+        {loading ? (
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+            <p>Loading broadcasts...</p>
           </div>
-        </Card>
+        ) : (
+          <ul className="blog-feed">
+            {blogPosts.map((post, index) => (
+              <li key={index} className="blog-post">
+                <div className="post-header">
+                  <a href={post.link} target="_blank" rel="noopener noreferrer" className="post-title">
+                    {post.title}
+                  </a>
+                  {post.pubDate && (
+                    <span className="post-date">{new Date(post.pubDate).toLocaleDateString()}</span>
+                  )}
+                </div>
+                {post.description && (
+                  <p className="post-description">{post.description.substring(0, 150)}...</p>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        
+        <div className="btn-row" style={{marginTop: '20px'}}>
+          <a href="https://www.wiredchaos.xyz/blog" target="_blank" rel="noopener noreferrer" className="btn cyan">
+            View All Posts ↗
+          </a>
+          <button className="btn" onClick={() => window.location.reload()}>
+            Refresh Feed
+          </button>
+        </div>
       </div>
+
+      {/* RSS Integration Info */}
+      <div className="info-panel">
+        <h4>🔗 Feed Integration</h4>
+        <p>Direct RSS integration with WIRED CHAOS blog network. Auto-refreshes on page load.</p>
+        <div className="network-links">
+          <a href="https://www.wiredchaos.xyz/post/from-free-mint-to-joe-rogan-how-doginal-dogs-took-over-crypto-and-netflix" 
+             target="_blank" rel="noopener noreferrer" className="network-link">
+            📰 Joe Rogan Feature
+          </a>
+          <a href="https://www.wiredchaos.xyz/post/doginal-dogs-ddnyc-takeover-crypto-tech-web3-culture" 
+             target="_blank" rel="noopener noreferrer" className="network-link">  
+            📰 DDNYC Takeover
+          </a>
+        </div>
+      </div>
+
+      <button onClick={() => navigate('/')} className="back-btn">
+        ← Back to Motherboard
+      </button>
     </div>
   );
 };
