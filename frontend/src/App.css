@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
+:root {
+  --bg-black: #000000;
+  --bg-teal: #001919;
+  --bg-cyan-dark: #001F1F;
+  --white: #FFFFFF;
+  --red: #FF3131;
+  --cyan: #00FFFF;
+  --green: #39FF14;
+  --pink: #FF00FF;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,15 +18,22 @@
 }
 
 body {
-  font-family: 'Rajdhani', sans-serif;
-  background: #000000;
-  color: #00FFFF;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  background: var(--bg-black);
+  color: var(--white);
+  line-height: 1.6;
   overflow-x: hidden;
 }
 
 .App {
   min-height: 100vh;
   position: relative;
+}
+
+h1, h2, h3 {
+  color: var(--white);
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 /* ============ MOTHERBOARD HUB STYLES ============ */
