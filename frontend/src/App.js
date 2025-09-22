@@ -228,6 +228,46 @@ const MotherboardHub = () => {
           <span className="brain-icon">🧠</span>
         </h1>
         <p className="subtitle">DIGITAL ECOSYSTEM MOTHERBOARD</p>
+        
+        {/* WIRED CHAOS Social Links */}
+        <div className="wired-chaos-links">
+          <div className="social-links-row">
+            <a 
+              href="https://www.wiredchaos.xyz/post/from-free-mint-to-joe-rogan-how-doginal-dogs-took-over-crypto-and-netflix" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link blog-link"
+            >
+              📰 Joe Rogan & Doginal Dogs
+            </a>
+            <a 
+              href="https://www.wiredchaos.xyz/post/doginal-dogs-ddnyc-takeover-crypto-tech-web3-culture" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link blog-link"
+            >
+              📰 DDNYC Takeover Story
+            </a>
+          </div>
+          <div className="social-links-row">
+            <a 
+              href="https://www.tiktok.com/@wired.chaos?_t=ZT-8zvd2Zq1PzB&_r=1" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link tiktok-link"
+            >
+              🎵 @wired.chaos TikTok
+            </a>
+            <a 
+              href="https://www.quora.com/profile/Wired-Chaos?ch=17&oid=3098662541&share=85230f75&srid=5THMtG&target_type=user" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link quora-link"
+            >
+              🧭 Quora Profile
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Bot Brain Button */}
