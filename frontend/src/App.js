@@ -7,6 +7,7 @@ import { MotherboardHub } from "./components/MotherboardUI";
 import NeuroHologram from "./components/NeuroHologram";
 import NFTNeuroHologram from "./components/NFTNeuroHologram";
 import NeuroMetaXHero from "./components/NeuroMetaXHero";
+import CertificateMinter from "./components/CertificateMinter";
 import featureFlags, { FEATURES } from "./config/featureFlags";
 import axios from "axios";
 
