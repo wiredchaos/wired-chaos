@@ -18,7 +18,8 @@ const BotBrain = ({ onRoute, onClose }) => {
     { id: 'gamification', label: 'WL Gamification', route: '/vault33', icon: '🔐' },
     { id: 'content', label: 'NEURO Content', route: '/neurolab', icon: '📚' },
     { id: 'b2b', label: 'B2B/Enterprise', route: '/b2b', icon: '💼' },
-    { id: 'broadcasts', label: 'Live Broadcasts', route: '/csn', icon: '📡' }
+    { id: 'eveningvibes', label: 'Evening Vibes Lounge', route: '/eveningvibes', icon: '🌙' },
+    { id: 'fm333', label: '33.3 FM Live Broadcasts', route: '/fm333', icon: '📻' }
   ];
 
   const handleOptionSelect = (option) => {
@@ -75,10 +76,10 @@ const MotherboardHub = () => {
     {
       id: 'csn',
       name: 'CRYPTO SPACES NET',
-      icon: '📡',
+      icon: '🚀',
       title: 'CSN',
-      description: '24/7 Stream • 33.3FM',
-      position: { top: '10%', left: '20%' },
+      description: 'Community Network',
+      position: { top: '8%', left: '15%' },
       route: '/csn'
     },
     {
@@ -86,9 +87,18 @@ const MotherboardHub = () => {
       name: 'NEURO LAB',
       icon: '🧠',
       title: 'NEURO LAB',
-      description: 'Content Hub • Chirp',
-      position: { top: '10%', right: '20%' },
+      description: 'Web3 Onboarding',
+      position: { top: '8%', right: '15%' },
       route: '/neurolab'
+    },
+    {
+      id: 'fm333',
+      name: '33.3 FM',
+      icon: '📻',
+      title: '33.3 FM',
+      description: 'DOGECHAIN Radio',
+      position: { top: '30%', left: '8%' },
+      route: '/fm333'
     },
     {
       id: 'bwb',
@@ -96,7 +106,7 @@ const MotherboardHub = () => {
       icon: '📰',
       title: 'BWB',
       description: 'Newsletter • RSS',
-      position: { top: '35%', left: '10%' },
+      position: { top: '30%', right: '8%' },
       route: '/bwb'
     },
     {
@@ -105,8 +115,17 @@ const MotherboardHub = () => {
       icon: '🔐',
       title: 'VAULT 33',
       description: 'WL Gamification',
-      position: { top: '35%', right: '10%' },
+      position: { bottom: '30%', left: '8%' },
       route: '/vault33'
+    },
+    {
+      id: 'vrg33589',
+      name: 'VRG-33-589',
+      icon: '👁️',
+      title: 'VRG-33-589',
+      description: 'Tinfoil Bot',
+      position: { bottom: '30%', right: '8%' },
+      route: '/vrg33589'
     },
     {
       id: 'b2b',
@@ -114,17 +133,17 @@ const MotherboardHub = () => {
       icon: '💼',
       title: 'B2B',
       description: 'Enterprise Intake',
-      position: { bottom: '20%', left: '15%' },
+      position: { bottom: '8%', left: '15%' },
       route: '/b2b'
     },
     {
-      id: 'vrg33589',
-      name: 'VRG-33-589',
-      icon: '👁️',
-      title: 'VRG-33-589',
-      description: 'Tinfoil Bot • RSS→TTS',
-      position: { bottom: '20%', right: '15%' },
-      route: '/vrg33589'
+      id: 'eveningvibes',
+      name: 'EVENING VIBES',
+      icon: '🌙',
+      title: 'EVENING VIBES',
+      description: 'Level Up Lounge',
+      position: { bottom: '8%', right: '15%' },
+      route: '/eveningvibes'
     }
   ];
 
@@ -227,7 +246,7 @@ const MotherboardHub = () => {
   );
 };
 
-// CSN - Crypto Spaces Net Page
+// CSN - Crypto Spaces Net Page (FM content removed)
 const CSNPage = () => {
   const navigate = useNavigate();
   
@@ -251,36 +270,11 @@ const CSNPage = () => {
     <div className="agent-page csn-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>📡 CRYPTO SPACES NET</h1>
-        <p>Live Stream & Community Hub</p>
+        <h1>🚀 CRYPTO SPACES NET</h1>
+        <p>Community Network & Collaboration Hub</p>
       </div>
       
       <div className="widget-grid">
-        {/* 33.3FM Section with Spotify */}
-        <Card className="widget-card fm-section">
-          <h3>📻 33.3FM DOGECHAIN</h3>
-          <div className="radio-display">
-            <div className="frequency">33.3 FM</div>
-            <div className="station">DOGECHAIN</div>
-          </div>
-          
-          {/* Spotify Playlist in 33.3FM Section */}
-          <div className="fm-playlist">
-            <h4>🎵 WIRED CHAOS PLAYLIST</h4>
-            <div className="iframe-container">
-              <iframe
-                src="https://open.spotify.com/embed/playlist/2VwOYrB1C93gNIPiBZNxhH?utm_source=generator"
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allowFullScreen=""
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-              ></iframe>
-            </div>
-          </div>
-        </Card>
-        
         {/* YouTube Live Stream */}
         <Card className="widget-card youtube-widget">
           <h3>🔴 LIVE STREAM</h3>
@@ -324,10 +318,10 @@ const CSNPage = () => {
         
         {/* Contact Form Widget */}
         <Card className="widget-card contact-widget">
-          <h3>📞 GET IN TOUCH</h3>
-          <p>Want to be featured or collaborate?</p>
+          <h3>📞 COLLABORATE</h3>
+          <p>Want to be featured or partner with CSN?</p>
           <Button onClick={() => navigate('/b2b')} className="contact-cta">
-            Professional Inquiries →
+            Partnership Inquiries →
           </Button>
         </Card>
       </div>
@@ -335,7 +329,144 @@ const CSNPage = () => {
   );
 };
 
-// NEURO Lab Page
+// 33.3 FM Page (all FM content moved here)
+const FM333Page = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="agent-page fm333-page">
+      <div className="page-header">
+        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
+        <h1>📻 33.3 FM DOGECHAIN</h1>
+        <p>DBN • Dogechain Radio • NEURO Transmissions</p>
+      </div>
+      
+      <div className="widget-grid">
+        {/* Radio Station Display */}
+        <Card className="widget-card fm-station">
+          <h3>📻 LIVE ON AIR</h3>
+          <div className="radio-display">
+            <div className="frequency">33.3 FM</div>
+            <div className="station">DOGECHAIN</div>
+            <div className="network">DBN</div>
+          </div>
+          <div class="status-indicators">
+            <div class="status-item">
+              <span class="status-dot active"></span>
+              <span>Broadcasting Live</span>
+            </div>
+            <div class="status-item">
+              <span class="status-dot active"></span>
+              <span>NEURO Transmissions Active</span>
+            </div>
+          </div>
+        </Card>
+        
+        {/* Spotify Playlist */}
+        <Card className="widget-card spotify-widget">
+          <h3>🎵 WIRED CHAOS PLAYLIST</h3>
+          <div className="iframe-container">
+            <iframe
+              src="https://open.spotify.com/embed/playlist/2VwOYrB1C93gNIPiBZNxhH?utm_source=generator"
+              width="100%"
+              height="352"
+              frameBorder="0"
+              allowFullScreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </Card>
+        
+        {/* NEURO Transmissions */}
+        <Card className="widget-card neuro-transmissions">
+          <h3>🧠 NEURO TRANSMISSIONS</h3>
+          <div className="transmission-list">
+            <div className="transmission-item">
+              <span className="transmission-time">NOW PLAYING</span>
+              <span className="transmission-title">Web3 Onboarding Hour</span>
+            </div>
+            <div className="transmission-item">
+              <span className="transmission-time">NEXT UP</span>
+              <span className="transmission-title">DeFi Deep Dive</span>
+            </div>
+            <div className="transmission-item">
+              <span className="transmission-time">LATER</span>
+              <span className="transmission-title">NFT Market Analysis</span>
+            </div>
+          </div>
+          <Button onClick={() => navigate('/neurolab')} className="neuro-cta">
+            Visit NEURO LAB →
+          </Button>
+        </Card>
+        
+        {/* Dogechain Integration */}
+        <Card className="widget-card dogechain-widget">
+          <h3>🐕 DOGECHAIN NETWORK</h3>
+          <p>Broadcasting on the Dogechain network, powered by community</p>
+          <div className="dogechain-stats">
+            <div className="stat">
+              <span className="stat-value">24/7</span>
+              <span className="stat-label">Broadcasting</span>
+            </div>
+            <div className="stat">
+              <span className="stat-value">∞</span>
+              <span className="stat-label">Community</span>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+// Evening Vibes Lounge (Redirect Hub)
+const EveningVibesPage = () => {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    // Auto-redirect after 3 seconds
+    const timer = setTimeout(() => {
+      window.open('https://vibes-meta-x.com', '_blank');
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+  
+  return (
+    <div className="agent-page eveningvibes-page">
+      <div className="page-header">
+        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
+        <h1>🌙 EVENING VIBES</h1>
+        <p>Level Up Lounge • Redirecting to Vibes Meta X</p>
+      </div>
+      
+      <div className="redirect-container">
+        <Card className="redirect-card">
+          <div className="vibes-logo">🌙✨</div>
+          <h2>Welcome to Evening Vibes</h2>
+          <p>Level Up Lounge</p>
+          <div className="redirect-status">
+            <p>Redirecting you to Vibes Meta X...</p>
+            <div className="redirect-progress"></div>
+          </div>
+          <div className="redirect-actions">
+            <Button 
+              onClick={() => window.open('https://vibes-meta-x.com', '_blank')}
+              className="vibes-cta"
+            >
+              Go to Vibes Meta X →
+            </Button>
+            <Button onClick={() => navigate('/')} className="stay-btn">
+              Stay on WIRED CHAOS
+            </Button>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+// NEURO Lab Page (with Lurky integration)
 const NeuroLabPage = () => {
   const navigate = useNavigate();
   
@@ -539,7 +670,7 @@ const Vault33Page = () => {
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
         <h1>🔐 VAULT 33</h1>
-        <p>WL Gamification • 9 Artifacts • Secret Sigil</p>
+        <p>WL Gamification • 9 Artifacts • Secret Merovingian Sigil</p>
       </div>
       
       <div className="vault-interface">
@@ -715,9 +846,9 @@ const B2BPage = () => {
         </Card>
         
         <Card className="widget-card cta-widget">
-          <h3>🎧 LISTEN ON CSN</h3>
+          <h3>📻 LISTEN ON 33.3 FM</h3>
           <p>Catch our business discussions and industry insights</p>
-          <Button onClick={() => navigate('/csn')} className="csn-cta">
+          <Button onClick={() => navigate('/fm333')} className="fm-cta">
             Listen Live →
           </Button>
         </Card>
@@ -828,27 +959,8 @@ const IndustryPage = ({ industry }) => {
       For game developers, Web3 integration offers new monetization models beyond traditional one-time purchases or microtransactions. Developers can earn ongoing royalties from secondary asset sales, create token-based governance systems, and build sustainable long-term communities.
 
       The music and art industries are also benefiting from these gaming innovations, with virtual concerts in metaverse games and NFT art galleries creating new venues for creative expression and monetization.`
-    },
-    art: {
-      title: "Digital Art & NFT Marketplace Revolution",
-      question: "How has Web3 transformed the art market and creative economy?",
-      answer: `Web3 technology has democratized the art world in unprecedented ways, enabling artists to maintain ownership rights, earn ongoing royalties, and reach global audiences without traditional gatekeepers. The NFT revolution has created new revenue streams and artistic possibilities that were previously impossible.
-
-      Digital art on blockchain provides immutable provenance, ensuring authenticity and ownership history. This addresses longstanding issues in the art world around forgeries and disputed ownership. Smart contracts automatically distribute royalties to artists from secondary sales, creating sustainable income streams.
-
-      NEURO's creative network includes collaborations with BarkMeta.io for NFT art curation and CryptoSpaces.net for artist community building. These partnerships highlight the collaborative nature of the Web3 creative economy.
-
-      The democratization effect is profound. Artists no longer need gallery representation or institutional backing to monetize their work. Direct creator-to-collector relationships are flourishing, with social media and Web3 platforms enabling artists to build dedicated followings and sustainable businesses.
-
-      Innovative art forms are emerging specifically for Web3, including generative art algorithms, interactive multimedia NFTs, and collaborative community artworks. These new formats leverage blockchain capabilities in ways traditional art cannot.
-
-      The intersection with gaming and virtual worlds creates additional opportunities. Artists can design assets for metaverse environments, create branded virtual spaces, and develop interactive experiences that generate ongoing revenue through user engagement.
-
-      For collectors, Web3 art offers liquidity, fractional ownership opportunities, and the ability to showcase collections in virtual galleries. The global nature of blockchain markets means artists can reach collectors worldwide without geographical limitations.
-
-      Music artists are also leveraging these technologies, releasing exclusive tracks as NFTs, creating fan-owned record labels through DAOs, and building deeper relationships with their audiences through token-gated communities.`
-    },
-    // Additional industries will be added here
+    }
+    // Additional industries will be added
   };
 
   const content = industryContent[industry] || industryContent.finance;
@@ -923,6 +1035,8 @@ function App() {
         <Routes>
           <Route path="/" element={<MotherboardHub />} />
           <Route path="/csn" element={<CSNPage />} />
+          <Route path="/fm333" element={<FM333Page />} />
+          <Route path="/eveningvibes" element={<EveningVibesPage />} />
           <Route path="/neurolab" element={<NeuroLabPage />} />
           <Route path="/bwb" element={<BWBPage />} />
           <Route path="/vault33" element={<Vault33Page />} />
