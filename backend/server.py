@@ -18,6 +18,9 @@ app = FastAPI(title="WIRED CHAOS Bot Brain")
 # Include certificate API routes
 app.include_router(cert_router)
 
+# Include brain assistant API routes  
+app.include_router(brain_router)
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
