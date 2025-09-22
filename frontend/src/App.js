@@ -1040,7 +1040,7 @@ const IndustryPage = ({ industry }) => {
             <a href="https://cryptospaces.net" target="_blank" rel="noopener noreferrer">
               CryptoSpaces.net - Live Community
             </a>
-            <a href="https://doginal-dogs.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.doginaldogs.com/" target="_blank" rel="noopener noreferrer">
               DoginalDogs.com - NFT Collections
             </a>
             <a href="https://barkmeta.io" target="_blank" rel="noopener noreferrer">
