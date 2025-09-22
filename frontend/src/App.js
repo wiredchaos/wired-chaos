@@ -67,8 +67,8 @@ const BotBrain = ({ onRoute, onClose }) => {
   }
 };
 
-// Main Motherboard Hub Component
-const MotherboardHub = () => {
+// Main Motherboard Hub Component (Legacy)
+const MotherboardHubLegacy = () => {
   const navigate = useNavigate();
   const [hoveredNode, setHoveredNode] = useState(null);
   const [showBot, setShowBot] = useState(false);
