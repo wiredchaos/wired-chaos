@@ -941,7 +941,7 @@ const VRG33589Page = () => {
   const [burnMsg, setBurnMsg] = useState('');
   const [isWarn, setIsWarn] = useState(false);
 
-  const EchoCap = 936;
+  const EchoCap = 3933;
   const embed = {
     layerOrigin: "Vault33 Access Key",
     archetype: "Frequency Keeper", 
@@ -952,7 +952,9 @@ const VRG33589Page = () => {
   };
 
   const echoSpawnSummary = {
-    tiers: 6,
+    layers: 9,
+    perLayer: 333,
+    totalSupply: 3933,
     factions: 4, 
     cap: EchoCap,
     rule: "Each burn spawns 1 Rare Echo + 2 Super Rare Echoes"
