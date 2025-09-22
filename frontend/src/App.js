@@ -977,109 +977,66 @@ const BWBPage = () => {
   );
 };
 
-// Vault 33 WL Gamification System
+// Vault33 - WL Gamification Page
 const Vault33Page = () => {
   const navigate = useNavigate();
-  const [artifacts, setArtifacts] = useState([
-    { id: 1, name: 'Pre-Vault Sigil', unlocked: false, xp: 100, description: 'The first key to the vault mysteries' },
-    { id: 2, name: '82675 Ember', unlocked: false, xp: 150, description: 'Numeric sequence holds power' },
-    { id: 3, name: 'Sangreal Lie', unlocked: false, xp: 200, description: 'Truth hidden in deception' },
-    { id: 4, name: 'Shadow Ember', unlocked: false, xp: 175, description: 'Dark fire that illuminates' },
-    { id: 5, name: 'Hidden Hour', unlocked: false, xp: 250, description: 'Time that does not exist' },
-    { id: 6, name: 'Obsidian Mirror', unlocked: false, xp: 300, description: 'Reflects what should not be seen' },
-    { id: 7, name: 'Iron Cage', unlocked: false, xp: 225, description: 'Prison that protects the imprisoned' },
-    { id: 8, name: 'Bloodline Knot', unlocked: false, xp: 275, description: 'Ancestry tied in digital threads' },
-    { id: 9, name: 'Barbed Crown', unlocked: false, xp: 350, description: 'Rule through beautiful suffering' }
-  ]);
-  
-  const [totalXP, setTotalXP] = useState(0);
-  const [merovingianUnlocked, setMerovingianUnlocked] = useState(false);
-  const [selectedArtifact, setSelectedArtifact] = useState(null);
-
-  const unlockArtifact = (artifactId) => {
-    setArtifacts(prev => prev.map(artifact => {
-      if (artifact.id === artifactId && !artifact.unlocked) {
-        setTotalXP(prevXP => prevXP + artifact.xp);
-        return { ...artifact, unlocked: true };
-      }
-      return artifact;
-    }));
-
-    // Check if all artifacts are unlocked for Merovingian Sigil
-    const unlockedCount = artifacts.filter(a => a.unlocked).length + 1;
-    if (unlockedCount === 9) {
-      setMerovingianUnlocked(true);
-    }
-  };
 
   return (
-    <div className="agent-page vault33-page">
-      <div className="page-header">
-        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>🔐 VAULT 33</h1>
-        <p>WL Gamification • 9 Artifacts • Secret Merovingian Sigil</p>
+    <div className="agent-container">
+      <div className="agent-header">
+        <h2>🔐 VAULT33</h2>
+        <p>WL Gamification • Merovingian Path Tracking</p>
       </div>
       
-      <div className="vault-interface">
-        <div className="vault-stats-header">
-          <Card className="xp-display">
-            <h3>⚡ TOTAL XP: {totalXP}</h3>
-            <div className="xp-bar">
-              <div className="xp-fill" style={{width: `${Math.min(100, (totalXP / 1825) * 100)}%`}}></div>
-            </div>
-          </Card>
-          
-          {merovingianUnlocked && (
-            <Card className="merovingian-sigil">
-              <h3>👑 MEROVINGIAN SIGIL UNLOCKED</h3>
-              <p>Advanced referral bonus activated!</p>
-              <div className="sigil-symbol">⧨⟐◊⟢▣⧫⟡◈⧩</div>
-            </Card>
-          )}
-        </div>
-
-        <div className="artifacts-grid">
-          {artifacts.map(artifact => (
-            <Card 
-              key={artifact.id} 
-              className={`artifact-card ${artifact.unlocked ? 'unlocked' : 'locked'}`}
-              onClick={() => setSelectedArtifact(artifact)}
-            >
-              <div className="artifact-icon">
-                {artifact.unlocked ? '✨' : '🔒'}
-              </div>
-              <h4>{artifact.name}</h4>
-              <p className="artifact-xp">+{artifact.xp} XP</p>
-              <p className="artifact-status">
-                {artifact.unlocked ? 'UNLOCKED' : 'LOCKED'}
-              </p>
-            </Card>
-          ))}
-        </div>
-
-        {selectedArtifact && (
-          <Card className="artifact-detail">
-            <h3>{selectedArtifact.name}</h3>
-            <p>{selectedArtifact.description}</p>
-            {!selectedArtifact.unlocked && (
-              <Button 
-                onClick={() => unlockArtifact(selectedArtifact.id)}
-                className="unlock-btn"
-              >
-                Attempt Unlock (+{selectedArtifact.xp} XP)
-              </Button>
-            )}
-            <Button 
-              onClick={() => setSelectedArtifact(null)}
-              className="close-btn"
-            >
-              Close
-            </Button>
-          </Card>
-        )}
-      </div>
+      {/* Import and render VaultDashboard */}
+      <VaultDashboardWrapper />
+      
+      <button onClick={() => navigate('/')} className="back-btn">
+        ← Back to Motherboard
+      </button>
     </div>
   );
+};
+
+// Wrapper component to handle dynamic import
+const VaultDashboardWrapper = () => {
+  const [VaultDashboard, setVaultDashboard] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const { VaultDashboard: Dashboard } = await import('./components/VaultUI');
+        setVaultDashboard(() => Dashboard);
+      } catch (error) {
+        console.error('Failed to load VaultDashboard:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboard();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="vault-loading">
+        <div className="vault-spinner"></div>
+        <p className="vault-cyan-outline">Loading VAULT33 Dashboard...</p>
+      </div>
+    );
+  }
+
+  if (!VaultDashboard) {
+    return (
+      <div className="vault-holo-card accent-red">
+        <h3 className="vault-red-core">Dashboard Unavailable</h3>
+        <p>The VAULT33 dashboard could not be loaded. Please try refreshing the page.</p>
+      </div>
+    );
+  }
+
+  return <VaultDashboard userId="demo_user" />;
 };
 
 // B2B Professional Page
