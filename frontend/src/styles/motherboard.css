@@ -1,7 +1,8 @@
-/* WIRED CHAOS - Universal Motherboard OS Visual System */
+/* WIRED CHAOS - Motherboard UI Component Styles */
+/* SCOPED: Only applies to components with .motherboard-container class */
 
-:root {
-  /* Motherboard Palette */
+.motherboard-container {
+  /* Motherboard Palette - Local CSS Variables */
   --motherboard-black: #000000;
   --neon-cyan: #00fff0;
   --neon-red: #ff2a2a;
