@@ -142,8 +142,17 @@ const MotherboardHub = () => {
       icon: '🌙',
       title: 'EVENING VIBES',
       description: 'Level Up Lounge',
-      position: { bottom: '8%', right: '15%' },
+      position: { bottom: '8%', left: '25%' },
       route: '/eveningvibes'
+    },
+    {
+      id: 'merch',
+      name: 'MERCH HUB',
+      icon: '🛍️',
+      title: 'MERCH HUB',
+      description: 'WIRED CHAOS Store',
+      position: { bottom: '8%', right: '25%' },
+      route: '/merch'
     }
   ];
 
