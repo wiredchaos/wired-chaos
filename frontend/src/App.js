@@ -1550,7 +1550,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={
-            featureFlags.useLegacyHub ? <MotherboardHubLegacy /> : <MotherboardHub />
+            FEATURES.motherboardUI && !featureFlags.useLegacyHub ? 
+              <React.Suspense fallback={<div className="loading-spinner"><div className="spinner"></div><p>Loading WIRED CHAOS...</p></div>}>
+                <Motherboard />
+              </React.Suspense>
+            : featureFlags.useLegacyHub ? 
+              <MotherboardHubLegacy /> 
+            : <MotherboardHub />
           } />
           <Route path="/csn" element={<CSNPage />} />
           <Route path="/fm333" element={<FM333Page />} />
