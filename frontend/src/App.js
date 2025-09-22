@@ -491,7 +491,7 @@ const NeuroLabPage = () => {
         <Card className="widget-card network-widget">
           <h3>🔗 NETWORK</h3>
           <div className="backlink-grid">
-            <a href="https://doginal-dogs.com" target="_blank" rel="noopener noreferrer" className="network-link">
+            <a href="https://www.doginaldogs.com/" target="_blank" rel="noopener noreferrer" className="network-link">
               DoginalDogs.com
             </a>
             <a href="https://cryptospaces.net" target="_blank" rel="noopener noreferrer" className="network-link">
