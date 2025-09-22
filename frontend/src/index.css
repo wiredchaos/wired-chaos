@@ -1,3 +1,53 @@
+/* Orbitron Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+/* --- WIRED CHAOS Branding Fix --- */
+h1, .wired-chaos-title {
+  font-family: 'Orbitron', sans-serif; /* futuristic font */
+  font-size: 5rem;
+  text-align: center;
+  color: #00FFFF; /* neon cyan base */
+  text-shadow: 
+    0 0 5px #FF3131,  /* red glow */
+    0 0 15px #FF3131,
+    0 0 25px #FF6B00, /* orange accent glow */
+    0 0 40px #FF6B00,
+    0 0 60px #39FF14; /* subtle green edge */
+}
+
+/* Background rule - no white allowed */
+body, .site-background {
+  background-color: #000000 !important; /* black */
+}
+
+/* Accent containers */
+.section, .card, .module {
+  background: linear-gradient(180deg, #001A1A, #000000);
+  border: 1px solid #FF3131; /* red edge glow */
+  box-shadow: 0 0 20px rgba(255, 49, 49, 0.5);
+}
+
+/* Reduce purple dominance */
+.purple, .accent-purple {
+  color: #FF3131 !important; /* swap purple to red */
+}
+
+/* Buttons */
+button, .btn {
+  background: linear-gradient(90deg, #FF3131, #FF6B00); /* red → orange */
+  color: white !important;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 15px #FF3131;
+}
+
+button:hover, .btn:hover {
+  background: linear-gradient(90deg, #00FFFF, #39FF14); /* cyan → green hover */
+  color: #000 !important;
+}
+
+/* Existing CSS continues below... */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
