@@ -1,0 +1,315 @@
+/* VAULT UI - Advanced Glow Effects & Neon Palette System */
+
+:root {
+  /* Core WIRED CHAOS Palette */
+  --vault-ink: #0a0f13;
+  --vault-cyan: #00fff0;
+  --vault-teal: #00c0b8;
+  --vault-red: #ff2a2a;
+  --vault-purple: #8000ff;
+  --vault-white: #ffffff;
+  --vault-green: #39ff14;
+  
+  /* Opacity Variants */
+  --vault-cyan-05: rgba(0, 255, 240, 0.05);
+  --vault-cyan-10: rgba(0, 255, 240, 0.1);
+  --vault-cyan-25: rgba(0, 255, 240, 0.25);
+  --vault-red-05: rgba(255, 42, 42, 0.05);
+  --vault-red-25: rgba(255, 42, 42, 0.25);
+  --vault-purple-05: rgba(128, 0, 255, 0.05);
+  --vault-purple-25: rgba(128, 0, 255, 0.25);
+}
+
+/* Global Background Enforcement */
+html, body {
+  background: var(--vault-ink) !important;
+  color: var(--vault-white);
+}
+
+/* Neon Title System */
+.vault-neon-title {
+  font-family: 'Orbitron', system-ui, sans-serif;
+  color: var(--vault-white);
+  text-shadow:
+    0 0 8px var(--vault-cyan),
+    0 0 18px rgba(0, 255, 240, 0.35),
+    0 0 38px var(--vault-red);
+}
+
+.vault-red-core {
+  text-shadow:
+    0 0 2px var(--vault-red),
+    0 0 8px var(--vault-red),
+    0 0 20px rgba(255, 42, 42, 0.6);
+}
+
+.vault-cyan-outline {
+  text-shadow:
+    0 0 2px var(--vault-cyan),
+    0 0 12px var(--vault-cyan),
+    0 0 30px rgba(0, 255, 240, 0.7);
+}
+
+.vault-purple-glow {
+  text-shadow:
+    0 0 2px var(--vault-purple),
+    0 0 12px var(--vault-purple),
+    0 0 30px rgba(128, 0, 255, 0.7);
+}
+
+/* Hologram Grid System */
+.vault-holo-grid {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% -20%, var(--vault-cyan-05), transparent 60%),
+    linear-gradient(transparent 95%, rgba(255, 255, 255, 0.05) 96%),
+    linear-gradient(90deg, transparent 95%, rgba(255, 255, 255, 0.05) 96%),
+    var(--vault-ink);
+  background-size: 100% 100%, 40px 40px, 40px 40px, auto;
+  border: 1px solid var(--vault-cyan-25);
+  box-shadow: 
+    inset 0 0 30px var(--vault-cyan-10),
+    0 10px 40px rgba(0, 0, 0, 0.6);
+  border-radius: 14px;
+}
+
+/* Hologram Card System */
+.vault-holo-card {
+  position: relative;
+  padding: 18px;
+  border-radius: 12px;
+  color: var(--vault-white);
+  background: linear-gradient(180deg, var(--vault-cyan-05), rgba(0, 0, 0, 0.7));
+  border: 1px solid var(--vault-cyan-25);
+  box-shadow:
+    inset 0 0 24px var(--vault-cyan-05),
+    0 6px 24px rgba(0, 0, 0, 0.5),
+    0 0 16px var(--vault-red-05);
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.vault-holo-card:hover {
+  transform: translateY(-4px) rotateX(2deg) rotateY(-2deg);
+  border-color: var(--vault-red-25);
+  box-shadow:
+    inset 0 0 28px var(--vault-cyan-10),
+    0 16px 40px rgba(0, 0, 0, 0.6),
+    0 0 28px rgba(255, 42, 42, 0.35);
+}
+
+.vault-holo-card.accent-red {
+  border-color: var(--vault-red-25);
+  background: linear-gradient(180deg, var(--vault-red-05), rgba(0, 0, 0, 0.7));
+}
+
+.vault-holo-card.accent-purple {
+  border-color: var(--vault-purple-25);
+  background: linear-gradient(180deg, var(--vault-purple-05), rgba(0, 0, 0, 0.7));
+}
+
+/* Status Badge System */
+.vault-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font: 700 12px/1 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid;
+}
+
+.vault-status-badge.status-active {
+  background: var(--vault-green);
+  color: var(--vault-ink);
+  border-color: var(--vault-green);
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+}
+
+.vault-status-badge.status-pending {
+  background: var(--vault-cyan-05);
+  color: var(--vault-cyan);
+  border-color: var(--vault-cyan);
+  box-shadow: 0 0 15px var(--vault-cyan-25);
+}
+
+.vault-status-badge.status-warning {
+  background: rgba(255, 165, 0, 0.1);
+  color: #ffa500;
+  border-color: #ffa500;
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+}
+
+.vault-status-badge.status-error {
+  background: var(--vault-red-05);
+  color: var(--vault-red);
+  border-color: var(--vault-red);
+  box-shadow: 0 0 15px var(--vault-red-25);
+}
+
+/* Button System */
+.vault-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  color: var(--vault-white);
+  border: 1px solid var(--vault-cyan);
+  border-radius: 10px;
+  background: linear-gradient(180deg, var(--vault-cyan-05), rgba(0, 0, 0, 0.5));
+  box-shadow: 0 0 10px var(--vault-cyan-25);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.vault-btn:hover {
+  box-shadow: 0 0 20px rgba(255, 42, 42, 0.35);
+  border-color: var(--vault-red);
+  transform: translateY(-2px);
+}
+
+.vault-btn.btn-red {
+  border-color: var(--vault-red);
+  background: linear-gradient(180deg, var(--vault-red-05), rgba(0, 0, 0, 0.5));
+  box-shadow: 0 0 10px var(--vault-red-25);
+}
+
+.vault-btn.btn-purple {
+  border-color: var(--vault-purple);
+  background: linear-gradient(180deg, var(--vault-purple-05), rgba(0, 0, 0, 0.5));
+  box-shadow: 0 0 10px var(--vault-purple-25);
+}
+
+/* Progress Bar System */
+.vault-progress {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--vault-cyan-25);
+}
+
+.vault-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vault-cyan), var(--vault-green));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px var(--vault-cyan);
+}
+
+/* Fragment Counter */
+.vault-fragment-counter {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.vault-fragment-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(128, 0, 255, 0.2);
+  border: 1px solid var(--vault-purple);
+  transition: all 0.3s ease;
+}
+
+.vault-fragment-dot.unlocked {
+  background: var(--vault-purple);
+  box-shadow: 0 0 10px var(--vault-purple);
+  animation: fragment-pulse 2s ease-in-out infinite;
+}
+
+@keyframes fragment-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Engrave Effect */
+.vault-engrave {
+  filter: contrast(1.1) brightness(0.95);
+  mix-blend-mode: screen;
+  box-shadow:
+    inset 2px 2px 2px rgba(255, 255, 255, 0.06),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.55);
+  border-radius: 10px;
+}
+
+/* Loading Spinner */
+.vault-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 20px;
+}
+
+.vault-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--vault-cyan-10);
+  border-top: 3px solid var(--vault-cyan);
+  border-radius: 50%;
+  animation: vault-spin 1s linear infinite;
+}
+
+@keyframes vault-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Stats Grid */
+.vault-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.vault-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px;
+  background: var(--vault-cyan-05);
+  border: 1px solid var(--vault-cyan-25);
+  border-radius: 8px;
+}
+
+.vault-stat-value {
+  color: var(--vault-cyan);
+  font-size: 24px;
+  font-weight: 800;
+  font-family: 'Orbitron', monospace;
+}
+
+.vault-stat-label {
+  color: #999;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Responsive Grid */
+.vault-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .vault-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .vault-neon-title {
+    font-size: 2.5rem;
+  }
+}
