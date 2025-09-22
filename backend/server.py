@@ -4,6 +4,9 @@ from pydantic import BaseModel
 import httpx
 from starlette.middleware.cors import CORSMiddleware
 
+# Import certificate API
+from cert_api import router as cert_router
+
 PORT = int(os.getenv("PORT", "8080"))
 OPENAI_KEY = os.getenv("OPENAI_API_KEY", "")
 MODEL = os.getenv("MODEL", "gpt-4o-mini")
