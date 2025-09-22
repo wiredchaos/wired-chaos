@@ -397,7 +397,7 @@ const EveningVibesPage = () => {
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
         <h1>🌙 EVENING VIBES</h1>
-        <p>Level Up Lounge • Redirecting to Vibes Meta X</p>
+        <p>Level Up Lounge • Redirecting to Vibes Check</p>
       </div>
       
       <div className="redirect-container">
