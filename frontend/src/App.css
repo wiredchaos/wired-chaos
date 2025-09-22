@@ -36,6 +36,90 @@ h1, h2, h3 {
   letter-spacing: 0.04em;
 }
 
+/* Universal Button and Card Styles */
+a {
+  color: var(--white);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--red);
+  text-shadow: 0 0 8px var(--red);
+}
+
+.btn {
+  border: 2px solid var(--cyan);
+  background: var(--bg-black);
+  color: var(--white);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 10px 16px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+.btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+  text-shadow: 0 0 8px var(--red);
+}
+
+.card {
+  background: var(--bg-teal);
+  border: 1px solid var(--cyan);
+  border-radius: 12px;
+  padding: 16px;
+  color: var(--white);
+  margin: 16px 0;
+}
+
+/* Button Groups */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Forms */
+.neuro-form {
+  display: grid;
+  gap: 10px;
+  max-width: 520px;
+  margin: 20px 0;
+}
+
+.neuro-form input,
+.neuro-form textarea {
+  background: var(--bg-teal);
+  border: 1px solid var(--cyan);
+  border-radius: 6px;
+  padding: 12px;
+  color: var(--white);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.neuro-form input:focus,
+.neuro-form textarea:focus {
+  outline: none;
+  border-color: var(--red);
+  box-shadow: 0 0 8px rgba(255, 49, 49, 0.3);
+}
+
+.neuro-form input::placeholder,
+.neuro-form textarea::placeholder {
+  color: #888;
+}
+
+.neuro-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
 /* ============ MOTHERBOARD HUB STYLES ============ */
 
 .motherboard-container {
