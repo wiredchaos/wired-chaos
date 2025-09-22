@@ -141,6 +141,28 @@
   background: linear-gradient(90deg, var(--orange), var(--cyan), var(--red));
 }
 
+.neuro-meta-x-enhanced .btn.brain-assistant {
+  background: radial-gradient(120% 160% at 30% 30%, var(--orange), transparent 55%),
+              radial-gradient(120% 160% at 70% 70%, var(--cyan), transparent 55%), #0a0c12;
+  text-shadow: 0 0 10px var(--orange);
+}
+
+.neuro-meta-x-enhanced .btn.brain-assistant:hover {
+  background: radial-gradient(120% 160% at 30% 30%, var(--cyan), transparent 55%),
+              radial-gradient(120% 160% at 70% 70%, var(--orange), transparent 55%), #0a0c12;
+  text-shadow: 0 0 15px var(--cyan);
+}
+
+.neuro-meta-x-enhanced .btn.ecosystem-guide {
+  background: linear-gradient(135deg, var(--red), var(--cyan), var(--orange));
+  text-shadow: 0 0 10px var(--red);
+}
+
+.neuro-meta-x-enhanced .btn.ecosystem-guide:hover {
+  background: linear-gradient(135deg, var(--cyan), var(--orange), var(--red));
+  text-shadow: 0 0 15px var(--cyan);
+}
+
 /* Cards Section */
 .neuro-meta-x-enhanced .cards {
   display: grid;
