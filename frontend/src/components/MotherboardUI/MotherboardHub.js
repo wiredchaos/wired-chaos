@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PanelChip from './PanelChip';
+import featureFlags from '../../config/featureFlags';
 
 const MotherboardHub = () => {
   const navigate = useNavigate();
