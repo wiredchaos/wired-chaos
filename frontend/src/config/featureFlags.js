@@ -7,7 +7,7 @@ export const FEATURES = {
   motherboardUI: true,
   '3dRendering': false,
   seoBacklinks: true,
-  useLegacyHub: false, // Switch to new UI by default
+  useLegacyHub: true, // Switch back to legacy to debug
   enablePanelChips: false,
   enableHologramEffects: false,
   enableCircuitAnimations: false,
