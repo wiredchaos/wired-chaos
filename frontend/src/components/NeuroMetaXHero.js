@@ -32,6 +32,46 @@ const NeuroMetaXHero = ({ pfpImage = '/images/neuro_meta_x_pfp.jpg' }) => {
     '/images/nft_collection.jpg'
   ];
 
+  // AI Assistant functions
+  const handleAskBrainQuestion = async (question) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/brain/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: question,
+          context: 'neuro_meta_x',
+          session_id: sessionStorage.getItem('brain_session_id') || null
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get AI response');
+      }
+
+      const data = await response.json();
+      
+      // Store session ID for future requests
+      if (data.session_id) {
+        sessionStorage.setItem('brain_session_id', data.session_id);
+      }
+
+      setBrainMessage(data.response);
+      return data.response;
+    } catch (error) {
+      console.error('Brain Assistant error:', error);
+      const fallbackMessage = "I'm having trouble connecting right now, but I'm here to help! Try asking me about NEURO LAB, the ecosystem, or any Web3 questions.";
+      setBrainMessage(fallbackMessage);
+      return fallbackMessage;
+    }
+  };
+
+  const handleSectionHighlight = (section) => {
+    setHighlightedSection(section);
+  };
+
   return (
     <section id="neuro-root" className="neuro-meta-x-enhanced">
       <div className="wrap">
