@@ -93,10 +93,10 @@ async def rss_sum(inb: RssIn):
 async def route(inb: RouteIn):
     # simple keyword-based router; you can expand later
     t = inb.text.lower()
-    if any(k in t for k in ["csn","crypto spaces"]): return {"section": "csn"}
+    if any(k in t for k in ["csn","crypto spaces","crypto","cryptocurrency","bitcoin","ethereum"]): return {"section": "csn"}
     if "33.3" in t or "dogechain" in t: return {"section": "fm333"}
     if any(k in t for k in ["news","blog","broadcast","barbed"]): return {"section": "bwb"}
-    if "neuro" in t: return {"section": "neuro"}
+    if any(k in t for k in ["neuro","web3","blockchain","defi","nft"]): return {"section": "neuro"}
     if "vrg" in t or "33589" in t: return {"section": "vrg33589"}
     if "merch" in t or "store" in t: return {"section": "merch"}
     if "vibes" in t or "lounge" in t: return {"section": "vibes"}
