@@ -12,6 +12,10 @@ import './NeuroMetaXHero.css';
 const NeuroMetaXHero = ({ pfpImage = '/images/neuro_meta_x_pfp.jpg' }) => {
   const [showBusinessHolo, setShowBusinessHolo] = useState(false);
   const [showNFTHolo, setShowNFTHolo] = useState(false);
+  const [showBrainAssistant, setShowBrainAssistant] = useState(false);
+  const [showMotherboardGuide, setShowMotherboardGuide] = useState(false);
+  const [brainMessage, setBrainMessage] = useState("Hello! I'm your WIRED CHAOS guide. Ask me anything about our ecosystem!");
+  const [highlightedSection, setHighlightedSection] = useState(null);
 
   // Image sets for holograms
   const businessImages = [
