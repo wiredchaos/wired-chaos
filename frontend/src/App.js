@@ -412,6 +412,23 @@ const NeuroLabPage = () => {
           </div>
         </Card>
       </div>
+
+      {/* Lurky Integration CTA */}
+      <div className="lurky-cta-section">
+        <Card className="lurky-cta-card">
+          <div className="lurky-brain-icon">🧠</div>
+          <div className="lurky-content">
+            <h3>Boost your reach with Lurky 🚀</h3>
+            <p>Join through NEURO's link to track and grow your Web3 impact.</p>
+            <Button 
+              onClick={() => window.open('https://lurky.app/auth?referral-code=neurometax', '_blank')}
+              className="lurky-cta-btn"
+            >
+              Join Lurky via NEURO →
+            </Button>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };
