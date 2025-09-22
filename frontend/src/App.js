@@ -5,6 +5,7 @@ import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { MotherboardHub } from "./components/MotherboardUI";
 import NeuroHologram from "./components/NeuroHologram";
+import NFTNeuroHologram from "./components/NFTNeuroHologram";
 import featureFlags, { FEATURES } from "./config/featureFlags";
 import axios from "axios";
 
