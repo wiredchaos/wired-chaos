@@ -1546,6 +1546,7 @@ function App() {
           <Route path="/fm333" element={<FM333Page />} />
           <Route path="/eveningvibes" element={<EveningVibesPage />} />
           <Route path="/neurolab" element={<NeuroLabPage />} />
+          <Route path="/neuro-meta-x" element={<NeuroMetaXPage />} />
           <Route path="/bwb" element={<BWBPage />} />
           <Route path="/vault33" element={<Vault33Page />} />
           <Route path="/b2b" element={<B2BPage />} />
