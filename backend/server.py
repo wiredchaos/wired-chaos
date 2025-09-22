@@ -14,6 +14,9 @@ BRAND_TONE = os.getenv("BRAND_TONE", "Wired Chaos tone")
 
 app = FastAPI(title="WIRED CHAOS Bot Brain")
 
+# Include certificate API routes
+app.include_router(cert_router)
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
