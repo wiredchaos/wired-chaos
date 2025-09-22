@@ -978,7 +978,7 @@ const VRG33589Page = () => {
     setIsWarn(false);
   };
 
-  const totalSupply = supply.Common + supply.Uncommon + supply.Rare + supply.SuperRare;
+  const totalSupply = supply.Layer1 + supply.Layer2 + supply.Layer3 + supply.Layer4 + supply.Layer5 + supply.Layer6 + supply.Layer7 + supply.Layer8 + supply.Layer9;
 
   return (
     <div className="agent-page vrg-page">
