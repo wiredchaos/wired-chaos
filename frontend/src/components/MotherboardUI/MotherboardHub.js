@@ -134,7 +134,7 @@ const MotherboardHub = () => {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className={`relative min-h-screen ${featureFlags.enableUniversalGrid ? 'motherboard-container' : ''}`}>
       {/* Motherboard Universe Background */}
       <div className="motherboard-universe">
         {/* Energy Nodes */}
