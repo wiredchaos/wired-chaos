@@ -989,10 +989,6 @@ const VRG33589Page = () => {
               <li>Frequency Code: <b>33.3</b></li>
               <li>Faction Ties: <b>BWB ⚡</b> • <b>33.3FM 📡</b> • <b>NEURO 🧠</b> • <b>Merovingian 🩸</b></li>
             </ul>
-            <details className="vrg-details">
-              <summary>See JSON embed</summary>
-              <pre className="vrg-mono">{JSON.stringify(embed, null, 2)}</pre>
-            </details>
           </div>
 
           <div className="vrg-card">
