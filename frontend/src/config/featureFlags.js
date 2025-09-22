@@ -3,23 +3,34 @@
  * Control system for experimental features and UI variants
  */
 
-// Default feature flag configuration - ROLLBACK TO STABLE
-const defaultFlags = {
-  // Motherboard UI - DISABLED for rollback
-  useMotherboardOS: false,
-  enable3DTransforms: false,
-  enableUniversalGrid: false,
-  
-  // Component Variants - USE LEGACY
-  useLegacyHub: true,
+export const FEATURES = {
+  motherboardUI: true,
+  '3dRendering': false,
+  seoBacklinks: true,
+  useLegacyHub: true, // Keep legacy as default, can be toggled
   enablePanelChips: false,
-  
-  // Experimental Features - DISABLED for stability
   enableHologramEffects: false,
   enableCircuitAnimations: false,
+  debugMode: process.env.NODE_ENV === 'development',
+};
+
+// Legacy compatibility - maintain existing structure
+const defaultFlags = {
+  // Motherboard UI - ENABLED for locked theme
+  useMotherboardOS: FEATURES.motherboardUI,
+  enable3DTransforms: FEATURES['3dRendering'],
+  enableUniversalGrid: false,
+  
+  // Component Variants - LEGACY DEFAULT
+  useLegacyHub: FEATURES.useLegacyHub,
+  enablePanelChips: FEATURES.enablePanelChips,
+  
+  // Experimental Features - CONTROLLED
+  enableHologramEffects: FEATURES.enableHologramEffects,
+  enableCircuitAnimations: FEATURES.enableCircuitAnimations,
   
   // Development Controls
-  debugMode: process.env.NODE_ENV === 'development',
+  debugMode: FEATURES.debugMode,
   showPerformanceMetrics: false,
 };
 
@@ -46,7 +57,7 @@ export const setFeatureFlag = (key, value) => {
     const updated = { ...current, [key]: value };
     localStorage.setItem('wired-chaos-feature-flags', JSON.stringify(updated));
     
-    if (defaultFlags.debugMode) {
+    if (FEATURES.debugMode) {
       console.log(`Feature flag updated: ${key} = ${value}`);
     }
   } catch (error) {
@@ -68,8 +79,9 @@ export const resetFeatureFlags = () => {
 export const featureFlags = getFeatureFlags();
 
 // Development helper
-if (defaultFlags.debugMode) {
+if (FEATURES.debugMode) {
   console.log('WIRED CHAOS Feature Flags:', featureFlags);
+  console.log('WIRED CHAOS FEATURES:', FEATURES);
   
   // Make flags available globally for easy testing
   if (typeof window !== 'undefined') {
@@ -77,7 +89,8 @@ if (defaultFlags.debugMode) {
       get: getFeatureFlags,
       set: setFeatureFlag,
       reset: resetFeatureFlags,
-      current: featureFlags
+      current: featureFlags,
+      features: FEATURES
     };
   }
 }
