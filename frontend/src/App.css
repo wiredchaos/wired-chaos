@@ -2041,7 +2041,57 @@ body {
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
 }
 
-/* Onboarding Widget Styles */
+/* NEURO Contact Widget Styles */
+.neuro-contact-widget {
+  background: rgba(0, 26, 26, 0.9);
+  border: 2px solid #004d4d;
+  border-radius: 12px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.neuro-contact-widget:hover {
+  border-color: #39FF14;
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+.neuro-contact-widget h3 {
+  color: #39FF14;
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 1rem;
+}
+
+.neuro-email {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #39FF14;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.email-link {
+  color: #39FF14;
+  text-decoration: none;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.email-link:hover {
+  color: #00FFFF;
+  text-shadow: 0 0 10px #00FFFF;
+}
+
+.contact-note {
+  font-size: 0.9rem;
+  color: #888;
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+}
 .onboarding-widget {
   background: rgba(0, 26, 26, 0.9);
   border: 2px solid #004d4d;
