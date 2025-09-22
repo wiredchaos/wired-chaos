@@ -1588,7 +1588,255 @@ body {
   transform: translateY(-2px);
 }
 
-/* Bot Brain Styles */
+/* Brain Overlay System */
+.brain-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 15;
+  pointer-events: none;
+}
+
+.brain-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
+.brain-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00FFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  animation: brainFloat 3s ease-in-out infinite;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+@keyframes brainFloat {
+  0%, 100% { 
+    transform: translate(-50%, -50%) translateY(0px) scale(1);
+  }
+  50% { 
+    transform: translate(-50%, -50%) translateY(-10px) scale(1.05);
+  }
+}
+
+.brain-veins {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.vein {
+  position: absolute;
+  background: linear-gradient(45deg, #00FFFF, #FF3131);
+  border-radius: 1px;
+  animation: veinPulse 2s ease-in-out infinite;
+}
+
+.vein-1 {
+  width: 2px;
+  height: 30px;
+  top: 10px;
+  left: 20px;
+  transform: rotate(15deg);
+  animation-delay: 0s;
+}
+
+.vein-2 {
+  width: 1px;
+  height: 25px;
+  top: 25px;
+  right: 15px;
+  transform: rotate(-20deg);
+  animation-delay: 0.3s;
+}
+
+.vein-3 {
+  width: 2px;
+  height: 20px;
+  bottom: 15px;
+  left: 25px;
+  transform: rotate(45deg);
+  animation-delay: 0.6s;
+}
+
+.vein-4 {
+  width: 1px;
+  height: 35px;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-10deg);
+  animation-delay: 0.9s;
+}
+
+.vein-5 {
+  width: 2px;
+  height: 22px;
+  bottom: 20px;
+  right: 20px;
+  transform: rotate(-35deg);
+  animation-delay: 1.2s;
+}
+
+.vein-6 {
+  width: 1px;
+  height: 28px;
+  top: 20px;
+  left: 10px;
+  transform: rotate(70deg);
+  animation-delay: 1.5s;
+}
+
+@keyframes veinPulse {
+  0%, 100% { 
+    opacity: 0.3;
+    box-shadow: 0 0 2px rgba(0, 255, 255, 0.3);
+  }
+  50% { 
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(255, 49, 49, 0.8);
+  }
+}
+
+.brain-symbol {
+  font-size: 2.5rem;
+  color: #00FFFF;
+  text-shadow: 0 0 15px #00FFFF;
+  animation: brainPulse 2s ease-in-out infinite;
+  z-index: 10;
+  position: relative;
+}
+
+@keyframes brainPulse {
+  0%, 100% { 
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  50% { 
+    filter: brightness(1.3);
+    transform: scale(1.1);
+  }
+}
+
+/* Barbed Wire Ring */
+.barbed-wire-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+}
+
+.barbed-wire {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 150px;
+  transform-origin: bottom center;
+  transform: translate(-50%, -100%) rotate(var(--wire-angle));
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.wire-segment {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, 
+    rgba(255, 49, 49, 0.8) 0%,
+    rgba(0, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  box-shadow: 0 0 4px rgba(255, 49, 49, 0.4);
+  animation: wireFlicker 3s ease-in-out infinite;
+}
+
+.wire-barb {
+  position: absolute;
+  top: 30%;
+  left: -2px;
+  width: 8px;
+  height: 8px;
+  background: #FF3131;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  box-shadow: 0 0 6px #FF3131;
+  animation: barbGlow 2s ease-in-out infinite;
+}
+
+@keyframes wireFlicker {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes barbGlow {
+  0%, 100% { 
+    box-shadow: 0 0 6px #FF3131;
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 12px #FF3131, 0 0 20px rgba(255, 49, 49, 0.5);
+    transform: scale(1.2);
+  }
+}
+
+/* Active Wire Connection */
+.wire-active {
+  transform: translate(-50%, -100%) rotate(var(--wire-angle)) scale(1.5);
+  z-index: 20;
+}
+
+.wire-active .wire-segment {
+  background: linear-gradient(to top, 
+    rgba(57, 255, 20, 0.9) 0%,
+    rgba(0, 255, 255, 0.8) 50%,
+    rgba(57, 255, 20, 0.6) 100%
+  );
+  box-shadow: 
+    0 0 8px rgba(57, 255, 20, 0.8),
+    0 0 16px rgba(0, 255, 255, 0.4);
+  animation: activeWirePulse 0.8s ease-in-out;
+}
+
+.wire-active .wire-barb {
+  background: #39FF14;
+  box-shadow: 
+    0 0 12px #39FF14,
+    0 0 24px rgba(57, 255, 20, 0.6);
+  transform: scale(1.5);
+}
+
+@keyframes activeWirePulse {
+  0% { 
+    opacity: 0.6;
+    transform: scaleY(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scaleY(1.2);
+  }
+  100% { 
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
 .bot-brain-trigger {
   position: fixed;
   bottom: 20px;
