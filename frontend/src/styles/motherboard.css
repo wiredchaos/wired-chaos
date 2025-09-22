@@ -113,7 +113,7 @@
     0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
-.panel-chip::before {
+.motherboard-container .panel-chip::before {
   content: '';
   position: absolute;
   top: -2px;
@@ -132,7 +132,7 @@
   transition: opacity 0.3s ease;
 }
 
-.panel-chip:hover {
+.motherboard-container .panel-chip:hover {
   transform: translateY(-8px) rotateX(5deg) rotateY(-5deg);
   border-color: var(--neon-red);
   box-shadow: 
@@ -142,7 +142,7 @@
     0 8px 24px rgba(0, 0, 0, 0.8);
 }
 
-.panel-chip:hover::before {
+.motherboard-container .panel-chip:hover::before {
   opacity: 0.3;
   animation: border-pulse 1s ease-in-out infinite alternate;
 }
@@ -152,8 +152,8 @@
   100% { opacity: 0.6; }
 }
 
-/* Panel Chip Variants */
-.panel-chip.chip-red {
+/* Panel Chip Variants - Scoped */
+.motherboard-container .panel-chip.chip-red {
   border-color: var(--neon-red);
   background: linear-gradient(145deg, 
     rgba(255, 42, 42, 0.08) 0%,
@@ -162,7 +162,7 @@
   );
 }
 
-.panel-chip.chip-green {
+.motherboard-container .panel-chip.chip-green {
   border-color: var(--electric-green);
   background: linear-gradient(145deg, 
     rgba(57, 255, 20, 0.08) 0%,
@@ -171,7 +171,7 @@
   );
 }
 
-.panel-chip.chip-pink {
+.motherboard-container .panel-chip.chip-pink {
   border-color: var(--chaos-pink);
   background: linear-gradient(145deg, 
     rgba(255, 20, 147, 0.08) 0%,
@@ -180,15 +180,15 @@
   );
 }
 
-/* Chip Label System */
-.chip-label {
+/* Chip Label System - Scoped */
+.motherboard-container .chip-label {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 8px;
 }
 
-.chip-icon {
+.motherboard-container .chip-icon {
   font-size: 24px;
   text-shadow: 0 0 10px currentColor;
   animation: icon-pulse 2s ease-in-out infinite alternate;
@@ -199,7 +199,7 @@
   100% { transform: scale(1.05); }
 }
 
-.chip-title {
+.motherboard-container .chip-title {
   font-size: 18px;
   font-weight: 700;
   text-transform: uppercase;
@@ -207,15 +207,15 @@
   text-shadow: 0 0 10px currentColor;
 }
 
-.chip-description {
+.motherboard-container .chip-description {
   font-size: 12px;
   opacity: 0.8;
   line-height: 1.4;
   font-family: 'Rajdhani', sans-serif;
 }
 
-/* Circuit Connection Lines */
-.circuit-connection {
+/* Circuit Connection Lines - Scoped */
+.motherboard-container .circuit-connection {
   position: absolute;
   background: var(--circuit-trace);
   z-index: -1;
@@ -223,7 +223,7 @@
   transition: opacity 0.3s ease;
 }
 
-.circuit-connection.active {
+.motherboard-container .circuit-connection.active {
   opacity: 1;
   animation: connection-flow 1s ease-in-out;
 }
@@ -243,8 +243,8 @@
   }
 }
 
-/* Motherboard Typography */
-.motherboard-title {
+/* Motherboard Typography - Scoped */
+.motherboard-container .motherboard-title {
   font-family: 'Orbitron', monospace;
   font-weight: 900;
   text-transform: uppercase;
@@ -270,8 +270,8 @@
   }
 }
 
-/* Panel Grid Layout */
-.motherboard-grid {
+/* Panel Grid Layout - Scoped */
+.motherboard-container .motherboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
@@ -280,26 +280,30 @@
   z-index: 1;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .motherboard-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 20px;
+/* Energy Node System - Scoped */
+.motherboard-container .energy-node {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--electric-green);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--electric-green);
+  animation: node-pulse 3s ease-in-out infinite;
+}
+
+@keyframes node-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.6;
   }
-  
-  .panel-chip {
-    padding: 16px;
-  }
-  
-  .chip-title {
-    font-size: 16px;
-    letter-spacing: 1px;
+  50% { 
+    transform: scale(1.5);
+    opacity: 1;
   }
 }
 
-/* Loading Animation for Panels */
-.panel-loading {
+/* Loading Animation for Panels - Scoped */
+.motherboard-container .panel-loading {
   animation: panel-boot 2s ease-in-out;
 }
 
@@ -321,24 +325,20 @@
   }
 }
 
-/* Energy Node System */
-.energy-node {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: var(--electric-green);
-  border-radius: 50%;
-  box-shadow: 0 0 15px var(--electric-green);
-  animation: node-pulse 3s ease-in-out infinite;
-}
-
-@keyframes node-pulse {
-  0%, 100% { 
-    transform: scale(1);
-    opacity: 0.6;
+/* Responsive Design - Scoped */
+@media (max-width: 768px) {
+  .motherboard-container .motherboard-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
   }
-  50% { 
-    transform: scale(1.5);
-    opacity: 1;
+  
+  .motherboard-container .panel-chip {
+    padding: 16px;
+  }
+  
+  .motherboard-container .chip-title {
+    font-size: 16px;
+    letter-spacing: 1px;
   }
 }
