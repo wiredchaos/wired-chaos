@@ -21,7 +21,7 @@ const defaultFlags = {
   enable3DTransforms: FEATURES['3dRendering'],
   enableUniversalGrid: false,
   
-  // Component Variants - LEGACY DEFAULT
+  // Component Variants - NEW UI DEFAULT
   useLegacyHub: FEATURES.useLegacyHub,
   enablePanelChips: FEATURES.enablePanelChips,
   
