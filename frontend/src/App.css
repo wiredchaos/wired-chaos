@@ -3,6 +3,9 @@
 /* Vault UI System Import */
 @import './styles/vault-ui.css';
 
+/* Motherboard OS Visual System */
+@import './styles/motherboard.css';
+
 :root {
   --bg-black: #000000;
   --bg-teal: #001919;
