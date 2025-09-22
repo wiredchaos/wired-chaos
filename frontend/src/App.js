@@ -459,6 +459,18 @@ const NeuroLabPage = () => {
           </Button>
         </Card>
         
+        {/* NEURO Contact Widget */}
+        <Card className="widget-card neuro-contact-widget">
+          <h3>📧 CONTACT NEURO</h3>
+          <p>Direct line to Web3 onboarding specialist</p>
+          <div className="neuro-email">
+            <a href="mailto:neuro@wiredchaos.xyz" className="email-link">
+              neuro@wiredchaos.xyz
+            </a>
+          </div>
+          <p className="contact-note">All inquiries routed through NEURO for personalized assistance</p>
+        </Card>
+        
         {/* Web3 Onboarding Widget */}
         <Card className="widget-card onboarding-widget">
           <h3>🌐 WEB3 ONBOARDING</h3>
