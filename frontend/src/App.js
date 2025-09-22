@@ -387,7 +387,7 @@ const EveningVibesPage = () => {
   useEffect(() => {
     // Auto-redirect after 3 seconds
     const timer = setTimeout(() => {
-      window.open('https://vibes-meta-x.com', '_blank');
+      window.open('https://www.vibescheck.xyz/', '_blank');
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
