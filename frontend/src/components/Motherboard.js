@@ -7,22 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { FEATURES } from '../config/featureFlags';
 import './motherboard.css';
 
-interface PanelNode {
-  id: string;
-  icon: string;
-  title: string;
-  description: string;
-  path: string;
-  variant: 'cyan' | 'red' | 'green' | 'orange';
-  status: 'active' | 'inactive' | 'coming-soon';
-}
-
-const Motherboard: React.FC = () => {
+const Motherboard = () => {
   const navigate = useNavigate();
-  const [activePanel, setActivePanel] = useState<string | null>(null);
-  const [connectionPaths, setConnectionPaths] = useState<string[]>([]);
+  const [activePanel, setActivePanel] = useState(null);
+  const [connectionPaths, setConnectionPaths] = useState([]);
 
-  const panelNodes: PanelNode[] = [
+  const panelNodes = [
     {
       id: 'csn',
       icon: '🚀',
@@ -106,7 +96,7 @@ const Motherboard: React.FC = () => {
     }
   ];
 
-  const handlePanelClick = (panel: PanelNode) => {
+  const handlePanelClick = (panel) => {
     if (panel.status === 'coming-soon') return;
     
     setActivePanel(panel.id);
@@ -120,7 +110,7 @@ const Motherboard: React.FC = () => {
     }, 800);
   };
 
-  const renderPanel = (panel: PanelNode, gridPosition: string) => (
+  const renderPanel = (panel, gridPosition) => (
     <div
       key={panel.id}
       className={`motherboard-panel variant-${panel.variant} status-${panel.status} ${gridPosition} ${
