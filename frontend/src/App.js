@@ -329,7 +329,7 @@ const CSNPage = () => {
   );
 };
 
-// 33.3 FM Page (new radio design)
+// 33.3 FM Page (exact radio console design)
 const FM333Page = () => {
   const navigate = useNavigate();
   
@@ -339,39 +339,38 @@ const FM333Page = () => {
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
       </div>
       
-      <div className="fm-console">
-        <div className="fm-hdr">
-          <div className="fm-pulse"></div>
+      <div className="fm">
+        <div className="hdr">
+          <div className="pulse"></div>
           <h1>33.3 FM — WIRED CHAOS RADIO</h1>
         </div>
-        <div className="fm-sub">Streaming Barbed Wired Broadcasts, DJ Red Fang sets, and Evening Vibes 🔥</div>
+        <div className="sub">Streaming Barbed Wired Broadcasts, DJ Red Fang sets, and Evening Vibes 🔥</div>
 
         {/* Spotify Player Embed */}
         <iframe 
           src="https://open.spotify.com/embed/playlist/2VwOYrB1C93gNIPiBZNxhH?utm_source=generator" 
-          className="fm-iframe"
           allowtransparency="true" 
           allow="encrypted-media"
           title="WIRED CHAOS Radio Playlist"
         ></iframe>
 
         {/* Neon tuner effect */}
-        <div className="fm-tuner">
-          <div className="fm-dial">
-            <div className="fm-needle"></div>
+        <div className="tuner">
+          <div className="dial">
+            <div className="needle"></div>
           </div>
-          <p className="fm-tiny">Tuned to frequency <b>33.3</b> • Independent broadcast • WIRED CHAOS aesthetic</p>
+          <p className="tiny">Tuned to frequency <b>33.3</b> • Independent broadcast • WIRED CHAOS aesthetic</p>
         </div>
 
         {/* CTAs */}
-        <div className="fm-cta-row">
-          <Button onClick={() => navigate('/bwb')} className="fm-btn">
+        <div className="ctaRow">
+          <Button onClick={() => navigate('/bwb')} className="btn">
             Barbed Wired Broadcast Newsletter
           </Button>
-          <Button onClick={() => navigate('/eveningvibes')} className="fm-btn">
+          <Button onClick={() => navigate('/eveningvibes')} className="btn">
             Evening Vibes Lounge
           </Button>
-          <Button onClick={() => navigate('/csn')} className="fm-btn">
+          <Button onClick={() => navigate('/csn')} className="btn">
             Crypto Spaces Net (separate)
           </Button>
         </div>
