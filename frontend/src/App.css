@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
+/* Vault UI System Import */
+@import './styles/vault-ui.css';
+
 :root {
   --bg-black: #000000;
   --bg-teal: #001919;
