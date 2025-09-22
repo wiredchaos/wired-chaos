@@ -857,67 +857,145 @@ const B2BPage = () => {
   );
 };
 
-// VRG-33-589 Tinfoil Bot Page
+// VRG-33-589 Lore Console
 const VRG33589Page = () => {
   const navigate = useNavigate();
-  const [botStatus, setBotStatus] = useState('active');
-  
+  const [supply, setSupply] = useState({
+    Common: 150,
+    Uncommon: 100,
+    Rare: 50,
+    SuperRare: 33
+  });
+  const [echoes, setEchoes] = useState(0);
+  const [burnMsg, setBurnMsg] = useState('');
+  const [isWarn, setIsWarn] = useState(false);
+
+  const EchoCap = 936;
+  const embed = {
+    layerOrigin: "Vault33 Access Key",
+    archetype: "Frequency Keeper", 
+    frequencyCode: "33.3",
+    factions: ["Barbed Wired Broadcast", "33.3 FM", "NEURO Lab", "Merovingian Strand"],
+    supply: {...supply},
+    echoCap: EchoCap
+  };
+
+  const echoSpawnSummary = {
+    tiers: 6,
+    factions: 4, 
+    cap: EchoCap,
+    rule: "Each burn spawns 1 Rare Echo + 2 Super Rare Echoes"
+  };
+
+  const demoBurn = (kind) => {
+    if (supply[kind] <= 0) {
+      setBurnMsg(`No ${kind} keys left to burn.`);
+      setIsWarn(true);
+      return;
+    }
+    if (echoes + 3 > EchoCap) {
+      setBurnMsg(`Echo archive at capacity.`);
+      setIsWarn(true);
+      return;
+    }
+    
+    setSupply(prev => ({...prev, [kind]: prev[kind] - 1}));
+    setEchoes(prev => prev + 3);
+    setBurnMsg(`Burned ${kind}. +1 Rare Echo, +2 Super Rare Echoes.`);
+    setIsWarn(false);
+  };
+
+  const totalSupply = supply.Common + supply.Uncommon + supply.Rare + supply.SuperRare;
+
   return (
     <div className="agent-page vrg-page">
       <div className="page-header">
         <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>👁️ VRG-33-589</h1>
-        <p>Tinfoil Bot • RSS→TTS • Truth Detection</p>
       </div>
       
-      <div className="bot-interface">
-        <Card className="bot-widget">
-          <h3>🤖 VRG-33-589 STATUS</h3>
-          <div className="bot-status">
-            <span className={`status-indicator ${botStatus}`}></span>
-            <span className="status-text">Bot Status: {botStatus.toUpperCase()}</span>
-          </div>
-          
-          <div className="bot-skills">
-            <h4>🧠 Bot Capabilities</h4>
-            <div className="skill-list">
-              <div className="skill-item">
-                <span className="skill-icon">📡</span>
-                <span className="skill-name">RSS → TTS</span>
-                <span className="skill-status">✅ Active</span>
-              </div>
-              <div className="skill-item">
-                <span className="skill-icon">🎤</span>
-                <span className="skill-name">Conspiracy Analysis</span>
-                <span className="skill-status">✅ Active</span>
-              </div>
+      <div className="vrg-console">
+        <div className="vrg-hdr">
+          <div className="vrg-halo"></div>
+          <h1>VRG-33-589 — Resonant Vault</h1>
+        </div>
+        <div className="vrg-sub">
+          Access-Keys, Merovingian Echoes, and the frequency 33.3. 
+          <span className="vrg-tiny">Lore-mode • no wallet • demo counters</span>
+        </div>
+
+        <div className="vrg-grid">
+          <div className="vrg-card">
+            <h3>Access-Key Supply</h3>
+            <div className="vrg-row">
+              <span className="vrg-badge">Common: <span className="vrg-stat">{supply.Common}</span></span>
+              <span className="vrg-badge">Uncommon: <span className="vrg-stat">{supply.Uncommon}</span></span>
+              <span className="vrg-badge">Rare: <span className="vrg-stat">{supply.Rare}</span></span>
+              <span className="vrg-badge">Super Rare: <span className="vrg-stat">{supply.SuperRare}</span></span>
+            </div>
+            <div className="vrg-divider"></div>
+            <div className="vrg-row vrg-tiny">
+              <span className="vrg-pill">Total Keys: <b>{totalSupply}</b></span>
+              <span className="vrg-pill">Total Echo Cap: <b>936</b></span>
+              <span className="vrg-pill">Frequency Code: <b>33.3</b></span>
             </div>
           </div>
-          
-          <div className="bot-actions">
-            <Button className="bot-action-btn">Generate Analysis</Button>
-            <Button className="bot-action-btn">Create TTS</Button>
-            <Button className="bot-action-btn">View Archives</Button>
+
+          <div className="vrg-card">
+            <h3>Burn → Echo (Demo)</h3>
+            <p className="vrg-tiny">
+              In VRG-33-589, a burn splits the frequency: <b>+1 Rare Echo</b> and <b>+2 Super Rare Echoes</b>.
+            </p>
+            <div className="vrg-row">
+              <button className="vrg-btn" onClick={() => demoBurn('Common')}>Burn Common</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Uncommon')}>Burn Uncommon</button>
+              <button className="vrg-btn" onClick={() => demoBurn('Rare')}>Burn Rare</button>
+              <button className="vrg-btn" onClick={() => demoBurn('SuperRare')}>Burn Super Rare</button>
+            </div>
+            <p className="vrg-tiny">Echoes minted: <b>{echoes}</b> / 936</p>
+            <p className={`vrg-tiny ${isWarn ? 'vrg-warn' : 'vrg-success'}`}>{burnMsg}</p>
           </div>
-        </Card>
-        
-        <Card className="conspiracy-feed">
-          <h3>🕵️ TINFOIL ANALYSIS</h3>
-          <div className="record-list">
-            <div className="record-item">
-              <span className="record-timestamp">15:33:59</span>
-              <span className="record-content">RSS feed processed: 42 articles analyzed</span>
-            </div>
-            <div className="record-item">
-              <span className="record-timestamp">15:30:12</span>
-              <span className="record-content">TTS generated: "Hidden Market Patterns"</span>
-            </div>
-            <div className="record-item">
-              <span className="record-timestamp">15:25:44</span>
-              <span className="record-content">Conspiracy pattern detected in data stream</span>
+
+          <div className="vrg-card">
+            <h3>Archetype Embeds</h3>
+            <ul className="vrg-tiny">
+              <li>Layer Origin: <b>Vault33 Access Key</b></li>
+              <li>Archetype: <b>Frequency Keeper</b></li>
+              <li>Frequency Code: <b>33.3</b></li>
+              <li>Faction Ties: <b>BWB ⚡</b> • <b>33.3FM 📡</b> • <b>NEURO 🧠</b> • <b>Merovingian 🩸</b></li>
+            </ul>
+            <details className="vrg-details">
+              <summary>See JSON embed</summary>
+              <pre className="vrg-mono">{JSON.stringify(embed, null, 2)}</pre>
+            </details>
+          </div>
+
+          <div className="vrg-card">
+            <h3>Chamber Notes</h3>
+            <p className="vrg-tiny">
+              VRG-33-589 is the echo vault where failed timelines are stored. Burned keys are cataloged; their
+              <b> Merovingian Echoes</b> form a secondary archive (6 tiers × 4 factions).
+            </p>
+            <details className="vrg-details">
+              <summary>Echo Spawn Summary</summary>
+              <pre className="vrg-mono">{JSON.stringify(echoSpawnSummary, null, 2)}</pre>
+            </details>
+            <div className="vrg-cta-row">
+              <Button onClick={() => navigate('/vault33')} className="vrg-btn">Enter Vault 33</Button>
+              <Button onClick={() => navigate('/bwb')} className="vrg-btn">Subscribe BWB</Button>
+              <Button onClick={() => navigate('/csn')} className="vrg-btn">Listen on CSN</Button>
+              <Button onClick={() => navigate('/fm333')} className="vrg-btn">Tune 33.3 FM</Button>
+              <Button onClick={() => navigate('/b2b')} className="vrg-btn">B2B / Referrals</Button>
             </div>
           </div>
-        </Card>
+        </div>
+
+        <details className="vrg-details vrg-lore">
+          <summary>Lore: Distribution & Rules</summary>
+          <div className="vrg-mono">
+            Commons = whispers (150). Uncommons = frequency carriers (100). Rares = gatewardens (50). Super Rares = Merovingian sparks (33).
+            A burn in VRG-33-589 is a frequency split → +1 Rare Echo +2 Super Rare Echoes. Max echo archive = 936 across 6 tiers × 4 factions.
+          </div>
+        </details>
       </div>
     </div>
   );
