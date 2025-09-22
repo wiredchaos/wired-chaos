@@ -1,0 +1,344 @@
+/* WIRED CHAOS - Universal Motherboard OS Visual System */
+
+:root {
+  /* Motherboard Palette */
+  --motherboard-black: #000000;
+  --neon-cyan: #00fff0;
+  --neon-red: #ff2a2a;
+  --electric-green: #39ff14;
+  --chaos-pink: #ff1493;
+  --circuit-trace: rgba(0, 255, 240, 0.3);
+  --energy-pulse: rgba(255, 42, 42, 0.8);
+}
+
+/* Universal Motherboard Background */
+.motherboard-universe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--motherboard-black);
+  z-index: -1;
+  overflow: hidden;
+}
+
+.motherboard-universe::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    /* Circuit traces - horizontal */
+    linear-gradient(90deg, transparent 95%, var(--circuit-trace) 96%, transparent 97%),
+    /* Circuit traces - vertical */
+    linear-gradient(0deg, transparent 95%, var(--circuit-trace) 96%, transparent 97%),
+    /* Circuit nodes */
+    radial-gradient(circle at 25% 25%, var(--neon-cyan) 1px, transparent 2px),
+    radial-gradient(circle at 75% 25%, var(--electric-green) 1px, transparent 2px),
+    radial-gradient(circle at 25% 75%, var(--chaos-pink) 1px, transparent 2px),
+    radial-gradient(circle at 75% 75%, var(--neon-red) 1px, transparent 2px);
+  background-size: 
+    80px 80px,
+    80px 80px,
+    200px 200px,
+    200px 200px,
+    200px 200px,
+    200px 200px;
+  animation: circuit-flow 8s linear infinite;
+}
+
+@keyframes circuit-flow {
+  0% { transform: translate(0, 0); opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { transform: translate(40px, 40px); opacity: 0.6; }
+}
+
+/* Energy Pulse System */
+.energy-pulse {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--energy-pulse);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--energy-pulse);
+  animation: pulse-travel 4s linear infinite;
+}
+
+@keyframes pulse-travel {
+  0% { 
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(200px, 0) scale(1.2);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(200px, 200px) scale(1);
+    opacity: 1;
+  }
+  75% {
+    transform: translate(0, 200px) scale(0.8);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Panel Chip System */
+.panel-chip {
+  position: relative;
+  background: linear-gradient(145deg, 
+    rgba(0, 255, 240, 0.08) 0%,
+    rgba(0, 0, 0, 0.9) 50%,
+    rgba(0, 255, 240, 0.04) 100%
+  );
+  border: 2px solid var(--neon-cyan);
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+  font-family: 'Orbitron', monospace;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.1),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(0, 255, 240, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.panel-chip::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--neon-cyan), 
+    var(--electric-green), 
+    var(--chaos-pink), 
+    var(--neon-red)
+  );
+  border-radius: 12px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.panel-chip:hover {
+  transform: translateY(-8px) rotateX(5deg) rotateY(-5deg);
+  border-color: var(--neon-red);
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.9),
+    0 0 40px var(--neon-red),
+    0 8px 24px rgba(0, 0, 0, 0.8);
+}
+
+.panel-chip:hover::before {
+  opacity: 0.3;
+  animation: border-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes border-pulse {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+
+/* Panel Chip Variants */
+.panel-chip.chip-red {
+  border-color: var(--neon-red);
+  background: linear-gradient(145deg, 
+    rgba(255, 42, 42, 0.08) 0%,
+    rgba(0, 0, 0, 0.9) 50%,
+    rgba(255, 42, 42, 0.04) 100%
+  );
+}
+
+.panel-chip.chip-green {
+  border-color: var(--electric-green);
+  background: linear-gradient(145deg, 
+    rgba(57, 255, 20, 0.08) 0%,
+    rgba(0, 0, 0, 0.9) 50%,
+    rgba(57, 255, 20, 0.04) 100%
+  );
+}
+
+.panel-chip.chip-pink {
+  border-color: var(--chaos-pink);
+  background: linear-gradient(145deg, 
+    rgba(255, 20, 147, 0.08) 0%,
+    rgba(0, 0, 0, 0.9) 50%,
+    rgba(255, 20, 147, 0.04) 100%
+  );
+}
+
+/* Chip Label System */
+.chip-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.chip-icon {
+  font-size: 24px;
+  text-shadow: 0 0 10px currentColor;
+  animation: icon-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes icon-pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+.chip-title {
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.chip-description {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.4;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* Circuit Connection Lines */
+.circuit-connection {
+  position: absolute;
+  background: var(--circuit-trace);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.circuit-connection.active {
+  opacity: 1;
+  animation: connection-flow 1s ease-in-out;
+}
+
+@keyframes connection-flow {
+  0% { 
+    background: var(--circuit-trace);
+    box-shadow: 0 0 5px var(--neon-cyan);
+  }
+  50% { 
+    background: var(--energy-pulse);
+    box-shadow: 0 0 15px var(--neon-red);
+  }
+  100% { 
+    background: var(--circuit-trace);
+    box-shadow: 0 0 5px var(--neon-cyan);
+  }
+}
+
+/* Motherboard Typography */
+.motherboard-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-align: center;
+  background: linear-gradient(45deg, var(--neon-cyan), var(--neon-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 
+    0 0 20px var(--neon-cyan),
+    0 0 40px var(--neon-red);
+  filter: drop-shadow(0 0 10px rgba(0, 255, 240, 0.5));
+  animation: title-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes title-glow {
+  0% { 
+    filter: drop-shadow(0 0 10px rgba(0, 255, 240, 0.5));
+  }
+  100% { 
+    filter: drop-shadow(0 0 20px rgba(255, 42, 42, 0.7));
+  }
+}
+
+/* Panel Grid Layout */
+.motherboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .motherboard-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .panel-chip {
+    padding: 16px;
+  }
+  
+  .chip-title {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+}
+
+/* Loading Animation for Panels */
+.panel-loading {
+  animation: panel-boot 2s ease-in-out;
+}
+
+@keyframes panel-boot {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotateY(-90deg);
+    border-color: transparent;
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.9) rotateY(-45deg);
+    border-color: var(--electric-green);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+    border-color: var(--neon-cyan);
+  }
+}
+
+/* Energy Node System */
+.energy-node {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--electric-green);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--electric-green);
+  animation: node-pulse 3s ease-in-out infinite;
+}
+
+@keyframes node-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}
