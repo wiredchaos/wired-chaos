@@ -406,7 +406,7 @@ const EveningVibesPage = () => {
           <h2>Welcome to Evening Vibes</h2>
           <p>Level Up Lounge</p>
           <div className="redirect-status">
-            <p>Redirecting you to Vibes Meta X...</p>
+            <p>Redirecting you to Vibes Check...</p>
             <div className="redirect-progress"></div>
           </div>
           <div className="redirect-actions">
