@@ -1,0 +1,478 @@
+/* WIRED CHAOS - NFT NEURO HOLOGRAM Effects */
+
+:root {
+  --glitch-cyan: #27e5ff;
+  --glitch-red: #ff2b2b;
+  --glitch-orange: #ff8a2b;
+  --nft-bg: rgba(0, 0, 0, 0.96);
+}
+
+/* NFT Hologram Modal */
+.nft-holo-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: var(--nft-bg);
+  backdrop-filter: blur(10px);
+  z-index: 999999;
+  font-family: 'Orbitron', monospace;
+}
+
+.nft-holo-modal.open {
+  display: grid;
+  animation: nft-fade 0.3s ease-out;
+}
+
+@keyframes nft-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* NFT Hologram Content Container */
+.nft-holo-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NFT Holographic Base Disc - Red Theme */
+.nft-holo-disc {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  max-width: 900px;
+  aspect-ratio: 1/0.2;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glitch-red), transparent 70%);
+  box-shadow: 
+    0 0 40px rgba(255, 43, 43, 0.5),
+    0 0 80px rgba(255, 43, 43, 0.2),
+    inset 0 0 30px rgba(255, 43, 43, 0.1);
+  animation: nft-disc-pulse 3s ease-in-out infinite;
+}
+
+@keyframes nft-disc-pulse {
+  0%, 100% { 
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translateX(-50%) scale(1.08);
+    opacity: 1;
+  }
+}
+
+/* NFT Light Beam Effect */
+.nft-holo-beam {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 75%;
+  background: linear-gradient(
+    to top, 
+    transparent, 
+    var(--glitch-cyan) 20%, 
+    var(--glitch-red) 50%,
+    var(--glitch-cyan) 80%, 
+    transparent
+  );
+  box-shadow: 
+    0 0 20px var(--glitch-cyan),
+    0 0 40px rgba(39, 229, 255, 0.3);
+  animation: nft-pulse 2s infinite alternate;
+}
+
+@keyframes nft-pulse {
+  0% { 
+    opacity: 0.3;
+    transform: translateX(-50%) scaleY(0.95);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1.05);
+  }
+}
+
+/* NFT Hologram Container with Glitch */
+.nft-holo {
+  position: absolute;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65%;
+  max-width: 650px;
+  animation: nft-float 3.5s ease-in-out infinite;
+}
+
+@keyframes nft-float {
+  0%, 100% { 
+    transform: translate(-50%, 0) rotateY(0deg);
+  }
+  25% { 
+    transform: translate(-50%, -7px) rotateY(1deg);
+  }
+  50% { 
+    transform: translate(-50%, -14px) rotateY(0deg);
+  }
+  75% { 
+    transform: translate(-50%, -7px) rotateY(-1deg);
+  }
+}
+
+/* NFT Hologram Image with Enhanced Effects */
+.nft-holo img {
+  width: 100%;
+  height: auto;
+  opacity: 0.88;
+  mix-blend-mode: screen;
+  filter: 
+    contrast(1.25) 
+    saturate(1.3)
+    brightness(1.1)
+    drop-shadow(0 0 20px var(--glitch-cyan))
+    drop-shadow(0 0 15px var(--glitch-red));
+  border-radius: 12px;
+  transition: all 0.4s ease;
+}
+
+/* Glitch Effects */
+.glitch {
+  position: relative;
+}
+
+.glitch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.15) 0 2px,
+    transparent 2px 4px
+  );
+  mix-blend-mode: screen;
+  animation: nft-scan 1s steps(2, end) infinite;
+  border-radius: 12px;
+}
+
+@keyframes nft-scan {
+  to { transform: translateY(4px); }
+}
+
+/* Enhanced Glitch Overlay */
+.nft-glitch-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 43, 43, 0.1) 2px,
+      rgba(255, 43, 43, 0.1) 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(39, 229, 255, 0.1) 2px,
+      rgba(39, 229, 255, 0.1) 4px
+    );
+  pointer-events: none;
+  animation: nft-glitch-move 1.5s linear infinite;
+  border-radius: 12px;
+}
+
+@keyframes nft-glitch-move {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(2px, -1px); }
+  50% { transform: translate(-1px, 2px); }
+  75% { transform: translate(1px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* NFT NEURO META Branding */
+.nft-neuro-branding {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+}
+
+.nft-neuro-branding h2 {
+  font-size: 2.2rem;
+  margin: 0 0 8px 0;
+  background: linear-gradient(90deg, var(--glitch-cyan), var(--glitch-red), var(--glitch-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px var(--glitch-cyan);
+  animation: nft-title-glitch 4s ease-in-out infinite;
+  letter-spacing: 2px;
+}
+
+@keyframes nft-title-glitch {
+  0%, 90%, 100% { 
+    filter: drop-shadow(0 0 10px var(--glitch-cyan));
+    transform: translateX(0);
+  }
+  5% { 
+    filter: drop-shadow(0 0 15px var(--glitch-red));
+    transform: translateX(2px);
+  }
+  10% { 
+    filter: drop-shadow(0 0 20px var(--glitch-orange));
+    transform: translateX(-1px);
+  }
+}
+
+.nft-neuro-branding p {
+  font-size: 1rem;
+  margin: 0 0 12px 0;
+  color: var(--glitch-cyan);
+  opacity: 0.9;
+  letter-spacing: 2px;
+}
+
+.nft-stats {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.nft-stat {
+  font-size: 11px;
+  color: var(--glitch-orange);
+  background: rgba(255, 138, 43, 0.1);
+  border: 1px solid var(--glitch-orange);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  letter-spacing: 1px;
+}
+
+/* Close Button */
+.nft-close-x {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: var(--glitch-red);
+  font: 700 24px monospace;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 43, 43, 0.1);
+  border: 1px solid var(--glitch-red);
+  transition: all 0.3s ease;
+}
+
+.nft-close-x:hover {
+  background: rgba(255, 43, 43, 0.2);
+  box-shadow: 0 0 15px rgba(255, 43, 43, 0.4);
+  transform: scale(1.1);
+}
+
+/* System Status Indicators */
+.nft-system-status {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.nft-audio-indicator,
+.glitch-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--glitch-cyan);
+}
+
+.nft-audio-wave,
+.glitch-bar {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--glitch-cyan);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nft-audio-wave::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--glitch-cyan) 30%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: nft-audio-pulse 1.2s ease-in-out infinite;
+}
+
+.glitch-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--glitch-red);
+  animation: nft-glitch-sweep 2s linear infinite;
+}
+
+@keyframes nft-audio-pulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 1;
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+}
+
+@keyframes nft-glitch-sweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* NFT Collection Navigation */
+.nft-nav {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--glitch-cyan);
+  border-radius: 25px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+}
+
+.nft-nav-btn {
+  background: none;
+  border: 1px solid var(--glitch-orange);
+  color: var(--glitch-orange);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-family: monospace;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nft-nav-btn:hover {
+  background: var(--glitch-orange);
+  color: black;
+  box-shadow: 0 0 10px var(--glitch-orange);
+}
+
+.nft-index {
+  color: var(--glitch-cyan);
+  font-family: monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* NFT Button Styles (for external use) */
+.neuro-nft-btn {
+  all: unset;
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  border-radius: 14px;
+  background: linear-gradient(90deg, var(--glitch-cyan), var(--glitch-red), var(--glitch-orange));
+  color: white;
+  font: 700 16px 'Orbitron', system-ui;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px var(--glitch-cyan);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.neuro-nft-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.neuro-nft-btn:hover::before {
+  left: 100%;
+}
+
+.neuro-nft-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 0 25px rgba(39, 229, 255, 0.4),
+    0 0 50px rgba(255, 43, 43, 0.2),
+    0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nft-holo-disc {
+    width: 85%;
+    bottom: 5%;
+  }
+  
+  .nft-holo {
+    width: 80%;
+    bottom: 25%;
+  }
+  
+  .nft-neuro-branding h2 {
+    font-size: 1.8rem;
+  }
+  
+  .nft-neuro-branding p {
+    font-size: 0.9rem;
+  }
+  
+  .nft-holo-beam {
+    width: 3px;
+    height: 65%;
+  }
+  
+  .nft-nav {
+    bottom: 30px;
+    gap: 12px;
+    padding: 6px 12px;
+  }
+  
+  .nft-nav-btn {
+    padding: 4px 8px;
+    font-size: 9px;
+  }
+}
