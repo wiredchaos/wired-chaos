@@ -998,17 +998,26 @@ const VRG33589Page = () => {
 
         <div className="vrg-grid">
           <div className="vrg-card">
-            <h3>Access-Key Supply</h3>
+            <h3>Access-Key Supply (9 Layers)</h3>
             <div className="vrg-row">
-              <span className="vrg-badge">Common: <span className="vrg-stat">{supply.Common}</span></span>
-              <span className="vrg-badge">Uncommon: <span className="vrg-stat">{supply.Uncommon}</span></span>
-              <span className="vrg-badge">Rare: <span className="vrg-stat">{supply.Rare}</span></span>
-              <span className="vrg-badge">Super Rare: <span className="vrg-stat">{supply.SuperRare}</span></span>
+              <span className="vrg-badge">Layer 1: <span className="vrg-stat">{supply.Layer1}</span></span>
+              <span className="vrg-badge">Layer 2: <span className="vrg-stat">{supply.Layer2}</span></span>
+              <span className="vrg-badge">Layer 3: <span className="vrg-stat">{supply.Layer3}</span></span>
+            </div>
+            <div className="vrg-row">
+              <span className="vrg-badge">Layer 4: <span className="vrg-stat">{supply.Layer4}</span></span>
+              <span className="vrg-badge">Layer 5: <span className="vrg-stat">{supply.Layer5}</span></span>
+              <span className="vrg-badge">Layer 6: <span className="vrg-stat">{supply.Layer6}</span></span>
+            </div>
+            <div className="vrg-row">
+              <span className="vrg-badge">Layer 7: <span className="vrg-stat">{supply.Layer7}</span></span>
+              <span className="vrg-badge">Layer 8: <span className="vrg-stat">{supply.Layer8}</span></span>
+              <span className="vrg-badge">Layer 9: <span className="vrg-stat">{supply.Layer9}</span></span>
             </div>
             <div className="vrg-divider"></div>
             <div className="vrg-row vrg-tiny">
               <span className="vrg-pill">Total Keys: <b>{totalSupply}</b></span>
-              <span className="vrg-pill">Total Echo Cap: <b>936</b></span>
+              <span className="vrg-pill">Total Echo Cap: <b>3,933</b></span>
               <span className="vrg-pill">Frequency Code: <b>33.3</b></span>
             </div>
           </div>
