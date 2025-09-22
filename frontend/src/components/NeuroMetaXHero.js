@@ -102,6 +102,18 @@ const NeuroMetaXHero = ({ pfpImage = '/images/neuro_meta_x_pfp.jpg' }) => {
               >
                 ACTIVATE NEURO META X 🧠⛓️‍💥
               </button>
+              <button 
+                className="btn brain-assistant" 
+                onClick={() => setShowBrainAssistant(true)}
+              >
+                🧠 AI BRAIN ASSISTANT 🚀
+              </button>
+              <button 
+                className="btn ecosystem-guide" 
+                onClick={() => setShowMotherboardGuide(true)}
+              >
+                🗺️ ECOSYSTEM TOUR 🌐
+              </button>
             </div>
           </div>
 
