@@ -411,10 +411,10 @@ const EveningVibesPage = () => {
           </div>
           <div className="redirect-actions">
             <Button 
-              onClick={() => window.open('https://vibes-meta-x.com', '_blank')}
+              onClick={() => window.open('https://www.vibescheck.xyz/', '_blank')}
               className="vibes-cta"
             >
-              Go to Vibes Meta X →
+              Go to Vibes Check →
             </Button>
             <Button onClick={() => navigate('/')} className="stay-btn">
               Stay on WIRED CHAOS
