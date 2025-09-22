@@ -575,48 +575,182 @@ const FM333Page = () => {
   );
 };
 
-// Evening Vibes Lounge (Redirect Hub)
+// Evening Vibes - Level Up Lounge
 const EveningVibesPage = () => {
   const navigate = useNavigate();
-  
+  const [pinnedTweet, setPinnedTweet] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // Auto-redirect after 3 seconds
-    const timer = setTimeout(() => {
-      window.open('https://www.vibescheck.xyz/', '_blank');
-    }, 3000);
-    return () => clearTimeout(timer);
+    // Initialize Twitter widgets
+    const loadTwitterWidget = () => {
+      if (window.twttr) {
+        window.twttr.widgets.load();
+      } else {
+        const script = document.createElement('script');
+        script.src = 'https://platform.twitter.com/widgets.js';
+        script.async = true;
+        script.charset = 'utf-8';
+        script.onload = () => {
+          if (window.twttr) {
+            window.twttr.widgets.load();
+          }
+        };
+        document.head.appendChild(script);
+      }
+    };
+
+    loadTwitterWidget();
+    
+    // Mock pinned tweet data (replace with real API call)
+    setTimeout(() => {
+      setPinnedTweet({
+        id: "1234567890",
+        url: "https://x.com/neurometax/status/1234567890",
+        text: "Welcome to the Evening Vibes Level Up Lounge 🌆✨"
+      });
+      setLoading(false);
+    }, 1000);
   }, []);
-  
+
+  const handleLevelUpRedirect = () => {
+    // Redirect to vibescheck.xyz
+    window.open('https://vibescheck.xyz', '_blank');
+  };
+
   return (
-    <div className="agent-page eveningvibes-page">
-      <div className="page-header">
-        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>🌙 EVENING VIBES</h1>
-        <p>Level Up Lounge • Redirecting to Vibes Check</p>
+    <div className="agent-container">
+      <div className="agent-header">
+        <h2>🌆 EVENING VIBES</h2>
+        <p>Level Up Lounge • Hologram Crew Network</p>
       </div>
-      
-      <div className="redirect-container">
-        <Card className="redirect-card">
-          <div className="vibes-logo">🌙✨</div>
-          <h2>Welcome to Evening Vibes</h2>
-          <p>Level Up Lounge</p>
-          <div className="redirect-status">
-            <p>Redirecting you to Vibes Check...</p>
-            <div className="redirect-progress"></div>
+
+      {/* Level Up Lounge Board */}
+      <div className="board neon-glow" id="lounge-board">
+        <div className="board-hdr">
+          <span className="badge red">Lounge</span>
+          <h3 className="board-title">Evening Vibes — Level Up Lounge</h3>
+        </div>
+        
+        <p className="lounge-subtitle">
+          Hologram lounge, each crew member = profile node.
+        </p>
+
+        {/* Pinned Tweet Section */}
+        <div className="pinned-section">
+          <h4>📌 Featured Update</h4>
+          {loading ? (
+            <div className="loading-spinner">
+              <div className="spinner"></div>
+              <p>Loading lounge updates...</p>
+            </div>
+          ) : (
+            <div className="pinned-tweet">
+              <blockquote className="twitter-tweet" data-theme="dark">
+                <a href={pinnedTweet?.url || "https://x.com/neurometax"}>
+                  {pinnedTweet?.text || "Latest updates from the lounge..."}
+                </a>
+              </blockquote>
+            </div>
+          )}
+        </div>
+
+        {/* Crew Network Visualization */}
+        <div className="crew-network">
+          <h4>👥 Crew Network Nodes</h4>
+          <div className="node-grid">
+            <div className="crew-node active">
+              <div className="node-avatar">🧠</div>
+              <span className="node-label">NeuroMeta</span>
+            </div>
+            <div className="crew-node">
+              <div className="node-avatar">🎵</div>
+              <span className="node-label">Vibe Curator</span>
+            </div>
+            <div className="crew-node">
+              <div className="node-avatar">⚡</div>
+              <span className="node-label">Tech Node</span>
+            </div>
+            <div className="crew-node">
+              <div className="node-avatar">🎨</div>
+              <span className="node-label">Art Node</span>
+            </div>
+            <div className="crew-node">
+              <div className="node-avatar">🔮</div>
+              <span className="node-label">Mystery Node</span>
+            </div>
+            <div className="crew-node coming-soon">
+              <div className="node-avatar">➕</div>
+              <span className="node-label">Join Crew</span>
+            </div>
           </div>
-          <div className="redirect-actions">
-            <Button 
-              onClick={() => window.open('https://www.vibescheck.xyz/', '_blank')}
-              className="vibes-cta"
-            >
-              Go to Vibes Check →
-            </Button>
-            <Button onClick={() => navigate('/')} className="stay-btn">
-              Stay on WIRED CHAOS
-            </Button>
-          </div>
-        </Card>
+        </div>
+
+        <div className="btn-row">
+          <button className="btn red" onClick={handleLevelUpRedirect}>
+            Enter Level Up Lounge ↗
+          </button>
+          <a href="https://x.com/neurometax" className="btn cyan" target="_blank" rel="noopener noreferrer">
+            Follow Updates
+          </a>
+        </div>
       </div>
+
+      {/* Vibe Check Integration */}
+      <div className="board neon-glow">
+        <div className="board-hdr">
+          <span className="badge cyan">Integration</span>
+          <h3 className="board-title">Vibe Check Portal</h3>
+        </div>
+        
+        <div className="vibe-portal">
+          <div className="portal-visual">
+            <div className="portal-ring">
+              <div className="portal-center">
+                <span className="portal-icon">🌀</span>
+              </div>
+            </div>
+          </div>
+          
+          <p className="portal-description">
+            Direct portal to the Level Up Lounge ecosystem. Connect with the crew, 
+            check your vibe level, and join the hologram network.
+          </p>
+          
+          <div className="portal-stats">
+            <div className="stat-item">
+              <span className="stat-value">∞</span>
+              <span className="stat-label">Vibe Level</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">24/7</span>
+              <span className="stat-label">Active</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">🌐</span>
+              <span className="stat-label">Connected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Network Links */}
+      <div className="info-panel">
+        <h4>🔗 Lounge Network</h4>
+        <p>Evening Vibes operates as a holographic crew network with interconnected profile nodes.</p>
+        <div className="network-links">
+          <a href="https://vibescheck.xyz" target="_blank" rel="noopener noreferrer" className="network-link">
+            🌐 vibescheck.xyz
+          </a>
+          <a href="https://x.com/neurometax" target="_blank" rel="noopener noreferrer" className="network-link">
+            🐦 @neurometax
+          </a>
+        </div>
+      </div>
+
+      <button onClick={() => navigate('/')} className="back-btn">
+        ← Back to Motherboard
+      </button>
     </div>
   );
 };
