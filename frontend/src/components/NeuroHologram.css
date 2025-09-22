@@ -1,0 +1,340 @@
+/* WIRED CHAOS - NEURO LAB Hologram Effects */
+
+:root {
+  --neuro-cyan: #27e5ff;
+  --neuro-red: #ff2b2b;
+  --neuro-orange: #ff8a2b;
+  --neuro-bg: #05060a;
+  --neuro-glow: rgba(39, 229, 255, 0.4);
+}
+
+/* Hologram Modal */
+.holo-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(5, 6, 10, 0.95);
+  backdrop-filter: blur(8px);
+  z-index: 999999;
+  font-family: 'Orbitron', monospace;
+}
+
+.holo-modal.open {
+  display: grid;
+  animation: modal-enter 0.5s ease-out;
+}
+
+@keyframes modal-enter {
+  0% { 
+    opacity: 0;
+    background: rgba(5, 6, 10, 0);
+  }
+  100% { 
+    opacity: 1;
+    background: rgba(5, 6, 10, 0.95);
+  }
+}
+
+/* Hologram Content Container */
+.holo-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Holographic Base Disc */
+.holo-disc {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65%;
+  max-width: 800px;
+  aspect-ratio: 1/0.2;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--neuro-cyan), transparent 70%);
+  box-shadow: 
+    0 0 40px var(--neuro-glow),
+    inset 0 0 30px rgba(39, 229, 255, 0.2);
+  animation: disc-pulse 3s ease-in-out infinite;
+}
+
+@keyframes disc-pulse {
+  0%, 100% { 
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translateX(-50%) scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* Light Beam Effect */
+.holo-beam {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 70%;
+  background: linear-gradient(
+    to top, 
+    transparent, 
+    var(--neuro-cyan) 30%, 
+    var(--neuro-cyan) 70%, 
+    transparent
+  );
+  box-shadow: 
+    0 0 18px var(--neuro-cyan),
+    0 0 36px rgba(39, 229, 255, 0.3);
+  animation: beam-flicker 3s ease-in-out infinite;
+}
+
+@keyframes beam-flicker {
+  0%, 100% { 
+    opacity: 0.5;
+    transform: translateX(-50%) scaleY(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1.02);
+  }
+}
+
+/* Hologram Container */
+.holo {
+  position: absolute;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 600px;
+  animation: holo-hover 4s ease-in-out infinite;
+}
+
+@keyframes holo-hover {
+  0%, 100% { 
+    transform: translate(-50%, 0) rotateY(0deg);
+  }
+  25% { 
+    transform: translate(-50%, -8px) rotateY(2deg);
+  }
+  50% { 
+    transform: translate(-50%, -12px) rotateY(0deg);
+  }
+  75% { 
+    transform: translate(-50%, -8px) rotateY(-2deg);
+  }
+}
+
+/* Hologram Image */
+.holo img {
+  width: 100%;
+  height: auto;
+  opacity: 0.9;
+  filter: 
+    contrast(1.2) 
+    brightness(1.1)
+    drop-shadow(0 0 20px var(--neuro-cyan))
+    drop-shadow(0 0 40px rgba(39, 229, 255, 0.3));
+  border-radius: 12px;
+  transition: all 0.5s ease;
+}
+
+/* Hologram Scan Lines Effect */
+.holo-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(39, 229, 255, 0.1) 2px,
+    rgba(39, 229, 255, 0.1) 4px
+  );
+  pointer-events: none;
+  animation: scanlines-move 2s linear infinite;
+}
+
+@keyframes scanlines-move {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(20px); }
+}
+
+/* Image Counter */
+.holo-counter {
+  position: absolute;
+  bottom: -30px;
+  right: 0;
+  background: rgba(39, 229, 255, 0.1);
+  border: 1px solid var(--neuro-cyan);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--neuro-cyan);
+  font-family: 'Orbitron', monospace;
+}
+
+/* NEURO LAB Branding */
+.neuro-branding {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+}
+
+.neuro-branding h2 {
+  font-size: 2rem;
+  margin: 0 0 8px 0;
+  background: linear-gradient(45deg, var(--neuro-cyan), var(--neuro-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px var(--neuro-glow);
+  animation: title-glow 3s ease-in-out infinite alternate;
+}
+
+.neuro-branding p {
+  font-size: 1rem;
+  margin: 0;
+  color: var(--neuro-cyan);
+  opacity: 0.8;
+  letter-spacing: 2px;
+}
+
+@keyframes title-glow {
+  0% { filter: drop-shadow(0 0 10px var(--neuro-cyan)); }
+  100% { filter: drop-shadow(0 0 25px var(--neuro-red)); }
+}
+
+/* Close Button */
+.close-x {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: white;
+  font: 700 24px system-ui;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 43, 43, 0.1);
+  border: 1px solid var(--neuro-red);
+  transition: all 0.3s ease;
+}
+
+.close-x:hover {
+  background: rgba(255, 43, 43, 0.2);
+  box-shadow: 0 0 15px rgba(255, 43, 43, 0.4);
+  transform: scale(1.1);
+}
+
+/* Audio Indicator */
+.audio-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--neuro-cyan);
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.audio-wave {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--neuro-cyan);
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.audio-wave::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--neuro-cyan) 30%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: audio-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes audio-pulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+}
+
+/* NEURO Button Styles (for external use) */
+.neuro-btn {
+  all: unset;
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--neuro-cyan), var(--neuro-red));
+  color: white;
+  font: 600 16px 'Orbitron', system-ui;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.neuro-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 0 20px var(--neuro-glow),
+    0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.neuro-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .holo-disc {
+    width: 80%;
+    bottom: 5%;
+  }
+  
+  .holo {
+    width: 75%;
+    bottom: 25%;
+  }
+  
+  .neuro-branding h2 {
+    font-size: 1.5rem;
+  }
+  
+  .neuro-branding p {
+    font-size: 0.9rem;
+  }
+  
+  .holo-beam {
+    width: 2px;
+    height: 60%;
+  }
+}
