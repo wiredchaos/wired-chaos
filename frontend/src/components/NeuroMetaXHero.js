@@ -222,6 +222,23 @@ const NeuroMetaXHero = ({ pfpImage = '/images/neuro_meta_x_pfp.jpg' }) => {
           pitch: 0.96
         }}
       />
+
+      {/* 3D Brain Assistant */}
+      <BrainAssistant3D
+        isOpen={showBrainAssistant}
+        onClose={() => setShowBrainAssistant(false)}
+        onAskQuestion={handleAskBrainQuestion}
+        currentMessage={brainMessage}
+        isWalking={false}
+      />
+
+      {/* Animated Motherboard Guide */}
+      <AnimatedMotherboardGuide
+        isActive={showMotherboardGuide}
+        onClose={() => setShowMotherboardGuide(false)}
+        onSectionHighlight={handleSectionHighlight}
+        currentStep={0}
+      />
     </section>
   );
 };
