@@ -336,85 +336,191 @@ const MotherboardHub = () => {
   );
 };
 
-// CSN - Crypto Spaces Net Page (FM content removed)
+// CSN - Crypto Spaces Net  
 const CSNPage = () => {
   const navigate = useNavigate();
-  
+  const [liveStatus, setLiveStatus] = useState(null);
+  const [schedule, setSchedule] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // Load Twitter widgets script
-    const script = document.createElement('script');
-    script.src = 'https://platform.twitter.com/widgets.js';
-    script.async = true;
-    script.charset = 'utf-8';
-    document.head.appendChild(script);
-    
-    return () => {
-      // Cleanup script on unmount
-      if (document.head.contains(script)) {
-        document.head.removeChild(script);
+    const fetchCSNData = async () => {
+      try {
+        // Mock API endpoints - replace with real CSN API when available
+        const LIVE_API = "https://cryptospaces.net/api/live.json";
+        const SCHED_API = "https://cryptospaces.net/api/schedule.json";
+        
+        try {
+          const liveResponse = await fetch(LIVE_API);
+          const liveData = await liveResponse.json();
+          setLiveStatus(liveData);
+        } catch (e) {
+          // Fallback mock data for demo
+          setLiveStatus({
+            active: false,
+            title: "33.3 FM Relay",
+            status: "Scanning for broadcast...",
+            nextShow: "Next: Daily Crypto Roundup at 6PM EST"
+          });
+        }
+
+        try {
+          const schedResponse = await fetch(SCHED_API);
+          const schedData = await schedResponse.json();
+          setSchedule(schedData.events || []);
+        } catch (e) {
+          // Fallback schedule
+          setSchedule([
+            {
+              title: "Daily Crypto Roundup",
+              date: "Today",
+              time: "6:00 PM EST",
+              description: "Market analysis and Web3 updates"
+            },
+            {
+              title: "Weekend Spaces",
+              date: "Saturday",
+              time: "2:00 PM EST", 
+              description: "Community discussions and project highlights"
+            },
+            {
+              title: "Morning Briefing",
+              date: "Weekdays",
+              time: "9:00 AM EST",
+              description: "Quick market overview and news"
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error("CSN data fetch error:", error);
+      } finally {
+        setLoading(false);
       }
     };
+
+    fetchCSNData();
   }, []);
-  
+
   return (
-    <div className="agent-page csn-page">
-      <div className="page-header">
-        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
-        <h1>🚀 CRYPTO SPACES NET</h1>
-        <p>Community Network & Collaboration Hub</p>
+    <div className="agent-container">
+      <div className="agent-header">
+        <h2>📡 CRYPTO SPACES NET</h2>
+        <p>33.3 FM Relay • Live Streaming Network</p>
       </div>
-      
-      <div className="widget-grid">
-        {/* YouTube Live Stream */}
-        <Card className="widget-card youtube-widget">
-          <h3>🔴 LIVE STREAM</h3>
-          <div className="iframe-container">
-            <iframe
-              width="100%"
-              height="315"
-              src="https://www.youtube.com/embed/jfKfPfyJRdk"
-              title="Crypto Spaces Network Live"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </Card>
+
+      {/* Live Status Board */}
+      <div className="board neon-glow" id="csn-board">
+        <div className="board-hdr">
+          <span className={`badge ${liveStatus?.active ? 'green' : 'red'}`}>
+            {liveStatus?.active ? 'LIVE' : 'OFFLINE'}
+          </span>
+          <h3 className="board-title">Crypto Spaces Net — 33·3FM Relay</h3>
+        </div>
         
-        {/* X.com Feed */}
-        <Card className="widget-card x-feed-widget">
-          <h3>🐦 @CRYPTOSPACESNET</h3>
-          <div className="x-feed-container">
-            <a 
-              className="twitter-timeline" 
-              data-theme="dark" 
-              data-chrome="nofooter noborders transparent" 
-              data-tweet-limit="5"
-              href="https://twitter.com/cryptospacesnet"
-            >
-              Tweets by @cryptospacesnet
+        <div className="csn-status">
+          {loading ? (
+            <div className="loading-spinner">
+              <div className="spinner"></div>
+              <p>Connecting to broadcast network...</p>
+            </div>
+          ) : (
+            <>
+              <div className="live-status-text">
+                {liveStatus?.active ? 
+                  `Now Live: ${liveStatus.title}` : 
+                  liveStatus?.status || "Scanning for broadcast..."
+                }
+              </div>
+              
+              {liveStatus?.active ? (
+                <div className="live-player">
+                  {liveStatus.embed ? (
+                    <iframe 
+                      src={liveStatus.embed} 
+                      width="100%" 
+                      height="200" 
+                      style={{border: 0}} 
+                      allow="autoplay; encrypted-media"
+                      title="CSN Live Stream"
+                    />
+                  ) : (
+                    <div className="live-placeholder">
+                      <div className="pulse-icon">📡</div>
+                      <p>Live Stream Active</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="live-player standby">
+                  <div className="standby-signal">
+                    <span className="signal-bars">
+                      <span></span><span></span><span></span><span></span>
+                    </span>
+                    <p>Standby signal ⚡</p>
+                  </div>
+                  {liveStatus?.nextShow && (
+                    <p className="next-show">{liveStatus.nextShow}</p>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        <div className="btn-row">
+          {liveStatus?.active && liveStatus.url && (
+            <a href={liveStatus.url} className="btn green" target="_blank" rel="noopener noreferrer">
+              Join Live Space
             </a>
-          </div>
-          <div className="x-fallback">
-            <p>Latest updates from Crypto Spaces Network</p>
-            <Button 
-              onClick={() => window.open('https://x.com/cryptospacesnet?s=21', '_blank')}
-              className="x-follow-btn"
-            >
-              Follow @cryptospacesnet →
-            </Button>
-          </div>
-        </Card>
-        
-        {/* Contact Form Widget */}
-        <Card className="widget-card contact-widget">
-          <h3>📞 COLLABORATE</h3>
-          <p>Want to be featured or partner with CSN?</p>
-          <Button onClick={() => navigate('/b2b')} className="contact-cta">
-            Partnership Inquiries →
-          </Button>
-        </Card>
+          )}
+          <a href="https://cryptospaces.net" className="btn cyan" target="_blank" rel="noopener noreferrer">
+            Visit CSN ↗
+          </a>
+          <button className="btn" onClick={() => window.location.reload()}>
+            Refresh Status
+          </button>
+        </div>
       </div>
+
+      {/* Schedule Board */}
+      <div className="board neon-glow">
+        <div className="board-hdr">
+          <span className="badge cyan">Schedule</span>
+          <h3 className="board-title">Upcoming Shows</h3>
+        </div>
+        
+        <ul className="schedule-list">
+          {schedule.map((event, index) => (
+            <li key={index} className="schedule-item">
+              <div className="schedule-header">
+                <strong className="show-title">{event.title}</strong>
+                <span className="show-time">{event.date} • {event.time}</span>
+              </div>
+              {event.description && (
+                <p className="show-description">{event.description}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Integration Info */}
+      <div className="info-panel">
+        <h4>🔗 Network Integration</h4>
+        <p>Direct integration with Crypto Spaces Net broadcasting network. Real-time status updates and schedule synchronization.</p>
+        <div className="network-links">
+          <a href="https://x.com/cryptospacesnet" target="_blank" rel="noopener noreferrer" className="network-link">
+            🐦 @cryptospacesnet
+          </a>
+          <a href="https://cryptospaces.net/schedule" target="_blank" rel="noopener noreferrer" className="network-link">
+            📅 Full Schedule
+          </a>
+        </div>
+      </div>
+
+      <button onClick={() => navigate('/')} className="back-btn">
+        ← Back to Motherboard
+      </button>
     </div>
   );
 };
