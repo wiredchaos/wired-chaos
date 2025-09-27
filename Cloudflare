@@ -259,3 +259,103 @@ Add secret: wrangler secret put BUS_SECRET.
 Deploy: npm run deploy.
 
 Attach custom domain: wc-bus.wiredchaos.xyz.
+
+// Minimal WIRED CHAOS agent (runs in GitHub Actions on a schedule)
+import crypto from "node:crypto";
+
+const BUS_BASE = process.env.BUS_BASE;       // e.g. https://wc-bus.wiredchaos.xyz
+const BUS_SECRET = process.env.BUS_SECRET;   // same secret you set in Cloudflare
+const AGENT_ID = process.env.AGENT_ID || "wlxp-agent";
+
+if (!BUS_BASE || !BUS_SECRET) {
+  console.error("Missing BUS_BASE or BUS_SECRET env.");
+  process.exit(1);
+}
+
+async function hmac(payload) {
+  return crypto.createHmac("sha256", BUS_SECRET).update(payload).digest("hex");
+}
+
+async function publish(event) {
+  const body = JSON.stringify(event);
+  const sign = await hmac(body);
+  const res = await fetch(`${BUS_BASE}/bus/publish`, {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-bus-sign": sign },
+    body
+  });
+  if (!res.ok) throw new Error(`publish failed: ${res.status} ${await res.text()}`);
+  return res.json();
+}
+
+async function poll({ type, sinceMs, limit = 50 }) {
+  const u = new URL(`${BUS_BASE}/bus/poll`);
+  if (type) u.searchParams.set("type", type);
+  if (sinceMs) u.searchParams.set("since", String(sinceMs));
+  u.searchParams.set("limit", String(limit));
+  const res = await fetch(u);
+  if (!res.ok) throw new Error(`poll failed: ${res.status} ${await res.text()}`);
+  return res.json();
+}
+
+(async () => {
+  const now = Date.now();
+
+  // 1) Heartbeat
+  await publish({
+    type: "agent.status",
+    actor: AGENT_ID,
+    payload: { ok: true, ts: now },
+    ts: now
+  });
+
+  // 2) Look for pings in the last 5 minutes
+  const fiveMinAgo = now - 5 * 60 * 1000;
+  const { events = [] } = await poll({ type: "agent.ping", sinceMs: fiveMinAgo });
+
+  for (const e of events) {
+    // Basic guard to avoid loops: only respond once per traceId
+    if (!e?.traceId || e?.actor === AGENT_ID) continue;
+
+    // 3) Reward the actor who pinged with +5 XP
+    const targetActor = e.actor || "unknown";
+    await publish({
+      type: "wl.xp_gain",
+      actor: targetActor,
+      payload: { delta: 5, reason: "auto-reward:ping" },
+      ts: Date.now()
+    });
+  }
+
+  console.log(`OK heartbeat + processed ${events.length} ping(s)`);
+})().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
+
+name: WIRED CHAOS Bot (wlxp-agent)
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # every 5 minutes
+  workflow_dispatch:        # allow manual run
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run agent
+        run: node bots/wlxp-agent.mjs
+        env:
+          BUS_BASE: ${{ secrets.BUS_BASE }}     # e.g. https://wc-bus.wiredchaos.xyz
+          BUS_SECRET: ${{ secrets.BUS_SECRET }} # same as Cloudflare Worker
+          AGENT_ID: "wlxp-agent"
