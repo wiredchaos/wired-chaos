@@ -1,7 +1,7 @@
 name: Deploy Phase 2 System
 
 on:
-  workflow_dispatch:
+ public/index.html:
   push:
     branches:
       - main
