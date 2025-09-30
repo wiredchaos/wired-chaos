@@ -340,3 +340,64 @@ Each workflow run generates a summary visible in the Actions tab:
 **Generated for WIRED CHAOS Repository**  
 **Last Updated:** 2024  
 **Maintainer:** wiredchaos
+
+---
+
+## 🎨 UI Components & Environment Configuration
+
+### SwarmStatusWidget - BUS Offline Guard
+
+The SwarmStatusWidget displays the status of WC-BUS (WIRED CHAOS Backend Universal Service).
+
+**Behavior:**
+- **Online state**: Shows full widget with status information and node count
+- **Offline state**: Shows compact pill badge with "Swarm offline (fallback)" text
+- **Auto-recovery**: Polls every 30 seconds and automatically switches back to full widget when BUS is online
+
+**Offline Pill:**
+- Text: "Swarm offline (fallback)"
+- Tooltip: "WC-BUS unreachable. UI in fallback mode."
+- Style: Neon cyan border (#00FFFF), glitch red text (#FF3131)
+- No console.error spam - only debug logging in development mode
+
+**Integration:**
+- The widget checks `GET /api/bus/status`
+- Shows offline pill when:
+  - Network request fails
+  - Response is non-2xx HTTP status
+  - Response JSON contains `{ ok: false }`
+- Located in the header of Motherboard components
+
+### Environment Variable Helpers
+
+New environment utility functions in `frontend/src/utils/env.js` provide CRA/Vite/Next-safe environment variable access:
+
+**Functions:**
+- `getSuiteUrl()` - Returns the Suite URL from env vars
+- `getTaxSuiteUrl()` - Returns the Tax Suite URL from env vars
+
+**Features:**
+- Cross-bundler compatible (CRA, Vite, Next.js)
+- Dev-only single warning per session when env vars are missing
+- Graceful fallback to empty string
+
+**Environment Variables:**
+- `REACT_APP_SUITE_URL` (CRA) / `VITE_SUITE_URL` / `NEXT_PUBLIC_SUITE_URL`
+- `REACT_APP_TAX_SUITE_URL` (CRA) / `VITE_TAX_SUITE_URL` / `NEXT_PUBLIC_TAX_SUITE_URL`
+
+**UI Behavior:**
+- Header Suite button only appears when `REACT_APP_SUITE_URL` is set
+- Tax page at `/tax` shows:
+  - Launch button when `REACT_APP_TAX_SUITE_URL` is configured
+  - "Launch Tax Suite (URL not configured)" message when env var is missing
+
+**Usage Example:**
+```javascript
+import { getSuiteUrl, getTaxSuiteUrl } from '../utils/env';
+
+const suiteUrl = getSuiteUrl();
+if (suiteUrl) {
+  // Show suite button
+}
+```
+

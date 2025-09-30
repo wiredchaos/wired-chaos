@@ -8,6 +8,7 @@ import NeuroHologram from "./components/NeuroHologram";
 import NFTNeuroHologram from "./components/NFTNeuroHologram";
 import NeuroMetaXHero from "./components/NeuroMetaXHero";
 import CertificateMinter from "./components/CertificateMinter";
+import TaxSuite from "./components/TaxSuite";
 import featureFlags, { FEATURES } from "./config/featureFlags";
 import axios from "axios";
 
@@ -1578,6 +1579,7 @@ function App() {
           <Route path="/b2b" element={<B2BPage />} />
           <Route path="/vrg33589" element={<VRG33589Page />} />
           <Route path="/merch" element={<NeuroMetaXPage />} />
+          <Route path="/tax" element={<TaxSuite />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />
