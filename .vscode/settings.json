@@ -1,0 +1,128 @@
+{
+  "files.associations": {
+    "*.ps1": "powershell",
+    "wrangler.toml": "toml",
+    "_headers": "plaintext",
+    "*.glb": "binary",
+    "*.usdz": "binary"
+  },
+  
+  "workbench.colorCustomizations": {
+    "[Default Dark+]": {
+      "terminal.foreground": "#00FFFF",
+      "terminal.ansiBrightCyan": "#00FFFF",
+      "terminal.ansiBrightRed": "#FF3131",
+      "terminal.ansiBrightGreen": "#39FF14",
+      "terminal.ansiBrightMagenta": "#FF00FF",
+      "editorWarning.foreground": "#FF3131",
+      "editorInfo.foreground": "#00FFFF"
+    }
+  },
+  
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.wrangler/**": true
+  },
+  
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  
+  "files.exclude": {
+    "**/.env.local": false,
+    "**/.env.development": false,
+    "**/.env.production": false
+  },
+  
+  "[html]": {
+    "editor.suggest.insertMode": "replace",
+    "editor.tabSize": 2
+  },
+  
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+  
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.formatting.provider": "black",
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4
+  },
+  
+  "[powershell]": {
+    "editor.tabSize": 4,
+    "files.encoding": "utf8bom"
+  },
+  
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true,
+    "powershell": true
+  },
+  
+  "inlineChat.mode": "live",
+  "chat.experimental.implicitContext": true,
+  
+  "npm.packageManager": "npm",
+  "npm.enableScriptExplorer": true,
+  
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  
+  "files.autoSave": "onFocusChange",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.linux": "bash",
+  
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.wrangler": true,
+    "**/package-lock.json": true,
+    "**/yarn.lock": true
+  },
+  
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true,
+  
+  "editor.snippetSuggestions": "top",
+  "editor.tabCompletion": "on",
+  
+  "css.validate": true,
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "html": "HTML"
+  },
+  
+  "security.workspace.trust.untrustedFiles": "prompt",
+  "git.ignoreLimitWarning": true,
+  
+  "task.autoDetect": "on",
+  "task.problemMatchers.neverPrompt": false,
+  
+  "files.eol": "\n"
+}
