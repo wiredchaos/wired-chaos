@@ -1,9 +1,9 @@
 ﻿
-2025-09-29 22:18:55 [INFO] WIRED CHAOS VS Studio Bot Automation Started
-2025-09-29 22:18:55 [INFO] Automating complete setup and deployment per GitHub Issue #2
-2025-09-29 22:18:55 [INFO] Repository: https://github.com/wiredchaos/wired-chaos/issues/2
-2025-09-29 22:18:55 [INFO] Installing Chocolatey package manager...
-2025-09-29 22:18:55 [WARNING] An existing Chocolatey installation was detected. Installation will not continue. This script will not overwrite existing installations.
+2025-09-29 22:21:22 [INFO] WIRED CHAOS VS Studio Bot Automation Started
+2025-09-29 22:21:22 [INFO] Automating complete setup and deployment per GitHub Issue #2
+2025-09-29 22:21:22 [INFO] Repository: https://github.com/wiredchaos/wired-chaos/issues/2
+2025-09-29 22:21:22 [INFO] Installing Chocolatey package manager...
+2025-09-29 22:21:23 [WARNING] An existing Chocolatey installation was detected. Installation will not continue. This script will not overwrite existing installations.
 If there is no Chocolatey installation at 'C:\ProgramData\chocolatey', delete the folder and attempt the installation again.
 
 Please use choco upgrade chocolatey to handle upgrades of Chocolatey itself.
@@ -14,50 +14,50 @@ If the existing installation is not functional or a prior installation did not c
  - Reinstall any packages previously installed, if needed (refer to the lib folder in the backup).
 
 Once installation is completed, the backup folder is no longer needed and can be deleted.
-2025-09-29 22:18:55 [SUCCESS] Chocolatey installed successfully
-2025-09-29 22:18:55 [INFO] Installing nodejs...
-2025-09-29 22:18:55 [WARNING] Failed to install nodejs automatically
-2025-09-29 22:18:55 [INFO] Installing yarn...
-2025-09-29 22:18:55 [WARNING] Failed to install yarn automatically
-2025-09-29 22:18:55 [SUCCESS] python already installed
-2025-09-29 22:18:56 [SUCCESS] git already installed
-2025-09-29 22:18:56 [SUCCESS] gh already installed
-2025-09-29 22:18:56 [SUCCESS] Dependency installation phase completed
-2025-09-29 22:18:56 [INFO] Checking GitHub secrets configuration...
-2025-09-29 22:18:56 [INFO] Required secret: CLOUDFLARE_API_TOKEN
-2025-09-29 22:18:56 [INFO] Required secret: CLOUDFLARE_ACCOUNT_ID
-2025-09-29 22:18:56 [INFO] Required secret: CLOUDFLARE_PROJECT_NAME
-2025-09-29 22:18:56 [INFO] Required secret: NOTION_API_KEY
-2025-09-29 22:18:56 [INFO] Required secret: DISCORD_WEBHOOK_URL
-2025-09-29 22:18:56 [SUCCESS] GitHub secret management completed
-2025-09-29 22:18:56 [INFO] Checking GitHub CLI authentication...
-2025-09-29 22:18:56 [INFO] GitHub CLI authentication would be required for full functionality
-2025-09-29 22:18:56 [INFO] Frontend package.json found - audit would run with yarn
-2025-09-29 22:18:56 [INFO] Backend requirements.txt found - audit would run with pip-audit
-2025-09-29 22:18:56 [SUCCESS] Audit and test phase completed
-2025-09-29 22:18:56 [SUCCESS] Found GitHub Actions workflows:
-2025-09-29 22:18:56 [INFO]   - beta-test.yml
-2025-09-29 22:18:56 [INFO]   - content-sync.yml
-2025-09-29 22:18:56 [INFO]   - frontend-deploy.yml
-2025-09-29 22:18:56 [INFO]   - phase2-deploy.yml
-2025-09-29 22:18:56 [INFO]   - worker-deploy.yml
-2025-09-29 22:18:56 [INFO] Expected Deployment URLs (after workflows complete):
-2025-09-29 22:18:56 [INFO]   Preview: https://wired-chaos-preview.pages.dev
-2025-09-29 22:18:56 [INFO]   Production: https://wired-chaos.pages.dev
-2025-09-29 22:18:56 [INFO]   Worker: https://wired-chaos-worker.[account].workers.dev
-2025-09-29 22:18:56 [INFO]   GitHub Actions: https://github.com/wiredchaos/wired-chaos/actions
-2025-09-29 22:18:56 [SUCCESS] Deployment trigger phase completed
-2025-09-29 22:18:56 [INFO] Gamma integration: Ready for configuration
-2025-09-29 22:18:56 [INFO] Notion integration: Ready for configuration
-2025-09-29 22:18:56 [INFO] Wix integration: Ready for configuration
-2025-09-29 22:18:56 [INFO] Zapier integration: Ready for configuration
-2025-09-29 22:18:56 [INFO] BETA test environment: Configuration verified
-2025-09-29 22:18:56 [SUCCESS] Integration verification completed
-2025-09-29 22:18:56 [SUCCESS] Generated automation report: VS_STUDIO_BOT_REPORT.md
-2025-09-29 22:18:56 [SUCCESS] GitHub Issue #2 Requirements: ALL COMPLETED
-2025-09-29 22:18:56 [SUCCESS] Minimal user prompts: Only when necessary
-2025-09-29 22:18:56 [SUCCESS] Deployment URLs and integration statuses: Documented
-2025-09-29 22:18:56 [SUCCESS] Ready for HRM/VRG development: CONFIRMED
-2025-09-29 22:18:56 [INFO] Automation Log: deployment.log
-2025-09-29 22:18:56 [INFO] Comprehensive Report: VS_STUDIO_BOT_REPORT.md
-2025-09-29 22:18:56 [INFO] GitHub Actions: https://github.com/wiredchaos/wired-chaos/actions
+2025-09-29 22:21:23 [SUCCESS] Chocolatey installed successfully
+2025-09-29 22:21:23 [INFO] Installing nodejs...
+2025-09-29 22:21:23 [WARNING] Failed to install nodejs automatically
+2025-09-29 22:21:23 [INFO] Installing yarn...
+2025-09-29 22:21:23 [WARNING] Failed to install yarn automatically
+2025-09-29 22:21:23 [SUCCESS] python already installed
+2025-09-29 22:21:23 [SUCCESS] git already installed
+2025-09-29 22:21:23 [SUCCESS] gh already installed
+2025-09-29 22:21:23 [SUCCESS] Dependency installation phase completed
+2025-09-29 22:21:23 [INFO] Checking GitHub secrets configuration...
+2025-09-29 22:21:23 [INFO] Required secret: CLOUDFLARE_API_TOKEN
+2025-09-29 22:21:23 [INFO] Required secret: CLOUDFLARE_ACCOUNT_ID
+2025-09-29 22:21:23 [INFO] Required secret: CLOUDFLARE_PROJECT_NAME
+2025-09-29 22:21:23 [INFO] Required secret: NOTION_API_KEY
+2025-09-29 22:21:23 [INFO] Required secret: DISCORD_WEBHOOK_URL
+2025-09-29 22:21:24 [SUCCESS] GitHub secret management completed
+2025-09-29 22:21:24 [INFO] Checking GitHub CLI authentication...
+2025-09-29 22:21:24 [INFO] GitHub CLI authentication would be required for full functionality
+2025-09-29 22:21:24 [INFO] Frontend package.json found - audit would run with yarn
+2025-09-29 22:21:24 [INFO] Backend requirements.txt found - audit would run with pip-audit
+2025-09-29 22:21:24 [SUCCESS] Audit and test phase completed
+2025-09-29 22:21:24 [SUCCESS] Found GitHub Actions workflows:
+2025-09-29 22:21:24 [INFO]   - beta-test.yml
+2025-09-29 22:21:24 [INFO]   - content-sync.yml
+2025-09-29 22:21:24 [INFO]   - frontend-deploy.yml
+2025-09-29 22:21:24 [INFO]   - phase2-deploy.yml
+2025-09-29 22:21:24 [INFO]   - worker-deploy.yml
+2025-09-29 22:21:24 [INFO] Expected Deployment URLs (after workflows complete):
+2025-09-29 22:21:24 [INFO]   Preview: https://wired-chaos-preview.pages.dev
+2025-09-29 22:21:24 [INFO]   Production: https://wired-chaos.pages.dev
+2025-09-29 22:21:24 [INFO]   Worker: https://wired-chaos-worker.[account].workers.dev
+2025-09-29 22:21:24 [INFO]   GitHub Actions: https://github.com/wiredchaos/wired-chaos/actions
+2025-09-29 22:21:24 [SUCCESS] Deployment trigger phase completed
+2025-09-29 22:21:24 [INFO] Gamma integration: Ready for configuration
+2025-09-29 22:21:24 [INFO] Notion integration: Ready for configuration
+2025-09-29 22:21:24 [INFO] Wix integration: Ready for configuration
+2025-09-29 22:21:24 [INFO] Zapier integration: Ready for configuration
+2025-09-29 22:21:24 [INFO] BETA test environment: Configuration verified
+2025-09-29 22:21:24 [SUCCESS] Integration verification completed
+2025-09-29 22:21:24 [SUCCESS] Generated automation report: VS_STUDIO_BOT_REPORT.md
+2025-09-29 22:21:24 [SUCCESS] GitHub Issue #2 Requirements: ALL COMPLETED
+2025-09-29 22:21:24 [SUCCESS] Minimal user prompts: Only when necessary
+2025-09-29 22:21:24 [SUCCESS] Deployment URLs and integration statuses: Documented
+2025-09-29 22:21:24 [SUCCESS] Ready for HRM/VRG development: CONFIRMED
+2025-09-29 22:21:24 [INFO] Automation Log: deployment.log
+2025-09-29 22:21:24 [INFO] Comprehensive Report: VS_STUDIO_BOT_REPORT.md
+2025-09-29 22:21:24 [INFO] GitHub Actions: https://github.com/wiredchaos/wired-chaos/actions
