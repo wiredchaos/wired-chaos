@@ -203,9 +203,107 @@ function generateSchoolPage() {
 </html>`;
 }
 
+// Helper function to generate a simple placeholder HTML page
+function generatePlaceholderPage(title, description) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title} - WIRED CHAOS</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0A0F16;
+      color: #E6F3FF;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #00FFFF, #39FF14);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+    p {
+      color: #8B9DC3;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .back-link {
+      display: inline-block;
+      padding: 12px 30px;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: 8px;
+      color: #00FFFF;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .back-link:hover {
+      background: rgba(0, 255, 255, 0.2);
+      border-color: #00FFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>${title}</h1>
+    <p>${description}</p>
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+</body>
+</html>`;
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    // CORS headers for all responses
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, HEAD, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Wallet-Address',
+    };
+
+    // Handle CORS preflight
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders
+      });
+    }
+
+    // Handle /health endpoint
+    if (url.pathname === '/health') {
+      return new Response(JSON.stringify({ ok: true, timestamp: Date.now() }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // Handle /tax redirect to /suite
+    if (url.pathname === '/tax' || url.pathname.startsWith('/tax/')) {
+      return Response.redirect(url.origin + '/suite', 302);
+    }
 
     // Handle /school route
     if (url.pathname === '/school' || url.pathname.startsWith('/school/')) {
@@ -214,12 +312,154 @@ export default {
         headers: {
           'Content-Type': 'text/html;charset=UTF-8',
           'Cache-Control': 'public, max-age=300',
-          'Access-Control-Allow-Origin': '*'
+          ...corsHeaders
         }
       });
     }
 
-    // Handle /api/ routes
+    // Handle /suite route
+    if (url.pathname === '/suite' || url.pathname.startsWith('/suite/')) {
+      return new Response(generatePlaceholderPage('Suite', 'Complete toolkit and dashboard for WIRED CHAOS'), {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/html;charset=UTF-8',
+          'Cache-Control': 'public, max-age=300',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // Handle /gamma/* routes
+    if (url.pathname.startsWith('/gamma/')) {
+      const gammaPath = url.pathname.split('/')[2];
+      const titles = {
+        'tour': 'Gamma Tour',
+        'journal': 'Gamma Journal',
+        'workbook': 'Gamma Workbook'
+      };
+      const descriptions = {
+        'tour': 'Interactive product tour and onboarding experience',
+        'journal': 'Research notes and experimental logs',
+        'workbook': 'Hands-on exercises and practical applications'
+      };
+      
+      return new Response(generatePlaceholderPage(
+        titles[gammaPath] || 'Gamma',
+        descriptions[gammaPath] || 'Gamma module'
+      ), {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/html;charset=UTF-8',
+          'Cache-Control': 'public, max-age=300',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // Handle /bus/publish endpoint (wallet-gated)
+    if (url.pathname === '/bus/publish' && request.method === 'POST') {
+      const walletAddress = request.headers.get('X-Wallet-Address');
+      
+      if (!walletAddress) {
+        return new Response(JSON.stringify({ ok: false, error: 'Wallet address required' }), {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
+      // For now, accept any wallet address as valid
+      return new Response(JSON.stringify({ 
+        ok: true, 
+        message: 'Event published',
+        wallet: walletAddress 
+      }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // Handle /bus/poll endpoint
+    if (url.pathname === '/bus/poll') {
+      const since = url.searchParams.get('since') || '0';
+      
+      return new Response(JSON.stringify({ 
+        ok: true, 
+        events: [],
+        since: parseInt(since),
+        timestamp: Date.now()
+      }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // Handle /wl/xp/increment endpoint (wallet-gated)
+    if (url.pathname === '/wl/xp/increment' && request.method === 'POST') {
+      const walletAddress = request.headers.get('X-Wallet-Address');
+      
+      if (!walletAddress) {
+        return new Response(JSON.stringify({ ok: false, error: 'Wallet address required' }), {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
+      // Mock XP increment
+      return new Response(JSON.stringify({ 
+        ok: true, 
+        xp: 150,
+        tier: 'Holder',
+        wallet: walletAddress 
+      }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // Handle /wl/xp/ status endpoint
+    if (url.pathname === '/wl/xp/' || url.pathname === '/wl/xp') {
+      const walletAddress = request.headers.get('X-Wallet-Address');
+      
+      if (!walletAddress) {
+        return new Response(JSON.stringify({ ok: false, error: 'Wallet address required' }), {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
+      // Mock XP status
+      return new Response(JSON.stringify({ 
+        xp: 150,
+        tier: 'Holder',
+        wallet: walletAddress 
+      }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // Handle /api/ routes - proxy to backend
     if (url.pathname.startsWith('/api/')) {
       const target = env.UG_API_BASE + url.pathname + url.search;
       const init = {
@@ -231,9 +471,15 @@ export default {
         body: ['GET','HEAD'].includes(request.method) ? undefined : await request.text()
       };
       const resp = await fetch(target, init);
-      return new Response(await resp.text(), { status: resp.status });
+      return new Response(await resp.text(), { 
+        status: resp.status,
+        headers: corsHeaders
+      });
     }
 
-    return new Response("Worker running, but route not matched.", { status: 200 });
+    return new Response("Worker running, but route not matched.", { 
+      status: 200,
+      headers: corsHeaders
+    });
   }
 };
