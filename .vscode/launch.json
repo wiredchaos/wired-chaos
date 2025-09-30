@@ -1,0 +1,270 @@
+{
+  // WIRED CHAOS Debug Configurations
+  // Use F5 to start debugging, or select a configuration from the debug dropdown
+  "version": "0.2.0",
+  "configurations": [
+    // ========== Frontend Debugging ==========
+    {
+      "name": "Frontend: Chrome Debug",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      },
+      "preLaunchTask": "frontend:start-dev-server",
+      "presentation": {
+        "group": "frontend",
+        "order": 1
+      }
+    },
+    {
+      "name": "Frontend: Edge Debug",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      },
+      "preLaunchTask": "frontend:start-dev-server",
+      "presentation": {
+        "group": "frontend",
+        "order": 2
+      }
+    },
+    
+    // ========== Backend Debugging ==========
+    {
+      "name": "Backend: Main Server",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/server.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "justMyCode": true,
+      "presentation": {
+        "group": "backend",
+        "order": 1
+      }
+    },
+    {
+      "name": "Backend: Brain Assistant API",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/brain_assistant_api.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "justMyCode": true,
+      "presentation": {
+        "group": "backend",
+        "order": 2
+      }
+    },
+    {
+      "name": "Backend: Cert API",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/cert_api.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "justMyCode": true,
+      "presentation": {
+        "group": "backend",
+        "order": 3
+      }
+    },
+    {
+      "name": "Backend: HRM/VRG System",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/hrm_vrg_system.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "justMyCode": true,
+      "presentation": {
+        "group": "backend",
+        "order": 4
+      }
+    },
+    
+    // ========== Vault33 Gatekeeper Debugging ==========
+    {
+      "name": "Gatekeeper: Main",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/vault33-gatekeeper/main.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/vault33-gatekeeper",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "justMyCode": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "order": 1
+      }
+    },
+    {
+      "name": "Gatekeeper: API Server",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "api.server:app",
+        "--reload",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8080"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/vault33-gatekeeper",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "justMyCode": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "order": 2
+      }
+    },
+    {
+      "name": "Gatekeeper: Discord Bot",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/vault33-gatekeeper/bots/discord_bot.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/vault33-gatekeeper",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "justMyCode": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "order": 3
+      }
+    },
+    {
+      "name": "Gatekeeper: Telegram Bot",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/vault33-gatekeeper/bots/telegram_bot.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/vault33-gatekeeper",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "justMyCode": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "order": 4
+      }
+    },
+    
+    // ========== Python Testing ==========
+    {
+      "name": "Python: Current Test File",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "${file}",
+        "-v",
+        "-s"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "presentation": {
+        "group": "testing",
+        "order": 1
+      }
+    },
+    {
+      "name": "Python: All Tests",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "tests/",
+        "-v"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "presentation": {
+        "group": "testing",
+        "order": 2
+      }
+    },
+    
+    // ========== Current File Debugging ==========
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "presentation": {
+        "group": "general",
+        "order": 1
+      }
+    }
+  ],
+  
+  // ========== Compound Configurations ==========
+  // Launch multiple debuggers at once
+  "compounds": [
+    {
+      "name": "Full Stack: Frontend + Backend",
+      "configurations": [
+        "Frontend: Chrome Debug",
+        "Backend: Main Server"
+      ],
+      "presentation": {
+        "group": "compound",
+        "order": 1
+      }
+    },
+    {
+      "name": "All Backend Services",
+      "configurations": [
+        "Backend: Main Server",
+        "Backend: Brain Assistant API",
+        "Backend: Cert API",
+        "Backend: HRM/VRG System"
+      ],
+      "presentation": {
+        "group": "compound",
+        "order": 2
+      }
+    },
+    {
+      "name": "Vault33: All Services",
+      "configurations": [
+        "Gatekeeper: API Server",
+        "Gatekeeper: Discord Bot",
+        "Gatekeeper: Telegram Bot"
+      ],
+      "presentation": {
+        "group": "compound",
+        "order": 3
+      }
+    }
+  ]
+}

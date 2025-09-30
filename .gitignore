@@ -2,7 +2,13 @@
 
 # IDE and editors
 .idea/
-.vscode/
+# VS Code - Keep shared workspace settings but ignore user-specific ones
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
 
 # Dependencies
 node_modules/
