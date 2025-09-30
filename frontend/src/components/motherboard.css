@@ -39,6 +39,35 @@
   font-family: monospace;
 }
 
+/* Header with Suite Link */
+.motherboard-header {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.suite-link {
+  display: inline-block;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid var(--wc-cyan);
+  color: var(--wc-cyan);
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-family: 'Orbitron', monospace;
+}
+
+.suite-link:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 10px var(--wc-cyan-glow);
+  transform: translateY(-2px);
+}
+
+
 /* Main Grid Layout */
 .motherboard-grid {
   display: grid;

@@ -5,12 +5,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FEATURES } from '../config/featureFlags';
+import { getSuiteUrl } from '../utils/env';
 import './motherboard.css';
 
 const Motherboard = () => {
   const navigate = useNavigate();
   const [activePanel, setActivePanel] = useState(null);
   const [connectionPaths, setConnectionPaths] = useState([]);
+  const suiteUrl = getSuiteUrl();
 
   const panelNodes = [
     {
@@ -135,6 +137,20 @@ const Motherboard = () => {
       {FEATURES.debugMode && (
         <div className="debug-info">
           <span>STACK: react-fastapi | FEATURES.motherboardUI: {String(FEATURES.motherboardUI)}</span>
+        </div>
+      )}
+      
+      {/* Header with Suite Link */}
+      {suiteUrl && (
+        <div className="motherboard-header">
+          <a 
+            href={suiteUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="suite-link"
+          >
+            Open Suite →
+          </a>
         </div>
       )}
       
