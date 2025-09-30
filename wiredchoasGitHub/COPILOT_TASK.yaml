@@ -1,0 +1,38 @@
+COPILOT_TASK.md
+# .github/workflows/preview-deploy.yml
+# Cloudflare Pages Preview Deploy Workflow
+# To deploy a built app (e.g. React), change 'public' to your build folder (like 'dist').
+# Uncomment the build step if you add a Node build later.
+
+name: Preview Deploy
+
+on:
+    pull_request:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    deploy-preview:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+                uses: actions/checkout@v4
+
+            # - name: Build (uncomment if using a build step)
+            #   run: npm ci && npm run build
+
+            - name: Deploy to Cloudflare Pages (Preview)
+                id: cloudflare
+                uses: cloudflare/pages-action@v1
+                with:
+                    apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                    accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                    projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+                    directory: ./public
+                    branch: ${{ github.head_ref }}
+
+            - name: Print Preview URL
+                run: echo "Preview URL: ${{ steps.cloudflare.outputs.url }}"
+            
+            - name: Set Preview URL Output
+                run: echo "preview_url=${{ steps.cloudflare.outputs.url }}" >> $GITHUB_OUTPUT
