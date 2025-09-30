@@ -94,7 +94,7 @@ const MotherboardHub = () => {
       description: 'Educational Seal Chips',
       variant: 'cyan',
       path: '/university',
-      status: 'inactive'
+      status: 'active'
     },
     {
       icon: '🐕',

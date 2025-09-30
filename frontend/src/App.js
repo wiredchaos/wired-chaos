@@ -14,6 +14,10 @@ import axios from "axios";
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
 
+// Import University and Verify pages
+import University from './pages/University';
+import Verify from './pages/Verify';
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -1578,6 +1582,10 @@ function App() {
           <Route path="/b2b" element={<B2BPage />} />
           <Route path="/vrg33589" element={<VRG33589Page />} />
           <Route path="/merch" element={<NeuroMetaXPage />} />
+          
+          {/* WC University Routes */}
+          <Route path="/university" element={<University />} />
+          <Route path="/verify/:type/:tx" element={<Verify />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />
