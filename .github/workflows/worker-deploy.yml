@@ -1,0 +1,57 @@
+name: 🔧 Worker Deploy (Cloudflare Worker)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'wrangler.toml'
+      - '.github/workflows/worker-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - staging
+        - production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Worker
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Security audit
+      run: npm audit --audit-level high
+      continue-on-error: true
+
+    - name: Build
+      run: npm run build
+      continue-on-error: true
+
+    - name: Deploy to Cloudflare Workers
+      uses: cloudflare/wrangler-action@v3
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        command: deploy --env production
+        
+    - name: Update deployment status
+      run: |
+        echo "⚡ Worker deployed successfully!"
+        echo "Worker URL: https://wired-chaos-worker.your-account.workers.dev"

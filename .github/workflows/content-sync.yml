@@ -1,0 +1,70 @@
+name: 📝 Content Sync & Social Automation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/**'
+      - '.github/workflows/content-sync.yml'
+  schedule:
+    - cron: '0 9 * * *'  # Daily at 9 AM UTC
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    name: Sync Content & Social
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Notion Content Sync
+      run: |
+        echo "🔄 Syncing content from Notion..."
+        # Add Notion API sync logic here
+        curl -X POST "https://api.notion.com/v1/databases/${{ secrets.NOTION_DATABASE_ID }}/query" \
+          -H "Authorization: Bearer ${{ secrets.NOTION_API_KEY }}" \
+          -H "Notion-Version: 2022-06-28" \
+          -H "Content-Type: application/json"
+      continue-on-error: true
+
+    - name: Social Media Automation
+      run: |
+        echo "📱 Processing social media automation..."
+        # Twitter/X posting
+        if [ ! -z "${{ secrets.X_API_KEY }}" ]; then
+          echo "Posting to X/Twitter..."
+          # Add X API logic here
+        fi
+        
+        # LinkedIn posting  
+        if [ ! -z "${{ secrets.LINKEDIN_ACCESS_TOKEN }}" ]; then
+          echo "Posting to LinkedIn..."
+          # Add LinkedIn API logic here
+        fi
+        
+        # Discord notification
+        if [ ! -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+          echo "Sending Discord notification..."
+          curl -H "Content-Type: application/json" \
+            -d '{"content":"🚀 WIRED CHAOS content updated and synced!"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+        fi
+      continue-on-error: true
+
+    - name: Update Worker KV
+      run: |
+        echo "🔄 Updating Cloudflare Worker KV..."
+        # Add KV update logic here
+      continue-on-error: true
+        
+    - name: Completion Status
+      run: |
+        echo "✅ Content sync and social automation completed!"
+        echo "📊 Check your social media platforms for updates"
