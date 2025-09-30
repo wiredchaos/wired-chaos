@@ -7,6 +7,7 @@ import NeuroHologram from './NeuroHologram';
 import NFTNeuroHologram from './NFTNeuroHologram';
 import BrainAssistant3D from './BrainAssistant3D';
 import AnimatedMotherboardGuide from './AnimatedMotherboardGuide';
+import { BACKEND_URL } from '../config/env';
 import './NeuroMetaXHero.css';
 
 const NeuroMetaXHero = ({ pfpImage = '/images/neuro_meta_x_pfp.jpg' }) => {
@@ -35,7 +36,7 @@ const NeuroMetaXHero = ({ pfpImage = '/images/neuro_meta_x_pfp.jpg' }) => {
   // AI Assistant functions
   const handleAskBrainQuestion = async (question) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/brain/chat`, {
+      const response = await fetch(`${BACKEND_URL}/api/brain/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

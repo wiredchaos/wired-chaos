@@ -7,6 +7,7 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { CHAIN_NAMES, getEnabledChains } from '../chains/config';
 import { getAllCourses } from '../lib/cert';
+import { BACKEND_URL } from '../config/env';
 import './CertificateMinter.css';
 
 const CertificateMinter = () => {
@@ -103,8 +104,7 @@ const CertificateMinter = () => {
     setResult(null);
 
     try {
-      const backendUrl = process.env.REACT_APP_BACKEND_URL;
-      const response = await fetch(`${backendUrl}/api/cert/mint`, {
+      const response = await fetch(`${BACKEND_URL}/api/cert/mint`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
