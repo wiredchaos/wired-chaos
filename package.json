@@ -1,0 +1,28 @@
+{
+  "name": "wired-chaos",
+  "version": "1.0.0",
+  "description": "WIRED CHAOS - Full Stack Web3 Application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run frontend:dev",
+    "build": "npm run frontend:build",
+    "start": "npm run frontend:start",
+    "frontend:dev": "cd frontend && npm run start",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:start": "cd frontend && npm start",
+    "backend:dev": "cd backend && python server.py",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "web3",
+    "react",
+    "blockchain",
+    "nft",
+    "certificates"
+  ],
+  "author": "WIRED CHAOS Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
