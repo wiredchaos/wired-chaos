@@ -1,0 +1,261 @@
+/* Student Union Digital Campus Styles */
+
+.student-union-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
+  color: #FFFFFF;
+  padding: 2rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.union-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 10;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.union-title {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  background: linear-gradient(90deg, #00FFFF, #FF00FF, #39FF14);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titlePulse 3s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitch-1 2.5s infinite;
+  color: #00FFFF;
+  z-index: -1;
+}
+
+.glitch::after {
+  animation: glitch-2 2.5s infinite;
+  color: #FF00FF;
+  z-index: -2;
+}
+
+@keyframes glitch-1 {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-2 {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(2px, -2px); }
+  40% { transform: translate(2px, 2px); }
+  60% { transform: translate(-2px, -2px); }
+  80% { transform: translate(-2px, 2px); }
+}
+
+.union-subtitle {
+  font-size: 1.2rem;
+  color: #00FFFF;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1rem;
+}
+
+.university-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 255, 255, 0.1);
+  border: 2px solid #00FFFF;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.badge-icon {
+  font-size: 1.5rem;
+}
+
+.badge-text {
+  color: #00FFFF;
+}
+
+/* Union Grid */
+.union-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto 3rem auto;
+  padding: 2rem;
+}
+
+.union-area-card {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid #00FFFF;
+  border-radius: 15px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.union-area-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.union-area-card:hover::before {
+  left: 100%;
+}
+
+.union-area-card:hover,
+.union-area-card.active {
+  transform: translateY(-10px) scale(1.05);
+  border-color: #FF00FF;
+  box-shadow: 0 10px 40px rgba(255, 0, 255, 0.5);
+  background: rgba(255, 0, 255, 0.1);
+}
+
+.area-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.7));
+}
+
+.area-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #00FFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.area-description {
+  font-size: 1rem;
+  color: #FFFFFF;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.area-status {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+}
+
+.area-status.active {
+  background: rgba(57, 255, 20, 0.2);
+  border: 1px solid #39FF14;
+  color: #39FF14;
+}
+
+.area-status.inactive {
+  background: rgba(255, 49, 49, 0.2);
+  border: 1px solid #FF3131;
+  color: #FF3131;
+}
+
+/* Features Section */
+.union-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 3rem auto;
+  padding: 2rem;
+}
+
+.feature-card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #39FF14;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(57, 255, 20, 0.4);
+  border-color: #00FFFF;
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #39FF14;
+}
+
+.feature-card p {
+  font-size: 1rem;
+  color: #FFFFFF;
+  opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .union-title {
+    font-size: 2.5rem;
+  }
+
+  .union-subtitle {
+    font-size: 1rem;
+  }
+
+  .union-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .area-icon {
+    font-size: 3rem;
+  }
+
+  .area-name {
+    font-size: 1.5rem;
+  }
+}

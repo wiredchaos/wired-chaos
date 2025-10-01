@@ -14,6 +14,7 @@
 - **🔐 Vault33 Gatekeeper**: NSA-level security with wallet gating and NDA signatures
 - **☁️ Cloudflare Edge**: Global deployment on Cloudflare Workers and Pages
 - **🤖 Automated Workflows**: Complete CI/CD with intelligent automation
+- **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
 - **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
 
 ## 🆕 SWARM Orchestrator Pipeline
@@ -115,6 +116,22 @@ pwsh VS_STUDIO_BOT_AUTOMATION.ps1     # VS Studio Bot automation
 ```
 
 📋 **[View Quick Reference Card](./QUICK_REFERENCE.md)**
+
+## 💼 Video Sales Page (VSP)
+
+The **Video Sales Page** is a comprehensive business solution for client onboarding:
+
+- **Professional Service Packages**: Starter ($2.5K), Professional ($7.5K), Enterprise (Custom)
+- **Auto-Generated Contracts**: Engagement letters created from templates
+- **E-Signature Integration**: Modular support for DocuSign, HelloSign, Adobe Sign, PandaDoc
+- **Stripe Payments**: Integrated payment processing
+- **SWARM Automation**: Automated workflows (Notion, Google Drive, Discord, Calendar)
+
+**Access:** `https://www.wiredchaos.xyz/vsp`
+
+📖 **[Complete VSP Guide](./VSP_README.md)** | 📚 **[VSP Documentation](./wix-gamma-integration/docs/video-sales-page.md)**
+
+![VSP Preview](https://github.com/user-attachments/assets/8a980bb1-8674-4a00-b90f-73f6e511cf91)
 
 ## 📁 Project Structure
 

@@ -506,6 +506,104 @@
         "reveal": "always",
         "panel": "shared"
       }
+    },
+    // ========== EMERGENT Deployment Tasks ==========
+    {
+      "label": "EMERGENT: Full Deployment",
+      "type": "shell",
+      "command": "${workspaceFolder}/wired-chaos-emergent/scripts/emergent-deploy.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "emergent"
+      },
+      "detail": "Run full EMERGENT deployment: PR management, conflict resolution, merge, deploy, and test"
+    },
+    {
+      "label": "EMERGENT: Resolve Conflicts",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/wired-chaos-emergent/scripts/conflict-resolution.js",
+        "${input:prNumber}"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "emergent"
+      },
+      "detail": "Auto-resolve merge conflicts for a specific PR"
+    },
+    {
+      "label": "EMERGENT: Run Smoke Tests",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/wired-chaos-emergent/scripts/smoke-tests.js"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "emergent"
+      },
+      "detail": "Run comprehensive endpoint smoke tests"
+    },
+    {
+      "label": "EMERGENT: Fix Tax Suite",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/wired-chaos-emergent/scripts/tax-suite-fix.js"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "emergent"
+      },
+      "detail": "Fix Tax Suite integration issues"
+    },
+    {
+      "label": "EMERGENT: Fix Two-Tier Firewall",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/wired-chaos-emergent/scripts/firewall-fix.js"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "emergent"
+      },
+      "detail": "Fix two-tier school system firewall"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "prNumber",
+      "type": "promptString",
+      "description": "Enter PR number to resolve conflicts for",
+      "default": "22"
     }
   ]
 }

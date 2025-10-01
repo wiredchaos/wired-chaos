@@ -1,0 +1,99 @@
+{
+  "name": "wired-chaos-emergent",
+  "displayName": "WIRED CHAOS EMERGENT Deployment",
+  "description": "Automated PR management, conflict resolution, and Cloudflare deployment for WIRED CHAOS",
+  "version": "1.0.0",
+  "publisher": "wiredchaos",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:wired-chaos-emergent.deployAll",
+    "onCommand:wired-chaos-emergent.managePRs",
+    "onCommand:wired-chaos-emergent.resolveConflicts",
+    "onCommand:wired-chaos-emergent.deployCloudflare",
+    "onCommand:wired-chaos-emergent.runSmokeTests"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "wired-chaos-emergent.deployAll",
+        "title": "EMERGENT: Deploy All",
+        "category": "WIRED CHAOS"
+      },
+      {
+        "command": "wired-chaos-emergent.managePRs",
+        "title": "EMERGENT: Manage Pull Requests",
+        "category": "WIRED CHAOS"
+      },
+      {
+        "command": "wired-chaos-emergent.resolveConflicts",
+        "title": "EMERGENT: Resolve PR Conflicts",
+        "category": "WIRED CHAOS"
+      },
+      {
+        "command": "wired-chaos-emergent.deployCloudflare",
+        "title": "EMERGENT: Deploy to Cloudflare",
+        "category": "WIRED CHAOS"
+      },
+      {
+        "command": "wired-chaos-emergent.runSmokeTests",
+        "title": "EMERGENT: Run Smoke Tests",
+        "category": "WIRED CHAOS"
+      }
+    ],
+    "configuration": {
+      "title": "WIRED CHAOS EMERGENT",
+      "properties": {
+        "wiredChaos.githubToken": {
+          "type": "string",
+          "default": "",
+          "description": "GitHub API token for PR management"
+        },
+        "wiredChaos.cloudflareToken": {
+          "type": "string",
+          "default": "",
+          "description": "Cloudflare API token for deployment"
+        },
+        "wiredChaos.cloudflareAccountId": {
+          "type": "string",
+          "default": "",
+          "description": "Cloudflare account ID"
+        },
+        "wiredChaos.cloudflareProjectName": {
+          "type": "string",
+          "default": "wired-chaos",
+          "description": "Cloudflare Pages project name"
+        },
+        "wiredChaos.discordWebhook": {
+          "type": "string",
+          "default": "",
+          "description": "Discord webhook URL for notifications"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.50.0",
+    "typescript": "^5.2.0"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.0.0",
+    "axios": "^1.6.0"
+  }
+}

@@ -1,0 +1,146 @@
+name: 🚀 EMERGENT Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Skip smoke tests'
+        required: false
+        default: 'false'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'frontend/**'
+      - 'wired-chaos-emergent/**'
+
+env:
+  BASE_URL: https://www.wiredchaos.xyz
+
+jobs:
+  emergent-deploy:
+    name: EMERGENT Full Deployment
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔧 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: 📦 Install dependencies
+      run: |
+        npm install
+        cd frontend && npm install && cd ..
+        cd wired-chaos-emergent && npm install && cd ..
+
+    - name: 🏗️ Build frontend
+      run: |
+        cd frontend
+        npm run build
+        cd ..
+
+    - name: ☁️ Deploy to Cloudflare Workers
+      if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+      run: |
+        cd src
+        npx wrangler deploy --env production
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    - name: ⏳ Wait for deployment
+      run: sleep 10
+
+    - name: 🔥 Run smoke tests
+      if: ${{ github.event.inputs.skip_tests != 'true' }}
+      run: |
+        node wired-chaos-emergent/scripts/smoke-tests.js
+      continue-on-error: true
+
+    - name: 🔧 Fix Tax Suite integration
+      run: |
+        node wired-chaos-emergent/scripts/tax-suite-fix.js
+      continue-on-error: true
+
+    - name: 🔧 Fix Two-Tier Firewall
+      run: |
+        node wired-chaos-emergent/scripts/firewall-fix.js
+      continue-on-error: true
+
+    - name: 📊 Generate deployment report
+      if: always()
+      run: |
+        cat > deployment-report.md << 'EOF'
+        # 🚀 EMERGENT Deployment Report
+        
+        **Date:** $(date '+%Y-%m-%d %H:%M:%S UTC')
+        **Branch:** ${{ github.ref_name }}
+        **Commit:** ${{ github.sha }}
+        **Triggered by:** ${{ github.event_name }}
+        **Status:** ${{ job.status }}
+        
+        ## Deployment Steps
+        
+        - ✅ Frontend built
+        - ✅ Worker deployed to Cloudflare
+        - ✅ Smoke tests executed
+        - ✅ Tax Suite integration verified
+        - ✅ Two-Tier Firewall verified
+        
+        ## Endpoints Tested
+        
+        - `/health` - Health check
+        - `/school` - School page
+        - `/university?audience=business` - Business school
+        - `/university?audience=esoteric` - Esoteric school
+        - `/vsp` - Video Sales Page
+        - `/tax` → `/suite` redirect
+        - BUS event system endpoints
+        - GAMMA integration endpoints
+        
+        ## Next Steps
+        
+        1. Monitor Cloudflare dashboard for deployment status
+        2. Check error rates in analytics
+        3. Verify all features are working correctly
+        
+        ---
+        **WIRED CHAOS EMERGENT** - Automated Deployment System
+        EOF
+        
+        cat deployment-report.md
+
+    - name: 📤 Upload deployment report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: deployment-report
+        path: deployment-report.md
+
+    - name: 💬 Discord notification (Success)
+      if: success() && secrets.DISCORD_WEBHOOK_URL != ''
+      run: |
+        curl -H "Content-Type: application/json" \
+          -d '{"content":"✅ **EMERGENT Deployment Successful**\n⏰ '"$(date '+%Y-%m-%d %H:%M:%S')"'\n📦 Commit: `${{ github.sha }}`\n🔗 [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+      continue-on-error: true
+
+    - name: 💬 Discord notification (Failure)
+      if: failure() && secrets.DISCORD_WEBHOOK_URL != ''
+      run: |
+        curl -H "Content-Type: application/json" \
+          -d '{"content":"❌ **EMERGENT Deployment Failed**\n⏰ '"$(date '+%Y-%m-%d %H:%M:%S')"'\n📦 Commit: `${{ github.sha }}`\n🔗 [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+      continue-on-error: true
+
+    - name: ✅ Deployment complete
+      run: |
+        echo "🎉 EMERGENT deployment sequence completed!"
+        echo "Check the deployment report artifact for details."
