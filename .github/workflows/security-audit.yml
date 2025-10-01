@@ -1,0 +1,101 @@
+name: Security Audit
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  audit-frontend:
+    name: Audit Frontend Dependencies
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+      
+      - name: Run npm audit
+        working-directory: ./frontend
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+      
+      - name: Generate audit report
+        working-directory: ./frontend
+        run: npm audit --json > audit-report.json || true
+      
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-audit-report
+          path: frontend/audit-report.json
+          retention-days: 30
+
+  audit-backend:
+    name: Audit Backend Dependencies
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: backend/requirements.txt
+      
+      - name: Install pip-audit
+        run: pip install pip-audit
+      
+      - name: Run pip-audit
+        working-directory: ./backend
+        run: pip-audit --requirement requirements.txt --desc
+        continue-on-error: true
+      
+      - name: Generate pip-audit report
+        working-directory: ./backend
+        run: pip-audit --requirement requirements.txt --format json > audit-report.json || true
+      
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-audit-report
+          path: backend/audit-report.json
+          retention-days: 30
+
+  summary:
+    name: Security Audit Summary
+    runs-on: ubuntu-latest
+    needs: [audit-frontend, audit-backend]
+    if: always()
+    
+    steps:
+      - name: Summary
+        run: |
+          echo "## Security Audit Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Frontend audit: ${{ needs.audit-frontend.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Backend audit: ${{ needs.audit-backend.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📊 Detailed reports available in workflow artifacts" >> $GITHUB_STEP_SUMMARY
