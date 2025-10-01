@@ -10,6 +10,8 @@ const PerformanceMonitor = require('./monitors/performance-monitor');
 
 const EndpointResolver = require('./resolvers/endpoint-resolver');
 const BuildResolver = require('./resolvers/build-resolver');
+const DependencyResolver = require('./resolvers/dependency-resolver');
+const ConfigResolver = require('./resolvers/config-resolver');
 
 class SwarmBot {
   constructor(config = {}) {
@@ -31,7 +33,9 @@ class SwarmBot {
     // Initialize resolvers
     this.resolvers = {
       endpoint: new EndpointResolver({ dryRun: this.config.dryRun }),
-      build: new BuildResolver({ dryRun: this.config.dryRun })
+      build: new BuildResolver({ dryRun: this.config.dryRun }),
+      dependency: new DependencyResolver({ dryRun: this.config.dryRun }),
+      config: new ConfigResolver({ dryRun: this.config.dryRun })
     };
 
     this.state = {
@@ -174,6 +178,10 @@ class SwarmBot {
       resolver = this.resolvers.endpoint;
     } else if (issue.type === 'build_failure') {
       resolver = this.resolvers.build;
+    } else if (issue.type === 'security_vulnerability' || issue.type === 'dependency_conflict') {
+      resolver = this.resolvers.dependency;
+    } else if (issue.type === 'config_issue' || issue.type === 'missing_env_var') {
+      resolver = this.resolvers.config;
     } else {
       return {
         success: false,
