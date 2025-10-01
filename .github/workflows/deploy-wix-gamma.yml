@@ -213,7 +213,10 @@ jobs:
                   ],
                   \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
                 }]
-              }"
+              }" || echo "⚠️  Discord notification failed"
+            echo "✅ Discord notification sent"
+          else
+            echo "⚠️  Discord webhook not configured, skipping notification"
           fi
       
       - name: ðŸ“ Comment on PR
