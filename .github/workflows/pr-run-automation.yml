@@ -1,0 +1,89 @@
+name: PR Run Automation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - pr-run-automation
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  ci-and-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run CI tests
+        run: npm run ci
+
+      - name: Run Smoke Tests
+        run: npm run smoke-test
+
+      - name: Upload test artifacts (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-results
+          path: ./smoke-test-results/
+
+  cache-purge:
+    needs: ci-and-smoke-test
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    steps:
+      - name: Purge CDN/Edge Cache
+        run: npm run cache:purge
+
+  notify:
+    needs: [ci-and-smoke-test, cache-purge]
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Notify Discord
+        if: ${{ always() }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"content\": \"[WIRED CHAOS] PR #${{ github.event.pull_request.number }}: '${{ github.event.pull_request.title }}' status: ${{ job.status }}\"}" \
+            $DISCORD_WEBHOOK
+
+      - name: Notify Telegram
+        if: ${{ always() }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+          -d chat_id=$TELEGRAM_CHAT_ID \
+          -d text="[WIRED CHAOS] PR #${{ github.event.pull_request.number }}: '${{ github.event.pull_request.title }}' status: ${{ job.status }}"
+
+      - name: Notify wiredchaos.xyz group page
+        if: ${{ always() }}
+        env:
+          GROUP_PAGE_WEBHOOK: ${{ secrets.GROUP_PAGE_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"pr_number\": \"${{ github.event.pull_request.number }}\", \"title\": \"${{ github.event.pull_request.title }}\", \"status\": \"${{ job.status }}\"}" \
+            $GROUP_PAGE_WEBHOOK
+
+  auto-merge:
+    needs: [ci-and-smoke-test, cache-purge, notify]
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.user.login == 'wiredchaos' && success() }}
+    steps:
+      - name: Enable auto-merge for PR
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: squash
