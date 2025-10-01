@@ -1,11 +1,48 @@
-name = "wired-chaos-meta"
+name = "chaoswired"
 main = "index.js"
 compatibility_date = "2025-09-26"
 
+# Route patterns for www.wiredchaos.xyz
+[[routes]]
+pattern = "www.wiredchaos.xyz/school*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/suite*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/tax*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/gamma/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/bus/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/wl/xp/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/admin/flag/llm:circuit"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/api/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/health"
+zone_name = "wiredchaos.xyz"
+
 [env.production]
-name = "wired-chaos-meta"
+name = "chaoswired"
 vars = { ENVIRONMENT = "production" }
 
 [env.staging]
-name = "wired-chaos-meta-staging"
+name = "chaoswired-staging"
 vars = { ENVIRONMENT = "staging" }
