@@ -1,10 +1,14 @@
-name = "chaoswired"
+name = "wired-chaos-meta"
 main = "src/index.js"
 compatibility_date = "2025-09-26"
 
 # Route patterns for www.wiredchaos.xyz
 [[routes]]
 pattern = "www.wiredchaos.xyz/school*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/vsp*"
 zone_name = "wiredchaos.xyz"
 
 [[routes]]
