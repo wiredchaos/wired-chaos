@@ -1,0 +1,65 @@
+name = "wix-gamma-integration"
+main = "integration-worker.js"
+compatibility_date = "2025-09-30"
+workers_dev = true
+
+# Production Environment
+[env.production]
+name = "wix-gamma-integration-prod"
+workers_dev = false
+
+[[env.production.kv_namespaces]]
+binding = "CACHE_KV"
+id = "REPLACE_WITH_YOUR_CACHE_KV_ID"
+
+[[env.production.kv_namespaces]]
+binding = "ANALYTICS_KV"
+id = "REPLACE_WITH_YOUR_ANALYTICS_KV_ID"
+
+[[env.production.kv_namespaces]]
+binding = "SYNC_KV"
+id = "REPLACE_WITH_YOUR_SYNC_KV_ID"
+
+[[env.production.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "wired-chaos-ar-models"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+
+# Staging Environment
+[env.staging]
+name = "wix-gamma-integration-staging"
+workers_dev = false
+
+[[env.staging.kv_namespaces]]
+binding = "CACHE_KV"
+id = "REPLACE_WITH_YOUR_STAGING_CACHE_KV_ID"
+
+[[env.staging.kv_namespaces]]
+binding = "ANALYTICS_KV"
+id = "REPLACE_WITH_YOUR_STAGING_ANALYTICS_KV_ID"
+
+[[env.staging.kv_namespaces]]
+binding = "SYNC_KV"
+id = "REPLACE_WITH_YOUR_STAGING_SYNC_KV_ID"
+
+[[env.staging.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "wired-chaos-ar-models-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+
+# Development Environment
+[env.development]
+name = "wix-gamma-integration-dev"
+workers_dev = true
+
+[env.development.vars]
+ENVIRONMENT = "development"
+
+# Note: Secrets must be set via:
+# wrangler secret put WIX_API_TOKEN --env production
+# wrangler secret put WIX_ACCESS_TOKEN --env production
+# wrangler secret put GAMMA_API_KEY --env production
