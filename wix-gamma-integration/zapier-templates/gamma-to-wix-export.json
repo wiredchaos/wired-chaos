@@ -1,0 +1,61 @@
+{
+  "name": "GAMMA to WIX Export",
+  "description": "Export GAMMA presentation as PDF and upload to WIX Media Manager",
+  "trigger": {
+    "app": "Webhooks by Zapier",
+    "event": "Catch Hook",
+    "config": {
+      "url": "https://hooks.zapier.com/hooks/catch/YOUR_HOOK_ID/",
+      "method": "POST"
+    }
+  },
+  "actions": [
+    {
+      "app": "Webhooks by Zapier",
+      "event": "GET",
+      "config": {
+        "url": "https://YOUR-WORKER.workers.dev/api/gamma/export",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer {{env.GAMMA_API_KEY}}",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "presentationId": "{{inputData.presentationId}}",
+          "format": "pdf"
+        }
+      }
+    },
+    {
+      "app": "Webhooks by Zapier",
+      "event": "POST",
+      "config": {
+        "url": "https://YOUR-WORKER.workers.dev/api/wix/content/upload",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer {{env.WIX_API_TOKEN}}",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fileUrl": "{{1.exportUrl}}",
+          "fileName": "{{inputData.presentationTitle}}.pdf",
+          "folder": "presentations"
+        }
+      }
+    },
+    {
+      "app": "Email by Zapier",
+      "event": "Send Outbound Email",
+      "config": {
+        "to": "{{inputData.userEmail}}",
+        "subject": "GAMMA Presentation Exported to WIX",
+        "body": "Your GAMMA presentation '{{inputData.presentationTitle}}' has been successfully exported and uploaded to WIX Media Manager.\n\nView in WIX: {{2.mediaUrl}}"
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "WIRED CHAOS Team",
+    "category": "Export"
+  }
+}
