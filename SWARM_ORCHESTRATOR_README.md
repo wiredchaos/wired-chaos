@@ -224,7 +224,7 @@ TOP_KEYWORDS=50
 
 ### Customizing RSS Feeds
 
-Edit `feeds.opml` to add/remove RSS feeds:
+The default `feeds.opml` file contains placeholder feeds that won't cause network issues:
 
 ```xml
 <outline type="rss" 
@@ -232,6 +232,26 @@ Edit `feeds.opml` to add/remove RSS feeds:
          xmlUrl="https://example.com/feed.xml" 
          htmlUrl="https://example.com/"/>
 ```
+
+**For local testing (no external dependencies):**
+- Use the default `feeds.opml` with placeholder URLs
+- The pipeline will gracefully handle feeds that don't load
+- No network access required for testing
+
+**For production use with real RSS feeds:**
+1. Copy `feeds.opml.example` to create your custom configuration:
+   ```bash
+   cp feeds.opml.example my-feeds.opml
+   ```
+
+2. Edit the file to add your RSS feed URLs
+
+3. Run with your custom file:
+   ```bash
+   python src/orchestrator.py --opml-file my-feeds.opml
+   ```
+
+**Note:** Some RSS feeds may be blocked by firewalls or require special network access. The pipeline will continue to work and skip any feeds that fail to load.
 
 ### Customizing Stopwords
 

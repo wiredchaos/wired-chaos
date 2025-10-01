@@ -51,12 +51,25 @@ python src/orchestrator.py --max-tweets 20
 
 ### Customize RSS Feeds
 
-1. Edit `feeds.opml` to add/remove feeds
-2. Run the pipeline:
-
+**Option 1: Use default (no external network required)**
 ```bash
-python src/orchestrator.py --opml-file feeds.opml
+# Uses placeholder feeds - works offline
+python src/orchestrator.py --skip-twitter
 ```
+
+**Option 2: Add your own feeds**
+1. Create a custom OPML file with your RSS feeds:
+   ```bash
+   cp feeds.opml.example my-feeds.opml
+   # Edit my-feeds.opml with your feed URLs
+   ```
+
+2. Run with your custom feeds:
+   ```bash
+   python src/orchestrator.py --opml-file my-feeds.opml
+   ```
+
+**Note:** The default `feeds.opml` uses placeholder URLs that won't cause network issues. This allows the pipeline to work without external dependencies.
 
 ## 📊 Output Files
 

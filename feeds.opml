@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <opml version="2.0">
   <head>
-    <title>WIRED CHAOS RSS Feeds</title>
+    <title>WIRED CHAOS RSS Feeds - Example Configuration</title>
     <dateCreated>2024-01-01T00:00:00Z</dateCreated>
+    <docs>https://github.com/wiredchaos/wired-chaos</docs>
   </head>
   <body>
-    <outline text="Tech News" title="Tech News">
-      <outline type="rss" text="TechCrunch" xmlUrl="https://techcrunch.com/feed/" htmlUrl="https://techcrunch.com/"/>
-      <outline type="rss" text="Hacker News" xmlUrl="https://news.ycombinator.com/rss" htmlUrl="https://news.ycombinator.com/"/>
-      <outline type="rss" text="The Verge" xmlUrl="https://www.theverge.com/rss/index.xml" htmlUrl="https://www.theverge.com/"/>
-    </outline>
-    <outline text="Web3 and Crypto" title="Web3 and Crypto">
-      <outline type="rss" text="CoinDesk" xmlUrl="https://www.coindesk.com/arc/outboundfeeds/rss/" htmlUrl="https://www.coindesk.com/"/>
-      <outline type="rss" text="Decrypt" xmlUrl="https://decrypt.co/feed" htmlUrl="https://decrypt.co/"/>
-    </outline>
-    <outline text="AI and Machine Learning" title="AI and Machine Learning">
-      <outline type="rss" text="AI News" xmlUrl="https://www.artificialintelligence-news.com/feed/" htmlUrl="https://www.artificialintelligence-news.com/"/>
+    <outline text="Example Feeds" title="Example Feeds">
+      <outline type="rss" text="Example Feed 1" xmlUrl="https://example.com/feed.xml" htmlUrl="https://example.com/"/>
+      <outline type="rss" text="Example Feed 2" xmlUrl="https://example.org/rss" htmlUrl="https://example.org/"/>
     </outline>
   </body>
 </opml>
