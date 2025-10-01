@@ -1,0 +1,78 @@
+{
+  "name": "Release Notes Template",
+  "description": "Template for WIRED CHAOS release notes presentations",
+  "theme": {
+    "id": "wired-chaos-cyber",
+    "colors": {
+      "primary": "#00fff0",
+      "secondary": "#ff2a2a",
+      "accent": "#8000ff",
+      "background": "#000000",
+      "text": "#ffffff"
+    },
+    "fonts": {
+      "heading": "Orbitron, sans-serif",
+      "body": "Rajdhani, sans-serif",
+      "code": "Share Tech Mono, monospace"
+    }
+  },
+  "slides": [
+    {
+      "type": "title",
+      "layout": "single",
+      "template": {
+        "title": "Release {{version}}",
+        "subtitle": "{{releaseDate}}",
+        "footer": "WIRED CHAOS"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Release Highlights",
+        "content": "{{highlights}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "New Features",
+        "content": "{{newFeatures}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "Improvements",
+        "content": "{{improvements}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "Bug Fixes",
+        "content": "{{bugFixes}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Breaking Changes",
+        "content": "{{breakingChanges}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Upgrade Instructions",
+        "content": "{{upgradeInstructions}}"
+      }
+    }
+  ]
+}

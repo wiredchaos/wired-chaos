@@ -22,7 +22,13 @@
     "health-bot": "node health-bot-vscode-integration.js",
     "smoke-test": "echo \"Running smoke tests...\" && npm run test:smoke",
     "test:smoke": "node -e \"console.log('Smoke tests passed - all systems operational')\"",
-    "cache:purge": "echo \"Purging CDN cache...\" && curl -X POST \"https://api.cloudflare.com/client/v4/zones/$(echo $CLOUDFLARE_ZONE_ID)/purge_cache\" -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" -H \"Content-Type: application/json\" --data '{\"purge_everything\":true}'"
+    "cache:purge": "echo \"Purging CDN cache...\" && curl -X POST \"https://api.cloudflare.com/client/v4/zones/$(echo $CLOUDFLARE_ZONE_ID)/purge_cache\" -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" -H \"Content-Type: application/json\" --data '{\"purge_everything\":true}'",
+    "setup:env": "bash scripts/setup-environment.sh",
+    "deploy:webhook": "bash scripts/deploy-webhook-processor.sh",
+    "gamma:activate": "bash scripts/activate-gamma-templates.sh",
+    "monitor:performance": "bash scripts/monitor-performance.sh",
+    "test:e2e": "gh workflow run e2e-signup-automation.yml -f dry_run=true",
+    "test:e2e:live": "gh workflow run e2e-signup-automation.yml -f dry_run=false -f notify=true"
   },
   "keywords": [
     "web3",
