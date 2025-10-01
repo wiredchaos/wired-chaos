@@ -1,11 +1,45 @@
-﻿{
-  "github.copilot.inlineSuggest.enable": true,
-  "github.copilot.chat.experimental.model": "gpt-4o",
-  "wiredChaos.contextDocs": [
-    ".copilot/wired-chaos-context.md",
-    ".copilot/autofix-patterns.md",
-    ".copilot/security-patterns.md",
-    ".copilot/ar-vr-config.md",
-    ".copilot/color-palette.md"
-  ]
+{
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true
+  },
+  "github.copilot.advanced": {
+    "debug.overrideEngine": "copilot-gpt-4",
+    "debug.testOverrideProxyUrl": "",
+    "debug.overrideProxyUrl": ""
+  },
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "text": "# WIRED CHAOS V3 Studio Bot - Project Context\n\n## Full Stack Architecture\n- **Frontend**: React (Cloudflare Pages) with Tailwind CSS, shadcn/ui components\n- **Backend**: Python FastAPI, Cloudflare Workers (edge compute)\n- **Storage**: Cloudflare KV (key-value), R2 (object storage)\n- **Blockchain**: Multi-chain support (Ethereum, Solana, XRPL, Hedera, Dogecoin)\n- **Integrations**: Gamma.app, Notion API, Wix CMS, Zapier automation\n\n## Color Palette (Official Brand)\n- Black: #000000 (base background)\n- Neon Cyan: #00FFFF (primary accent)\n- Glitch Red: #FF3131 (alerts, errors)\n- Electric Green: #39FF14 (success states)\n- Accent Pink: #FF00FF (highlights)\n\n## Security Standards (NSA-Level)\n- Always implement Bearer token authentication for API endpoints\n- CORS must be explicitly configured with allowed origins\n- Circuit breaker patterns for external API calls\n- Wallet gating with multi-chain support\n- NDA digital signature integration for sensitive operations\n- Environment variables must use universal safe checks: `env.VAR || process.env.VAR || ''`\n\n## AR/VR Merch Store Requirements\n- GLB/USDZ model files require specific MIME types and CORS headers\n- Cloudflare Pages `_headers` must include:\n  - `model/gltf-binary` for .glb files\n  - `model/vnd.usdz+zip` for .usdz files\n  - XR permissions: `camera=*, microphone=*, xr-spatial-tracking=*`\n- Worker MIME type overrides for 3D assets\n- Model viewer integration with proper error handling\n\n## Deployment Principles\n- Zero-downtime deployments via Cloudflare global edge\n- Automatic rollback on health check failures\n- Health monitoring endpoints at `/api/health`\n- Auto-scaling via Cloudflare Workers unlimited concurrency\n\n## Common Auto-Fix Patterns\n1. **JSX Nesting Errors**: Always ensure proper parent-child relationships\n2. **Environment Variables**: Use `const VAR = env?.VAR || process?.env?.VAR || ''`\n3. **CORS Headers**: Include in Cloudflare Worker responses:\n   ```javascript\n   'Access-Control-Allow-Origin': '*',\n   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',\n   'Access-Control-Allow-Headers': 'Content-Type, Authorization'\n   ```\n4. **Worker Routing**: Always return proper Response objects with correct status codes\n5. **Build Errors**: Check for missing dependencies in package.json before building\n\n## Event System & Gamification\n- Real-time event bus using Cloudflare Durable Objects\n- Point system: WL claims (10pts), Minting Tier1 (20pts), Tier2 (40pts), Burns (50-250pts)\n- Vault33 Gatekeeper system with Discord/Telegram integration\n- XRPL validator integration for blockchain events\n\n## CI/CD Integration\n- GitHub Actions workflows: `frontend-deploy.yml`, `worker-deploy.yml`, `content-sync.yml`, `beta-test.yml`\n- Automated testing before deployment\n- Preview deployments for PR branches\n- Production deployments on main branch merges\n\n## File Organization\n- Frontend components: `frontend/src/components/`\n- Worker code: `src/index.js` with `src/wrangler.toml`\n- Backend API: `backend/server.py`, `backend/cert_api.py`, `backend/brain_assistant_api.py`\n- Config: `vault33-gatekeeper/shared/config.py`\n\n## Coding Standards\n- Use existing libraries; only add new ones if absolutely necessary\n- Match existing comment style in files\n- Prefer functional components with hooks in React\n- Use async/await for asynchronous operations\n- Implement proper error handling with try-catch blocks\n- Return structured error responses with meaningful messages"
+    }
+  ],
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/venv": true,
+    "**/.venv": true
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on"
+  },
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single"
 }
