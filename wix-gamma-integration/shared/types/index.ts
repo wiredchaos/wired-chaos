@@ -269,6 +269,11 @@ export interface CollaborationSession {
 export interface CollaborationUser {
   id: string;
   name: string;
+  /**
+   * Optional avatar URL for the collaborating user.
+   * Avatar is not required - users without avatars are fully supported.
+   * UI components should handle null/undefined avatar gracefully.
+   */
   avatar?: string;
   role: 'owner' | 'editor' | 'viewer';
   cursor?: {
@@ -287,4 +292,65 @@ export interface CollaborationChange {
   timestamp: number;
   data: any;
   conflictsWith?: string[];
+}
+
+// ========== Video Types ==========
+/**
+ * Video interface with optional avatar linking.
+ * Videos can optionally be associated with a user avatar,
+ * but this is not required for video display or functionality.
+ */
+export interface Video {
+  id: string;
+  title: string;
+  description?: string;
+  url: string;
+  thumbnailUrl?: string;
+  duration?: number; // in seconds
+  /**
+   * Optional avatar URL for the video creator/presenter.
+   * When null or undefined, video will display without an avatar.
+   */
+  avatar?: string | null;
+  createdBy?: string; // User ID
+  createdAt: Date;
+  updatedAt: Date;
+  tags?: string[];
+  status: 'draft' | 'published' | 'archived';
+  viewCount?: number;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Video player configuration with optional avatar display.
+ */
+export interface VideoPlayerConfig {
+  autoplay?: boolean;
+  controls?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  /**
+   * Whether to show the avatar (if available) alongside the video.
+   * Default: true - shows avatar when available.
+   */
+  showAvatar?: boolean;
+  avatarPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  avatarSize?: 'small' | 'medium' | 'large';
+}
+
+/**
+ * Video list item for galleries/feeds.
+ */
+export interface VideoListItem {
+  id: string;
+  title: string;
+  thumbnailUrl?: string;
+  duration?: number;
+  /**
+   * Optional avatar - videos without avatars are fully supported.
+   */
+  avatar?: string | null;
+  createdBy?: string;
+  createdAt: Date;
+  viewCount?: number;
 }

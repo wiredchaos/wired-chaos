@@ -65,6 +65,51 @@ class VaultUserStats(BaseModel):
     last_activity: str | None = None
     tier: str = "Seeker"
 
+class Video(BaseModel):
+    """
+    Video model with optional avatar linking.
+    
+    Videos can optionally be associated with a user avatar for display,
+    but avatar is not required. Videos without avatars are fully supported
+    and will display correctly.
+    """
+    id: str
+    title: str
+    description: str | None = None
+    url: str
+    thumbnail_url: str | None = None
+    duration: int | None = None  # in seconds
+    avatar: str | None = None  # Optional avatar URL - can be None
+    created_by: str | None = None  # User ID
+    created_at: str
+    updated_at: str
+    tags: list[str] = []
+    status: str = "published"  # draft, published, archived
+    view_count: int = 0
+    metadata: dict = {}
+
+class VideoCreate(BaseModel):
+    """Input model for creating a new video."""
+    title: str
+    description: str | None = None
+    url: str
+    thumbnail_url: str | None = None
+    duration: int | None = None
+    avatar: str | None = None  # Optional - videos work without avatars
+    tags: list[str] = []
+    status: str = "draft"
+
+class VideoUpdate(BaseModel):
+    """Input model for updating a video. All fields optional."""
+    title: str | None = None
+    description: str | None = None
+    url: str | None = None
+    thumbnail_url: str | None = None
+    duration: int | None = None
+    avatar: str | None = None  # Can be set to None to remove avatar
+    tags: list[str] | None = None
+    status: str | None = None
+
 async def llm_complete(prompt: str) -> str:
     # If no LLM key, return stubbed content (so dev isn't blocked).
     if not OPENAI_KEY:
@@ -224,21 +269,138 @@ async def blog_proxy():
             except:
                 continue
         
-        # Fallback mock data if all feeds fail
+        # If all URLs fail, return fallback content
         return {
-            "posts": [
-                {
-                    "title": "🔥 WIRED CHAOS Blog System Online",
-                    "link": "https://www.wiredchaos.xyz/blog",
-                    "description": "The new blog integration system is live with RSS proxy support and caching.",
-                    "published": datetime.datetime.utcnow().isoformat()
-                }
-            ],
-            "source": "fallback",
-            "count": 1
+            "posts": [],
+            "error": "Unable to fetch blog feed",
+            "source": "fallback"
         }
     except Exception as e:
-        return {"error": "Blog feed temporarily unavailable", "details": str(e)}
+        return {"posts": [], "error": str(e)}
+
+# ========== Video API Endpoints ==========
+# In-memory storage for demo (use database in production)
+videos_db = {}
+
+@app.get("/api/videos")
+async def list_videos(status: str | None = None, limit: int = 50, offset: int = 0):
+    """
+    List all videos. Supports optional filtering by status.
+    Videos may or may not have avatars - both are supported.
+    """
+    all_videos = list(videos_db.values())
+    
+    # Filter by status if provided
+    if status:
+        all_videos = [v for v in all_videos if v.get("status") == status]
+    
+    # Apply pagination
+    paginated = all_videos[offset:offset + limit]
+    
+    return {
+        "videos": paginated,
+        "total": len(all_videos),
+        "limit": limit,
+        "offset": offset
+    }
+
+@app.get("/api/videos/{video_id}")
+async def get_video(video_id: str):
+    """
+    Get a specific video by ID.
+    Returns video with avatar if available, otherwise avatar will be null.
+    """
+    if video_id not in videos_db:
+        return {"error": "Video not found"}, 404
+    
+    return videos_db[video_id]
+
+@app.post("/api/videos")
+async def create_video(video: VideoCreate):
+    """
+    Create a new video.
+    Avatar is optional - if not provided, video will display without an avatar.
+    """
+    import uuid
+    from datetime import datetime
+    
+    video_id = str(uuid.uuid4())
+    now = datetime.utcnow().isoformat()
+    
+    new_video = {
+        "id": video_id,
+        "title": video.title,
+        "description": video.description,
+        "url": video.url,
+        "thumbnail_url": video.thumbnail_url,
+        "duration": video.duration,
+        "avatar": video.avatar,  # Can be None
+        "created_by": None,  # Set from auth context in production
+        "created_at": now,
+        "updated_at": now,
+        "tags": video.tags,
+        "status": video.status,
+        "view_count": 0,
+        "metadata": {}
+    }
+    
+    videos_db[video_id] = new_video
+    return new_video
+
+@app.put("/api/videos/{video_id}")
+async def update_video(video_id: str, video: VideoUpdate):
+    """
+    Update an existing video.
+    Avatar can be updated, added, or removed (set to null) at any time.
+    """
+    from datetime import datetime
+    
+    if video_id not in videos_db:
+        return {"error": "Video not found"}, 404
+    
+    existing_video = videos_db[video_id]
+    
+    # Update only provided fields
+    if video.title is not None:
+        existing_video["title"] = video.title
+    if video.description is not None:
+        existing_video["description"] = video.description
+    if video.url is not None:
+        existing_video["url"] = video.url
+    if video.thumbnail_url is not None:
+        existing_video["thumbnail_url"] = video.thumbnail_url
+    if video.duration is not None:
+        existing_video["duration"] = video.duration
+    # Avatar can be explicitly set to None to remove it
+    if "avatar" in video.dict(exclude_unset=True):
+        existing_video["avatar"] = video.avatar
+    if video.tags is not None:
+        existing_video["tags"] = video.tags
+    if video.status is not None:
+        existing_video["status"] = video.status
+    
+    existing_video["updated_at"] = datetime.utcnow().isoformat()
+    
+    videos_db[video_id] = existing_video
+    return existing_video
+
+@app.delete("/api/videos/{video_id}")
+async def delete_video(video_id: str):
+    """Delete a video by ID."""
+    if video_id not in videos_db:
+        return {"error": "Video not found"}, 404
+    
+    del videos_db[video_id]
+    return {"success": True, "message": f"Video {video_id} deleted"}
+
+@app.post("/api/videos/{video_id}/view")
+async def increment_view_count(video_id: str):
+    """Increment view count for a video."""
+    if video_id not in videos_db:
+        return {"error": "Video not found"}, 404
+    
+    videos_db[video_id]["view_count"] = videos_db[video_id].get("view_count", 0) + 1
+    return {"view_count": videos_db[video_id]["view_count"]}
 
 if __name__ == "__main__":
     import uvicorn

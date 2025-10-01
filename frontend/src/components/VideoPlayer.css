@@ -1,0 +1,325 @@
+/**
+ * WIRED CHAOS - Video Player Styles
+ * Cyberpunk-themed video player with optional avatar display
+ */
+
+.video-player-container {
+  background: #000;
+  border: 2px solid #00FFFF;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  max-width: 100%;
+  margin: 16px 0;
+}
+
+.video-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #00FFFF;
+}
+
+.video-title {
+  color: #00FFFF;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+.video-duration {
+  color: #39FF14;
+  font-size: 0.9rem;
+  font-family: 'Courier New', monospace;
+}
+
+/* Video wrapper with aspect ratio */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.video-element {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 70vh;
+}
+
+.video-placeholder {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 49, 49, 0.1);
+  border: 1px dashed #FF3131;
+}
+
+.video-placeholder p {
+  color: #FF3131;
+  font-size: 1.2rem;
+}
+
+/* Avatar overlay styles - only displayed when avatar is provided */
+.video-avatar-overlay {
+  position: absolute;
+  z-index: 10;
+  border: 2px solid #00FFFF;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.video-avatar-overlay:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
+}
+
+.video-avatar-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Avatar positions */
+.video-avatar-overlay.top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.video-avatar-overlay.top-right {
+  top: 12px;
+  right: 12px;
+}
+
+.video-avatar-overlay.bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+
+.video-avatar-overlay.bottom-right {
+  bottom: 12px;
+  right: 12px;
+}
+
+/* Avatar sizes */
+.video-avatar-overlay.small {
+  width: 40px;
+  height: 40px;
+}
+
+.video-avatar-overlay.medium {
+  width: 60px;
+  height: 60px;
+}
+
+.video-avatar-overlay.large {
+  width: 80px;
+  height: 80px;
+}
+
+/* Video info section */
+.video-info {
+  margin-top: 12px;
+}
+
+.video-description {
+  color: #FFF;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 8px 0;
+}
+
+.video-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.video-views {
+  color: #39FF14;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.video-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.video-tag {
+  background: rgba(0, 255, 255, 0.1);
+  color: #00FFFF;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  border: 1px solid #00FFFF;
+}
+
+/* Video Grid Styles */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.video-grid-item {
+  background: #000;
+  border: 2px solid #00FFFF;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.video-grid-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  border-color: #39FF14;
+}
+
+.video-thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 255, 255, 0.1);
+  font-size: 3rem;
+}
+
+/* Avatar badge on thumbnail - only shown if avatar exists */
+.thumbnail-avatar-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #00FFFF;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+}
+
+.thumbnail-avatar-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-duration {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #39FF14;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+  border: 1px solid #39FF14;
+}
+
+.video-grid-info {
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.video-grid-info h4 {
+  color: #00FFFF;
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.grid-views {
+  color: #39FF14;
+  font-size: 0.85rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .video-title {
+    font-size: 1.2rem;
+  }
+
+  .video-avatar-overlay.large {
+    width: 60px;
+    height: 60px;
+  }
+
+  .video-avatar-overlay.medium {
+    width: 50px;
+    height: 50px;
+  }
+
+  .video-avatar-overlay.small {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-player-container {
+    padding: 12px;
+  }
+
+  .video-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* Animation for avatar appearance */
+@keyframes avatarGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
+  }
+}
+
+.video-avatar-overlay {
+  animation: avatarGlow 3s ease-in-out infinite;
+}
