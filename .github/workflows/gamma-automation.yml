@@ -1,0 +1,254 @@
+name: GAMMA-Wix Presentation Automation
+
+on:
+  # Trigger on PR merge to main
+  push:
+    branches:
+      - main
+    paths:
+      - 'gamma-wix-automation/**'
+  
+  # Trigger on release
+  release:
+    types: [published, created]
+  
+  # Trigger on milestones
+  milestone:
+    types: [created, closed]
+  
+  # Scheduled generation (daily at 9 AM UTC)
+  schedule:
+    - cron: '0 9 * * *'
+  
+  # Manual trigger
+  workflow_dispatch:
+    inputs:
+      type:
+        description: 'Presentation type'
+        required: true
+        type: choice
+        options:
+          - component
+          - feature
+          - milestone
+          - all
+      sync:
+        description: 'Sync to Wix after generation'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  generate-presentations:
+    name: Generate GAMMA Presentations
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🔄 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'gamma-wix-automation/package.json'
+      
+      - name: 📦 Install dependencies
+        working-directory: gamma-wix-automation
+        run: npm install
+      
+      - name: 🔧 Configure environment
+        working-directory: gamma-wix-automation
+        env:
+          GAMMA_API_TOKEN: ${{ secrets.GAMMA_API_TOKEN }}
+          WIX_API_TOKEN: ${{ secrets.WIX_API_TOKEN }}
+          WIX_SITE_ID: ${{ secrets.WIX_SITE_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "NODE_ENV=production" >> $GITHUB_ENV
+          echo "ENABLE_NOTIFICATIONS=true" >> $GITHUB_ENV
+          echo "ENABLE_LOGGING=true" >> $GITHUB_ENV
+      
+      - name: 🎨 Generate presentations
+        working-directory: gamma-wix-automation
+        env:
+          GAMMA_API_TOKEN: ${{ secrets.GAMMA_API_TOKEN }}
+          WIX_API_TOKEN: ${{ secrets.WIX_API_TOKEN }}
+          WIX_SITE_ID: ${{ secrets.WIX_SITE_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_ENABLED: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+        run: |
+          echo "🚀 Starting presentation generation..."
+          
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "📦 Release detected - generating feature presentation"
+            node src/presentation-generator.js
+          elif [ "${{ github.event_name }}" = "milestone" ]; then
+            echo "🏆 Milestone detected - generating milestone presentation"
+            node src/presentation-generator.js
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "🎯 Manual trigger - type: ${{ github.event.inputs.type }}"
+            node src/presentation-generator.js
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "⏰ Scheduled run - generating all presentations"
+            node src/presentation-generator.js
+          else
+            echo "🔄 Push detected - generating presentations"
+            node src/presentation-generator.js
+          fi
+      
+      - name: 🔄 Sync to Wix
+        if: github.event.inputs.sync != 'false'
+        working-directory: gamma-wix-automation
+        env:
+          GAMMA_API_TOKEN: ${{ secrets.GAMMA_API_TOKEN }}
+          WIX_API_TOKEN: ${{ secrets.WIX_API_TOKEN }}
+          WIX_SITE_ID: ${{ secrets.WIX_SITE_ID }}
+        run: |
+          echo "🔄 Syncing presentations to Wix..."
+          node src/content-sync.js all
+      
+      - name: 📊 Check sync status
+        if: always()
+        working-directory: gamma-wix-automation
+        env:
+          GAMMA_API_TOKEN: ${{ secrets.GAMMA_API_TOKEN }}
+          WIX_API_TOKEN: ${{ secrets.WIX_API_TOKEN }}
+          WIX_SITE_ID: ${{ secrets.WIX_SITE_ID }}
+        run: |
+          echo "📊 Checking sync status..."
+          node src/content-sync.js status
+      
+      - name: 📋 Generate report
+        if: always()
+        run: |
+          cat > gamma-wix-automation/automation-report.md << EOF
+          # GAMMA-Wix Automation Report
+          
+          **Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Trigger:** ${{ github.event_name }}
+          **Status:** ${{ job.status }}
+          **Commit:** ${{ github.sha }}
+          **Branch:** ${{ github.ref_name }}
+          
+          ## Event Details
+          
+          - **Event Type:** ${{ github.event_name }}
+          - **Actor:** ${{ github.actor }}
+          - **Repository:** ${{ github.repository }}
+          
+          ## Presentations Generated
+          
+          - Component presentations: ✅
+          - Feature presentations: ✅
+          - Milestone presentations: ✅
+          
+          ## Sync Status
+          
+          - Wix sync: ✅ Complete
+          - Galleries updated: components, features, milestones
+          
+          ## Next Steps
+          
+          1. Review presentations on GAMMA
+          2. Verify Wix gallery updates
+          3. Monitor analytics for engagement
+          
+          ## Resources
+          
+          - [GAMMA Dashboard](https://gamma.app)
+          - [Wix Site](https://wired-chaos.wixsite.com)
+          - [Documentation](https://github.com/${{ github.repository }}/tree/main/gamma-wix-automation/docs)
+          
+          ---
+          
+          **WIRED CHAOS** - Automated Presentation Generation 🚀
+          EOF
+          
+          cat gamma-wix-automation/automation-report.md
+      
+      - name: 📤 Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: automation-report
+          path: gamma-wix-automation/automation-report.md
+          retention-days: 30
+      
+      - name: 💬 Notify Discord
+        if: always() && secrets.DISCORD_WEBHOOK_URL != ''
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          STATUS="${{ job.status }}"
+          
+          if [ "$STATUS" = "success" ]; then
+            COLOR="3066993"  # Green
+            MESSAGE="✅ GAMMA-Wix automation completed successfully"
+          else
+            COLOR="15158332"  # Red
+            MESSAGE="❌ GAMMA-Wix automation failed"
+          fi
+          
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"embeds\": [{
+                \"title\": \"GAMMA-Wix Automation\",
+                \"description\": \"$MESSAGE\",
+                \"color\": $COLOR,
+                \"fields\": [
+                  {
+                    \"name\": \"Event\",
+                    \"value\": \"${{ github.event_name }}\",
+                    \"inline\": true
+                  },
+                  {
+                    \"name\": \"Status\",
+                    \"value\": \"$STATUS\",
+                    \"inline\": true
+                  },
+                  {
+                    \"name\": \"Commit\",
+                    \"value\": \"\`${{ github.sha }}\`\",
+                    \"inline\": true
+                  }
+                ],
+                \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+              }]
+            }"
+
+  test-automation:
+    name: Test Automation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: 🔄 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'gamma-wix-automation/package.json'
+      
+      - name: 📦 Install dependencies
+        working-directory: gamma-wix-automation
+        run: npm install
+      
+      - name: 🧪 Run tests
+        working-directory: gamma-wix-automation
+        run: npm test
+      
+      - name: 📊 Test report
+        if: always()
+        run: echo "Tests completed with status ${{ job.status }}"

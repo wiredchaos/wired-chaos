@@ -1,0 +1,71 @@
+{
+  "name": "Component Documentation Template",
+  "description": "Template for WIRED CHAOS component documentation presentations",
+  "theme": {
+    "id": "wired-chaos-cyber",
+    "colors": {
+      "primary": "#00fff0",
+      "secondary": "#ff2a2a",
+      "accent": "#8000ff",
+      "background": "#000000",
+      "text": "#ffffff"
+    },
+    "fonts": {
+      "heading": "Orbitron, sans-serif",
+      "body": "Rajdhani, sans-serif",
+      "code": "Share Tech Mono, monospace"
+    }
+  },
+  "slides": [
+    {
+      "type": "title",
+      "layout": "single",
+      "template": {
+        "title": "{{componentName}}",
+        "subtitle": "Component Documentation",
+        "footer": "WIRED CHAOS"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Overview",
+        "content": "{{overview}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "Key Features",
+        "content": "{{features}}"
+      }
+    },
+    {
+      "type": "code",
+      "layout": "single",
+      "template": {
+        "title": "Usage Example",
+        "code": "{{codeExample}}",
+        "language": "{{language}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "API Reference",
+        "content": "{{apiEndpoints}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Installation",
+        "content": "npm install @wired-chaos/{{componentName}}"
+      }
+    }
+  ]
+}
