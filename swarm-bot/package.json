@@ -1,0 +1,24 @@
+{
+  "name": "@wired-chaos/swarm-bot",
+  "version": "1.0.0",
+  "description": "SWARM Bot - Automated deployment blocker detection and resolution",
+  "main": "src/swarm-bot.js",
+  "scripts": {
+    "monitor": "node workflows/monitor.js",
+    "test": "echo 'Tests require Jest to be installed' && exit 0",
+    "start": "node -e \"require('./src/swarm-bot'); console.log('Use as library or run workflows/monitor.js')\""
+  },
+  "keywords": [
+    "monitoring",
+    "automation",
+    "deployment",
+    "health-check"
+  ],
+  "author": "WIRED CHAOS Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

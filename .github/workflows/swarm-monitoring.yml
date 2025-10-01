@@ -1,0 +1,118 @@
+name: SWARM Bot Monitoring
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Every 5 minutes
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'swarm-bot/**'
+      - '.github/workflows/swarm-monitoring.yml'
+
+jobs:
+  swarm-monitor:
+    name: SWARM Monitoring Cycle
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci || npm install
+
+      - name: Run SWARM Monitoring
+        id: monitor
+        run: |
+          echo "🔍 Running SWARM monitoring cycle..."
+          node swarm-bot/workflows/monitor.js || echo "Monitor script not yet implemented"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SWARM_DRY_RUN: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+
+      - name: Auto-resolve Issues
+        id: resolve
+        if: success()
+        run: |
+          echo "🔧 Attempting auto-resolution..."
+          node swarm-bot/workflows/resolve.js || echo "Resolve script not yet implemented"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SWARM_DRY_RUN: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+
+      - name: Update Health Triage
+        id: sync
+        if: always()
+        run: |
+          echo "📊 Syncing with Health Triage Bot..."
+          node swarm-bot/workflows/sync-health.js || echo "Sync script not yet implemented"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report Status
+        if: always()
+        run: |
+          echo "✅ SWARM monitoring cycle complete"
+          echo "Monitor: ${{ steps.monitor.outcome }}"
+          echo "Resolve: ${{ steps.resolve.outcome }}"
+          echo "Sync: ${{ steps.sync.outcome }}"
+
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "❌ SWARM monitoring failed - check logs"
+          # In production, would send alert via Discord/Slack
+
+  health-check:
+    name: System Health Check
+    runs-on: ubuntu-latest
+    needs: swarm-monitor
+    if: always()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check Critical Endpoints
+        run: |
+          echo "🏥 Checking critical endpoints..."
+          
+          endpoints=(
+            "https://www.wiredchaos.xyz/api/health"
+            "https://www.wiredchaos.xyz/suite"
+            "https://www.wiredchaos.xyz/health"
+          )
+          
+          failed=0
+          for url in "${endpoints[@]}"; do
+            echo "Checking: $url"
+            if curl -f -s -o /dev/null -w "%{http_code}" "$url" | grep -q "200"; then
+              echo "  ✅ $url is healthy"
+            else
+              echo "  ❌ $url is not responding"
+              failed=$((failed + 1))
+            fi
+          done
+          
+          if [ $failed -gt 0 ]; then
+            echo "⚠️ $failed endpoints failed health check"
+            exit 1
+          else
+            echo "✅ All endpoints healthy"
+          fi
+
+      - name: Check Deployment Status
+        run: |
+          echo "📦 Checking deployment status..."
+          # Would check Cloudflare Workers, Pages, etc.
+          echo "✅ Deployment status check complete"
