@@ -1,0 +1,258 @@
+{
+  "dashboard": {
+    "enabled": true,
+    "version": "1.0.0",
+    "name": "WIRED CHAOS Analytics Dashboard",
+    "refresh_interval": 300,
+    "auto_refresh": true,
+    "widgets": [
+      {
+        "id": "kpi_cards",
+        "type": "kpi_cards",
+        "title": "Key Performance Indicators",
+        "position": { "row": 1, "col": 1, "width": 12, "height": 2 },
+        "metrics": [
+          {
+            "name": "total_leads",
+            "label": "Total Leads",
+            "icon": "users",
+            "color": "#3b82f6",
+            "format": "number",
+            "trend": true,
+            "target": 1000,
+            "data_source": "notion_crm"
+          },
+          {
+            "name": "conversion_rate",
+            "label": "Conversion Rate",
+            "icon": "trending-up",
+            "color": "#10b981",
+            "format": "percentage",
+            "trend": true,
+            "target": 15,
+            "data_source": "analytics"
+          },
+          {
+            "name": "avg_deal_size",
+            "label": "Avg Deal Size",
+            "icon": "dollar-sign",
+            "color": "#f59e0b",
+            "format": "currency",
+            "currency": "USD",
+            "trend": true,
+            "target": 5000,
+            "data_source": "notion_crm"
+          },
+          {
+            "name": "pipeline_value",
+            "label": "Pipeline Value",
+            "icon": "briefcase",
+            "color": "#8b5cf6",
+            "format": "currency",
+            "currency": "USD",
+            "trend": true,
+            "target": 100000,
+            "data_source": "notion_crm"
+          }
+        ]
+      },
+      {
+        "id": "funnel_chart",
+        "type": "funnel_chart",
+        "title": "Conversion Funnel",
+        "position": { "row": 3, "col": 1, "width": 6, "height": 4 },
+        "stages": [
+          {
+            "name": "signup",
+            "label": "Signups",
+            "color": "#3b82f6"
+          },
+          {
+            "name": "deck_viewed",
+            "label": "Deck Viewed",
+            "color": "#10b981"
+          },
+          {
+            "name": "engaged",
+            "label": "Engaged",
+            "color": "#f59e0b"
+          },
+          {
+            "name": "qualified",
+            "label": "Qualified",
+            "color": "#ef4444"
+          },
+          {
+            "name": "converted",
+            "label": "Converted",
+            "color": "#8b5cf6"
+          }
+        ],
+        "data_source": "analytics",
+        "show_percentages": true,
+        "show_drop_off": true
+      },
+      {
+        "id": "time_series",
+        "type": "time_series",
+        "title": "Trends Over Time",
+        "position": { "row": 3, "col": 7, "width": 6, "height": 4 },
+        "metrics": [
+          {
+            "name": "daily_signups",
+            "label": "Daily Signups",
+            "color": "#3b82f6",
+            "line_style": "solid",
+            "show_area": true
+          },
+          {
+            "name": "deck_generation_time",
+            "label": "Deck Generation Time (s)",
+            "color": "#10b981",
+            "line_style": "dashed",
+            "show_area": false,
+            "y_axis": "right"
+          },
+          {
+            "name": "email_open_rate",
+            "label": "Email Open Rate (%)",
+            "color": "#f59e0b",
+            "line_style": "solid",
+            "show_area": false
+          }
+        ],
+        "time_range": "last_30_days",
+        "aggregation": "daily",
+        "data_source": "analytics"
+      },
+      {
+        "id": "heatmap",
+        "type": "heatmap",
+        "title": "User Engagement by Hour",
+        "position": { "row": 7, "col": 1, "width": 6, "height": 3 },
+        "data": "user_engagement_by_hour",
+        "x_axis": "hour_of_day",
+        "y_axis": "day_of_week",
+        "color_scale": ["#f0f9ff", "#0ea5e9", "#0c4a6e"],
+        "data_source": "analytics"
+      },
+      {
+        "id": "cohort_analysis",
+        "type": "cohort_analysis",
+        "title": "User Retention by Cohort",
+        "position": { "row": 7, "col": 7, "width": 6, "height": 3 },
+        "period": "weekly",
+        "cohort_size": 12,
+        "retention_metric": "active_users",
+        "color_scale": ["#fef2f2", "#ef4444", "#7f1d1d"],
+        "data_source": "analytics"
+      },
+      {
+        "id": "geographic_map",
+        "type": "geographic_map",
+        "title": "Leads by Location",
+        "position": { "row": 10, "col": 1, "width": 6, "height": 4 },
+        "metric": "lead_count",
+        "color_scale": ["#f0fdf4", "#10b981", "#064e3b"],
+        "data_source": "analytics",
+        "zoom_level": "country"
+      },
+      {
+        "id": "top_sources",
+        "type": "bar_chart",
+        "title": "Top Referral Sources",
+        "position": { "row": 10, "col": 7, "width": 6, "height": 4 },
+        "metric": "lead_count",
+        "dimension": "referral_source",
+        "orientation": "horizontal",
+        "top_n": 10,
+        "color": "#3b82f6",
+        "data_source": "analytics"
+      }
+    ],
+    "filters": {
+      "date_range": {
+        "enabled": true,
+        "default": "last_30_days",
+        "options": [
+          "today",
+          "yesterday",
+          "last_7_days",
+          "last_30_days",
+          "last_90_days",
+          "this_month",
+          "last_month",
+          "this_quarter",
+          "last_quarter",
+          "this_year",
+          "custom"
+        ]
+      },
+      "segment": {
+        "enabled": true,
+        "options": ["all", "hot_leads", "warm_leads", "cold_leads"]
+      },
+      "region": {
+        "enabled": true,
+        "options": ["all", "us", "eu", "latam", "asia"]
+      }
+    },
+    "export_formats": ["pdf", "csv", "json"],
+    "scheduled_reports": {
+      "enabled": true,
+      "frequency": "weekly",
+      "day": "monday",
+      "time": "09:00",
+      "recipients": ["admin@wired-chaos.com"],
+      "format": "pdf",
+      "include_widgets": "all"
+    },
+    "alerts": {
+      "enabled": true,
+      "conditions": [
+        {
+          "metric": "conversion_rate",
+          "operator": "less_than",
+          "threshold": 10,
+          "severity": "warning"
+        },
+        {
+          "metric": "pipeline_value",
+          "operator": "less_than",
+          "threshold": 50000,
+          "severity": "critical"
+        },
+        {
+          "metric": "daily_signups",
+          "operator": "less_than",
+          "threshold": 10,
+          "severity": "info"
+        }
+      ],
+      "channels": ["discord", "telegram", "email"]
+    },
+    "data_sources": {
+      "notion_crm": {
+        "type": "notion",
+        "database_id": "NOTION_DATABASE_ID",
+        "refresh_interval": 300
+      },
+      "analytics": {
+        "type": "cloudflare_analytics",
+        "account_id": "CLOUDFLARE_ACCOUNT_ID",
+        "refresh_interval": 300
+      },
+      "gamma": {
+        "type": "gamma_api",
+        "api_key": "GAMMA_API_KEY",
+        "refresh_interval": 600
+      }
+    },
+    "performance": {
+      "cache_data": true,
+      "cache_duration": 300,
+      "lazy_load_widgets": true,
+      "optimize_queries": true
+    }
+  }
+}

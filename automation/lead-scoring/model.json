@@ -1,0 +1,180 @@
+{
+  "lead_scoring": {
+    "enabled": true,
+    "version": "1.0.0",
+    "model": "gradient_boosting",
+    "model_version": "v1.0",
+    "last_trained": "2024-01-01T00:00:00Z",
+    "training_frequency_days": 7,
+    "features": [
+      {
+        "name": "company_size",
+        "type": "categorical",
+        "values": ["1-10", "11-50", "51-200", "201-500", "500+"],
+        "weight": 0.15,
+        "encoding": "ordinal"
+      },
+      {
+        "name": "industry",
+        "type": "categorical",
+        "values": [
+          "technology",
+          "finance",
+          "healthcare",
+          "retail",
+          "manufacturing",
+          "other"
+        ],
+        "weight": 0.12,
+        "encoding": "one_hot"
+      },
+      {
+        "name": "engagement_score",
+        "type": "numerical",
+        "range": [0, 100],
+        "weight": 0.20,
+        "normalization": "min_max"
+      },
+      {
+        "name": "email_opens",
+        "type": "numerical",
+        "range": [0, 100],
+        "weight": 0.10,
+        "normalization": "standard"
+      },
+      {
+        "name": "deck_views",
+        "type": "numerical",
+        "range": [0, 50],
+        "weight": 0.15,
+        "normalization": "min_max"
+      },
+      {
+        "name": "time_on_site",
+        "type": "numerical",
+        "range": [0, 3600],
+        "weight": 0.12,
+        "unit": "seconds",
+        "normalization": "log"
+      },
+      {
+        "name": "social_interactions",
+        "type": "numerical",
+        "range": [0, 100],
+        "weight": 0.08,
+        "normalization": "standard"
+      },
+      {
+        "name": "referral_source",
+        "type": "categorical",
+        "values": ["organic", "paid", "social", "referral", "direct"],
+        "weight": 0.08,
+        "encoding": "label"
+      }
+    ],
+    "scoring_tiers": {
+      "hot": {
+        "min": 80,
+        "max": 100,
+        "action": "immediate_contact",
+        "priority": 1,
+        "sla_hours": 4,
+        "assign_to": "senior_sales"
+      },
+      "warm": {
+        "min": 60,
+        "max": 79,
+        "action": "nurture_campaign",
+        "priority": 2,
+        "sla_hours": 24,
+        "assign_to": "sales_team"
+      },
+      "cold": {
+        "min": 0,
+        "max": 59,
+        "action": "automated_follow_up",
+        "priority": 3,
+        "sla_hours": 72,
+        "assign_to": "marketing_automation"
+      }
+    },
+    "auto_actions": {
+      "hot_leads": {
+        "action": "notify_sales_team",
+        "channels": ["email", "slack", "crm"],
+        "message_template": "🔥 Hot lead alert: {{lead_name}} from {{company_name}} (Score: {{score}})",
+        "additional_actions": [
+          "create_calendar_event",
+          "add_to_priority_queue",
+          "send_personalized_email"
+        ]
+      },
+      "warm_leads": {
+        "action": "schedule_follow_up",
+        "delay_hours": 24,
+        "campaign": "nurture_sequence_v2",
+        "additional_actions": [
+          "add_to_drip_campaign",
+          "send_educational_content"
+        ]
+      },
+      "cold_leads": {
+        "action": "add_to_drip_campaign",
+        "campaign": "general_awareness_v1",
+        "frequency": "weekly",
+        "additional_actions": [
+          "segment_by_interest",
+          "track_engagement"
+        ]
+      }
+    },
+    "model_parameters": {
+      "n_estimators": 100,
+      "learning_rate": 0.1,
+      "max_depth": 5,
+      "min_samples_split": 10,
+      "min_samples_leaf": 5,
+      "subsample": 0.8,
+      "random_state": 42
+    },
+    "validation": {
+      "method": "cross_validation",
+      "folds": 5,
+      "metrics": [
+        "accuracy",
+        "precision",
+        "recall",
+        "f1_score",
+        "roc_auc"
+      ],
+      "minimum_accuracy": 0.85
+    },
+    "retraining": {
+      "auto_retrain": true,
+      "trigger_conditions": [
+        {
+          "metric": "accuracy",
+          "threshold": 0.80,
+          "action": "retrain_immediately"
+        },
+        {
+          "time_since_last_training_days": 7,
+          "action": "scheduled_retrain"
+        }
+      ]
+    },
+    "data_sources": {
+      "notion_crm": true,
+      "email_tracking": true,
+      "website_analytics": true,
+      "gamma_engagement": true,
+      "social_media": true
+    },
+    "privacy": {
+      "anonymize_data": false,
+      "gdpr_compliant": true,
+      "data_retention_days": 365,
+      "allow_opt_out": true
+    }
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "enterprise": {
+    "enabled": true,
+    "version": "1.0.0",
+    "features": {
+      "custom_branding": {
+        "enabled": true,
+        "customizable": [
+          "colors",
+          "logos",
+          "templates",
+          "fonts",
+          "email_templates",
+          "presentation_themes"
+        ],
+        "preview_mode": true,
+        "apply_globally": true,
+        "brand_guidelines": {
+          "primary_color": "#hexcode",
+          "secondary_color": "#hexcode",
+          "logo_url": "https://example.com/logo.png",
+          "font_family": "custom-font"
+        }
+      },
+      "white_label": {
+        "enabled": true,
+        "custom_domain": true,
+        "remove_branding": true,
+        "custom_email_domain": true,
+        "custom_subdomain": true,
+        "ssl_certificate": "auto",
+        "features": [
+          "remove_powered_by",
+          "custom_login_page",
+          "custom_email_footer",
+          "custom_support_links"
+        ]
+      },
+      "advanced_permissions": {
+        "enabled": true,
+        "rbac": true,
+        "sso": true,
+        "saml": true,
+        "oauth2": true,
+        "audit_logs": true,
+        "ip_whitelisting": true,
+        "2fa_required": false,
+        "roles": [
+          {
+            "name": "admin",
+            "permissions": ["all"],
+            "description": "Full system access"
+          },
+          {
+            "name": "manager",
+            "permissions": [
+              "view_analytics",
+              "manage_users",
+              "manage_content",
+              "view_logs"
+            ],
+            "description": "Team management and analytics"
+          },
+          {
+            "name": "user",
+            "permissions": [
+              "view_content",
+              "create_decks",
+              "send_emails"
+            ],
+            "description": "Standard user access"
+          },
+          {
+            "name": "viewer",
+            "permissions": ["view_content", "view_analytics"],
+            "description": "Read-only access"
+          }
+        ]
+      },
+      "api_access": {
+        "enabled": true,
+        "rate_limit": "unlimited",
+        "custom_webhooks": true,
+        "batch_operations": true,
+        "webhook_endpoints": ["custom"],
+        "api_versions": ["v1", "v2"],
+        "documentation": "https://docs.wired-chaos.com/api",
+        "sandbox_environment": true,
+        "api_keys": {
+          "production": "generated",
+          "staging": "generated",
+          "development": "generated"
+        },
+        "features": [
+          "rest_api",
+          "graphql_api",
+          "webhooks",
+          "realtime_subscriptions",
+          "bulk_imports",
+          "bulk_exports"
+        ]
+      },
+      "dedicated_support": {
+        "enabled": true,
+        "sla": "99.9%",
+        "response_time": "2h",
+        "channels": ["email", "phone", "slack", "dedicated_slack_channel"],
+        "business_hours": "24/7",
+        "dedicated_account_manager": true,
+        "priority_queue": true,
+        "custom_training": true,
+        "quarterly_business_reviews": true,
+        "escalation_path": {
+          "level1": "support_team",
+          "level2": "engineering_team",
+          "level3": "cto"
+        }
+      },
+      "advanced_analytics": {
+        "enabled": true,
+        "custom_reports": true,
+        "data_export": true,
+        "api_access": true,
+        "real_time_dashboards": true,
+        "predictive_analytics": true,
+        "custom_metrics": true,
+        "data_warehouse_integration": true,
+        "features": [
+          "custom_dashboards",
+          "scheduled_reports",
+          "data_exports",
+          "sql_query_access",
+          "bi_tool_integration",
+          "raw_data_access"
+        ],
+        "export_formats": ["csv", "json", "parquet", "sql"],
+        "integrations": [
+          "tableau",
+          "power_bi",
+          "looker",
+          "google_data_studio"
+        ]
+      },
+      "compliance": {
+        "gdpr": true,
+        "ccpa": true,
+        "hipaa": false,
+        "soc2": "in_progress",
+        "iso27001": "planned",
+        "data_residency": ["us", "eu"],
+        "data_encryption": {
+          "at_rest": true,
+          "in_transit": true,
+          "algorithm": "AES-256"
+        },
+        "audit_logs": {
+          "retention_days": 365,
+          "immutable": true,
+          "export_available": true
+        }
+      },
+      "custom_integrations": {
+        "enabled": true,
+        "supported_platforms": [
+          "salesforce",
+          "hubspot",
+          "marketo",
+          "microsoft_dynamics",
+          "sap",
+          "oracle"
+        ],
+        "custom_development": true,
+        "integration_support": true,
+        "webhook_customization": true,
+        "data_mapping": true
+      },
+      "advanced_workflows": {
+        "enabled": true,
+        "custom_workflows": true,
+        "approval_flows": true,
+        "automated_routing": true,
+        "conditional_logic": true,
+        "multi_step_workflows": true,
+        "workflow_templates": true,
+        "workflow_builder": "visual"
+      },
+      "data_governance": {
+        "enabled": true,
+        "data_classification": true,
+        "access_control": "role_based",
+        "data_retention_policies": true,
+        "automatic_deletion": true,
+        "data_lineage": true,
+        "metadata_management": true
+      }
+    },
+    "pricing_tiers": {
+      "starter": {
+        "name": "Starter",
+        "users": 5,
+        "decks": 100,
+        "storage_gb": 10,
+        "api_calls_per_month": 10000,
+        "support": "email",
+        "sla": "99%",
+        "price_per_month": 99
+      },
+      "professional": {
+        "name": "Professional",
+        "users": 25,
+        "decks": 500,
+        "storage_gb": 50,
+        "api_calls_per_month": 50000,
+        "support": "email_chat",
+        "sla": "99.5%",
+        "price_per_month": 499
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "users": "unlimited",
+        "decks": "unlimited",
+        "storage_gb": "unlimited",
+        "api_calls_per_month": "unlimited",
+        "support": "24_7_dedicated",
+        "sla": "99.9%",
+        "price_per_month": "custom"
+      }
+    },
+    "onboarding": {
+      "dedicated_onboarding_specialist": true,
+      "custom_training_sessions": true,
+      "migration_assistance": true,
+      "data_import_service": true,
+      "timeline_weeks": 4
+    },
+    "maintenance": {
+      "scheduled_maintenance_window": "weekends",
+      "advance_notice_days": 7,
+      "zero_downtime_deployments": true,
+      "automatic_backups": true,
+      "backup_frequency": "hourly",
+      "backup_retention_days": 90,
+      "disaster_recovery": {
+        "rto_hours": 4,
+        "rpo_hours": 1,
+        "geo_redundancy": true
+      }
+    }
+  }
+}

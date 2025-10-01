@@ -1,0 +1,297 @@
+name: 🤖 Swarm Orchestration - Auto Deployment Trigger
+
+on:
+  issues:
+    types: [closed]
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      force_trigger:
+        description: 'Force deployment trigger'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  check-and-trigger:
+    name: 🤖 Check & Trigger Deployment
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'issues' && github.event.issue.state == 'closed') ||
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
+      (github.event_name == 'workflow_dispatch')
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: 📦 Install dependencies
+        run: |
+          npm install @octokit/rest
+          echo "✅ Dependencies installed"
+      
+      - name: 🔍 Check immediate actions status
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e "
+          const { Octokit } = require('@octokit/rest');
+          const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+          
+          async function checkStatus() {
+            try {
+              const { data: issues } = await octokit.issues.listForRepo({
+                owner: '${{ github.repository_owner }}',
+                repo: '${{ github.event.repository.name }}',
+                state: 'open',
+                labels: 'immediate-action,hotfix,critical-fix'
+              });
+              
+              const immediateActions = issues.filter(issue => 
+                issue.labels.some(l => ['immediate-action', 'hotfix', 'critical-fix'].includes(l.name))
+              );
+              
+              console.log('Open immediate actions:', immediateActions.length);
+              
+              if (immediateActions.length === 0 || '${{ github.event.inputs.force_trigger }}' === 'true') {
+                console.log('✅ Ready for deployment');
+                console.log('ready_for_deployment=true');
+                require('fs').appendFileSync(process.env.GITHUB_OUTPUT, 'ready_for_deployment=true\n');
+              } else {
+                console.log('⏳ Immediate actions still pending');
+                console.log('ready_for_deployment=false');
+                require('fs').appendFileSync(process.env.GITHUB_OUTPUT, 'ready_for_deployment=false\n');
+                require('fs').appendFileSync(process.env.GITHUB_OUTPUT, \`pending_count=\${immediateActions.length}\n\`);
+              }
+            } catch (error) {
+              console.error('Error:', error.message);
+              require('fs').appendFileSync(process.env.GITHUB_OUTPUT, 'ready_for_deployment=false\n');
+            }
+          }
+          
+          checkStatus();
+          "
+      
+      - name: 🚀 Trigger deployment orchestration
+        if: steps.check.outputs.ready_for_deployment == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            console.log('🚀 Triggering full deployment orchestration...');
+            
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: 'deployment-orchestration.yml',
+                ref: 'main',
+                inputs: {
+                  phase: 'all',
+                  skip_tests: 'false'
+                }
+              });
+              
+              console.log('✅ Deployment orchestration triggered successfully!');
+              console.log('🎯 NO TOUCH INFRA: Full deployment pipeline activated');
+            } catch (error) {
+              console.error('❌ Failed to trigger deployment:', error.message);
+              throw error;
+            }
+      
+      - name: 📝 Create deployment notification
+        if: steps.check.outputs.ready_for_deployment == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueBody = `# 🚀 Automated Deployment Triggered
+            
+            **NO TOUCH INFRA**: Full deployment orchestration has been automatically triggered.
+            
+            ## Trigger Details
+            
+            - **Event:** ${{ github.event_name }}
+            - **Triggered At:** ${new Date().toISOString()}
+            - **Triggered By:** Swarm Bot Orchestrator
+            - **Reason:** ${github.event_name === 'workflow_dispatch' ? 'Manual trigger' : 'All immediate actions completed'}
+            
+            ## Deployment Phases
+            
+            - ✅ Phase 1: Foundation (Week 1)
+              - Zapier Webhook Processor
+              - Gamma API Integration
+              - Wix AI Bot Configuration
+              - Notion Database Connection
+            
+            - ✅ Phase 2: Automation (Week 2)
+              - 6 Core Workflows
+              - Signup → Deck Pipeline
+              - Vault33 Gamification
+              - Content Creation Automation
+            
+            - ✅ Phase 3: Optimization (Week 3)
+              - Performance Monitoring
+              - A/B Testing Framework
+              - AI Response Optimization
+              - Auto-Scaling
+            
+            - ✅ Phase 4: Advanced Features (Week 4)
+              - Predictive Lead Scoring
+              - Multi-Language Support
+              - Analytics Dashboard
+              - Enterprise Features
+            
+            ## Monitoring
+            
+            - **Actions:** [View Workflow Runs](https://github.com/${{ github.repository }}/actions)
+            - **Logs:** Available in workflow artifacts
+            - **Notifications:** Discord/Telegram alerts enabled
+            
+            ## What Happens Next
+            
+            1. ⏳ All phases execute sequentially
+            2. 📊 Performance metrics collected
+            3. 🧪 A/B tests initiated
+            4. 📈 Scaling automation activated
+            5. 🎉 Final deployment report generated
+            
+            ## NO TOUCH INFRA
+            
+            This deployment is fully automated. The system will:
+            - Deploy all infrastructure components
+            - Configure integrations automatically
+            - Monitor performance and optimize
+            - Scale successful workflows
+            - Report completion status
+            
+            No manual intervention required unless errors occur.
+            
+            ---
+            
+            **WIRED CHAOS** - Automated Deployment System 🤖
+            `;
+            
+            const { data: issue } = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚀 Automated Full Deployment Triggered',
+              body: issueBody,
+              labels: ['deployment', 'automated', 'swarm-bot', 'no-touch-infra']
+            });
+            
+            console.log(`✅ Deployment notification created: #${issue.number}`);
+      
+      - name: 💬 Notify Discord
+        if: steps.check.outputs.ready_for_deployment == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -n "$DISCORD_WEBHOOK_URL" ]; then
+            curl -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"embeds\": [{
+                  \"title\": \"🚀 WIRED CHAOS - Full Deployment Triggered\",
+                  \"description\": \"**NO TOUCH INFRA**: Automated deployment orchestration has been initiated.\",
+                  \"color\": 3066993,
+                  \"fields\": [
+                    {
+                      \"name\": \"Trigger Event\",
+                      \"value\": \"${{ github.event_name }}\",
+                      \"inline\": true
+                    },
+                    {
+                      \"name\": \"Deployment Phase\",
+                      \"value\": \"All Phases\",
+                      \"inline\": true
+                    },
+                    {
+                      \"name\": \"Status\",
+                      \"value\": \"🟢 Initiated\",
+                      \"inline\": true
+                    },
+                    {
+                      \"name\": \"Timeline\",
+                      \"value\": \"Phase 1-4: ~4 weeks\",
+                      \"inline\": false
+                    }
+                  ],
+                  \"footer\": {
+                    \"text\": \"WIRED CHAOS Automation\"
+                  },
+                  \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+                }]
+              }" || echo "⚠️ Discord notification failed"
+            echo "✅ Discord notification sent"
+          fi
+      
+      - name: 📱 Notify Telegram
+        if: steps.check.outputs.ready_for_deployment == 'true'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+            MESSAGE="🚀 *WIRED CHAOS - Full Deployment Triggered*\n\n✅ NO TOUCH INFRA: Automated deployment orchestration initiated\n\n📊 *All 4 Phases*:\n- Phase 1: Foundation\n- Phase 2: Automation\n- Phase 3: Optimization\n- Phase 4: Advanced Features\n\n🔍 Monitor progress in GitHub Actions"
+            
+            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+              -d "chat_id=${TELEGRAM_CHAT_ID}" \
+              -d "text=${MESSAGE}" \
+              -d "parse_mode=Markdown" || echo "⚠️ Telegram notification failed"
+            echo "✅ Telegram notification sent"
+          fi
+      
+      - name: ⏳ Waiting for completion
+        if: steps.check.outputs.ready_for_deployment == 'false'
+        run: |
+          echo "⏳ Deployment delayed - immediate actions still pending"
+          echo "Pending actions: ${{ steps.check.outputs.pending_count }}"
+          echo ""
+          echo "Deployment will auto-trigger when all immediate actions are complete."
+          echo "🤖 Swarm Bot will monitor and trigger automatically."
+      
+      - name: 📊 Summary
+        run: |
+          if [ "${{ steps.check.outputs.ready_for_deployment }}" = "true" ]; then
+            cat <<EOF
+          
+          ═══════════════════════════════════════════════════════════
+          🎉 DEPLOYMENT ORCHESTRATION TRIGGERED
+          ═══════════════════════════════════════════════════════════
+          
+          ✅ All immediate actions complete
+          ✅ Full deployment pipeline initiated
+          ✅ NO TOUCH INFRA activated
+          
+          📊 Monitor progress:
+             https://github.com/${{ github.repository }}/actions
+          
+          🎯 Expected completion: ~4 weeks (all phases)
+          
+          ═══════════════════════════════════════════════════════════
+          EOF
+          else
+            cat <<EOF
+          
+          ═══════════════════════════════════════════════════════════
+          ⏳ DEPLOYMENT DELAYED
+          ═══════════════════════════════════════════════════════════
+          
+          ⏳ Pending immediate actions: ${{ steps.check.outputs.pending_count }}
+          🤖 Swarm Bot monitoring for completion
+          🚀 Auto-trigger enabled
+          
+          Deployment will start automatically when ready.
+          
+          ═══════════════════════════════════════════════════════════
+          EOF
+          fi

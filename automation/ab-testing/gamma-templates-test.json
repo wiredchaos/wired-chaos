@@ -1,0 +1,105 @@
+{
+  "experiment": "gamma_template_optimization",
+  "version": "1.0.0",
+  "status": "active",
+  "start_date": "2024-01-01",
+  "duration_days": 14,
+  "hypothesis": "Dynamic and interactive templates will increase engagement and conversion rates compared to standard templates",
+  "variants": [
+    {
+      "name": "control",
+      "template": "wired-chaos-standard",
+      "weight": 50,
+      "description": "Current standard WIRED CHAOS template",
+      "features": [
+        "cyber_dark_theme",
+        "static_content",
+        "basic_animations"
+      ]
+    },
+    {
+      "name": "variant_a",
+      "template": "wired-chaos-dynamic",
+      "weight": 25,
+      "description": "Dynamic template with real-time data updates",
+      "features": [
+        "cyber_dark_theme",
+        "dynamic_content",
+        "live_charts",
+        "interactive_elements"
+      ]
+    },
+    {
+      "name": "variant_b",
+      "template": "wired-chaos-interactive",
+      "weight": 25,
+      "description": "Highly interactive template with user engagement features",
+      "features": [
+        "glitch_theme",
+        "interactive_3d",
+        "clickable_elements",
+        "embedded_videos",
+        "ar_preview"
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "name": "engagement_rate",
+      "type": "percentage",
+      "description": "Percentage of users who interact with the deck",
+      "primary": true
+    },
+    {
+      "name": "completion_rate",
+      "type": "percentage",
+      "description": "Percentage of users who view all slides",
+      "primary": true
+    },
+    {
+      "name": "conversion_rate",
+      "type": "percentage",
+      "description": "Percentage of users who take desired action",
+      "primary": true
+    },
+    {
+      "name": "time_on_deck",
+      "type": "duration_seconds",
+      "description": "Average time spent viewing the deck",
+      "primary": false
+    },
+    {
+      "name": "share_rate",
+      "type": "percentage",
+      "description": "Percentage of users who share the deck",
+      "primary": false
+    },
+    {
+      "name": "bounce_rate",
+      "type": "percentage",
+      "description": "Percentage of users who leave without interaction",
+      "primary": false
+    }
+  ],
+  "success_criteria": {
+    "minimum_sample_size": 100,
+    "confidence_level": 0.95,
+    "statistical_significance": 0.05,
+    "minimum_improvement": 10
+  },
+  "target_audience": {
+    "include": ["all"],
+    "exclude": ["internal_users", "test_accounts"]
+  },
+  "automation": {
+    "auto_assign_variant": true,
+    "track_events": true,
+    "generate_reports": true,
+    "report_frequency": "daily"
+  },
+  "winner_selection": {
+    "method": "statistical_significance",
+    "rollout_strategy": "gradual",
+    "rollout_percentage_increase": 10
+  }
+}
