@@ -51,10 +51,10 @@ jobs:
       with:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        workingDirectory: 'src'
         command: deploy --env production
         
     - name: Update deployment status
       run: |
-        echo "âš¡ Worker deployed successfully!"
-        echo "Worker URL: https://wired-chaos-worker.your-account.workers.dev"
+        echo "⚡ Worker deployed successfully!"
+        echo "Worker accessible at: https://www.wiredchaos.xyz/health"
+        echo "Routes: /school, /suite, /tax, /gamma/*, /bus/*, /wl/xp/*, /api/*"
