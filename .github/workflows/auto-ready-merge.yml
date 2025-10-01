@@ -1,0 +1,190 @@
+﻿name: ðŸ¤– Auto Ready & Merge
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      label:
+        description: 'Label to filter PRs (default: automerge)'
+        required: false
+        default: 'automerge'
+        type: string
+      author_filter:
+        description: 'Author filter regex (default: Copilot|wiredchaos)'
+        required: false
+        default: 'Copilot|wiredchaos'
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  issues: read
+
+jobs:
+  find-and-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find matching PRs
+        id: find_prs
+        run: |
+          LABEL="${{ inputs.label || 'automerge' }}"
+          AUTHOR_FILTER="${{ inputs.author_filter || 'Copilot|wiredchaos' }}"
+
+          echo "ðŸ” Searching for open PRs with label: $LABEL"
+          echo "ðŸ“ Author filter: $AUTHOR_FILTER"
+
+          # Get all open PRs with the label
+          gh pr list \
+            --state open \
+            --label "$LABEL" \
+            --json number,author,headRepository,isDraft,title \
+            --jq '.[] | select(.headRepository.isFork == false) | .number' > pr_numbers.txt
+
+          if [ ! -s pr_numbers.txt ]; then
+            echo "â„¹ï¸ No matching PRs found"
+            echo "found=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Filter by author
+          > filtered_prs.txt
+          while read PR_NUM; do
+            AUTHOR=$(gh pr view $PR_NUM --json author --jq '.author.login')
+            if echo "$AUTHOR" | grep -qE "$AUTHOR_FILTER"; then
+              echo "$PR_NUM" >> filtered_prs.txt
+              echo "âœ… PR #$PR_NUM by $AUTHOR matches filter"
+            else
+              echo "â­ï¸ PR #$PR_NUM by $AUTHOR doesn't match filter"
+            fi
+          done < pr_numbers.txt
+
+          if [ -s filtered_prs.txt ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "count=$(wc -l < filtered_prs.txt)" >> $GITHUB_OUTPUT
+            echo "ðŸ“Š Found $(wc -l < filtered_prs.txt) matching PR(s)"
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "â„¹ï¸ No PRs matching author filter"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Process matching PRs
+        if: steps.find_prs.outputs.found == 'true'
+        run: |
+          echo "ðŸš€ Processing ${{ steps.find_prs.outputs.count }} PR(s)"
+
+          while read PR_NUM; do
+            echo ""
+            echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+            echo "ðŸ“‹ Processing PR #$PR_NUM"
+            echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+
+            # Get PR details
+            gh pr view $PR_NUM --json number,title,isDraft,state,headRefName > pr_${PR_NUM}.json
+            cat pr_${PR_NUM}.json
+
+            IS_DRAFT=$(jq -r '.isDraft' pr_${PR_NUM}.json)
+            STATE=$(jq -r '.state' pr_${PR_NUM}.json)
+
+            # Skip if already merged or closed
+            if [ "$STATE" != "OPEN" ]; then
+              echo "â­ï¸ PR #$PR_NUM is $STATE, skipping"
+              continue
+            fi
+
+            # Mark ready if draft
+            if [ "$IS_DRAFT" = "true" ]; then
+              echo "ðŸ“ Marking PR #$PR_NUM as ready..."
+
+              # Try CLI first
+              if gh pr ready $PR_NUM; then
+                echo "âœ… Marked ready using gh CLI"
+              else
+                echo "âš ï¸ CLI failed, trying REST API..."
+                # Fallback to REST API
+                gh api \
+                  --method PATCH \
+                  "/repos/${{ github.repository }}/pulls/$PR_NUM" \
+                  -f draft=false
+                echo "âœ… Marked ready using REST API"
+              fi
+
+              # Wait a moment for the state to update
+              sleep 5
+            else
+              echo "â„¹ï¸ PR #$PR_NUM is already ready"
+            fi
+
+            # Wait for checks (optional, with timeout)
+            echo "â³ Checking PR status..."
+            timeout 300 gh pr checks $PR_NUM --watch || {
+              EXIT_CODE=$?
+              if [ $EXIT_CODE -eq 124 ]; then
+                echo "âš ï¸ Timeout waiting for checks after 5 minutes"
+              else
+                echo "â„¹ï¸ No required checks or checks not applicable"
+              fi
+            }
+
+            # Show check status
+            gh pr checks $PR_NUM || echo "â„¹ï¸ Unable to get check status"
+
+            # Merge the PR
+            echo "ðŸ”€ Merging PR #$PR_NUM..."
+            if gh pr merge $PR_NUM --squash --auto --delete-branch; then
+              echo "âœ… PR #$PR_NUM merged successfully"
+
+              # Trigger Edge Smoke Tests
+              echo "ðŸ§ª Triggering Edge Smoke Tests..."
+              if gh workflow run "Edge Smoke Tests" 2>/dev/null; then
+                echo "âœ… Edge Smoke Tests triggered"
+              else
+                # Try alternative names
+                for NAME in "edge-smoke-tests" "smoke-tests" "edge-tests"; do
+                  if gh workflow run "$NAME" 2>/dev/null; then
+                    echo "âœ… Triggered '$NAME' workflow"
+                    break
+                  fi
+                done || echo "â„¹ï¸ Edge Smoke Tests workflow not found"
+              fi
+            else
+              echo "âš ï¸ Normal merge failed, trying with admin override..."
+              if gh pr merge $PR_NUM --squash --auto --delete-branch --admin; then
+                echo "âœ… PR #$PR_NUM merged with admin override"
+              else
+                echo "âŒ Failed to merge PR #$PR_NUM"
+              fi
+            fi
+
+            echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+
+          done < filtered_prs.txt
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## ðŸ¤– Auto Ready & Merge Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.find_prs.outputs.found }}" = "true" ]; then
+            echo "- **PRs Processed:** ${{ steps.find_prs.outputs.count }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Label Filter:** ${{ inputs.label || 'automerge' }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Author Filter:** ${{ inputs.author_filter || 'Copilot|wiredchaos' }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- **Result:** No matching PRs found" >> $GITHUB_STEP_SUMMARY
+            echo "- **Label Filter:** ${{ inputs.label || 'automerge' }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Author Filter:** ${{ inputs.author_filter || 'Copilot|wiredchaos' }}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Triggered by: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY

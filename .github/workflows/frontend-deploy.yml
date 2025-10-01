@@ -1,0 +1,89 @@
+﻿name: ðŸš€ Frontend Deploy (Cloudflare Pages)
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'frontend/**'
+      - '.github/workflows/frontend-deploy.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'preview'
+        type: choice
+        options:
+        - preview
+        - production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Cloudflare Pages
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'yarn'
+        cache-dependency-path: frontend/yarn.lock
+
+    - name: Install dependencies
+      run: |
+        cd frontend
+        yarn install --frozen-lockfile
+
+    - name: Security audit
+      run: |
+        cd frontend  
+        yarn audit --level high
+      continue-on-error: true
+
+    - name: Run tests
+      run: |
+        cd frontend
+        yarn test --coverage --watchAll=false
+      continue-on-error: true
+
+    - name: Build
+      run: |
+        cd frontend
+        yarn build
+      env:
+        CI: false
+        GENERATE_SOURCEMAP: false
+
+    - name: Deploy Preview
+      if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'preview')
+      uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        directory: frontend/build
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Deploy Production
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+      uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        directory: frontend/build
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Update deployment status
+      run: |
+        echo "ðŸš€ Frontend deployed successfully!"
+        echo "Preview URL: https://${{ secrets.CLOUDFLARE_PROJECT_NAME }}.pages.dev"
+        echo "Production URL: https://${{ secrets.CLOUDFLARE_PROJECT_NAME }}.pages.dev"

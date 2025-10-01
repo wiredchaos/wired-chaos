@@ -26,7 +26,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -61,7 +61,7 @@
             font-size: clamp(3rem, 8vw, 8rem);
             font-weight: 900;
             color: #00FFFF;
-            text-shadow: 
+            text-shadow:
                 0 0 10px #FF3131,
                 0 0 20px #FF3131,
                 0 0 30px #FF6B00,
@@ -171,38 +171,6 @@
             box-shadow: 0 0 30px #FF3131;
         }
         
-        /* Esoteric Mode */
-        .esoteric-mode {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-        
-        .number-589 {
-            font-size: 20rem;
-            font-weight: 900;
-            color: #FF3131;
-            text-shadow: 
-                0 0 20px #FF3131,
-                0 0 40px #FF3131,
-                0 0 60px #FF3131,
-                0 0 100px #FF3131;
-            animation: pulse-589 3s ease-in-out infinite;
-            user-select: none;
-        }
-        
-        @keyframes pulse-589 {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
-        }
-        
         /* Status Bar */
         .status-bar {
             position: fixed;
@@ -248,10 +216,6 @@
                 padding: 1.5rem;
             }
             
-            .number-589 {
-                font-size: 10rem;
-            }
-            
             .status-bar {
                 flex-direction: column;
                 gap: 10px;
@@ -264,7 +228,7 @@
 <body>
     <div class="cyber-grid"></div>
     
-    <button class="university-589" onclick="toggleEsotericMode()">589</button>
+    <button class="university-589" onclick="navigate('university')">589</button>
     
     <div class="container">
         <div class="main-title">
@@ -329,10 +293,6 @@
         </div>
     </div>
     
-    <div class="esoteric-mode" id="esotericMode">
-        <div class="number-589">589</div>
-    </div>
-    
     <div class="status-bar">
         <div class="status-item">
             <span class="status-dot"></span>
@@ -352,35 +312,21 @@
         function navigate(section) {
             console.log('Navigating to:', section);
             
-            const messages = {
-                neurolab: '🧠 NEURO LAB\n\nWeb3 Onboarding Academy\n• Blockchain Education\n• NFT Guidance\n• DeFi Training\n\nFull React app deploying...',
-                vault33: '🔐 VAULT 33\n\nWL Gamification System\n• Merovingian Path Tracking\n• Fragment Collection\n• Burn Mechanics\n\nAdvanced features loading...',
-                fm333: '📻 33.3 FM\n\nDOGECHAIN Radio\n• Live Streaming\n• Barbed Wired Broadcasts\n• Evening Vibes Sessions\n\nTuning in...',
-                csn: '🚀 CSN\n\nCrypto Spaces Network\n• Live Community\n• Real-time Updates\n• Market Analysis\n\nConnecting...',
-                vrg33589: '👁️ VRG-33-589\n\nMerovingian Lore System\n• Echo Generation\n• Layer Access\n• Frequency Resonance\n\nAccessing vault...',
-                university: '🎓 WC UNIVERSITY\n\nEducational Platform\n• Traditional Learning\n• Esoteric Paths\n• Certificate Minting\n\nRedirecting to /school...',
-                bwb: '📰 BWB\n\nBarbed Wired Broadcast\n• Live Feed\n• RSS Integration\n• Latest Posts\n\nLoading feed...',
-                eveningvibes: '🌙 EVENING VIBES\n\nLevel Up Lounge\n• Hologram Crew\n• Vibe Check Portal\n• Community Hub\n\nEntering lounge...',
-                b2b: '💼 B2B\n\nEnterprise Solutions\n• Professional Services\n• Integration Support\n• Custom Development\n\nProcessing inquiry...'
+            const routes = {
+                neurolab: '/school?section=neurolab',
+                vault33: '/school?section=vault33',
+                fm333: '/school?section=fm333',
+                csn: '/school?section=csn',
+                vrg33589: '/school?section=vrg33589',
+                university: '/school',
+                bwb: '/school?section=bwb',
+                eveningvibes: '/school?section=eveningvibes',
+                b2b: '/school?section=b2b'
             };
             
-            alert(messages[section] || `Accessing ${section.toUpperCase()}...`);
+            const route = routes[section] || '/school';
+            window.location.href = route;
         }
-        
-        // Esoteric mode toggle
-        function toggleEsotericMode() {
-            const esotericMode = document.getElementById('esotericMode');
-            if (esotericMode.style.display === 'flex') {
-                esotericMode.style.display = 'none';
-            } else {
-                esotericMode.style.display = 'flex';
-            }
-        }
-        
-        // Click anywhere in esoteric mode to exit
-        document.getElementById('esotericMode').addEventListener('click', function() {
-            this.style.display = 'none';
-        });
         
         // API Status Check
         function checkAPIStatus() {
@@ -401,26 +347,6 @@
         // Check API status on load and every 30 seconds
         checkAPIStatus();
         setInterval(checkAPIStatus, 30000);
-        
-        // Add some interactive effects
-        document.addEventListener('mousemove', function(e) {
-            const cards = document.querySelectorAll('.nav-card');
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                const deltaX = e.clientX - centerX;
-                const deltaY = e.clientY - centerY;
-                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                
-                if (distance < 200) {
-                    const intensity = Math.max(0, 1 - distance / 200);
-                    card.style.transform = `translateY(-${intensity * 10}px) rotateX(${deltaY * intensity * 0.1}deg) rotateY(${deltaX * intensity * 0.1}deg)`;
-                } else {
-                    card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
-                }
-            });
-        });
         
         console.log('🧠 WIRED CHAOS - Emergency Production Environment');
         console.log('🔧 Full React app deployment in progress...');

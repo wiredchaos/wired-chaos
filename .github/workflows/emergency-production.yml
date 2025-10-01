@@ -1,40 +1,43 @@
-name: Emergency Production Fix
+name: 🚨 Emergency Production Deploy
 
 on:
-  push:
-    branches:
-      - main
-      - wiredchaos-patch-1
-    paths:
-      - 'public/**'
   workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Emergency deployment reason'
+        required: true
+        type: string
+      
+env:
+  NODE_VERSION: '18'
 
 jobs:
-  deploy:
+  emergency-deploy:
+    name: 🚨 Emergency Deployment
     runs-on: ubuntu-latest
-    name: Deploy Emergency Production
-    
     steps:
-      - name: Checkout
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
-        
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+
+      - name: 🚀 Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: wired-chaos
-          directory: public
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Production Status
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📦 Install wrangler
+        run: npm install -g wrangler
+
+      - name: ⚡ Emergency Worker Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "🚀 WIRED CHAOS Emergency Production Environment Deployed!"
-          echo "URL: https://wired-chaos.pages.dev"
-          echo "Status: LIVE and OPERATIONAL"
-          echo "Features:"
-          echo "  ✅ Complete navigation system"
-          echo "  ✅ University 589 esoteric mode"
-          echo "  ✅ API connectivity check"
-          echo "  ✅ Mobile responsive design"
-          echo "  ✅ Interactive 3D effects"
+          cd src
+          wrangler deploy --env production --force
+
+      - name: 📢 Emergency Notification
+        run: |
+          echo "🚨 Emergency deployment completed"
+          echo "📝 Reason: ${{ github.event.inputs.reason }}"
+          echo "⏰ Time: $(date)"
+          echo "🌐 Status: https://wired-chaos-worker.wiredchaos.workers.dev/health"

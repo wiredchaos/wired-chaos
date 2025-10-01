@@ -1,0 +1,279 @@
+﻿name: ðŸš€ Comment Ready & Merge
+
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to mark ready and merge'
+        required: true
+        type: number
+      merge_method:
+        description: 'Merge method to use'
+        required: false
+        default: 'squash'
+        type: choice
+        options:
+          - squash
+          - merge
+          - rebase
+      delete_branch:
+        description: 'Delete branch after merge'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  issues: read
+
+concurrency:
+  group: ready-merge-${{ inputs.pr_number || github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  ready-and-merge:
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'workflow_dispatch') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request &&
+       github.event.comment.user.login == github.repository_owner)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Parse comment for ready command
+        if: github.event_name == 'issue_comment'
+        id: parse_comment
+        run: |
+          COMMENT="${{ github.event.comment.body }}"
+          # Trim whitespace and convert to lowercase
+          COMMENT_CLEAN=$(echo "$COMMENT" | tr '[:upper:]' '[:lower:]' | xargs)
+
+          echo "Original comment: $COMMENT"
+          echo "Cleaned comment: $COMMENT_CLEAN"
+
+          # Check if comment contains ready command
+          if echo "$COMMENT_CLEAN" | grep -qE '^/?ready'; then
+            echo "valid=true" >> $GITHUB_OUTPUT
+
+            # Extract PR number if provided (e.g., "/ready 6", "ready pr 6")
+            PR_NUM=$(echo "$COMMENT_CLEAN" | grep -oE '[0-9]+' | head -1)
+            if [ -n "$PR_NUM" ]; then
+              echo "pr_number=$PR_NUM" >> $GITHUB_OUTPUT
+            else
+              echo "pr_number=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "valid=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check authorization
+        if: github.event_name == 'issue_comment'
+        id: check_auth
+        run: |
+          COMMENTER="${{ github.event.comment.user.login }}"
+          OWNER="${{ github.repository_owner }}"
+          REPO="${{ github.repository }}"
+
+          echo "Commenter: $COMMENTER"
+          echo "Owner: $OWNER"
+
+          # Check if commenter is owner
+          if [ "$COMMENTER" = "$OWNER" ]; then
+            echo "authorized=true" >> $GITHUB_OUTPUT
+            echo "âœ… User $COMMENTER is repository owner"
+            exit 0
+          fi
+
+          # Check if commenter is admin or maintainer
+          PERMISSION=$(gh api "/repos/$REPO/collaborators/$COMMENTER/permission" --jq '.permission' 2>/dev/null || echo "none")
+          echo "Permission level: $PERMISSION"
+
+          if [ "$PERMISSION" = "admin" ] || [ "$PERMISSION" = "maintain" ]; then
+            echo "authorized=true" >> $GITHUB_OUTPUT
+            echo "âœ… User $COMMENTER has $PERMISSION permission"
+          else
+            echo "authorized=false" >> $GITHUB_OUTPUT
+            echo "âŒ User $COMMENTER does not have sufficient permissions"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Set PR number
+        id: set_pr
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "pr_number=${{ inputs.pr_number }}" >> $GITHUB_OUTPUT
+          else
+            echo "pr_number=${{ steps.parse_comment.outputs.pr_number }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit if not authorized or invalid command
+        if: |
+          github.event_name == 'issue_comment' &&
+          (steps.parse_comment.outputs.valid != 'true' || steps.check_auth.outputs.authorized != 'true')
+        run: |
+          echo "â­ï¸ Skipping: Invalid command or unauthorized user"
+          exit 0
+
+      - name: Get PR details
+        id: pr_details
+        run: |
+          PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
+          echo "ðŸ“‹ Getting details for PR #$PR_NUM"
+
+          gh pr view $PR_NUM --json number,title,isDraft,headRefName,state --jq '.' > pr.json
+          cat pr.json
+
+          IS_DRAFT=$(jq -r '.isDraft' pr.json)
+          STATE=$(jq -r '.state' pr.json)
+          BRANCH=$(jq -r '.headRefName' pr.json)
+
+          echo "is_draft=$IS_DRAFT" >> $GITHUB_OUTPUT
+          echo "state=$STATE" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+          echo "PR State: $STATE"
+          echo "Is Draft: $IS_DRAFT"
+          echo "Branch: $BRANCH"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Mark PR ready (CLI)
+        id: mark_ready_cli
+        if: steps.pr_details.outputs.is_draft == 'true'
+        continue-on-error: true
+        run: |
+          PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
+          echo "ðŸ“ Marking PR #$PR_NUM as ready using gh CLI..."
+
+          if gh pr ready $PR_NUM; then
+            echo "success=true" >> $GITHUB_OUTPUT
+            echo "âœ… Successfully marked PR as ready"
+          else
+            echo "success=false" >> $GITHUB_OUTPUT
+            echo "âš ï¸ gh pr ready failed, will try REST API"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Mark PR ready (REST API fallback)
+        if: |
+          steps.pr_details.outputs.is_draft == 'true' &&
+          steps.mark_ready_cli.outputs.success != 'true'
+        run: |
+          PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
+          echo "ðŸ“ Marking PR #$PR_NUM as ready using REST API..."
+
+          gh api \
+            --method PATCH \
+            "/repos/${{ github.repository }}/pulls/$PR_NUM" \
+            -f draft=false
+
+          echo "âœ… Successfully marked PR as ready via REST API"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Wait for required checks
+        id: wait_checks
+        continue-on-error: true
+        run: |
+          PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
+          echo "â³ Waiting for required checks on PR #$PR_NUM..."
+
+          # Try to watch checks with timeout (10 minutes)
+          timeout 600 gh pr checks $PR_NUM --watch || {
+            EXIT_CODE=$?
+            if [ $EXIT_CODE -eq 124 ]; then
+              echo "âš ï¸ Timeout waiting for checks after 10 minutes"
+            else
+              echo "â„¹ï¸ No required checks found or checks command not applicable"
+            fi
+          }
+
+          # Get final check status
+          gh pr checks $PR_NUM || echo "â„¹ï¸ Unable to get check status"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Merge PR
+        id: merge_pr
+        run: |
+          PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
+          MERGE_METHOD="${{ inputs.merge_method || 'squash' }}"
+          DELETE_BRANCH="${{ inputs.delete_branch || 'true' }}"
+
+          echo "ðŸ”€ Merging PR #$PR_NUM using method: $MERGE_METHOD"
+
+          # Build merge command
+          MERGE_CMD="gh pr merge $PR_NUM --$MERGE_METHOD --auto"
+
+          if [ "$DELETE_BRANCH" = "true" ]; then
+            MERGE_CMD="$MERGE_CMD --delete-branch"
+          fi
+
+          # Try normal merge first
+          if eval $MERGE_CMD; then
+            echo "success=true" >> $GITHUB_OUTPUT
+            echo "âœ… PR merged successfully"
+          else
+            echo "âš ï¸ Normal merge failed, attempting with admin override..."
+            # Try with admin flag
+            ADMIN_CMD="$MERGE_CMD --admin"
+            if eval $ADMIN_CMD; then
+              echo "success=true" >> $GITHUB_OUTPUT
+              echo "âœ… PR merged successfully with admin override"
+            else
+              echo "success=false" >> $GITHUB_OUTPUT
+              echo "âŒ Failed to merge PR even with admin override"
+              exit 1
+            fi
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Trigger Edge Smoke Tests
+        if: steps.merge_pr.outputs.success == 'true'
+        continue-on-error: true
+        run: |
+          echo "ðŸ§ª Attempting to trigger Edge Smoke Tests workflow..."
+
+          # Try to find and trigger the workflow
+          WORKFLOW_NAME="Edge Smoke Tests"
+
+          # Try by name first
+          if gh workflow run "$WORKFLOW_NAME" 2>/dev/null; then
+            echo "âœ… Successfully triggered '$WORKFLOW_NAME' workflow"
+          else
+            # Try common variations
+            for NAME in "edge-smoke-tests" "smoke-tests" "edge-tests"; do
+              if gh workflow run "$NAME" 2>/dev/null; then
+                echo "âœ… Successfully triggered '$NAME' workflow"
+                exit 0
+              fi
+            done
+
+            echo "â„¹ï¸ Edge Smoke Tests workflow not found - you may need to trigger it manually"
+            echo "Available workflows:"
+            gh workflow list
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## ðŸš€ Ready & Merge Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **PR Number:** #${{ steps.set_pr.outputs.pr_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Was Draft:** ${{ steps.pr_details.outputs.is_draft }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Merge Method:** ${{ inputs.merge_method || 'squash' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Merge Status:** ${{ steps.merge_pr.outputs.success == 'true' && 'âœ… Success' || 'âŒ Failed' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Workflow triggered by: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY

@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found | WIRED CHAOS</title>
+    <title>404 - WIRED CHAOS</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             background: #000000;
             color: #00FFFF;
@@ -15,37 +21,39 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 2rem;
         }
         
         .error-code {
-            font-size: 8rem;
+            font-size: 10rem;
             font-weight: 900;
             color: #FF3131;
-            text-shadow: 0 0 30px #FF3131;
-            margin-bottom: 1rem;
-            animation: glitch 2s infinite;
+            text-shadow:
+                0 0 20px #FF3131,
+                0 0 40px #FF3131,
+                0 0 60px #FF3131;
+            animation: pulse 3s ease-in-out infinite;
+            margin-bottom: 2rem;
         }
         
-        @keyframes glitch {
-            0%, 90%, 100% { transform: translateX(0); }
-            92% { transform: translateX(-2px); }
-            94% { transform: translateX(2px); }
-            96% { transform: translateX(-2px); }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; transform: scale(1.05); }
         }
         
         .error-message {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            color: #39FF14;
+            font-size: 2rem;
+            color: #00FFFF;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
         .back-btn {
-            background: linear-gradient(45deg, #001A1A, #00FFFF);
+            background: linear-gradient(45deg, #FF3131, #00FFFF);
             border: none;
             color: #000000;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
+            padding: 15px 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;

@@ -5,12 +5,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FEATURES } from '../config/featureFlags';
+import { getSuiteUrl } from '../utils/env';
 import './motherboard.css';
 
 const Motherboard = () => {
   const navigate = useNavigate();
   const [activePanel, setActivePanel] = useState(null);
   const [connectionPaths, setConnectionPaths] = useState([]);
+  const suiteUrl = getSuiteUrl();
 
   const panelNodes = [
     {
@@ -130,6 +132,12 @@ const Motherboard = () => {
     </div>
   );
 
+  const handleOpenSuite = () => {
+    if (suiteUrl) {
+      window.open(suiteUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className="motherboard-container">
       {FEATURES.debugMode && (
@@ -138,7 +146,17 @@ const Motherboard = () => {
         </div>
       )}
       
-      {/* Main Grid Layout */}
+      {/* Suite Access Button - Only shown when configured */}
+      {suiteUrl && (
+        <button
+          onClick={handleOpenSuite}
+          className="suite-access-btn"
+          title="Open Management Suite"
+          aria-label="Open Management Suite"
+        >
+          ⚙️ Suite
+        </button>
+      )}      {/* Main Grid Layout */}
       <div className="motherboard-grid">
         {/* Top Row */}
         {renderPanel(panelNodes[0], 'grid-csn')}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { MotherboardHub } from "./components/MotherboardUI";
@@ -8,14 +8,19 @@ import NeuroHologram from "./components/NeuroHologram";
 import NFTNeuroHologram from "./components/NFTNeuroHologram";
 import NeuroMetaXHero from "./components/NeuroMetaXHero";
 import CertificateMinter from "./components/CertificateMinter";
+import TaxSuite from "./components/TaxSuite";
+import SuiteLanding from "./components/SuiteLanding";
 import featureFlags, { FEATURES } from "./config/featureFlags";
+import { BACKEND_URL, API_URL } from "./config/env";
 import axios from "axios";
+import { getSuiteUrl } from "./utils/env";
+import { StudentUnion, VRLobby, ConsignmentStore, ProductDashboard, AdminPanel } from "./components/StudentUnion";
+import GrantsForFounders from "./components/GrantsForFounders";
 
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const API = API_URL;
 
 // WIRED CHAOS Bot Brain Component
 const BotBrain = ({ onRoute, onClose }) => {
@@ -959,7 +964,7 @@ const BWBPage = () => {
   useEffect(() => {
     const fetchBlogFeed = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/blog/proxy`);
+        const response = await fetch(`${BACKEND_URL}/api/blog/proxy`);
         const data = await response.json();
         
         if (data.posts && data.posts.length > 0) {
@@ -1277,174 +1282,6 @@ const B2BPage = () => {
   );
 };
 
-// University Page - EMERGENT dual-tier platform
-const UniversityPage = () => {
-  const navigate = useNavigate();
-  const [isEsotericMode, setIsEsotericMode] = useState(false);
-  
-  useEffect(() => {
-    // Check for esoteric access patterns
-    const urlParams = new URLSearchParams(window.location.search);
-    const esoParam = urlParams.get('eso');
-    const referrer = document.referrer;
-    
-    // Esoteric mode triggers
-    if (esoParam === '589' || referrer.includes('vrg33589') || window.location.hash === '#589') {
-      setIsEsotericMode(true);
-    }
-  }, []);
-
-  // Business tier users redirect to /school
-  useEffect(() => {
-    if (!isEsotericMode) {
-      window.location.replace('/school');
-    }
-  }, [isEsotericMode]);
-
-  if (isEsotericMode) {
-    return (
-      <div className="agent-container esoteric-mode">
-        <div className="esoteric-display">
-          <div className="number-589">589</div>
-        </div>
-        <button onClick={() => navigate('/')} className="back-btn esoteric-back">
-          ← 
-        </button>
-      </div>
-    );
-  }
-
-  return null; // Business users will be redirected
-};
-
-// School Redirect Page - Business tier landing
-const SchoolRedirectPage = () => {
-  const navigate = useNavigate();
-  
-  return (
-    <div className="agent-container">
-      <div className="agent-header">
-        <h2>🎓 WIRED CHAOS UNIVERSITY</h2>
-        <p>Digital Education Platform</p>
-      </div>
-      
-      <div className="board neon-glow">
-        <div className="board-hdr">
-          <span className="badge cyan">Educational</span>
-          <h3 className="board-title">Traditional Learning Path</h3>
-        </div>
-        
-        <div className="university-content">
-          <p>Welcome to WIRED CHAOS University - your gateway to structured Web3 education.</p>
-          
-          <div className="course-grid">
-            <div className="course-card">
-              <h4>🧠 NEURO Fundamentals</h4>
-              <p>Introduction to blockchain and Web3 concepts</p>
-              <button onClick={() => navigate('/neurolab')} className="course-btn">
-                Start Course →
-              </button>
-            </div>
-            
-            <div className="course-card">
-              <h4>🔐 VAULT33 Mechanics</h4>
-              <p>Gamification and tokenomics principles</p>
-              <button onClick={() => navigate('/vault33')} className="course-btn">
-                Enter Vault →
-              </button>
-            </div>
-            
-            <div className="course-card">
-              <h4>📻 Broadcasting Theory</h4>
-              <p>Digital media and content distribution</p>
-              <button onClick={() => navigate('/fm333')} className="course-btn">
-                Tune In →
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <button onClick={() => navigate('/')} className="back-btn">
-        ← Back to Motherboard
-      </button>
-    </div>
-  );
-};
-
-// 589 Theory Page - Cryptic esoteric content
-const Theory589Page = () => {
-  const navigate = useNavigate();
-  const [accessLevel, setAccessLevel] = useState(0);
-  
-  useEffect(() => {
-    // Progressive access unlock based on interaction
-    const timer = setTimeout(() => {
-      setAccessLevel(1);
-    }, 3000);
-    
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <div className="agent-container theory-589">
-      <div className="agent-header">
-        <h2>🌀 589 THEORY</h2>
-        <p>Cryptographic Circuit Node</p>
-      </div>
-      
-      <div className="theory-matrix">
-        <div className="matrix-display">
-          {accessLevel === 0 ? (
-            <div className="loading-matrix">
-              <div className="matrix-code">
-                {Array.from({length: 15}).map((_, i) => (
-                  <div key={i} className="code-line">
-                    {Math.random().toString(36).substring(7)}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="theory-content">
-              <div className="cipher-grid">
-                <div className="cipher-block">5</div>
-                <div className="cipher-block">8</div>
-                <div className="cipher-block">9</div>
-              </div>
-              
-              <div className="theory-fragments">
-                <div className="fragment active">
-                  frequency_resonance = 33.3
-                </div>
-                <div className="fragment">
-                  access_layer = VRG.33.depth
-                </div>
-                <div className="fragment">
-                  echo_spawn_rate = 1:2:0
-                </div>
-              </div>
-              
-              <div className="navigation-cipher">
-                <button onClick={() => navigate('/vrg33589')} className="cipher-btn">
-                  → VRG ACCESS
-                </button>
-                <button onClick={() => navigate('/university?eso=589')} className="cipher-btn">
-                  → UNIVERSITY_ESO
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-      
-      <button onClick={() => navigate('/')} className="back-btn theory-back">
-        ← RETURN
-      </button>
-    </div>
-  );
-};
-
 // VRG-33-589 Lore Console
 const VRG33589Page = () => {
   const navigate = useNavigate();
@@ -1619,123 +1456,78 @@ const NeuroMetaXPage = () => {
   );
 };
 
-// Takeover Event Control Center (Placeholder)
-const TakeoverPage = () => {
+// School Page - Educational Hub
+const SchoolPage = () => {
   const navigate = useNavigate();
+  const suiteUrl = getSuiteUrl();
   
   return (
-    <div className="agent-container">
-      <div className="agent-header">
-        <h2>🎭 TAKEOVER</h2>
-        <p>Event Control Center</p>
+    <div className="agent-page school-page">
+      <div className="page-header">
+        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
+        {suiteUrl && (
+          <a 
+            href={suiteUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="suite-link-button"
+          >
+            Open Suite →
+          </a>
+        )}
+        <h1>🎓 WIRED CHAOS SCHOOL</h1>
+        <p>Educational Resources & Learning Portal</p>
       </div>
       
-      <div className="board neon-glow">
-        <div className="board-hdr">
-          <span className="badge red">Inactive</span>
-          <h3 className="board-title">Event Control Center</h3>
-        </div>
+      <div className="widget-grid">
+        <Card className="widget-card">
+          <h3>📚 LEARNING MODULES</h3>
+          <p>Comprehensive courses on Web3, blockchain, and digital ecosystems</p>
+          <div className="module-list">
+            <div className="module-item">🧠 Web3 Fundamentals</div>
+            <div className="module-item">🔐 Blockchain Security</div>
+            <div className="module-item">🎨 NFT Creation & Trading</div>
+            <div className="module-item">💼 DeFi Strategies</div>
+          </div>
+        </Card>
         
-        <div className="takeover-status">
-          <p>🚧 System Inactive - No active events</p>
-          <p>Event control will be activated during special operations</p>
-        </div>
+        <Card className="widget-card">
+          <h3>🎓 CERTIFICATIONS</h3>
+          <p>Earn blockchain-verified certificates of completion</p>
+          <Button onClick={() => navigate('/neurolab')} className="cert-btn">
+            View Certificate Programs
+          </Button>
+        </Card>
+        
+        <Card className="widget-card">
+          <h3>🌐 COMMUNITY LEARNING</h3>
+          <p>Connect with peers and mentors in the WIRED CHAOS ecosystem</p>
+          <div className="community-links">
+            <a href="https://cryptospaces.net" target="_blank" rel="noopener noreferrer">
+              Join CryptoSpaces Community
+            </a>
+          </div>
+        </Card>
+        
+        {suiteUrl && (
+          <Card className="widget-card suite-card">
+            <h3>🚀 TAX SUITE</h3>
+            <p>Access the full suite of tax and compliance tools</p>
+            <a 
+              href={suiteUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="suite-access-btn"
+            >
+              Launch Suite →
+            </a>
+          </Card>
+        )}
       </div>
-      
-      <button onClick={() => navigate('/')} className="back-btn">
-        ← Back to Motherboard
-      </button>
     </div>
   );
 };
 
-// Doginal Dogs HQ
-const DoginalDogsPage = () => {
-  const navigate = useNavigate();
-  
-  return (
-    <div className="agent-container">
-      <div className="agent-header">
-        <h2>🐕 DOGINAL DOGS HQ</h2>
-        <p>Pixel Dog Chip Node</p>
-      </div>
-      
-      <div className="board neon-glow">
-        <div className="board-hdr">
-          <span className="badge green">Active</span>
-          <h3 className="board-title">Doginal Dogs Network</h3>
-        </div>
-        
-        <div className="doginal-content">
-          <p>Direct connection to DoginalDogs.com ecosystem</p>
-          
-          <div className="external-links">
-            <a 
-              href="https://www.doginaldogs.com/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="external-link-btn"
-            >
-              🐕 Visit DoginalDogs.com ↗
-            </a>
-            
-            <a 
-              href="https://www.wiredchaos.xyz/post/from-free-mint-to-joe-rogan-how-doginal-dogs-took-over-crypto-and-netflix" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="external-link-btn"
-            >
-              📰 Joe Rogan Story ↗
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      <button onClick={() => navigate('/')} className="back-btn">
-        ← Back to Motherboard
-      </button>
-    </div>
-  );
-};
-
-// WLFI DeFi Financial Chip (Placeholder)
-const WLFIPage = () => {
-  const navigate = useNavigate();
-  
-  return (
-    <div className="agent-container">
-      <div className="agent-header">
-        <h2>⚡ WLFI</h2>
-        <p>DeFi Financial Chip</p>
-      </div>
-      
-      <div className="board neon-glow">
-        <div className="board-hdr">
-          <span className="badge cyan">Inactive</span>
-          <h3 className="board-title">DeFi Financial Integration</h3>
-        </div>
-        
-        <div className="wlfi-status">
-          <p>🚧 DeFi integration under development</p>
-          <p>Financial tools and yield farming protocols coming soon</p>
-          
-          <div className="redirect-options">
-            <button onClick={() => navigate('/neurolab')} className="redirect-btn">
-              → Explore Web3 Education
-            </button>
-            <button onClick={() => navigate('/vault33')} className="redirect-btn">
-              → Check Vault33 Gamification
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      <button onClick={() => navigate('/')} className="back-btn">
-        ← Back to Motherboard
-      </button>
-    </div>
-  );
-};
 const IndustryPage = ({ industry }) => {
   const navigate = useNavigate();
   
@@ -1845,7 +1637,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
+          {/* Firewall: Redirect root to school for audience selection */}
+          <Route path="/" element={<Navigate to="/school" replace />} />
+          <Route path="/motherboard" element={
             FEATURES.motherboardUI && !featureFlags.useLegacyHub ? 
               <React.Suspense fallback={<div className="loading-spinner"><div className="spinner"></div><p>Loading WIRED CHAOS...</p></div>}>
                 <Motherboard />
@@ -1864,6 +1658,22 @@ function App() {
           <Route path="/b2b" element={<B2BPage />} />
           <Route path="/vrg33589" element={<VRG33589Page />} />
           <Route path="/merch" element={<NeuroMetaXPage />} />
+          <Route path="/school" element={<SchoolPage />} />
+          <Route path="/tax" element={<TaxSuite />} />
+          <Route path="/suite" element={<SuiteLanding />} />
+          
+          {/* Student Union Digital Campus Routes */}
+          <Route path="/university/student-union" element={<StudentUnion />} />
+          <Route path="/university/student-union/lobby" element={<VRLobby />} />
+          <Route path="/university/student-union/stores" element={<ConsignmentStore />} />
+          <Route path="/university/student-union/arcade" element={<StudentUnion />} />
+          <Route path="/university/student-union/events" element={<StudentUnion />} />
+          <Route path="/university/student-union/cafe" element={<StudentUnion />} />
+          <Route path="/university/student-union/profiles" element={<ProductDashboard />} />
+          <Route path="/university/student-union/admin" element={<AdminPanel />} />
+          
+          {/* Educational Courses */}
+          <Route path="/university/edu/grants-for-founders" element={<GrantsForFounders />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />
@@ -1873,16 +1683,6 @@ function App() {
           <Route path="/industry/realestate" element={<IndustryPage industry="realestate" />} />
           <Route path="/industry/health" element={<IndustryPage industry="health" />} />
           <Route path="/industry/politics" element={<IndustryPage industry="politics" />} />
-          
-          {/* University routes */}
-          <Route path="/university" element={<UniversityPage />} />
-          <Route path="/school" element={<SchoolRedirectPage />} />
-          <Route path="/589-theory" element={<Theory589Page />} />
-          
-          {/* Additional motherboard routes */}
-          <Route path="/takeover" element={<TakeoverPage />} />
-          <Route path="/doginal-dogs" element={<DoginalDogsPage />} />
-          <Route path="/wlfi" element={<WLFIPage />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,0 +1,162 @@
+﻿name: ðŸ¤– VS Studio Bot Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Skip tests and audits'
+        required: false
+        default: 'false'
+        type: boolean
+      force_install:
+        description: 'Force reinstall all dependencies'
+        required: false
+        default: 'false'
+        type: boolean
+      environment:
+        description: 'Target deployment environment'
+        required: true
+        default: 'preview'
+        type: choice
+        options:
+        - preview
+        - production
+        - beta
+        - all
+  push:
+    branches: [ main ]
+    paths:
+      - 'VS_STUDIO_BOT_SETUP.ps1'
+      - '.github/workflows/vs-bot-automation.yml'
+
+jobs:
+  vs-bot-setup:
+    runs-on: windows-latest
+    name: VS Studio Bot Automated Setup
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Setup PowerShell Environment
+      shell: pwsh
+      run: |
+        Write-Host "ðŸ¤– Setting up PowerShell environment for VS Studio Bot..."
+        Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+        
+    - name: Install GitHub CLI
+      shell: pwsh
+      run: |
+        Write-Host "Installing GitHub CLI..."
+        winget install --id GitHub.cli --silent --accept-package-agreements
+        
+    - name: Authenticate GitHub CLI
+      shell: pwsh
+      run: |
+        Write-Host "Configuring GitHub CLI authentication..."
+        echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        gh auth status
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Run VS Studio Bot Setup
+      shell: pwsh
+      run: |
+        Write-Host "ðŸš€ Running VS Studio Bot Setup automation..."
+        
+        $params = @('-SkipConfirmation', '-QuietMode')
+        
+        if ('${{ inputs.skip_tests }}' -eq 'true') {
+          $params += '-SkipTests'
+        }
+        
+        if ('${{ inputs.force_install }}' -eq 'true') {
+          $params += '-ForceInstall'
+        }
+        
+        # Skip secrets in CI - they should be configured as GitHub secrets
+        $params += '-SkipSecrets'
+        
+        Write-Host "Executing with parameters: $($params -join ' ')"
+        & .\VS_STUDIO_BOT_SETUP.ps1 @params
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload Deployment Logs
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: vs-bot-deployment-logs
+        path: |
+          deployment_logs.txt
+          SECURITY_ANALYSIS.md
+          test_result.md
+        retention-days: 30
+        
+    - name: Trigger Environment Deployments
+      if: success()
+      shell: pwsh
+      run: |
+        Write-Host "ðŸš€ Triggering deployment workflows for environment: ${{ inputs.environment }}"
+        
+        $environment = '${{ inputs.environment }}'
+        
+        if ($environment -eq 'preview' -or $environment -eq 'all') {
+          Write-Host "Triggering frontend preview deployment..."
+          gh workflow run frontend-deploy.yml -f environment=preview
+        }
+        
+        if ($environment -eq 'production' -or $environment -eq 'all') {
+          Write-Host "Triggering production deployments..."
+          gh workflow run frontend-deploy.yml -f environment=production
+          gh workflow run worker-deploy.yml -f environment=production
+        }
+        
+        if ($environment -eq 'beta' -or $environment -eq 'all') {
+          Write-Host "Triggering beta test deployment..."
+          gh workflow run beta-test.yml
+        }
+        
+        Write-Host "âœ… Deployment workflows triggered for $environment environment"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Post Deployment Summary
+      if: always()
+      shell: pwsh
+      run: |
+        Write-Host "ðŸ“Š VS Studio Bot Setup Summary"
+        Write-Host "================================"
+        
+        if (Test-Path "deployment_logs.txt") {
+          Write-Host "ðŸ“ Deployment logs generated"
+          $logContent = Get-Content "deployment_logs.txt" -Tail 10
+          Write-Host "Last 10 log entries:"
+          $logContent | ForEach-Object { Write-Host "  $_" }
+        }
+        
+        Write-Host ""
+        Write-Host "ðŸ”— Useful Links:"
+        Write-Host "  â€¢ Actions: https://github.com/${{ github.repository }}/actions"
+        Write-Host "  â€¢ Security Analysis: Generated in artifacts"
+        Write-Host "  â€¢ Test Results: Updated in repository"
+        Write-Host ""
+        Write-Host "âœ… VS Studio Bot automation completed!"
+
+  notify-completion:
+    needs: vs-bot-setup
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Notification
+      run: |
+        echo "ðŸ¤– VS Studio Bot Setup completed with status: ${{ needs.vs-bot-setup.result }}"
+        
+        if [ "${{ needs.vs-bot-setup.result }}" = "success" ]; then
+          echo "âœ… Automation successful - deployments triggered"
+        else
+          echo "âš ï¸ Automation completed with issues - check logs"
+        fi

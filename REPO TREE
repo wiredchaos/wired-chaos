@@ -1,0 +1,224 @@
+📂 Repo Tree
+
+cloudflare/
+├─ .github/workflows/deploy.yml
+├─ wrangler.toml
+├─ terraform/
+│  ├─ providers.tf
+│  ├─ variables.tf
+│  ├─ main.tf
+│  └─ outputs.tf
+├─ pages-app/        # Business side
+│  ├─ public/index.html
+│  └─ functions/[[path]].ts
+├─ pages-barbed/     # Barbed side
+│  ├─ public/index.html
+│  └─ functions/[[path]].ts
+├─ pages-docs/       # Docs
+│  └─ public/index.html
+└─ workers/api/src/index.ts
+
+
+---
+
+⚙️ .github/workflows/deploy.yml
+
+name: deploy
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install || npm ci
+
+      - name: Terraform init+apply
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          TF_VAR_api_token: ${{ secrets.CF_API_TOKEN }}
+          TF_VAR_account_id: ${{ secrets.CF_ACCOUNT_ID }}
+          TF_VAR_zone_id: ${{ secrets.CF_ZONE_ID }}
+          TF_VAR_root_domain: wiredchaos.xyz
+        run: |
+          cd terraform
+          terraform init -input=false
+          terraform apply -auto-approve -input=false
+
+      - name: Publish Worker + Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: |
+          bunx wrangler deploy workers/api/src/index.ts --minify
+          bunx wrangler pages deploy pages-app/public --project-name wc-app
+          bunx wrangler pages deploy pages-barbed/public --project-name wc-barbed
+          bunx wrangler pages deploy pages-docs/public --project-name wc-docs
+
+
+---
+
+⚙️ wrangler.toml
+
+name = "wc-api"
+main = "workers/api/src/index.ts"
+compatibility_date = "2025-09-01"
+workers_dev = false
+
+kv_namespaces = [
+  { binding = "WC_KV", id = "<TF_FILLED_NAMESPACE_ID>" }
+]
+d1_databases = [
+  { binding = "WC_D1", database_name = "wc_d1", database_id = "<TF_FILLED_DB_ID>" }
+]
+r2_buckets = [
+  { binding = "WC_R2", bucket_name = "wc-r2" }
+]
+queues = [
+  { binding = "WC_QUEUE", queue_name = "wc-queue" }
+]
+
+[observability]
+enabled = true
+head_sampling_rate = 1.0
+
+
+---
+
+⚙️ Worker API workers/api/src/index.ts
+
+export default {
+  async fetch(req: Request, env: Env): Promise<Response> {
+    const url = new URL(req.url);
+
+    if (url.pathname === "/api/ping") return new Response("pong");
+
+    if (url.pathname === "/api/rss/webhook" && req.method === "POST") {
+      const payload = await req.json();
+      await env.WC_QUEUE.send(JSON.stringify({ type:"rss.new", payload, ts: Date.now() }));
+      return new Response("ok");
+    }
+
+    return new Response("not found", { status: 404 });
+  },
+} satisfies ExportedHandler<Env>;
+
+
+---
+
+⚙️ Pages Function pages-app/functions/[[path]].ts
+
+(Same file inside pages-barbed/functions/[[path]].ts)
+
+export const onRequest: PagesFunction<{
+  WC_KV: KVNamespace; WC_D1: D1Database; TURNSTILE_SECRET: string
+}> = async ({ request, env, next }) => {
+  const url = new URL(request.url);
+
+  if (url.pathname === "/health") return new Response("ok");
+
+  if (url.pathname === "/turnstile/verify" && request.method === "POST") {
+    const { token } = await request.json();
+    const form = new FormData();
+    form.append("secret", env.TURNSTILE_SECRET);
+    form.append("response", token);
+    const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method:"POST", body: form
+    });
+    return Response.json(await r.json());
+  }
+
+  return next();
+};
+
+
+---
+
+⚙️ Example frontend snippet (pages-app/public/index.html)
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<form id="form">
+  <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
+  <button type="submit">Submit</button>
+</form>
+<script>
+document.getElementById("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const token = window.turnstile?.getResponse();
+  const r = await fetch("/turnstile/verify", {
+    method: "POST",
+    headers: { "content-type":"application/json" },
+    body: JSON.stringify({ token })
+  });
+  const data = await r.json();
+  alert(data.success ? "verified" : "failed");
+});
+</script>
+
+
+---
+
+⚙️ Terraform
+
+providers.tf
+
+terraform {
+  required_providers {
+    cloudflare = { source = "cloudflare/cloudflare", version = "~> 4.40" }
+  }
+  required_version = ">= 1.6"
+}
+provider "cloudflare" { api_token = var.api_token }
+
+variables.tf
+
+variable "api_token"   { type = string }
+variable "account_id"  { type = string }
+variable "zone_id"     { type = string }
+variable "root_domain" { type = string  default = "wiredchaos.xyz" }
+
+main.tf (core infra, both Pages projects, DNS records, Turnstile, Zero Trust, etc. — trimmed for brevity but matches the tailored plan I gave you)
+
+outputs.tf
+
+output "turnstile_site_key" { value = cloudflare_turnstile_widget.wc_turnstile.site_key }
+
+
+---
+
+🔑 Secrets to set
+
+In GitHub → Settings → Secrets and variables → Actions:
+
+CF_API_TOKEN
+
+CF_ACCOUNT_ID
+
+CF_ZONE_ID
+
+
+In Cloudflare Pages (wc-app, wc-barbed, wc-docs) → Environment Variables (Production):
+
+TURNSTILE_SECRET
+
+
+
+---
+
+🌐 Subdomains this creates
+
+app.wiredchaos.xyz → Business side
+
+barbed.wiredchaos.xyz → Barbed Wired Chaos
+
+docs.wiredchaos.xyz → Docs
+
+api.wiredchaos.xyz → Worker
+
+assets.wiredchaos.xyz → R2
+
+stream.wiredchaos.xyz → Stream
+
+auth.wiredchaos.xyz → Zero Trust 

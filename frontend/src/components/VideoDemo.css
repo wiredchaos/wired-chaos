@@ -1,0 +1,267 @@
+/**
+ * WIRED CHAOS - Video Demo Page Styles
+ */
+
+.video-demo-page {
+  min-height: 100vh;
+  background: #000;
+  color: #FFF;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Header */
+.demo-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 49, 49, 0.1));
+  border: 2px solid #00FFFF;
+  border-radius: 12px;
+}
+
+.demo-title {
+  font-size: 2.5rem;
+  color: #00FFFF;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+  margin: 0 0 16px 0;
+}
+
+.demo-subtitle {
+  font-size: 1.2rem;
+  color: #39FF14;
+  margin: 0;
+}
+
+/* Info Cards */
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.info-card {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid #00FFFF;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 255, 255, 0.3);
+}
+
+.info-card.avatar-yes {
+  border-color: #39FF14;
+}
+
+.info-card.avatar-no {
+  border-color: #FF3131;
+}
+
+.info-card.avatar-flex {
+  border-color: #FF00FF;
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.info-card h3 {
+  color: #00FFFF;
+  font-size: 1.3rem;
+  margin: 0 0 12px 0;
+}
+
+.info-card p {
+  color: #FFF;
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Sections */
+.demo-section {
+  margin-bottom: 60px;
+}
+
+.section-title {
+  color: #00FFFF;
+  font-size: 2rem;
+  margin: 0 0 12px 0;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+  border-bottom: 2px solid #00FFFF;
+  padding-bottom: 12px;
+}
+
+.section-description {
+  color: #FFF;
+  opacity: 0.8;
+  font-size: 1.1rem;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+/* Position Demo Grid */
+.position-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.position-demo-item {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid #00FFFF;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.position-demo-item h4 {
+  color: #39FF14;
+  text-align: center;
+  margin: 0 0 12px 0;
+  text-transform: capitalize;
+  font-size: 1.1rem;
+}
+
+/* Stats Section */
+.stats-section {
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 49, 49, 0.05));
+  border: 2px solid #00FFFF;
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.stat-card {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #39FF14;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(57, 255, 20, 0.3);
+}
+
+.stat-value {
+  font-size: 3rem;
+  color: #39FF14;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-shadow: 0 0 15px rgba(57, 255, 20, 0.8);
+}
+
+.stat-label {
+  color: #FFF;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Footer */
+.demo-footer {
+  text-align: center;
+  padding: 32px;
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid #00FFFF;
+  border-radius: 8px;
+  margin-top: 40px;
+}
+
+.demo-footer p {
+  color: #FFF;
+  opacity: 0.8;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.demo-footer code {
+  background: rgba(0, 255, 255, 0.1);
+  color: #00FFFF;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  border: 1px solid #00FFFF;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .demo-title {
+    font-size: 2rem;
+  }
+
+  .demo-subtitle {
+    font-size: 1rem;
+  }
+
+  .info-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
+  }
+
+  .position-demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-demo-page {
+    padding: 12px;
+  }
+
+  .demo-header {
+    padding: 24px 12px;
+  }
+
+  .demo-title {
+    font-size: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animations */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  }
+}
+
+.info-card,
+.stat-card,
+.position-demo-item {
+  animation: glow 3s ease-in-out infinite;
+}
