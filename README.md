@@ -15,6 +15,31 @@
 - **☁️ Cloudflare Edge**: Global deployment on Cloudflare Workers and Pages
 - **🤖 Automated Workflows**: Complete CI/CD with intelligent automation
 - **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
+- **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
+
+## 🆕 SWARM Orchestrator Pipeline
+
+Transform project files, RSS feeds, and X/Twitter mentions into structured outputs:
+
+- **📋 Keyword Maps**: TF-IDF and RAKE keyword extraction with clustering
+- **📝 SEO Briefs**: Content outlines for pages, blogs, and threads
+- **🧩 589-Coded Riddles**: WIRED CHAOS lore puzzles
+- **📰 RSS Digests**: Automated feed summaries
+- **🐦 X/Twitter Analysis**: Public mention scraping (no API keys needed)
+
+**Quick Start:**
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the pipeline
+python src/orchestrator.py --skip-twitter
+
+# View outputs
+ls -lh build/
+```
+
+📚 **[SWARM Orchestrator Documentation](./SWARM_ORCHESTRATOR_README.md)** | **[Quick Start Guide](./QUICKSTART_SWARM.md)**
 
 ## 🤖 VS Studio Bot Setup (Quick Start)
 
