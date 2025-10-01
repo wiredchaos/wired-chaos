@@ -5,7 +5,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FEATURES } from '../config/featureFlags';
-import SwarmStatusWidget from './SwarmStatusWidget';
 import { getSuiteUrl } from '../utils/env';
 import './motherboard.css';
 
@@ -132,6 +131,14 @@ const Motherboard = () => {
     </div>
   );
 
+  const suiteUrl = getSuiteUrl();
+
+  const handleOpenSuite = () => {
+    if (suiteUrl) {
+      window.open(suiteUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className="motherboard-container">
       {FEATURES.debugMode && (
@@ -140,45 +147,17 @@ const Motherboard = () => {
         </div>
       )}
       
-      {/* Header Controls */}
-      <div style={{ 
-        position: 'absolute', 
-        top: '1rem', 
-        right: '1rem', 
-        display: 'flex', 
-        gap: '1rem',
-        alignItems: 'center',
-        zIndex: 10
-      }}>
-        <SwarmStatusWidget />
-        {getSuiteUrl() && (
-          <button
-            onClick={() => window.open(getSuiteUrl(), '_blank', 'noopener,noreferrer')}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid #00FFFF',
-              borderRadius: '0.25rem',
-              background: 'rgba(0, 0, 0, 0.6)',
-              color: '#00FFFF',
-              fontFamily: 'monospace',
-              fontSize: '0.875rem',
-              cursor: 'pointer',
-              backdropFilter: 'blur(8px)',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(0, 255, 255, 0.1)';
-              e.currentTarget.style.boxShadow = '0 0 10px rgba(0, 255, 255, 0.3)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}
-          >
-            Launch Suite →
-          </button>
-        )}
-      </div>
+      {/* Suite Access Button - Only shown when configured */}
+      {suiteUrl && (
+        <button
+          onClick={handleOpenSuite}
+          className="suite-access-btn"
+          title="Open Management Suite"
+          aria-label="Open Management Suite"
+        >
+          ⚙️ Suite
+        </button>
+      )}
       
       {/* Main Grid Layout */}
       <div className="motherboard-grid">
