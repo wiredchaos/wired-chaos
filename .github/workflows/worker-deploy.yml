@@ -40,6 +40,12 @@ jobs:
       run: npm audit --audit-level high
       continue-on-error: true
 
+    - name: Build
+      run: |
+        # Worker is plain JavaScript, no build step needed
+        echo "Skipping build - worker uses plain JavaScript"
+      continue-on-error: true
+
     - name: Deploy to Cloudflare Workers
       uses: cloudflare/wrangler-action@v3
       with:

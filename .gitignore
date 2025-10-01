@@ -2,14 +2,8 @@
 
 # IDE and editors
 .idea/
-# VS Code - Keep shared workspace settings but ignore user-specific ones
 .vscode/*
-!.vscode/settings.json
 !.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
-!.vscode/README.md
 
 # Dependencies
 node_modules/
@@ -82,6 +76,10 @@ agenthub/agents/youtube/db
 
 # Build caches
 .cache/
+
+# Code fix automation (temporary files)
+.eslintignore
+.prettierignore
 
 # Mobile development
 android-sdk/ -e 

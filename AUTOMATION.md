@@ -401,3 +401,18 @@ if (suiteUrl) {
 }
 ```
 
+
+
+---
+
+## Code Quality Fix Automation
+
+The Code Quality Fix automation provides a comprehensive system to scan the repository, run language-appropriate linters and formatters, and optionally apply autofixes across JavaScript, CSS, Python, PowerShell, Solidity, and HTML files.
+
+### Features
+
+- Multi-language support: JavaScript/JSX, CSS, HTML, Python, PowerShell, and Solidity
+- Check-only mode: Identify issues without modifying files
+- Apply-fixes mode: Automatically fix issues and prepare PR
+- Infrastructure protection: Guaranteed never to modify infrastructure files
+- Changelog generation: Automatic summary of all changes applied

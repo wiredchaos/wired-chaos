@@ -92,7 +92,9 @@
       "options": {
         "cwd": "${workspaceFolder}/frontend"
       },
-      "problemMatcher": ["$eslint-stylish"],
+      "problemMatcher": [
+        "$eslint-stylish"
+      ],
       "presentation": {
         "group": "frontend",
         "reveal": "always",
@@ -106,14 +108,15 @@
       "options": {
         "cwd": "${workspaceFolder}/frontend"
       },
-      "problemMatcher": ["$eslint-stylish"],
+      "problemMatcher": [
+        "$eslint-stylish"
+      ],
       "presentation": {
         "group": "frontend",
         "reveal": "always",
         "panel": "shared"
       }
     },
-    
     // ========== Backend Tasks ==========
     {
       "label": "backend:install",
@@ -186,7 +189,6 @@
         "panel": "dedicated"
       }
     },
-    
     // ========== Vault33 Gatekeeper Tasks ==========
     {
       "label": "gatekeeper:install",
@@ -291,7 +293,6 @@
         "panel": "dedicated"
       }
     },
-    
     // ========== PowerShell Automation Tasks ==========
     {
       "label": "automation:vs-studio-bot",
@@ -344,7 +345,98 @@
         "panel": "dedicated"
       }
     },
-    
+    // ========== Code Quality Fix Tasks ==========
+    {
+      "label": "Code Fix: Check Only",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/code-fix.sh",
+      "args": [
+        "--check-only"
+      ],
+      "windows": {
+        "command": "pwsh",
+        "args": [
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}/scripts/code-fix.ps1",
+          "-CheckOnly"
+        ]
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "code-fix"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "detail": "Run code quality checks without modifying files"
+    },
+    {
+      "label": "Code Fix: Apply & Prepare PR",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/code-fix.sh",
+      "args": [
+        "--apply-fixes"
+      ],
+      "windows": {
+        "command": "pwsh",
+        "args": [
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}/scripts/code-fix.ps1",
+          "-ApplyFixes"
+        ]
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "code-fix"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "detail": "Apply code quality fixes and prepare for PR (review changes before committing)"
+    },
+    {
+      "label": "Code Fix: Generate Changelog",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/generate-code-fix-changelog.sh",
+      "windows": {
+        "command": "pwsh",
+        "args": [
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}/scripts/generate-code-fix-changelog.ps1"
+        ]
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "code-fix"
+      },
+      "problemMatcher": [],
+      "detail": "Generate CODE_FIX_CHANGELOG.md from current changes"
+    },
     // ========== Utility Tasks ==========
     {
       "label": "install:all-dependencies",

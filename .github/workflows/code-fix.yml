@@ -1,0 +1,204 @@
+name: Code Quality Fix
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply_fixes:
+        description: 'Apply fixes and create PR (false = check only)'
+        required: false
+        default: 'false'
+        type: boolean
+      pr_title:
+        description: 'PR title (if apply_fixes is true)'
+        required: false
+        default: 'chore(code-fix): automated code hygiene fixes'
+        type: string
+      label:
+        description: 'PR label (if apply_fixes is true)'
+        required: false
+        default: 'code-fix'
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  code-fix:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Enable Corepack for pnpm/yarn support
+        run: |
+          corepack enable
+          corepack prepare yarn@stable --activate
+          corepack prepare pnpm@latest --activate
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Setup PowerShell
+        shell: bash
+        run: |
+          # PowerShell Core is pre-installed on ubuntu-latest
+          pwsh --version
+      
+      - name: Install Python linting tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install black flake8
+      
+      - name: Install PowerShell linting tools
+        shell: pwsh
+        run: |
+          if (!(Get-Module -ListAvailable -Name PSScriptAnalyzer)) {
+            Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -SkipPublisherCheck
+          }
+      
+      - name: Run code quality checks (check-only mode)
+        if: ${{ !inputs.apply_fixes }}
+        shell: bash
+        run: |
+          chmod +x ./scripts/code-fix.sh
+          ./scripts/code-fix.sh --check-only
+      
+      - name: Run code quality fixes (apply mode)
+        if: ${{ inputs.apply_fixes }}
+        shell: bash
+        run: |
+          chmod +x ./scripts/code-fix.sh
+          ./scripts/code-fix.sh --apply-fixes
+      
+      - name: Check for changes
+        if: ${{ inputs.apply_fixes }}
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes to commit"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected"
+          fi
+      
+      - name: Generate changelog
+        if: ${{ inputs.apply_fixes && steps.check_changes.outputs.has_changes == 'true' }}
+        shell: bash
+        run: |
+          chmod +x ./scripts/generate-code-fix-changelog.sh
+          ./scripts/generate-code-fix-changelog.sh
+      
+      - name: Create branch and commit changes
+        if: ${{ inputs.apply_fixes && steps.check_changes.outputs.has_changes == 'true' }}
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create timestamped branch
+          BRANCH_NAME="bot/code-fix-$(date +%Y%m%d-%H%M)"
+          git checkout -b "$BRANCH_NAME"
+          
+          # Add all changes (only allowed files should have been modified)
+          git add .
+          
+          # Commit with detailed message
+          git commit -m "chore(code-fix): automated code quality fixes
+
+Applied automated code quality fixes across repository:
+- JavaScript/JSX: ESLint + Prettier
+- CSS: Stylelint
+- HTML: HTMLHint + Prettier
+- Python: Black + Flake8
+- PowerShell: PSScriptAnalyzer
+- Solidity: solhint
+
+All changes respect the infrastructure denylist.
+See CODE_FIX_CHANGELOG.md for details."
+          
+          # Push branch
+          git push origin "$BRANCH_NAME"
+          
+          # Save branch name for PR creation
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+      
+      - name: Create Pull Request
+        if: ${{ inputs.apply_fixes && steps.check_changes.outputs.has_changes == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Read changelog for PR body
+          if [ -f CODE_FIX_CHANGELOG.md ]; then
+            CHANGELOG_CONTENT=$(cat CODE_FIX_CHANGELOG.md)
+          else
+            CHANGELOG_CONTENT="Automated code quality fixes applied."
+          fi
+          
+          # Create PR body
+          PR_BODY="## Automated Code Quality Fixes
+
+This PR contains automated code quality fixes applied by the Code Quality Fix workflow.
+
+### Summary
+
+$CHANGELOG_CONTENT
+
+### Verification
+
+- ✅ Only allowed file types modified (js, jsx, mjs, css, html, py, ps1, psm1, sol)
+- ✅ Infrastructure files untouched (no .github, docker, terraform, etc.)
+- ✅ All changes reviewed by automated linters/formatters
+- ✅ Changelog generated automatically
+
+### Review Checklist
+
+- [ ] Review the changes in CODE_FIX_CHANGELOG.md
+- [ ] Verify no infrastructure files were modified
+- [ ] Test affected functionality
+- [ ] Merge when satisfied
+
+---
+
+*Generated by [Code Quality Fix workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})*"
+          
+          # Create PR
+          gh pr create \
+            --title "${{ inputs.pr_title }}" \
+            --body "$PR_BODY" \
+            --label "${{ inputs.label }}" \
+            --base main \
+            --head "$BRANCH_NAME"
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Code Quality Fix Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ inputs.apply_fixes }}" == "true" ]; then
+            echo "**Mode:** Apply Fixes" >> $GITHUB_STEP_SUMMARY
+            
+            if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
+              echo "**Result:** ✅ Changes applied and PR created" >> $GITHUB_STEP_SUMMARY
+              echo "**Branch:** \`$BRANCH_NAME\`" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "**Result:** ℹ️ No changes needed" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "**Mode:** Check Only" >> $GITHUB_STEP_SUMMARY
+            echo "**Result:** ✅ Checks completed" >> $GITHUB_STEP_SUMMARY
+          fi
