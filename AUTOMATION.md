@@ -2,6 +2,9 @@
 
 This document describes the comment-driven and automated PR workflows for the WIRED CHAOS repository.
 
+> **🎯 Quick Validation:** Run `./scripts/validate-pr-automation.sh` to verify all components are in place.  
+> **📋 Full Validation Guide:** See [PR_AUTOMATION_VALIDATION.md](./PR_AUTOMATION_VALIDATION.md) for testing instructions and acceptance criteria.
+
 ## 📋 Table of Contents
 
 - [VS Code Integration](#vs-code-integration)
