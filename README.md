@@ -15,6 +15,25 @@
 - **☁️ Cloudflare Edge**: Global deployment on Cloudflare Workers and Pages
 - **🤖 Automated Workflows**: Complete CI/CD with intelligent automation
 
+## 🤖 VS Studio Bot Setup (Quick Start)
+
+**Automated one-click deployment solution:**
+
+```bash
+# Windows/VS Studio - One-click automation
+RUN_VS_BOT.bat
+
+# PowerShell Direct
+.\VS_STUDIO_BOT_SETUP.ps1
+```
+
+**What It Does:**
+- ✅ **Installs Dependencies**: Node.js, Python, Yarn, GitHub CLI
+- 🔍 **Runs Security Audits**: yarn audit, pip-audit, API tests
+- 🚀 **Automated Deployment**: Preview, production, worker, and beta environments
+- 🔐 **Secret Management**: GitHub secrets configuration and validation
+- 📊 **Comprehensive Reports**: Security analysis and deployment status
+
 ## 🌟 NEW: GIGA Integration (Mega Prompt)
 
 WIRED CHAOS now features comprehensive **GIGA Integration** - a context-aware development system that provides:
