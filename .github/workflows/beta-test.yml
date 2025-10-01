@@ -155,7 +155,7 @@ jobs:
     - name: Discord Notification
       if: always()
       run: |
-        if [ ! -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+        if [ -n "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
           STATUS="✅ PASSED"
           if [ "${{ job.status }}" != "success" ]; then
             STATUS="❌ FAILED"
@@ -163,7 +163,10 @@ jobs:
           
           curl -H "Content-Type: application/json" \
             -d "{\"content\":\"🧪 BETA TEST $STATUS - WIRED CHAOS\\n⏰ $TEST_TIMESTAMP\\n🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+            "${{ secrets.DISCORD_WEBHOOK_URL }}" || echo "⚠️  Discord notification failed"
+          echo "✅ Discord notification sent"
+        else
+          echo "⚠️  Discord webhook not configured, skipping notification"
         fi
       continue-on-error: true
 

@@ -50,13 +50,16 @@ else
     print_status 1 "Node.js not found"
 fi
 
-# Check npm
-print_info "Checking npm installation..."
-if command -v npm &> /dev/null; then
+# Check npm/yarn
+print_info "Checking package manager installation..."
+if command -v yarn &> /dev/null; then
+    YARN_VERSION=$(yarn --version)
+    print_status 0 "yarn installed: $YARN_VERSION"
+elif command -v npm &> /dev/null; then
     NPM_VERSION=$(npm --version)
     print_status 0 "npm installed: $NPM_VERSION"
 else
-    print_status 1 "npm not found"
+    print_status 1 "npm/yarn not found"
 fi
 
 # Check Python
@@ -79,7 +82,7 @@ if [ -f "frontend/package.json" ]; then
     if [ -d "frontend/node_modules" ]; then
         print_status 0 "Frontend dependencies installed"
     else
-        print_warning "Frontend dependencies not installed - Run: cd frontend && npm install"
+        print_warning "Frontend dependencies not installed - Run: cd frontend && yarn install"
     fi
 else
     print_warning "Frontend package.json not found"
@@ -99,8 +102,12 @@ if [ -d "frontend/node_modules" ]; then
     print_info "Testing frontend build process..."
     cd frontend
     
-    # Try to build
-    npm run build > /tmp/frontend-build.log 2>&1
+    # Try to build (prefer yarn, fallback to npm)
+    if command -v yarn &> /dev/null; then
+        yarn build > /tmp/frontend-build.log 2>&1
+    else
+        npm run build > /tmp/frontend-build.log 2>&1
+    fi
     BUILD_EXIT_CODE=$?
     
     if [ $BUILD_EXIT_CODE -eq 0 ]; then
