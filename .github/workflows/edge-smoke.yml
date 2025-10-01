@@ -90,6 +90,69 @@ jobs:
         
         echo "âœ… /suite endpoint passed"
 
+    - name: Test /suite?mode=stub (Feature Flag)
+      run: |
+        echo "Testing /suite?mode=stub..."
+        response=$(curl -s -w "\n%{http_code}" "${BASE}/suite?mode=stub")
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        
+        if [ "$status_code" != "200" ]; then
+          echo "ERROR: /suite?mode=stub failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -qi "STUB MODE"; then
+          echo "ERROR: /suite?mode=stub should contain 'STUB MODE'"
+          exit 1
+        fi
+        
+        echo "PASS: /suite?mode=stub passed"
+
+    - name: Test /suite?mode=partial (Feature Flag)
+      run: |
+        echo "Testing /suite?mode=partial..."
+        response=$(curl -s -w "\n%{http_code}" "${BASE}/suite?mode=partial")
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        
+        if [ "$status_code" != "200" ]; then
+          echo "ERROR: /suite?mode=partial failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -qi "PARTIAL MODE"; then
+          echo "ERROR: /suite?mode=partial should contain 'PARTIAL MODE'"
+          exit 1
+        fi
+        
+        echo "PASS: /suite?mode=partial passed"
+
+    - name: Test /suite?mode=full (Feature Flag)
+      run: |
+        echo "Testing /suite?mode=full..."
+        response=$(curl -s -w "\n%{http_code}" "${BASE}/suite?mode=full")
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        
+        if [ "$status_code" != "200" ]; then
+          echo "ERROR: /suite?mode=full failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -qi "FULL MODE"; then
+          echo "ERROR: /suite?mode=full should contain 'FULL MODE'"
+          exit 1
+        fi
+        
+        echo "PASS: /suite?mode=full passed"
+
     - name: Test /gamma/tour endpoint
       run: |
         echo "ðŸ” Testing /gamma/tour endpoint..."
