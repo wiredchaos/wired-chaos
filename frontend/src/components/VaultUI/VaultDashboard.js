@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import StatusCard from './StatusCard';
 import WLBadge from './WLBadge';
 import BurnTracker from './BurnTracker';
+import { BACKEND_URL } from '../../config/env';
 
 const VaultDashboard = ({ userId, className = '' }) => {
   const [userStats, setUserStats] = useState({
@@ -29,7 +30,7 @@ const VaultDashboard = ({ userId, className = '' }) => {
       setUserStats(prev => ({ ...prev, loading: true }));
       
       // Try to fetch from Gatekeeper API
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/vault/user/${userId}/stats`);
+      const response = await fetch(`${BACKEND_URL}/api/vault/user/${userId}/stats`);
       
       if (response.ok) {
         const data = await response.json();

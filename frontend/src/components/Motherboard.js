@@ -132,6 +132,12 @@ const Motherboard = () => {
     </div>
   );
 
+  const handleOpenSuite = () => {
+    if (suiteUrl) {
+      window.open(suiteUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className="motherboard-container">
       {FEATURES.debugMode && (
@@ -140,21 +146,17 @@ const Motherboard = () => {
         </div>
       )}
       
-      {/* Header with Suite Link */}
+      {/* Suite Access Button - Only shown when configured */}
       {suiteUrl && (
-        <div className="motherboard-header">
-          <a 
-            href={suiteUrl} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="suite-link"
-          >
-            Open Suite →
-          </a>
-        </div>
-      )}
-      
-      {/* Main Grid Layout */}
+        <button
+          onClick={handleOpenSuite}
+          className="suite-access-btn"
+          title="Open Management Suite"
+          aria-label="Open Management Suite"
+        >
+          ⚙️ Suite
+        </button>
+      )}      {/* Main Grid Layout */}
       <div className="motherboard-grid">
         {/* Top Row */}
         {renderPanel(panelNodes[0], 'grid-csn')}

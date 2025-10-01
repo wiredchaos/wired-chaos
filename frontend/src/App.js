@@ -8,15 +8,16 @@ import NeuroHologram from "./components/NeuroHologram";
 import NFTNeuroHologram from "./components/NFTNeuroHologram";
 import NeuroMetaXHero from "./components/NeuroMetaXHero";
 import CertificateMinter from "./components/CertificateMinter";
+import TaxSuite from "./components/TaxSuite";
 import featureFlags, { FEATURES } from "./config/featureFlags";
+import { BACKEND_URL, API_URL } from "./config/env";
 import axios from "axios";
 import { getSuiteUrl } from "./utils/env";
 
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const API = API_URL;
 
 // WIRED CHAOS Bot Brain Component
 const BotBrain = ({ onRoute, onClose }) => {
@@ -960,7 +961,7 @@ const BWBPage = () => {
   useEffect(() => {
     const fetchBlogFeed = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/blog/proxy`);
+        const response = await fetch(`${BACKEND_URL}/api/blog/proxy`);
         const data = await response.json();
         
         if (data.posts && data.posts.length > 0) {
@@ -1653,6 +1654,7 @@ function App() {
           <Route path="/vrg33589" element={<VRG33589Page />} />
           <Route path="/merch" element={<NeuroMetaXPage />} />
           <Route path="/school" element={<SchoolPage />} />
+          <Route path="/tax" element={<TaxSuite />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />

@@ -1,69 +1,74 @@
 /**
- * Bundler-safe environment variable resolver
- * Supports both Create React App (REACT_APP_*) and Vite (VITE_*)
+ * WIRED CHAOS - Bundler-Safe Environment Helpers
+ * 
+ * Supports multiple bundler environments:
+ * - Vite: import.meta.env.VITE_*
+ * - Create React App: process.env.REACT_APP_*
+ * - Next.js: process.env.NEXT_PUBLIC_*
  */
 
 let suiteUrlWarned = false;
+let taxSuiteUrlWarned = false;
 
 /**
- * Get Suite URL from environment variables
- * Supports both CRA (REACT_APP_SUITE_URL) and Vite (VITE_SUITE_URL) prefixes
- * @returns {string} The Suite URL or empty string if not set
+ * Get Suite URL in a bundler-safe way
+ * Checks in order: Vite, CRA, Next.js
+ * @returns {string} Trimmed Suite URL or empty string
  */
-export const getSuiteUrl = () => {
-  // Check for CRA-style env var first
-  if (typeof process !== 'undefined' && process.env?.REACT_APP_SUITE_URL) {
-    return process.env.REACT_APP_SUITE_URL;
+export function getSuiteUrl() {
+  let url = '';
+  
+  // Check Vite first
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    url = import.meta.env.VITE_SUITE_URL || import.meta.env.REACT_APP_SUITE_URL || '';
   }
   
-  // Check for Vite-style env var
-  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUITE_URL) {
-    return import.meta.env.VITE_SUITE_URL;
+  // Fallback to process.env for CRA/Next.js
+  if (!url && typeof process !== 'undefined' && process.env) {
+    url = process.env.REACT_APP_SUITE_URL || process.env.NEXT_PUBLIC_SUITE_URL || '';
   }
   
-  // Warn once in development if Suite URL is not set
-  if (process.env.NODE_ENV !== 'production' && !suiteUrlWarned) {
-    console.warn('Suite URL not set; set REACT_APP_SUITE_URL or VITE_SUITE_URL');
+  const trimmedUrl = (url || '').trim();
+  
+  // Warn once in development if URL is empty
+  if (!trimmedUrl && !suiteUrlWarned && process.env.NODE_ENV === 'development') {
+    console.warn('[env] Suite URL not configured. Set REACT_APP_SUITE_URL, VITE_SUITE_URL, or NEXT_PUBLIC_SUITE_URL to enable the Suite button.');
     suiteUrlWarned = true;
   }
   
-  return '';
-};
+  return trimmedUrl;
+}
 
 /**
- * Get backend URL from environment variables
- * @returns {string} The backend URL or default
+ * Get Tax Suite URL in a bundler-safe way
+ * Checks in order: Vite (VITE_TAX_SUITE_URL or REACT_APP_TAX_SUITE_URL), Next.js
+ * @returns {string} Trimmed Tax Suite URL or empty string
  */
-export const getBackendUrl = () => {
-  if (typeof process !== 'undefined' && process.env?.REACT_APP_BACKEND_URL) {
-    return process.env.REACT_APP_BACKEND_URL;
+export function getTaxSuiteUrl() {
+  let url = '';
+  
+  // Check Vite first
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    url = import.meta.env.VITE_TAX_SUITE_URL || import.meta.env.REACT_APP_TAX_SUITE_URL || '';
   }
   
-  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_BACKEND_URL) {
-    return import.meta.env.VITE_BACKEND_URL;
+  // Fallback to process.env for CRA/Next.js
+  if (!url && typeof process !== 'undefined' && process.env) {
+    url = process.env.REACT_APP_TAX_SUITE_URL || process.env.NEXT_PUBLIC_TAX_SUITE_URL || '';
   }
   
-  return 'http://localhost:8000';
-};
-
-/**
- * Check if running in development mode
- * @returns {boolean}
- */
-export const isDevelopment = () => {
-  if (typeof process !== 'undefined' && process.env?.NODE_ENV) {
-    return process.env.NODE_ENV === 'development';
+  const trimmedUrl = (url || '').trim();
+  
+  // Warn once in development if URL is empty
+  if (!trimmedUrl && !taxSuiteUrlWarned && process.env.NODE_ENV === 'development') {
+    console.warn('[env] Tax Suite URL not configured. Set REACT_APP_TAX_SUITE_URL, VITE_TAX_SUITE_URL, or NEXT_PUBLIC_TAX_SUITE_URL if needed.');
+    taxSuiteUrlWarned = true;
   }
   
-  if (typeof import.meta !== 'undefined' && import.meta.env?.DEV !== undefined) {
-    return import.meta.env.DEV;
-  }
-  
-  return false;
-};
+  return trimmedUrl;
+}
 
 export default {
   getSuiteUrl,
-  getBackendUrl,
-  isDevelopment
+  getTaxSuiteUrl
 };

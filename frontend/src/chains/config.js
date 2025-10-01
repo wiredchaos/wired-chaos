@@ -3,12 +3,14 @@
  * TESTNET ONLY - No mainnet configurations
  */
 
+import { ETH_RPC_URL, SOL_RPC_URL, XRPL_WS_URL, HBAR_MIRROR_URL, CERT_ETH_CONTRACT } from '../config/env';
+
 export const CHAIN_CONFIG = {
   // Ethereum Sepolia Testnet
   ethereum: {
     name: 'Ethereum Sepolia',
     chainId: 11155111,
-    rpcUrl: process.env.REACT_APP_ETH_RPC_TEST || 'https://rpc.sepolia.org',
+    rpcUrl: ETH_RPC_URL,
     explorerUrl: 'https://sepolia.etherscan.io',
     nativeCurrency: {
       name: 'SepoliaETH',
@@ -16,7 +18,7 @@ export const CHAIN_CONFIG = {
       decimals: 18
     },
     contracts: {
-      certificateNFT: process.env.REACT_APP_CERT_ETH_CONTRACT || '0x0000000000000000000000000000000000000000'
+      certificateNFT: CERT_ETH_CONTRACT
     },
     gasLimit: 200000,
     enabled: true
@@ -25,7 +27,7 @@ export const CHAIN_CONFIG = {
   // Solana Devnet
   solana: {
     name: 'Solana Devnet',
-    rpcUrl: process.env.REACT_APP_SOL_RPC_TEST || 'https://api.devnet.solana.com',
+    rpcUrl: SOL_RPC_URL,
     explorerUrl: 'https://explorer.solana.com',
     cluster: 'devnet',
     commitment: 'confirmed',
@@ -35,7 +37,7 @@ export const CHAIN_CONFIG = {
   // XRPL Testnet
   xrpl: {
     name: 'XRPL Testnet',
-    wsUrl: process.env.REACT_APP_XRPL_WS_TEST || 'wss://s.altnet.rippletest.net:51233',
+    wsUrl: XRPL_WS_URL,
     explorerUrl: 'https://testnet.xrpl.org',
     networkId: 'testnet',
     enabled: true
@@ -45,7 +47,7 @@ export const CHAIN_CONFIG = {
   hedera: {
     name: 'Hedera Testnet',
     nodeId: '0.0.3',
-    mirrorUrl: process.env.REACT_APP_HBAR_MIRROR_TEST || 'https://testnet.mirrornode.hedera.com',
+    mirrorUrl: HBAR_MIRROR_URL,
     explorerUrl: 'https://hashscan.io/testnet',
     networkId: 'testnet',
     enabled: true
