@@ -1,0 +1,60 @@
+{
+  "pipeline": "signup-to-deck",
+  "version": "1.0.0",
+  "enabled": true,
+  "stages": [
+    {
+      "name": "signup",
+      "trigger": "form_submission",
+      "action": "capture_lead",
+      "timeout_seconds": 10,
+      "retry_count": 3,
+      "next_stage": "deck_generation"
+    },
+    {
+      "name": "deck_generation",
+      "trigger": "lead_captured",
+      "action": "generate_gamma_deck",
+      "template": "wired-chaos-pitch",
+      "timeout_seconds": 60,
+      "retry_count": 2,
+      "next_stage": "distribution"
+    },
+    {
+      "name": "distribution",
+      "trigger": "deck_ready",
+      "action": "send_email_notify_crm",
+      "timeout_seconds": 30,
+      "retry_count": 3,
+      "next_stage": null
+    }
+  ],
+  "error_handling": {
+    "on_failure": "notify_admin",
+    "retry_strategy": "exponential_backoff",
+    "max_retries": 3,
+    "alert_channels": ["discord", "telegram"]
+  },
+  "monitoring": {
+    "track_metrics": true,
+    "metrics": [
+      "stage_duration",
+      "success_rate",
+      "error_count"
+    ]
+  },
+  "integrations": {
+    "gamma": {
+      "enabled": true,
+      "api_version": "v1"
+    },
+    "notion": {
+      "enabled": true,
+      "database_id": "NOTION_DATABASE_ID"
+    },
+    "zapier": {
+      "enabled": true,
+      "webhook_url": "ZAPIER_WEBHOOK_URL"
+    }
+  }
+}
