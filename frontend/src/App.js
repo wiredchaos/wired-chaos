@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { MotherboardHub } from "./components/MotherboardUI";
@@ -1634,7 +1634,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
+          {/* Firewall: Redirect root to school for audience selection */}
+          <Route path="/" element={<Navigate to="/school" replace />} />
+          <Route path="/motherboard" element={
             FEATURES.motherboardUI && !featureFlags.useLegacyHub ? 
               <React.Suspense fallback={<div className="loading-spinner"><div className="spinner"></div><p>Loading WIRED CHAOS...</p></div>}>
                 <Motherboard />

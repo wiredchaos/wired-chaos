@@ -38,3 +38,11 @@ zone_name = "wiredchaos.xyz"
 [[routes]]
 pattern = "www.wiredchaos.xyz/health"
 zone_name = "wiredchaos.xyz"
+
+[env.production]
+name = "chaoswired"
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+name = "chaoswired-staging"
+vars = { ENVIRONMENT = "staging" }
