@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - WIRED CHAOS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000000;
+            color: #00FFFF;
+            font-family: 'Orbitron', 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .error-code {
+            font-size: 10rem;
+            font-weight: 900;
+            color: #FF3131;
+            text-shadow:
+                0 0 20px #FF3131,
+                0 0 40px #FF3131,
+                0 0 60px #FF3131;
+            animation: pulse 3s ease-in-out infinite;
+            margin-bottom: 2rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        
+        .error-message {
+            font-size: 2rem;
+            color: #00FFFF;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .back-btn {
+            background: linear-gradient(45deg, #FF3131, #00FFFF);
+            border: none;
+            color: #000000;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: linear-gradient(45deg, #002626, #39FF14);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="error-code">404</div>
+    <div class="error-message">Page Not Found in the Digital Ecosystem</div>
+    <a href="/" class="back-btn">← Return to Motherboard</a>
+    
+    <script>
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 5000);
+    </script>
+</body>
+</html>
