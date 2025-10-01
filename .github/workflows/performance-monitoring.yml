@@ -1,0 +1,64 @@
+name: 📊 Performance Monitoring
+
+on:
+  schedule:
+    # Run every 15 minutes
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      detailed:
+        description: 'Generate detailed report'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  monitor:
+    name: Performance Monitoring
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 📊 Run Performance Check
+        id: performance
+        run: |
+          chmod +x scripts/monitor-performance.sh
+          ./scripts/monitor-performance.sh
+      
+      - name: 📤 Upload Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-report-${{ github.run_id }}
+          path: performance-report-*.md
+          retention-days: 7
+      
+      - name: 🔔 Send Alert on Low Health
+        if: always()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          # Extract health percentage from report
+          if [ -f performance-report-*.md ]; then
+            HEALTH=$(grep "Overall Health:" performance-report-*.md | grep -oE '[0-9]+' | head -1)
+            
+            if [ -n "$HEALTH" ] && [ "$HEALTH" -lt 80 ] && [ -n "$DISCORD_WEBHOOK_URL" ]; then
+              curl -X POST "$DISCORD_WEBHOOK_URL" \
+                -H "Content-Type: application/json" \
+                -d "{
+                  \"embeds\": [{
+                    \"title\": \"⚠️  Performance Alert\",
+                    \"description\": \"System health is at ${HEALTH}%\",
+                    \"color\": 15158332,
+                    \"fields\": [
+                      {\"name\": \"Health Score\", \"value\": \"${HEALTH}%\", \"inline\": true},
+                      {\"name\": \"Threshold\", \"value\": \"80%\", \"inline\": true},
+                      {\"name\": \"Action\", \"value\": \"Review failing endpoints\", \"inline\": false}
+                    ],
+                    \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+                  }]
+                }" || echo "⚠️  Could not send alert"
+            fi
+          fi

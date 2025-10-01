@@ -1,0 +1,89 @@
+{
+  "name": "Update Template",
+  "description": "Template for WIRED CHAOS project update presentations",
+  "theme": {
+    "id": "wired-chaos-cyber",
+    "colors": {
+      "primary": "#00fff0",
+      "secondary": "#ff2a2a",
+      "accent": "#8000ff",
+      "background": "#000000",
+      "text": "#ffffff"
+    },
+    "fonts": {
+      "heading": "Orbitron, sans-serif",
+      "body": "Rajdhani, sans-serif",
+      "code": "Share Tech Mono, monospace"
+    }
+  },
+  "slides": [
+    {
+      "type": "title",
+      "layout": "single",
+      "template": {
+        "title": "Project Update",
+        "subtitle": "{{period}} - {{date}}",
+        "footer": "WIRED CHAOS"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Executive Summary",
+        "content": "{{summary}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "Progress This Period",
+        "content": "{{progress}}"
+      }
+    },
+    {
+      "type": "data",
+      "layout": "single",
+      "template": {
+        "title": "Key Metrics",
+        "chart": {
+          "type": "line",
+          "data": "{{metricsData}}"
+        }
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "Completed Tasks",
+        "content": "{{completedTasks}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "In Progress",
+        "content": "{{inProgress}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Challenges & Blockers",
+        "content": "{{blockers}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Upcoming Priorities",
+        "content": "{{priorities}}"
+      }
+    }
+  ]
+}
