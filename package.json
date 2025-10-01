@@ -30,6 +30,6 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^9.2.1",
-    "wrangler": "^3.0.0"
+    "wrangler": "^4.40.3"
   }
 }
