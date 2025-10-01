@@ -14,6 +14,83 @@
 - **🔐 Vault33 Gatekeeper**: NSA-level security with wallet gating and NDA signatures
 - **☁️ Cloudflare Edge**: Global deployment on Cloudflare Workers and Pages
 - **🤖 Automated Workflows**: Complete CI/CD with intelligent automation
+- **🤖 SWARM Bot**: Intelligent deployment blocker automation with auto-triage and fixes
+- **🏥 Health Triage Bot**: Real-time system health monitoring and emergency response
+- **🎬 Video System**: Optional avatar linking for videos - works perfectly with or without creator avatars
+- **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
+- **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
+
+## 🆕 SWARM Orchestrator Pipeline
+
+Transform project files, RSS feeds, and X/Twitter mentions into structured outputs:
+
+- **📋 Keyword Maps**: TF-IDF and RAKE keyword extraction with clustering
+- **📝 SEO Briefs**: Content outlines for pages, blogs, and threads
+- **🧩 589-Coded Riddles**: WIRED CHAOS lore puzzles
+- **📰 RSS Digests**: Automated feed summaries
+- **🐦 X/Twitter Analysis**: Public mention scraping (no API keys needed)
+
+**Quick Start:**
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the pipeline
+python src/orchestrator.py --skip-twitter
+
+# View outputs
+ls -lh build/
+```
+
+📚 **[SWARM Orchestrator Documentation](./SWARM_ORCHESTRATOR_README.md)** | **[Quick Start Guide](./QUICKSTART_SWARM.md)**
+
+## 🤖 SWARM Bot - Deployment Blocker Automation
+
+**NEW**: Intelligent automation for deployment blockers - monitors, triages, and auto-fixes blocking issues!
+
+```bash
+# Install and run
+npm install
+npm run swarm-bot
+
+# Continuous monitoring
+npm run swarm-bot:monitor
+```
+
+**What It Does:**
+- 🔍 **Monitors** issues with `deployment-blocker`, `critical`, `bug` labels
+- 🤖 **Auto-fixes** dependency updates, config errors, merge conflicts
+- 🚨 **Escalates** critical issues to maintainers
+- 📊 **Reports** actionable insights with Health Bot integration
+- 🎯 **Closes** stale issues automatically
+
+**Features:**
+- ✅ Integrates with Health Triage Bot for system health visibility
+- ✅ Auto-creates PRs for fixable issues
+- ✅ Provides guided resolution for complex problems
+- ✅ GitHub Actions workflow (runs every 15 minutes)
+- ✅ Comprehensive triage rules and auto-fix patterns
+
+📚 **[SWARM Bot Documentation](./SWARM_BOT_AUTOMATION.md)** | **[Quick Start](./SWARM_BOT_QUICKSTART.md)**
+
+## 🤖 VS Studio Bot Setup (Quick Start)
+
+**Automated one-click deployment solution:**
+
+```bash
+# Windows/VS Studio - One-click automation
+RUN_VS_BOT.bat
+
+# PowerShell Direct
+.\VS_STUDIO_BOT_SETUP.ps1
+```
+
+**What It Does:**
+- ✅ **Installs Dependencies**: Node.js, Python, Yarn, GitHub CLI
+- 🔍 **Runs Security Audits**: yarn audit, pip-audit, API tests
+- 🚀 **Automated Deployment**: Preview, production, worker, and beta environments
+- 🔐 **Secret Management**: GitHub secrets configuration and validation
+- 📊 **Comprehensive Reports**: Security analysis and deployment status
 
 ## 🌟 NEW: GIGA Integration (Mega Prompt)
 
@@ -71,6 +148,22 @@ pwsh VS_STUDIO_BOT_AUTOMATION.ps1     # VS Studio Bot automation
 ```
 
 📋 **[View Quick Reference Card](./QUICK_REFERENCE.md)**
+
+## 💼 Video Sales Page (VSP)
+
+The **Video Sales Page** is a comprehensive business solution for client onboarding:
+
+- **Professional Service Packages**: Starter ($2.5K), Professional ($7.5K), Enterprise (Custom)
+- **Auto-Generated Contracts**: Engagement letters created from templates
+- **E-Signature Integration**: Modular support for DocuSign, HelloSign, Adobe Sign, PandaDoc
+- **Stripe Payments**: Integrated payment processing
+- **SWARM Automation**: Automated workflows (Notion, Google Drive, Discord, Calendar)
+
+**Access:** `https://www.wiredchaos.xyz/vsp`
+
+📖 **[Complete VSP Guide](./VSP_README.md)** | 📚 **[VSP Documentation](./wix-gamma-integration/docs/video-sales-page.md)**
+
+![VSP Preview](https://github.com/user-attachments/assets/8a980bb1-8674-4a00-b90f-73f6e511cf91)
 
 ## 📁 Project Structure
 
@@ -166,6 +259,43 @@ WIRED CHAOS features comprehensive AR/VR support:
   camera-controls auto-rotate>
 </model-viewer>
 ```
+
+## 🎬 Video System with Optional Avatar Linking
+
+WIRED CHAOS includes a flexible video system where avatars are **completely optional**:
+
+- ✅ Videos work perfectly with or without creator avatars
+- ✅ UI automatically adapts based on avatar presence
+- ✅ Avatars can be added, updated, or removed at any time
+- ✅ Clean display in both scenarios (no placeholders for missing avatars)
+- ✅ Configurable avatar position and size
+
+### Quick Example
+
+```jsx
+import VideoPlayer from './components/VideoPlayer';
+
+// Video with avatar
+<VideoPlayer 
+  video={{
+    title: "Tutorial Video",
+    url: "video.mp4",
+    avatar: "https://example.com/avatar.jpg" // ✅ Avatar included
+  }}
+/>
+
+// Video without avatar - works perfectly
+<VideoPlayer 
+  video={{
+    title: "Community Video",
+    url: "video.mp4",
+    avatar: null // ⚠️ No avatar - still works great
+  }}
+/>
+```
+
+📖 **[Video System Documentation](./VIDEO_SYSTEM_README.md)**  
+📖 **[Complete Video API Documentation](./VIDEO_AVATAR_DOCUMENTATION.md)**
 
 ## 🎓 Multi-Chain NFT Certificates
 
@@ -294,3 +424,5 @@ MIT License - See LICENSE file for details
 
 **Powered by**: React • FastAPI • Cloudflare • Web3 • AR/VR • AI
 
+#   P R   A u t o m a t i o n   T e s t  
+ 

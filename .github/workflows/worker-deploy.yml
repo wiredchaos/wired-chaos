@@ -1,4 +1,4 @@
-name: 🔧 Worker Deploy (Cloudflare Worker)
+﻿name: ðŸ”§ Worker Deploy (Cloudflare Worker)
 
 on:
   push:
@@ -41,7 +41,9 @@ jobs:
       continue-on-error: true
 
     - name: Build
-      run: npm run build
+      run: |
+        # Worker is plain JavaScript, no build step needed
+        echo "Skipping build - worker uses plain JavaScript"
       continue-on-error: true
 
     - name: Deploy to Cloudflare Workers
@@ -54,4 +56,5 @@ jobs:
     - name: Update deployment status
       run: |
         echo "⚡ Worker deployed successfully!"
-        echo "Worker URL: https://wired-chaos-worker.your-account.workers.dev"
+        echo "Worker accessible at: https://www.wiredchaos.xyz/health"
+        echo "Routes: /school, /suite, /tax, /gamma/*, /bus/*, /wl/xp/*, /api/*"

@@ -1,0 +1,81 @@
+{
+  "name": "Milestone Template",
+  "description": "Template for WIRED CHAOS project milestone presentations",
+  "theme": {
+    "id": "wired-chaos-cyber",
+    "colors": {
+      "primary": "#00fff0",
+      "secondary": "#ff2a2a",
+      "accent": "#8000ff",
+      "background": "#000000",
+      "text": "#ffffff"
+    },
+    "fonts": {
+      "heading": "Orbitron, sans-serif",
+      "body": "Rajdhani, sans-serif",
+      "code": "Share Tech Mono, monospace"
+    }
+  },
+  "slides": [
+    {
+      "type": "title",
+      "layout": "single",
+      "template": {
+        "title": "{{milestoneName}}",
+        "subtitle": "Milestone Achievement - {{date}}",
+        "footer": "WIRED CHAOS"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Summary",
+        "content": "{{summary}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "Key Achievements",
+        "content": "{{achievements}}"
+      }
+    },
+    {
+      "type": "data",
+      "layout": "single",
+      "template": {
+        "title": "Metrics",
+        "chart": {
+          "type": "bar",
+          "data": "{{metricsData}}"
+        }
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Challenges & Solutions",
+        "content": "{{challenges}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Next Steps",
+        "content": "{{nextSteps}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Thank You",
+        "content": "Contributors: {{contributors}}"
+      }
+    }
+  ]
+}

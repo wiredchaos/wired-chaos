@@ -1,0 +1,35 @@
+{
+  "name": "@wired-chaos/gamma-wix-automation",
+  "version": "1.0.0",
+  "description": "GAMMA-Wix Automation Script for Presentation Wraps Generation",
+  "main": "src/presentation-generator.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/presentation-generator.js",
+    "generate": "node src/presentation-generator.js",
+    "sync": "node src/content-sync.js",
+    "test": "node tests/gamma-client.test.js && node tests/integration.test.js",
+    "test:unit": "node tests/gamma-client.test.js",
+    "test:integration": "node tests/integration.test.js"
+  },
+  "keywords": [
+    "gamma",
+    "wix",
+    "automation",
+    "presentations",
+    "wired-chaos"
+  ],
+  "author": "WIRED CHAOS Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wiredchaos/wired-chaos.git",
+    "directory": "gamma-wix-automation"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

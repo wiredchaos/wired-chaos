@@ -127,6 +127,152 @@ $w.onReady(function() {
 - [Example Page Code](wix-gamma-integration/wix/pages/example-page.js)
 - [Velo Integration Library](wix-gamma-integration/wix/velo/wired-chaos-integration.js)
 
+## 🤖 Wix AI Bot Automation
+
+### Overview
+The Wix AI Bot integration provides automated workflows between GitHub and your Wix site, enabling:
+- **Automated landing page updates** on PR merges
+- **Real-time notifications** on deployments
+- **Content synchronization** from GitHub to Wix
+- **Webhook-driven automation** for custom workflows
+
+### Setup Steps:
+
+1. **Access Wix AI Bot**:
+   - URL: https://manage.wix.com/dashboard/7aa81323-433d-4763-b6dc-5d98d409c459/custom-agent
+   - Log in with your Wix account
+   - Generate API credentials
+
+2. **Configure GitHub Secrets**:
+   ```bash
+   # Required
+   gh secret set WIX_API_TOKEN --body "your_wix_api_token"
+   gh secret set WIX_SITE_ID --body "7aa81323-433d-4763-b6dc-5d98d409c459"
+   
+   # Optional
+   gh secret set WIX_AI_BOT_URL --body "https://your-custom-bot-url.com"
+   gh secret set WIX_WEBHOOK_SECRET --body "your_webhook_secret"
+   ```
+
+3. **Enable GitHub Workflow**:
+   - Workflow file: `.github/workflows/wix-ai-bot-automation.yml`
+   - Automatically triggers on PR merges, pushes, and deployments
+   - Manual dispatch available for custom actions
+
+4. **Configure Webhook** (Optional):
+   - Go to Repository Settings → Webhooks → Add webhook
+   - Payload URL: `https://wired-chaos.pages.dev/api/wix/webhook`
+   - Content type: `application/json`
+   - Events: Pull requests, Pushes, Deployment statuses
+
+### Automation Features:
+
+#### PR Merge → Landing Page Update
+```bash
+# Automatically triggered when PR is merged
+# Updates Wix landing page with PR details
+# Sends notifications to Discord/Telegram
+```
+
+#### Deployment → Notification
+```bash
+# Triggered on deployment completion
+# Sends status notification to Wix site
+# Updates deployment log on landing page
+```
+
+#### Manual Actions
+```bash
+# Update landing page manually
+gh workflow run wix-ai-bot-automation.yml \
+  -f action=update_landing_page \
+  -f message="Custom update"
+
+# Send notification
+gh workflow run wix-ai-bot-automation.yml \
+  -f action=send_notification \
+  -f message="Important announcement"
+
+# Sync content
+gh workflow run wix-ai-bot-automation.yml \
+  -f action=sync_content
+
+# Test connection
+gh workflow run wix-ai-bot-automation.yml \
+  -f action=test_connection
+```
+
+### API Client Usage:
+
+```javascript
+// Import client
+import { WixAIBotClient } from './wix-gamma-integration/wix/ai-bot/wix-ai-bot-client.js';
+
+// Initialize
+const client = new WixAIBotClient({
+  apiToken: process.env.WIX_API_TOKEN,
+  siteId: process.env.WIX_SITE_ID,
+  webhookSecret: process.env.WIX_WEBHOOK_SECRET
+});
+
+// Update landing page
+await client.updateLandingPage({
+  title: 'New Feature Released',
+  content: '<h1>Announcement</h1><p>Details...</p>',
+  metadata: { version: '1.0' }
+});
+
+// Send notification
+await client.sendNotification({
+  message: 'Deployment completed',
+  type: 'success'
+});
+
+// Test connection
+await client.testConnection();
+```
+
+### Testing:
+
+```bash
+# Run end-to-end test
+cd wix-gamma-integration/examples/scripts
+./test-e2e.sh
+
+# View example payloads
+ls wix-gamma-integration/examples/payloads/
+# - pr-merge.json
+# - deployment.json
+# - content-sync.json
+# - manual-action.json
+```
+
+### Monitoring:
+
+- **GitHub Actions**: View workflow runs in Actions tab
+- **Discord Notifications**: Automatic alerts on success/failure
+- **Telegram Notifications**: Real-time updates on integrations
+- **Worker Logs**: `wrangler tail --env production`
+
+### Documentation:
+- [Wix AI Bot Automation Guide](wix-gamma-integration/docs/wix-ai-bot-automation.md)
+- [API Client Reference](wix-gamma-integration/wix/ai-bot/wix-ai-bot-client.js)
+- [Example Event Payloads](wix-gamma-integration/examples/payloads/)
+- [Test Automation Scripts](wix-gamma-integration/examples/scripts/)
+
+### Security:
+- All API tokens stored in GitHub Secrets
+- HMAC signature verification for webhooks
+- Rate limiting and retry logic
+- Secure TLS 1.3 communication
+- Audit logging in Cloudflare KV
+
+### Troubleshooting:
+- **401 Unauthorized**: Check WIX_API_TOKEN is set correctly
+- **429 Rate Limited**: Automatic retry with exponential backoff
+- **500 Server Error**: Check Wix AI Bot dashboard status
+- **Webhook Failed**: Verify webhook secret matches configuration
+
 ## ⚡ Zapier Integration
 
 ### Setup Steps:
@@ -177,10 +323,16 @@ Add these secrets to your repository settings:
 - `WIX_APP_ID`: Wix application ID
 - `WIX_APP_SECRET`: Wix application secret
 - `WIX_SITE_ID`: Target Wix site ID
+- `WIX_API_TOKEN`: Wix API authentication token (for AI Bot)
+- `WIX_ACCESS_TOKEN`: Wix OAuth access token
+- `WIX_AI_BOT_URL`: Custom Wix AI Bot URL (optional)
+- `WIX_WEBHOOK_SECRET`: Webhook signature secret (optional)
 - `ZAPIER_WEBHOOK_URL`: Zapier webhook endpoint
 
 ### Communication:
 - `DISCORD_WEBHOOK_URL`: Discord webhook for notifications
+- `TELEGRAM_BOT_TOKEN`: Telegram bot token (optional)
+- `TELEGRAM_CHAT_ID`: Telegram chat ID (optional)
 
 ## 🧪 BETA Test Configuration
 

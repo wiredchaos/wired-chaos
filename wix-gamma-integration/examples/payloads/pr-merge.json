@@ -1,0 +1,24 @@
+{
+  "event_type": "pr_merged",
+  "pr_number": 123,
+  "pr_title": "Add new feature: Enhanced landing page",
+  "pr_author": "wiredchaos",
+  "repository": "wiredchaos/wired-chaos",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "action": "update_landing_page",
+  "site_id": "7aa81323-433d-4763-b6dc-5d98d409c459",
+  "data": {
+    "page_type": "landing",
+    "title": "New Feature Released: Enhanced Landing Page",
+    "content": "<h1>🚀 New Feature Released</h1><p>We've just merged an exciting enhancement to our landing page experience!</p><p><strong>What's New:</strong></p><ul><li>Improved design and layout</li><li>Better mobile responsiveness</li><li>Enhanced performance</li></ul><p>Check it out now!</p>",
+    "metadata": {
+      "pr_number": 123,
+      "pr_url": "https://github.com/wiredchaos/wired-chaos/pull/123",
+      "merged_by": "wiredchaos",
+      "branch": "feature/enhanced-landing",
+      "commits": 5,
+      "files_changed": 12
+    },
+    "updated_at": "2024-01-15T10:30:00Z"
+  }
+}

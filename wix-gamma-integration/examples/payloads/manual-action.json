@@ -1,0 +1,22 @@
+{
+  "event_type": "manual",
+  "action": "update_landing_page",
+  "message": "Emergency update: Announcing new feature launch",
+  "repository": "wiredchaos/wired-chaos",
+  "triggered_by": "wiredchaos",
+  "timestamp": "2024-01-15T10:40:00Z",
+  "site_id": "7aa81323-433d-4763-b6dc-5d98d409c459",
+  "data": {
+    "page_type": "landing",
+    "title": "🔥 New Feature Launch: Vault33 Integration",
+    "content": "<div class='announcement'><h1>🔥 Breaking News!</h1><p>We're excited to announce the launch of <strong>Vault33 Integration</strong>!</p><h2>What's Included:</h2><ul><li>🔐 Secure token storage</li><li>🎮 Gamification features</li><li>🤖 Discord & Telegram bot integration</li><li>⚡ Real-time XRPL validator</li></ul><p><a href='/vault33' class='cta-button'>Learn More →</a></p></div>",
+    "metadata": {
+      "priority": "high",
+      "category": "announcement",
+      "tags": ["vault33", "integration", "launch"],
+      "featured": true,
+      "expires_at": "2024-01-22T10:40:00Z"
+    },
+    "updated_at": "2024-01-15T10:40:00Z"
+  }
+}

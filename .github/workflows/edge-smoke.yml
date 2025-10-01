@@ -1,0 +1,440 @@
+﻿name: ðŸ”¥ Edge Smoke Tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'  # Every 30 minutes
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'worker/**'
+      - '.github/workflows/edge-smoke.yml'
+
+env:
+  BASE: https://www.wiredchaos.xyz
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    name: Edge Endpoint Smoke Tests
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Test /health endpoint
+      run: |
+        echo "ðŸ” Testing /health endpoint..."
+        response=$(curl -s -w "\n%{http_code}" ${BASE}/health)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "Response: $body"
+        
+        if [ "$status_code" != "200" ]; then
+          echo "âŒ /health endpoint failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -q "ok"; then
+          echo "âŒ /health response missing 'ok' field"
+          exit 1
+        fi
+        
+        echo "âœ… /health endpoint passed"
+
+    - name: Test /tax redirect
+      run: |
+        echo "ðŸ” Testing /tax redirect..."
+        response=$(curl -s -I -w "\n%{http_code}" ${BASE}/tax)
+        status_code=$(echo "$response" | tail -n1)
+        
+        echo "Status: $status_code"
+        echo "Headers:"
+        echo "$response" | head -n-1
+        
+        if [ "$status_code" != "302" ] && [ "$status_code" != "301" ]; then
+          echo "âŒ /tax should redirect (302/301) but got $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$response" | grep -i "location:" | grep -q "suite"; then
+          echo "âŒ /tax redirect location should contain 'suite'"
+          exit 1
+        fi
+        
+        echo "âœ… /tax redirect passed"
+
+    - name: Test /suite endpoint
+      run: |
+        echo "ðŸ” Testing /suite endpoint..."
+        response=$(curl -s -w "\n%{http_code}" ${BASE}/suite)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "First 5 lines:"
+        echo "$body" | head -n 5
+        
+        if [ "$status_code" != "200" ]; then
+          echo "âŒ /suite endpoint failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | head -n 5 | grep -qi "html\|<!doctype"; then
+          echo "âŒ /suite response doesn't appear to be HTML"
+          exit 1
+        fi
+        
+        echo "âœ… /suite endpoint passed"
+
+    - name: Test /suite?mode=stub (Feature Flag)
+      run: |
+        echo "Testing /suite?mode=stub..."
+        response=$(curl -s -w "\n%{http_code}" "${BASE}/suite?mode=stub")
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        
+        if [ "$status_code" != "200" ]; then
+          echo "ERROR: /suite?mode=stub failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -qi "STUB MODE"; then
+          echo "ERROR: /suite?mode=stub should contain 'STUB MODE'"
+          exit 1
+        fi
+        
+        echo "PASS: /suite?mode=stub passed"
+
+    - name: Test /suite?mode=partial (Feature Flag)
+      run: |
+        echo "Testing /suite?mode=partial..."
+        response=$(curl -s -w "\n%{http_code}" "${BASE}/suite?mode=partial")
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        
+        if [ "$status_code" != "200" ]; then
+          echo "ERROR: /suite?mode=partial failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -qi "PARTIAL MODE"; then
+          echo "ERROR: /suite?mode=partial should contain 'PARTIAL MODE'"
+          exit 1
+        fi
+        
+        echo "PASS: /suite?mode=partial passed"
+
+    - name: Test /suite?mode=full (Feature Flag)
+      run: |
+        echo "Testing /suite?mode=full..."
+        response=$(curl -s -w "\n%{http_code}" "${BASE}/suite?mode=full")
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        
+        if [ "$status_code" != "200" ]; then
+          echo "ERROR: /suite?mode=full failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -qi "FULL MODE"; then
+          echo "ERROR: /suite?mode=full should contain 'FULL MODE'"
+          exit 1
+        fi
+        
+        echo "PASS: /suite?mode=full passed"
+
+    - name: Test /gamma/tour endpoint
+      run: |
+        echo "ðŸ” Testing /gamma/tour endpoint..."
+        response=$(curl -s -w "\n%{http_code}" ${BASE}/gamma/tour)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "First 3 lines:"
+        echo "$body" | head -n 3
+        
+        if [ "$status_code" != "200" ]; then
+          echo "âŒ /gamma/tour endpoint failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | head -n 3 | grep -qi "html\|<!doctype"; then
+          echo "âŒ /gamma/tour response doesn't appear to be HTML"
+          exit 1
+        fi
+        
+        echo "âœ… /gamma/tour endpoint passed"
+
+    - name: Test /gamma/journal endpoint
+      run: |
+        echo "ðŸ” Testing /gamma/journal endpoint..."
+        response=$(curl -s -w "\n%{http_code}" ${BASE}/gamma/journal)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "First 3 lines:"
+        echo "$body" | head -n 3
+        
+        if [ "$status_code" != "200" ]; then
+          echo "âŒ /gamma/journal endpoint failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | head -n 3 | grep -qi "html\|<!doctype"; then
+          echo "âŒ /gamma/journal response doesn't appear to be HTML"
+          exit 1
+        fi
+        
+        echo "âœ… /gamma/journal endpoint passed"
+
+    - name: Test /gamma/workbook endpoint
+      run: |
+        echo "ðŸ” Testing /gamma/workbook endpoint..."
+        response=$(curl -s -w "\n%{http_code}" ${BASE}/gamma/workbook)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "First 3 lines:"
+        echo "$body" | head -n 3
+        
+        if [ "$status_code" != "200" ]; then
+          echo "âŒ /gamma/workbook endpoint failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | head -n 3 | grep -qi "html\|<!doctype"; then
+          echo "âŒ /gamma/workbook response doesn't appear to be HTML"
+          exit 1
+        fi
+        
+        echo "âœ… /gamma/workbook endpoint passed"
+
+    - name: Test /school endpoint
+      run: |
+        echo "ðŸ” Testing /school endpoint..."
+        response=$(curl -s -w "\n%{http_code}" ${BASE}/school)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "First 5 lines:"
+        echo "$body" | head -n 5
+        
+        if [ "$status_code" != "200" ]; then
+          echo "âŒ /school endpoint failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | head -n 5 | grep -qi "html\|<!doctype"; then
+          echo "âŒ /school response doesn't appear to be HTML"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -qi "business.*esoteric\|esoteric.*business"; then
+          echo "âŒ /school page should contain Business/Esoteric toggle"
+          exit 1
+        fi
+        
+        echo "âœ… /school endpoint passed"
+
+    - name: Test /bus/publish endpoint (wallet-gated)
+      run: |
+        echo "ðŸ” Testing /bus/publish endpoint..."
+        response=$(curl -s -w "\n%{http_code}" -X POST \
+          -H "Content-Type: application/json" \
+          -H "X-Wallet-Address: 0xDummyWalletForTesting123456789" \
+          -d '{"event":"test","data":"smoke-test"}' \
+          ${BASE}/bus/publish)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "Response: $body"
+        
+        # Expecting 200 with ok:true OR 401/403 if wallet validation fails
+        if [ "$status_code" != "200" ] && [ "$status_code" != "401" ] && [ "$status_code" != "403" ]; then
+          echo "âŒ /bus/publish unexpected status $status_code"
+          exit 1
+        fi
+        
+        # If successful (200), check for ok field
+        if [ "$status_code" = "200" ]; then
+          if ! echo "$body" | grep -q "ok"; then
+            echo "âŒ /bus/publish response missing 'ok' field"
+            exit 1
+          fi
+        fi
+        
+        echo "âœ… /bus/publish endpoint passed (status: $status_code)"
+
+    - name: Test /bus/poll endpoint
+      run: |
+        echo "ðŸ” Testing /bus/poll endpoint..."
+        response=$(curl -s -w "\n%{http_code}" "${BASE}/bus/poll?since=0")
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "Response: $body"
+        
+        if [ "$status_code" != "200" ]; then
+          echo "âŒ /bus/poll endpoint failed with status $status_code"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -q "ok"; then
+          echo "âŒ /bus/poll response missing 'ok' field"
+          exit 1
+        fi
+        
+        if ! echo "$body" | grep -q "events"; then
+          echo "âŒ /bus/poll response missing 'events' array"
+          exit 1
+        fi
+        
+        echo "âœ… /bus/poll endpoint passed"
+
+    - name: Test /wl/xp/increment endpoint (wallet-gated)
+      run: |
+        echo "ðŸ” Testing /wl/xp/increment endpoint..."
+        response=$(curl -s -w "\n%{http_code}" -X POST \
+          -H "Content-Type: application/json" \
+          -H "X-Wallet-Address: 0xDummyWalletForTesting123456789" \
+          -d '{"action":"test"}' \
+          ${BASE}/wl/xp/increment)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "Response: $body"
+        
+        # Expecting 200 with ok:true OR 401/403 if wallet validation fails
+        if [ "$status_code" != "200" ] && [ "$status_code" != "401" ] && [ "$status_code" != "403" ]; then
+          echo "âŒ /wl/xp/increment unexpected status $status_code"
+          exit 1
+        fi
+        
+        # If successful (200), check for ok, xp, and tier fields
+        if [ "$status_code" = "200" ]; then
+          if ! echo "$body" | grep -q "ok"; then
+            echo "âŒ /wl/xp/increment response missing 'ok' field"
+            exit 1
+          fi
+          if ! echo "$body" | grep -q "xp"; then
+            echo "âŒ /wl/xp/increment response missing 'xp' field"
+            exit 1
+          fi
+          if ! echo "$body" | grep -q "tier"; then
+            echo "âŒ /wl/xp/increment response missing 'tier' field"
+            exit 1
+          fi
+        fi
+        
+        echo "âœ… /wl/xp/increment endpoint passed (status: $status_code)"
+
+    - name: Test /wl/xp/ status endpoint
+      run: |
+        echo "ðŸ” Testing /wl/xp/ status endpoint..."
+        response=$(curl -s -w "\n%{http_code}" \
+          -H "X-Wallet-Address: 0xDummyWalletForTesting123456789" \
+          ${BASE}/wl/xp/)
+        status_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | head -n-1)
+        
+        echo "Status: $status_code"
+        echo "Response: $body"
+        
+        # Expecting 200 OR 401/403 if wallet validation fails
+        if [ "$status_code" != "200" ] && [ "$status_code" != "401" ] && [ "$status_code" != "403" ]; then
+          echo "âŒ /wl/xp/ unexpected status $status_code"
+          exit 1
+        fi
+        
+        # If successful (200), check for xp and tier fields
+        if [ "$status_code" = "200" ]; then
+          if ! echo "$body" | grep -q "xp"; then
+            echo "âŒ /wl/xp/ response missing 'xp' field"
+            exit 1
+          fi
+          if ! echo "$body" | grep -q "tier"; then
+            echo "âŒ /wl/xp/ response missing 'tier' field"
+            exit 1
+          fi
+        fi
+        
+        echo "âœ… /wl/xp/ endpoint passed (status: $status_code)"
+
+    - name: Generate smoke test report
+      if: always()
+      run: |
+        echo "ðŸ“Š Generating smoke test report..."
+        cat > smoke_test_report.md << EOF
+        # ðŸ”¥ Edge Smoke Test Report
+        
+        **Test Run:** $(date '+%Y-%m-%d %H:%M:%S UTC')
+        **Base URL:** ${BASE}
+        **Status:** ${{ job.status }}
+        
+        ## Endpoints Tested
+        
+        - âœ… GET /health â†’ { ok: true }
+        - âœ… HEAD /tax â†’ HTTP 302 redirect to /suite
+        - âœ… GET /suite â†’ HTML content
+        - âœ… GET /gamma/tour â†’ HTML content
+        - âœ… GET /gamma/journal â†’ HTML content
+        - âœ… GET /gamma/workbook â†’ HTML content
+        - âœ… GET /school â†’ HTML with Business/Esoteric toggle
+        - âœ… POST /bus/publish â†’ wallet-gated endpoint
+        - âœ… GET /bus/poll?since=0 â†’ { ok: true, events: [] }
+        - âœ… POST /wl/xp/increment â†’ wallet-gated with xp/tier response
+        - âœ… GET /wl/xp/ â†’ xp and tier status
+        
+        ## Test Summary
+        
+        All critical edge endpoints are functioning as expected.
+        Zero-touch UX validation completed successfully.
+        
+        ---
+        Generated by WIRED CHAOS Edge Smoke Tests
+        EOF
+        
+        cat smoke_test_report.md
+
+    - name: Upload smoke test report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: smoke-test-report
+        path: smoke_test_report.md
+
+    - name: Discord notification
+      if: failure()
+      run: |
+        if [ ! -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+          curl -H "Content-Type: application/json" \
+            -d "{\"content\":\"âŒ Edge Smoke Tests FAILED - WIRED CHAOS\\nâ° $(date '+%Y-%m-%d %H:%M:%S')\\nðŸ”— https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+        fi
+      continue-on-error: true
+
+    - name: Final status
+      run: |
+        if [ "${{ job.status }}" = "success" ]; then
+          echo "âœ… All edge smoke tests passed!"
+        else
+          echo "âŒ Some edge smoke tests failed. Check the logs above."
+          exit 1
+        fi

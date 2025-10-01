@@ -1,0 +1,32 @@
+{
+  "event_type": "content_sync",
+  "site_id": "7aa81323-433d-4763-b6dc-5d98d409c459",
+  "action": "sync_content",
+  "data": {
+    "source": "github_push",
+    "content_data": {
+      "title": "Updated Documentation",
+      "type": "documentation",
+      "files": [
+        {
+          "path": "README.md",
+          "title": "README",
+          "content": "# WIRED CHAOS\n\nNext-generation Web3 platform...",
+          "last_modified": "2024-01-15T10:25:00Z"
+        },
+        {
+          "path": "INTEGRATION_SETUP.md",
+          "title": "Integration Setup Guide",
+          "content": "# Integration Setup\n\nComplete guide for setting up integrations...",
+          "last_modified": "2024-01-15T10:26:00Z"
+        }
+      ],
+      "commit_message": "docs: Update integration documentation",
+      "commit_sha": "def789abc123",
+      "author": "wiredchaos",
+      "branch": "main"
+    },
+    "sync_direction": "github_to_wix",
+    "timestamp": "2024-01-15T10:27:00Z"
+  }
+}

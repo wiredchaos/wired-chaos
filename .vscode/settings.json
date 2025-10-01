@@ -1,11 +1,221 @@
-﻿{
-  "github.copilot.inlineSuggest.enable": true,
-  "github.copilot.chat.experimental.model": "gpt-4o",
-  "wiredChaos.contextDocs": [
-    ".copilot/wired-chaos-context.md",
-    ".copilot/autofix-patterns.md",
-    ".copilot/security-patterns.md",
-    ".copilot/ar-vr-config.md",
-    ".copilot/color-palette.md"
-  ]
+{
+  // WIRED CHAOS Workspace Settings - Comprehensive Development Environment
+  // Combines VS Code workspace configuration with GitHub Copilot integration
+  // ========== GitHub Copilot Configuration ==========
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true
+  },
+  "github.copilot.advanced": {
+    "debug.overrideEngine": "copilot-gpt-4",
+    "debug.testOverrideProxyUrl": "",
+    "debug.overrideProxyUrl": ""
+  },
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "text": "# WIRED CHAOS V3 Studio Bot - Project Context\n\n## Full Stack Architecture\n- **Frontend**: React (Cloudflare Pages) with Tailwind CSS, shadcn/ui components\n- **Backend**: Python FastAPI, Cloudflare Workers (edge compute)\n- **Storage**: Cloudflare KV (key-value), R2 (object storage)\n- **Blockchain**: Multi-chain support (Ethereum, Solana, XRPL, Hedera, Dogecoin)\n- **Integrations**: Gamma.app, Notion API, Wix CMS, Zapier automation\n\n## Color Palette (Official Brand)\n- Black: #000000 (base background)\n- Neon Cyan: #00FFFF (primary accent)\n- Glitch Red: #FF3131 (alerts, errors)\n- Electric Green: #39FF14 (success states)\n- Accent Pink: #FF00FF (highlights)\n\n## Security Standards (NSA-Level)\n- Always implement Bearer token authentication for API endpoints\n- CORS must be explicitly configured with allowed origins\n- Circuit breaker patterns for external API calls\n- Wallet gating with multi-chain support\n- NDA digital signature integration for sensitive operations\n- Environment variables must use universal safe checks: `env.VAR || process.env.VAR || ''`\n\n## AR/VR Merch Store Requirements\n- GLB/USDZ model files require specific MIME types and CORS headers\n- Cloudflare Pages `_headers` must include:\n  - `model/gltf-binary` for .glb files\n  - `model/vnd.usdz+zip` for .usdz files\n  - XR permissions: `camera=*, microphone=*, xr-spatial-tracking=*`\n- Worker MIME type overrides for 3D assets\n- Model viewer integration with proper error handling\n\n## Deployment Principles\n- Zero-downtime deployments via Cloudflare global edge\n- Automatic rollback on health check failures\n- Health monitoring endpoints at `/api/health`\n- Auto-scaling via Cloudflare Workers unlimited concurrency\n\n## Common Auto-Fix Patterns\n1. **JSX Nesting Errors**: Always ensure proper parent-child relationships\n2. **Environment Variables**: Use `const VAR = env?.VAR || process?.env?.VAR || ''`\n3. **CORS Headers**: Include in Cloudflare Worker responses:\n   ```javascript\n   'Access-Control-Allow-Origin': '*',\n   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',\n   'Access-Control-Allow-Headers': 'Content-Type, Authorization'\n   ```\n4. **Worker Routing**: Always return proper Response objects with correct status codes\n5. **Build Errors**: Check for missing dependencies in package.json before building\n\n## Event System & Gamification\n- Real-time event bus using Cloudflare Durable Objects\n- Point system: WL claims (10pts), Minting Tier1 (20pts), Tier2 (40pts), Burns (50-250pts)\n- Vault33 Gatekeeper system with Discord/Telegram integration\n- XRPL validator integration for blockchain events\n\n## CI/CD Integration\n- GitHub Actions workflows: `frontend-deploy.yml`, `worker-deploy.yml`, `content-sync.yml`, `beta-test.yml`\n- Automated testing before deployment\n- Preview deployments for PR branches\n- Production deployments on main branch merges\n\n## File Organization\n- Frontend components: `frontend/src/components/`\n- Worker code: `src/index.js` with `src/wrangler.toml`\n- Backend API: `backend/server.py`, `backend/cert_api.py`, `backend/brain_assistant_api.py`\n- Config: `vault33-gatekeeper/shared/config.py`\n\n## Coding Standards\n- Use existing libraries; only add new ones if absolutely necessary\n- Match existing comment style in files\n- Prefer functional components with hooks in React\n- Use async/await for asynchronous operations\n- Implement proper error handling with try-catch blocks\n- Return structured error responses with meaningful messages"
+    }
+  ],
+  // ========== Editor Settings ==========
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.rulers": [
+    80,
+    120
+  ],
+  "editor.wordWrap": "on",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  // ========== Files Settings ==========
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/.emergent": true,
+    "**/venv": true,
+    "**/.venv": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/build/**": true,
+    "**/dist/**": true
+  },
+  "files.associations": {
+    "*.ps1": "powershell",
+    "*.bat": "bat"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  // ========== Search Settings ==========
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/.git": true,
+    "**/coverage": true,
+    "**/.pytest_cache": true,
+    "**/package-lock.json": true,
+    "**/yarn.lock": true
+  },
+  // ========== JavaScript/TypeScript Settings ==========
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  // ========== ESLint Settings ==========
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.workingDirectories": [
+    "./frontend"
+  ],
+  // ========== Python Settings ==========
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.tabSize": 4
+  },
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.formatting.provider": "none",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  // Black formatter settings
+  "black-formatter.args": [
+    "--line-length=88"
+  ],
+  // isort settings
+  "isort.args": [
+    "--profile=black"
+  ],
+  // ========== PowerShell Settings ==========
+  "[powershell]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true
+  },
+  "powershell.codeFormatting.preset": "OTBS",
+  "powershell.integratedConsole.showOnStartup": false,
+  // ========== Git Settings ==========
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  // ========== Terminal Settings ==========
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  // ========== Markdown Settings ==========
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    }
+  },
+  // ========== Tailwind CSS Settings ==========
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "cva\\(([^)]*)\\)",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "cn\\(([^)]*)\\)",
+      "(?:'|\"|`)([^']*)(?:'|\"|`)"
+    ]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  // ========== Todo Highlight Settings ==========
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "#fff",
+      "backgroundColor": "#ffbd2e",
+      "overviewRulerColor": "rgba(255,189,46,0.8)"
+    },
+    {
+      "text": "FIXME:",
+      "color": "#fff",
+      "backgroundColor": "#f06292",
+      "overviewRulerColor": "rgba(240,98,146,0.8)"
+    },
+    {
+      "text": "NOTE:",
+      "color": "#fff",
+      "backgroundColor": "#64b5f6",
+      "overviewRulerColor": "rgba(100,181,246,0.8)"
+    }
+  ],
+  // ========== Spell Checker Settings ==========
+  "cSpell.words": [
+    "wired",
+    "chaos",
+    "cloudflare",
+    "craco",
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "wrangler",
+    "gatekeeper",
+    "merovingian",
+    "xrpl",
+    "radix",
+    "tailwindcss",
+    "hookform",
+    "drei",
+    "lucide"
+  ],
+  // ========== Language-specific file associations ==========
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  }
 }

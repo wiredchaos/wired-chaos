@@ -1,0 +1,126 @@
+version: 2
+updates:
+  # Frontend dependencies (Node.js/npm)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "wiredchaos"
+    assignees:
+      - "wiredchaos"
+    labels:
+      - "dependencies"
+      - "frontend"
+      - "security"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    versioning-strategy: increase
+    groups:
+      radix-ui:
+        patterns:
+          - "@radix-ui/*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-*"
+
+  # Backend dependencies (Python/pip)
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "wiredchaos"
+    assignees:
+      - "wiredchaos"
+    labels:
+      - "dependencies"
+      - "backend"
+      - "security"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    groups:
+      google-apis:
+        patterns:
+          - "google-*"
+      fastapi:
+        patterns:
+          - "fastapi"
+          - "starlette"
+          - "pydantic"
+          - "uvicorn"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "wiredchaos"
+    assignees:
+      - "wiredchaos"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci"
+    commit-message:
+      prefix: "chore(ci)"
+      include: "scope"
+
+  # Root dependencies (if any)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "root"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+
+  # Grants bot dependencies
+  - package-ecosystem: "pip"
+    directory: "/grants-bot"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "grants-bot"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+
+  # Vault33 gatekeeper dependencies
+  - package-ecosystem: "pip"
+    directory: "/vault33-gatekeeper"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "vault33"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"

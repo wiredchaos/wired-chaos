@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { MotherboardHub } from "./components/MotherboardUI";
@@ -8,9 +8,14 @@ import NeuroHologram from "./components/NeuroHologram";
 import NFTNeuroHologram from "./components/NFTNeuroHologram";
 import NeuroMetaXHero from "./components/NeuroMetaXHero";
 import CertificateMinter from "./components/CertificateMinter";
+import TaxSuite from "./components/TaxSuite";
+import SuiteLanding from "./components/SuiteLanding";
 import featureFlags, { FEATURES } from "./config/featureFlags";
 import { BACKEND_URL, API_URL } from "./config/env";
 import axios from "axios";
+import { getSuiteUrl } from "./utils/env";
+import { StudentUnion, VRLobby, ConsignmentStore, ProductDashboard, AdminPanel } from "./components/StudentUnion";
+import GrantsForFounders from "./components/GrantsForFounders";
 
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
@@ -1450,6 +1455,79 @@ const NeuroMetaXPage = () => {
     </div>
   );
 };
+
+// School Page - Educational Hub
+const SchoolPage = () => {
+  const navigate = useNavigate();
+  const suiteUrl = getSuiteUrl();
+  
+  return (
+    <div className="agent-page school-page">
+      <div className="page-header">
+        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
+        {suiteUrl && (
+          <a 
+            href={suiteUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="suite-link-button"
+          >
+            Open Suite →
+          </a>
+        )}
+        <h1>🎓 WIRED CHAOS SCHOOL</h1>
+        <p>Educational Resources & Learning Portal</p>
+      </div>
+      
+      <div className="widget-grid">
+        <Card className="widget-card">
+          <h3>📚 LEARNING MODULES</h3>
+          <p>Comprehensive courses on Web3, blockchain, and digital ecosystems</p>
+          <div className="module-list">
+            <div className="module-item">🧠 Web3 Fundamentals</div>
+            <div className="module-item">🔐 Blockchain Security</div>
+            <div className="module-item">🎨 NFT Creation & Trading</div>
+            <div className="module-item">💼 DeFi Strategies</div>
+          </div>
+        </Card>
+        
+        <Card className="widget-card">
+          <h3>🎓 CERTIFICATIONS</h3>
+          <p>Earn blockchain-verified certificates of completion</p>
+          <Button onClick={() => navigate('/neurolab')} className="cert-btn">
+            View Certificate Programs
+          </Button>
+        </Card>
+        
+        <Card className="widget-card">
+          <h3>🌐 COMMUNITY LEARNING</h3>
+          <p>Connect with peers and mentors in the WIRED CHAOS ecosystem</p>
+          <div className="community-links">
+            <a href="https://cryptospaces.net" target="_blank" rel="noopener noreferrer">
+              Join CryptoSpaces Community
+            </a>
+          </div>
+        </Card>
+        
+        {suiteUrl && (
+          <Card className="widget-card suite-card">
+            <h3>🚀 TAX SUITE</h3>
+            <p>Access the full suite of tax and compliance tools</p>
+            <a 
+              href={suiteUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="suite-access-btn"
+            >
+              Launch Suite →
+            </a>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const IndustryPage = ({ industry }) => {
   const navigate = useNavigate();
   
@@ -1559,7 +1637,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
+          {/* Firewall: Redirect root to school for audience selection */}
+          <Route path="/" element={<Navigate to="/school" replace />} />
+          <Route path="/motherboard" element={
             FEATURES.motherboardUI && !featureFlags.useLegacyHub ? 
               <React.Suspense fallback={<div className="loading-spinner"><div className="spinner"></div><p>Loading WIRED CHAOS...</p></div>}>
                 <Motherboard />
@@ -1578,6 +1658,22 @@ function App() {
           <Route path="/b2b" element={<B2BPage />} />
           <Route path="/vrg33589" element={<VRG33589Page />} />
           <Route path="/merch" element={<NeuroMetaXPage />} />
+          <Route path="/school" element={<SchoolPage />} />
+          <Route path="/tax" element={<TaxSuite />} />
+          <Route path="/suite" element={<SuiteLanding />} />
+          
+          {/* Student Union Digital Campus Routes */}
+          <Route path="/university/student-union" element={<StudentUnion />} />
+          <Route path="/university/student-union/lobby" element={<VRLobby />} />
+          <Route path="/university/student-union/stores" element={<ConsignmentStore />} />
+          <Route path="/university/student-union/arcade" element={<StudentUnion />} />
+          <Route path="/university/student-union/events" element={<StudentUnion />} />
+          <Route path="/university/student-union/cafe" element={<StudentUnion />} />
+          <Route path="/university/student-union/profiles" element={<ProductDashboard />} />
+          <Route path="/university/student-union/admin" element={<AdminPanel />} />
+          
+          {/* Educational Courses */}
+          <Route path="/university/edu/grants-for-founders" element={<GrantsForFounders />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />

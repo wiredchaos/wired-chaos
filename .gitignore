@@ -2,9 +2,7 @@
 
 # IDE and editors
 .idea/
-.vscode/
-!.vscode/settings.json
-!.vscode/extensions.json
+.vscode/*
 !.vscode/tasks.json
 
 # Dependencies
@@ -79,6 +77,10 @@ agenthub/agents/youtube/db
 # Build caches
 .cache/
 
+# Code fix automation (temporary files)
+.eslintignore
+.prettierignore
+
 # Mobile development
 android-sdk/ -e 
 # Environment files
@@ -94,3 +96,8 @@ frontend/node_modules/.cache/default-development/0.pack
 # Environment files
 *.env
 *.env.*
+
+# SWARM Orchestrator build outputs
+build/
+*.pyc
+.wrangler/

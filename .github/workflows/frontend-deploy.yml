@@ -1,4 +1,4 @@
-name: 🚀 Frontend Deploy (Cloudflare Pages)
+﻿name: ðŸš€ Frontend Deploy (Cloudflare Pages)
 
 on:
   push:
@@ -84,6 +84,6 @@ jobs:
         
     - name: Update deployment status
       run: |
-        echo "🚀 Frontend deployed successfully!"
+        echo "ðŸš€ Frontend deployed successfully!"
         echo "Preview URL: https://${{ secrets.CLOUDFLARE_PROJECT_NAME }}.pages.dev"
         echo "Production URL: https://${{ secrets.CLOUDFLARE_PROJECT_NAME }}.pages.dev"

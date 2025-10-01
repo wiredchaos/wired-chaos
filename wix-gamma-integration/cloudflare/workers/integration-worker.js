@@ -316,16 +316,48 @@ async function handleWixWebhook(request, env, origin) {
 
   try {
     const webhook = await request.json();
+    const githubEvent = request.headers.get('X-GitHub-Event');
     
-    // Verify webhook signature
+    // Handle GitHub webhook events
+    if (githubEvent) {
+      return await handleGitHubWebhook(webhook, githubEvent, env, origin);
+    }
+    
+    // Handle Wix webhook events
     const signature = request.headers.get('X-Wix-Webhook-Signature');
-    // TODO: Implement signature verification
     
-    // Process webhook
+    // Verify webhook signature if configured
+    if (env.WIX_WEBHOOK_SECRET && signature) {
+      const isValid = await verifyWixSignature(
+        JSON.stringify(webhook),
+        signature,
+        env.WIX_WEBHOOK_SECRET
+      );
+      
+      if (!isValid) {
+        return jsonResponse(
+          createErrorResponse('UNAUTHORIZED', 'Invalid webhook signature'),
+          401,
+          origin
+        );
+      }
+    }
+    
+    // Process Wix webhook
     console.log('WIX webhook received:', webhook);
     
+    // Store webhook event for audit
+    const webhookId = `wix_webhook_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    await env.ANALYTICS_KV?.put(webhookId, JSON.stringify({
+      type: 'wix_webhook',
+      event: webhook,
+      timestamp: new Date().toISOString()
+    }), {
+      expirationTtl: 86400 * 7 // 7 days
+    });
+    
     return jsonResponse(
-      createApiResponse(true, { received: true }),
+      createApiResponse(true, { received: true, webhookId }),
       200,
       origin
     );
@@ -335,6 +367,172 @@ async function handleWixWebhook(request, env, origin) {
       500,
       origin
     );
+  }
+}
+
+/**
+ * Handle GitHub webhook events and trigger Wix AI Bot actions
+ */
+async function handleGitHubWebhook(webhook, eventType, env, origin) {
+  console.log(`GitHub webhook received: ${eventType}`);
+  
+  let action = null;
+  let payload = null;
+  
+  // Process different GitHub event types
+  if (eventType === 'pull_request' && webhook.action === 'closed' && webhook.pull_request?.merged) {
+    // PR merged - update landing page
+    action = 'update_landing_page';
+    payload = {
+      event_type: 'pr_merged',
+      pr_number: webhook.pull_request.number,
+      pr_title: webhook.pull_request.title,
+      pr_author: webhook.pull_request.user?.login,
+      repository: webhook.repository?.full_name,
+      merged_at: webhook.pull_request.merged_at
+    };
+  } else if (eventType === 'push' && webhook.ref === 'refs/heads/main') {
+    // Push to main - sync content
+    action = 'sync_content';
+    payload = {
+      event_type: 'push',
+      ref: webhook.ref,
+      commits: webhook.commits?.slice(0, 5), // First 5 commits
+      repository: webhook.repository?.full_name,
+      pusher: webhook.pusher?.name
+    };
+  } else if (eventType === 'deployment_status') {
+    // Deployment status - send notification
+    action = 'send_notification';
+    payload = {
+      event_type: 'deployment',
+      state: webhook.deployment_status?.state,
+      environment: webhook.deployment?.environment,
+      description: webhook.deployment_status?.description
+    };
+  }
+  
+  if (action && payload) {
+    // Trigger Wix AI Bot
+    const result = await triggerWixAIBot(
+      action,
+      payload,
+      env.WIX_API_TOKEN,
+      env.WIX_SITE_ID,
+      env.WIX_AI_BOT_URL
+    );
+    
+    // Store event for audit
+    const eventId = `github_webhook_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    await env.ANALYTICS_KV?.put(eventId, JSON.stringify({
+      type: 'github_webhook',
+      event_type: eventType,
+      action: action,
+      payload: payload,
+      wix_bot_result: result,
+      timestamp: new Date().toISOString()
+    }), {
+      expirationTtl: 86400 * 7 // 7 days
+    });
+    
+    return jsonResponse(
+      createApiResponse(true, {
+        received: true,
+        processed: action,
+        wix_bot_status: result.success ? 'triggered' : 'failed',
+        eventId
+      }),
+      200,
+      origin
+    );
+  }
+  
+  // Event not processed
+  return jsonResponse(
+    createApiResponse(true, {
+      received: true,
+      processed: false,
+      reason: 'Event type not configured for automation'
+    }),
+    200,
+    origin
+  );
+}
+
+/**
+ * Trigger Wix AI Bot API
+ */
+async function triggerWixAIBot(action, payload, apiToken, siteId, botUrl) {
+  if (!apiToken || !siteId) {
+    console.warn('Wix AI Bot not configured (missing API token or site ID)');
+    return { success: false, error: 'Not configured' };
+  }
+  
+  const url = botUrl || 'https://manage.wix.com/dashboard/7aa81323-433d-4763-b6dc-5d98d409c459/custom-agent';
+  
+  const requestPayload = {
+    event_type: payload.event_type,
+    action: action,
+    site_id: siteId,
+    data: payload,
+    timestamp: new Date().toISOString()
+  };
+  
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'WiredChaos-IntegrationWorker/1.0'
+      },
+      body: JSON.stringify(requestPayload)
+    });
+    
+    const data = await response.json().catch(() => ({}));
+    
+    return {
+      success: response.ok,
+      status: response.status,
+      data: data
+    };
+  } catch (error) {
+    console.error('Failed to trigger Wix AI Bot:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
+/**
+ * Verify Wix webhook signature
+ */
+async function verifyWixSignature(payload, signature, secret) {
+  try {
+    const encoder = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(secret),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    );
+    
+    const signatureBytes = await crypto.subtle.sign(
+      'HMAC',
+      key,
+      encoder.encode(payload)
+    );
+    
+    const expectedSignature = Array.from(new Uint8Array(signatureBytes))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+    
+    return signature === expectedSignature;
+  } catch (error) {
+    console.error('Signature verification error:', error);
+    return false;
   }
 }
 

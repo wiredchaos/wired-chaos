@@ -1,0 +1,776 @@
+{
+  // WIRED CHAOS Build Tasks
+  // Press Ctrl+Shift+B to run the default build task
+  // Press Ctrl+Shift+P and type "Tasks: Run Task" to run other tasks
+  "version": "2.0.0",
+  "tasks": [
+    // ========== Frontend Tasks ==========
+    {
+      "label": "frontend:install",
+      "type": "shell",
+      "command": "yarn install",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "frontend:start",
+      "type": "npm",
+      "script": "start",
+      "path": "frontend/",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "frontend:start-dev-server",
+      "type": "npm",
+      "script": "start",
+      "path": "frontend/",
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Compiling...",
+          "endsPattern": "Compiled (successfully|with warnings)!"
+        }
+      },
+      "isBackground": true,
+      "presentation": {
+        "group": "frontend",
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "frontend:build",
+      "type": "npm",
+      "script": "build",
+      "path": "frontend/",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "frontend:test",
+      "type": "npm",
+      "script": "test",
+      "path": "frontend/",
+      "problemMatcher": [],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "frontend:lint",
+      "type": "shell",
+      "command": "npx eslint src/",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": [
+        "$eslint-stylish"
+      ],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "frontend:lint-fix",
+      "type": "shell",
+      "command": "npx eslint src/ --fix",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": [
+        "$eslint-stylish"
+      ],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    // ========== Backend Tasks ==========
+    {
+      "label": "backend:install",
+      "type": "shell",
+      "command": "pip install -r requirements.txt",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "backend:start",
+      "type": "shell",
+      "command": "python server.py",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "backend:format",
+      "type": "shell",
+      "command": "black . && isort .",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "backend:lint",
+      "type": "shell",
+      "command": "flake8 .",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "backend:test",
+      "type": "shell",
+      "command": "pytest tests/ -v",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    // ========== Vault33 Gatekeeper Tasks ==========
+    {
+      "label": "gatekeeper:install",
+      "type": "shell",
+      "command": "pip install -r requirements.txt",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "gatekeeper:start",
+      "type": "shell",
+      "command": "python main.py",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "gatekeeper:api",
+      "type": "shell",
+      "command": "uvicorn api.server:app --reload --host 0.0.0.0 --port 8080",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "gatekeeper:discord-bot",
+      "type": "shell",
+      "command": "python bots/discord_bot.py",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "gatekeeper:telegram-bot",
+      "type": "shell",
+      "command": "python bots/telegram_bot.py",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "gatekeeper:docker-build",
+      "type": "shell",
+      "command": "docker-compose build",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "gatekeeper:docker-up",
+      "type": "shell",
+      "command": "docker-compose up",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    // ========== PowerShell Automation Tasks ==========
+    {
+      "label": "automation:vs-studio-bot",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/VS_STUDIO_BOT_AUTOMATION.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "automation",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "automation:setup-wired-chaos",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/setup-wired-chaos.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "automation",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "automation:mega-deployment",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/MEGA_DEPLOYMENT.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "automation",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    // ========== Code Quality Fix Tasks ==========
+    {
+      "label": "Code Fix: Check Only",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/code-fix.sh",
+      "args": [
+        "--check-only"
+      ],
+      "windows": {
+        "command": "pwsh",
+        "args": [
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}/scripts/code-fix.ps1",
+          "-CheckOnly"
+        ]
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "code-fix"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "detail": "Run code quality checks without modifying files"
+    },
+    {
+      "label": "Code Fix: Apply & Prepare PR",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/code-fix.sh",
+      "args": [
+        "--apply-fixes"
+      ],
+      "windows": {
+        "command": "pwsh",
+        "args": [
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}/scripts/code-fix.ps1",
+          "-ApplyFixes"
+        ]
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "code-fix"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "detail": "Apply code quality fixes and prepare for PR (review changes before committing)"
+    },
+    {
+      "label": "Code Fix: Generate Changelog",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/generate-code-fix-changelog.sh",
+      "windows": {
+        "command": "pwsh",
+        "args": [
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}/scripts/generate-code-fix-changelog.ps1"
+        ]
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "code-fix"
+      },
+      "problemMatcher": [],
+      "detail": "Generate CODE_FIX_CHANGELOG.md from current changes"
+    },
+    // ========== Utility Tasks ==========
+    {
+      "label": "install:all-dependencies",
+      "dependsOn": [
+        "frontend:install",
+        "backend:install",
+        "gatekeeper:install"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "build:all",
+      "dependsOn": [
+        "frontend:build"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "test:all",
+      "dependsOn": [
+        "frontend:test",
+        "backend:test"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "lint:all",
+      "dependsOn": [
+        "frontend:lint",
+        "backend:lint"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "format:all",
+      "dependsOn": [
+        "frontend:lint-fix",
+        "backend:format"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    // ========== EMERGENT Deployment Tasks ==========
+    {
+      "label": "EMERGENT: Full Deployment",
+      "type": "shell",
+      "command": "${workspaceFolder}/wired-chaos-emergent/scripts/emergent-deploy.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "emergent"
+      },
+      "detail": "Run full EMERGENT deployment: PR management, conflict resolution, merge, deploy, and test"
+    },
+    {
+      "label": "EMERGENT: Resolve Conflicts",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/wired-chaos-emergent/scripts/conflict-resolution.js",
+        "${input:prNumber}"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "emergent"
+      },
+      "detail": "Auto-resolve merge conflicts for a specific PR"
+    },
+    {
+      "label": "EMERGENT: Run Smoke Tests",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/wired-chaos-emergent/scripts/smoke-tests.js"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "emergent"
+      },
+      "detail": "Run comprehensive endpoint smoke tests"
+    },
+    {
+      "label": "EMERGENT: Fix Tax Suite",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/wired-chaos-emergent/scripts/tax-suite-fix.js"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "emergent"
+      },
+      "detail": "Fix Tax Suite integration issues"
+    },
+    {
+      "label": "EMERGENT: Fix Two-Tier Firewall",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/wired-chaos-emergent/scripts/firewall-fix.js"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "emergent"
+      },
+      "detail": "Fix two-tier school system firewall"
+    },
+    // ========== PR Automation Tasks ==========
+    {
+      "label": "PR: /ready (auto-ready & merge current PR)",
+      "type": "shell",
+      "command": "gh pr comment ${input:prNumberForReady} --body \"/ready\"",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Post /ready comment on PR to trigger auto-ready & merge workflow"
+    },
+    {
+      "label": "PR: Add automerge label",
+      "type": "shell",
+      "command": "gh pr edit ${input:prNumberForLabel} --add-label automerge",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Add 'automerge' label to PR for scheduled auto-merge processing"
+    },
+    {
+      "label": "PR: Remove automerge label",
+      "type": "shell",
+      "command": "gh pr edit ${input:prNumberForLabel} --remove-label automerge",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Remove 'automerge' label from PR to prevent auto-merge"
+    },
+    {
+      "label": "PR: View status",
+      "type": "shell",
+      "command": "gh pr view ${input:prNumberForView}",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "View PR details including status, checks, and labels"
+    },
+    {
+      "label": "PR: List open PRs",
+      "type": "shell",
+      "command": "gh pr list --state open",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "List all open pull requests in the repository"
+    },
+    {
+      "label": "PR: List PRs with automerge label",
+      "type": "shell",
+      "command": "gh pr list --state open --label automerge",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "List all PRs with 'automerge' label"
+    },
+    {
+      "label": "PR: Trigger Edge Smoke Tests",
+      "type": "shell",
+      "command": "gh workflow run \"Edge Smoke Tests\"",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Manually trigger Edge Smoke Tests workflow"
+    },
+    {
+      "label": "PR: Manual ready & merge (workflow dispatch)",
+      "type": "shell",
+      "command": "gh workflow run \"Comment Ready & Merge\" -f pr_number=${input:prNumberForManualMerge} -f merge_method=${input:mergeMethod} -f delete_branch=${input:deleteBranch}",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Manually trigger ready & merge workflow via workflow dispatch"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "prNumber",
+      "type": "promptString",
+      "description": "Enter PR number to resolve conflicts for",
+      "default": "22"
+    },
+    {
+      "id": "prNumberForReady",
+      "type": "promptString",
+      "description": "Enter PR number to mark ready and merge",
+      "default": ""
+    },
+    {
+      "id": "prNumberForLabel",
+      "type": "promptString",
+      "description": "Enter PR number to add/remove automerge label",
+      "default": ""
+    },
+    {
+      "id": "prNumberForView",
+      "type": "promptString",
+      "description": "Enter PR number to view",
+      "default": ""
+    },
+    {
+      "id": "prNumberForManualMerge",
+      "type": "promptString",
+      "description": "Enter PR number for manual merge",
+      "default": ""
+    },
+    {
+      "id": "mergeMethod",
+      "type": "pickString",
+      "description": "Select merge method",
+      "options": ["squash", "merge", "rebase"],
+      "default": "squash"
+    },
+    {
+      "id": "deleteBranch",
+      "type": "pickString",
+      "description": "Delete branch after merge?",
+      "options": ["true", "false"],
+      "default": "true"
+    }
+  ]
+}

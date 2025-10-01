@@ -1,0 +1,67 @@
+name = "wired-chaos-meta"
+main = "src/index.js"
+compatibility_date = "2025-09-26"
+
+# Environment variables (can be set via wrangler secret put or dashboard)
+# These are safe defaults that will be shown if not configured
+# Set SUITE_URL and TAX_URL via wrangler.toml [vars] or environment-specific configs below
+[vars]
+SUITE_URL = ""
+TAX_URL = ""
+
+# Route patterns for www.wiredchaos.xyz
+[[routes]]
+pattern = "www.wiredchaos.xyz/school*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/vsp*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/suite*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/tax*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/gamma/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/bus/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/wl/xp/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/admin/flag/llm:circuit"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/api/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/health"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/university/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/vsp*"
+zone_name = "wiredchaos.xyz"
+
+[env.production]
+name = "chaoswired"
+vars = { ENVIRONMENT = "production", SUITE_URL = "", TAX_URL = "" }
+
+[env.staging]
+name = "chaoswired-staging"
+vars = { ENVIRONMENT = "staging", SUITE_URL = "", TAX_URL = "" }
