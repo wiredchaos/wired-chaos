@@ -40,15 +40,12 @@ jobs:
       run: npm audit --audit-level high
       continue-on-error: true
 
-    - name: Build
-      run: npm run build
-      continue-on-error: true
-
     - name: Deploy to Cloudflare Workers
       uses: cloudflare/wrangler-action@v3
       with:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        workingDirectory: 'src'
         command: deploy --env production
         
     - name: Update deployment status
