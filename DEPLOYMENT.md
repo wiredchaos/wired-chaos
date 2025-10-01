@@ -41,6 +41,42 @@ The workflows will automatically trigger on:
 - Pull request to main branch
 - Manual workflow dispatch
 
+### Manual Worker Deployment
+Deploy the Cloudflare Worker manually using wrangler:
+
+```bash
+# Deploy to default environment
+npx wrangler deploy
+
+# Deploy to production environment
+npx wrangler deploy --env production
+
+# Deploy to staging environment
+npx wrangler deploy --env staging
+
+# Dry-run to verify configuration
+npx wrangler deploy --dry-run
+```
+
+### Post-Deployment Verification
+After deploying, verify the endpoints are working:
+
+```bash
+# Test health endpoint
+curl https://wired-chaos-meta.wiredchaos.workers.dev/health
+
+# Test suite endpoint (should show config warning if not set)
+curl https://www.wiredchaos.xyz/suite
+
+# Test tax endpoint (should show config warning if not set)
+curl https://www.wiredchaos.xyz/tax
+```
+
+Expected responses:
+- `/health` - JSON with `{"ok": true, "timestamp": ...}`
+- `/suite` - HTML page (config warning or launch page)
+- `/tax` - HTML page (config warning or launch page)
+
 ### Emergency Deployment
 Use the emergency workflow for critical fixes:
 1. Go to Actions tab in GitHub
