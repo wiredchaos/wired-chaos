@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FEATURES } from '../config/featureFlags';
-import { isSuiteConfigured, openSuite } from '../lib/suiteHelper';
+import { getSuiteUrl } from '../utils/env';
 import './motherboard.css';
 
 const Motherboard = () => {
@@ -131,6 +131,14 @@ const Motherboard = () => {
     </div>
   );
 
+  const suiteUrl = getSuiteUrl();
+
+  const handleOpenSuite = () => {
+    if (suiteUrl) {
+      window.open(suiteUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className="motherboard-container">
       {FEATURES.debugMode && (
@@ -140,9 +148,9 @@ const Motherboard = () => {
       )}
       
       {/* Suite Access Button - Only shown when configured */}
-      {isSuiteConfigured() && (
+      {suiteUrl && (
         <button
-          onClick={() => openSuite()}
+          onClick={handleOpenSuite}
           className="suite-access-btn"
           title="Open Management Suite"
           aria-label="Open Management Suite"
