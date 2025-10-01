@@ -1,0 +1,43 @@
+name: 🚨 Emergency Production Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Emergency deployment reason'
+        required: true
+        type: string
+      
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  emergency-deploy:
+    name: 🚨 Emergency Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🚀 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📦 Install wrangler
+        run: npm install -g wrangler
+
+      - name: ⚡ Emergency Worker Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          cd src
+          wrangler deploy --env production --force
+
+      - name: 📢 Emergency Notification
+        run: |
+          echo "🚨 Emergency deployment completed"
+          echo "📝 Reason: ${{ github.event.inputs.reason }}"
+          echo "⏰ Time: $(date)"
+          echo "🌐 Status: https://wired-chaos-worker.wiredchaos.workers.dev/health"
