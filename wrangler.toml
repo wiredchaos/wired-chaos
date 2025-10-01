@@ -1,6 +1,6 @@
 name = "wired-chaos-meta"
 main = "src/index.js"
-compatibility_date = "2025-09-26"
+compatibility_date = "2024-01-15"
 
 # Route patterns for www.wiredchaos.xyz
 [[routes]]
