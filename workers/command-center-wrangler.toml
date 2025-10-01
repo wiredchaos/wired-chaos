@@ -1,0 +1,116 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# WIRED CHAOS Command Center - Wrangler Configuration
+# ═══════════════════════════════════════════════════════════════════════════
+
+name = "wired-chaos-command-center"
+main = "command-center.js"
+compatibility_date = "2025-09-30"
+
+# Replace with your Cloudflare account ID
+account_id = "your_cloudflare_account_id"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Production Environment
+# ═══════════════════════════════════════════════════════════════════════════
+
+[env.production]
+name = "command-center-prod"
+workers_dev = false
+
+# Public configuration (non-sensitive)
+[env.production.vars]
+GITHUB_OWNER = "wiredchaos"
+GITHUB_REPO = "wired-chaos"
+
+# Route configuration (update with your domain)
+[[env.production.routes]]
+pattern = "api.wiredchaos.xyz/command/*"
+zone_name = "wiredchaos.xyz"
+
+[[env.production.routes]]
+pattern = "api.wiredchaos.xyz/wix/*"
+zone_name = "wiredchaos.xyz"
+
+[[env.production.routes]]
+pattern = "api.wiredchaos.xyz/zap/*"
+zone_name = "wiredchaos.xyz"
+
+[[env.production.routes]]
+pattern = "api.wiredchaos.xyz/notion/*"
+zone_name = "wiredchaos.xyz"
+
+[[env.production.routes]]
+pattern = "api.wiredchaos.xyz/webhook/*"
+zone_name = "wiredchaos.xyz"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Staging Environment
+# ═══════════════════════════════════════════════════════════════════════════
+
+[env.staging]
+name = "command-center-staging"
+workers_dev = true
+
+# Public configuration (non-sensitive)
+[env.staging.vars]
+GITHUB_OWNER = "wiredchaos"
+GITHUB_REPO = "wired-chaos"
+FEATURE_DEBUG_MODE = "true"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Development Environment
+# ═══════════════════════════════════════════════════════════════════════════
+
+[env.development]
+name = "command-center-dev"
+workers_dev = true
+
+# Public configuration (non-sensitive)
+[env.development.vars]
+GITHUB_OWNER = "wiredchaos"
+GITHUB_REPO = "wired-chaos"
+FEATURE_DEBUG_MODE = "true"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Secrets Configuration
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Set secrets using: echo "value" | wrangler secret put SECRET_NAME --env ENV
+#
+# Required secrets:
+# - ADMIN_IDS: Comma-separated admin user IDs
+# - ADMIN_TOKENS: Comma-separated admin tokens
+# - WIX_API_TOKEN: Wix API token
+# - WIX_SITE_ID: Wix site ID
+# - ZAPIER_WEBHOOK_URL: Zapier webhook URL
+# - GITHUB_TOKEN: GitHub access token
+# - GITHUB_WEBHOOK_SECRET: GitHub webhook secret
+# - GAMMA_API_KEY: Gamma API key
+# - NOTION_API_KEY: Notion API key
+# - WEBHOOK_SECRET: General webhook secret
+#
+# Optional secrets:
+# - WIX_ACCESS_TOKEN: Alternative Wix OAuth token
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Deployment Commands
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Deploy to production:
+#   wrangler deploy --env production
+#
+# Deploy to staging:
+#   wrangler deploy --env staging
+#
+# Deploy to development:
+#   wrangler deploy --env development
+#
+# View logs:
+#   wrangler tail --env production
+#
+# List deployments:
+#   wrangler deployments list --env production
+#
+# ═══════════════════════════════════════════════════════════════════════════
