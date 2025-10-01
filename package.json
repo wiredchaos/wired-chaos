@@ -13,7 +13,11 @@
     "backend:dev": "cd backend && python server.py",
     "worker:dev": "cd src && npx wrangler dev",
     "worker:deploy": "cd src && npx wrangler deploy",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node swarm-bot-automation.test.js",
+    "test:swarm-bot": "node swarm-bot-automation.test.js",
+    "swarm-bot": "node swarm-bot-automation.js",
+    "swarm-bot:monitor": "node swarm-bot-automation.js --monitor",
+    "health-bot": "node health-bot-vscode-integration.js",
     "ci": "npm run frontend:build && npm run worker:deploy",
     "smoke-test": "echo \"Running smoke tests...\" && npm run test:smoke",
     "test:smoke": "node -e \"console.log('Smoke tests passed - all systems operational')\"",
@@ -28,6 +32,10 @@
   ],
   "author": "WIRED CHAOS Team",
   "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^21.0.2",
+    "axios": "^1.7.7"
+  },
   "devDependencies": {
     "concurrently": "^9.2.1",
     "wrangler": "^4.40.3"
