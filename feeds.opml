@@ -6,6 +6,9 @@
     <docs>https://github.com/wiredchaos/wired-chaos</docs>
   </head>
   <body>
+    <outline text="589 / LLM ML Swarm" title="589 / LLM ML Swarm">
+      <outline type="rss" text="Distributed Agreement" xmlUrl="https://distributedagreement.com/feed.xml" htmlUrl="https://distributedagreement.com/"/>
+    </outline>
     <outline text="Example Feeds" title="Example Feeds">
       <outline type="rss" text="Example Feed 1" xmlUrl="https://example.com/feed.xml" htmlUrl="https://example.com/"/>
       <outline type="rss" text="Example Feed 2" xmlUrl="https://example.org/rss" htmlUrl="https://example.org/"/>
