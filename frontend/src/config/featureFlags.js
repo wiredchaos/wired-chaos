@@ -12,6 +12,7 @@ export const FEATURES = {
   enableHologramEffects: false,
   enableCircuitAnimations: false,
   debugMode: process.env.NODE_ENV === 'development',
+  enableSuiteLanding: process.env.REACT_APP_ENABLE_SUITE_LANDING || 'stub', // Options: stub, partial, full
 };
 
 // Legacy compatibility - maintain existing structure
