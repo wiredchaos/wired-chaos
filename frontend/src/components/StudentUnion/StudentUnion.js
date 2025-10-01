@@ -53,10 +53,18 @@ const StudentUnion = () => {
     },
     {
       id: 'profiles',
-      name: 'Student Profiles',
-      icon: '👤',
-      description: 'Manage your profile',
+      name: 'Seller Dashboard',
+      icon: '📊',
+      description: 'Manage your products',
       path: '/university/student-union/profiles',
+      status: 'active'
+    },
+    {
+      id: 'admin',
+      name: 'Admin Panel',
+      icon: '⚙️',
+      description: 'University staff only',
+      path: '/university/student-union/admin',
       status: 'active'
     }
   ];
