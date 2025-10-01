@@ -13,6 +13,7 @@ import featureFlags, { FEATURES } from "./config/featureFlags";
 import { BACKEND_URL, API_URL } from "./config/env";
 import axios from "axios";
 import { getSuiteUrl } from "./utils/env";
+import { StudentUnion, VRLobby, ConsignmentStore, ProductDashboard, AdminPanel } from "./components/StudentUnion";
 
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
@@ -1657,6 +1658,16 @@ function App() {
           <Route path="/merch" element={<NeuroMetaXPage />} />
           <Route path="/school" element={<SchoolPage />} />
           <Route path="/tax" element={<TaxSuite />} />
+          
+          {/* Student Union Digital Campus Routes */}
+          <Route path="/university/student-union" element={<StudentUnion />} />
+          <Route path="/university/student-union/lobby" element={<VRLobby />} />
+          <Route path="/university/student-union/stores" element={<ConsignmentStore />} />
+          <Route path="/university/student-union/arcade" element={<StudentUnion />} />
+          <Route path="/university/student-union/events" element={<StudentUnion />} />
+          <Route path="/university/student-union/cafe" element={<StudentUnion />} />
+          <Route path="/university/student-union/profiles" element={<ProductDashboard />} />
+          <Route path="/university/student-union/admin" element={<AdminPanel />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />

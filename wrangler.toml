@@ -43,6 +43,14 @@ zone_name = "wiredchaos.xyz"
 pattern = "www.wiredchaos.xyz/health"
 zone_name = "wiredchaos.xyz"
 
+[[routes]]
+pattern = "www.wiredchaos.xyz/university/*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
+pattern = "www.wiredchaos.xyz/vsp*"
+zone_name = "wiredchaos.xyz"
+
 [env.production]
 name = "chaoswired"
 vars = { ENVIRONMENT = "production" }
