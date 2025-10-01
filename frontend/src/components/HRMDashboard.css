@@ -1,0 +1,443 @@
+/* HRM Dashboard Styles */
+.hrm-dashboard {
+  background: #000000;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Orbitron', monospace;
+  color: #00FFFF;
+}
+
+.hrm-dashboard.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+.neon-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid transparent;
+  border-top: 3px solid #00FFFF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Header */
+.hrm-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.neon-title {
+  font-size: 2.5rem;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 5px #00FFFF,
+    0 0 10px #00FFFF,
+    0 0 15px #00FFFF,
+    0 0 20px #00FFFF;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #39FF14;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* Cards */
+.user-stats-card,
+.vrg-session-card,
+.xp-actions-card,
+.leaderboard-card,
+.activity-card,
+.rules-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border: 2px solid #00FFFF;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.user-stats-card h3,
+.vrg-session-card h3,
+.xp-actions-card h3,
+.leaderboard-card h3,
+.activity-card h3,
+.rules-card h3 {
+  color: #39FF14;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+/* User Stats */
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.stats-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.tier-badge {
+  padding: 5px 15px;
+  border: 2px solid;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #39FF14;
+  border-radius: 5px;
+  background: rgba(57, 255, 20, 0.1);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #39FF14;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.neon-text {
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor;
+}
+
+/* XP Progress Bar */
+.xp-progress {
+  margin: 20px 0;
+}
+
+.progress-label {
+  color: #39FF14;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #1a1a1a;
+  border: 1px solid #00FFFF;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #39FF14, #00FFFF);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: #00FFFF;
+  text-align: center;
+}
+
+/* Tier Benefits */
+.tier-benefits h4 {
+  color: #39FF14;
+  margin-bottom: 10px;
+}
+
+.tier-benefits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.benefit-item {
+  padding: 5px 0;
+  color: #00FFFF;
+  position: relative;
+  padding-left: 20px;
+}
+
+.benefit-item::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #39FF14;
+  font-weight: bold;
+}
+
+/* VRG Session */
+.active-session {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid #39FF14;
+  border-radius: 5px;
+}
+
+.session-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.session-type {
+  font-weight: bold;
+  color: #39FF14;
+  margin-bottom: 5px;
+}
+
+.session-time {
+  font-size: 0.8rem;
+  color: #00FFFF;
+}
+
+.gateway-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.gateway-btn {
+  padding: 15px 20px;
+  border: 2px solid #00FFFF;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+  color: #00FFFF;
+  font-family: 'Orbitron', monospace;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gateway-btn:hover {
+  background: linear-gradient(135deg, #2d2d2d, #4a4a4a);
+  box-shadow: 
+    0 0 15px rgba(0, 255, 255, 0.5),
+    inset 0 0 15px rgba(0, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Buttons */
+.neon-button,
+.action-btn {
+  padding: 10px 20px;
+  border: 2px solid #39FF14;
+  border-radius: 5px;
+  background: transparent;
+  color: #39FF14;
+  font-family: 'Orbitron', monospace;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.neon-button:hover,
+.action-btn:hover {
+  background: rgba(57, 255, 20, 0.2);
+  box-shadow: 
+    0 0 15px rgba(57, 255, 20, 0.5),
+    inset 0 0 15px rgba(57, 255, 20, 0.1);
+  transform: translateY(-2px);
+}
+
+.end-session {
+  border-color: #FF3131;
+  color: #FF3131;
+}
+
+.end-session:hover {
+  background: rgba(255, 49, 49, 0.2);
+  box-shadow: 
+    0 0 15px rgba(255, 49, 49, 0.5),
+    inset 0 0 15px rgba(255, 49, 49, 0.1);
+}
+
+/* XP Actions */
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.action-btn {
+  padding: 12px 15px;
+  font-size: 0.9rem;
+}
+
+.brain-chat { border-color: #FF69B4; color: #FF69B4; }
+.social-share { border-color: #00FFFF; color: #00FFFF; }
+.community-help { border-color: #39FF14; color: #39FF14; }
+.bug-report { border-color: #FF3131; color: #FF3131; }
+
+/* Leaderboard */
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.leaderboard-item {
+  display: grid;
+  grid-template-columns: 40px 1fr 80px 80px;
+  align-items: center;
+  padding: 10px;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid #00FFFF;
+  border-radius: 5px;
+}
+
+.rank {
+  font-weight: bold;
+  color: #39FF14;
+}
+
+.username {
+  color: #00FFFF;
+}
+
+.user-xp {
+  color: #39FF14;
+  font-weight: bold;
+  text-align: right;
+}
+
+.user-tier {
+  font-weight: bold;
+  text-align: right;
+}
+
+/* Activity List */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.activity-item {
+  display: grid;
+  grid-template-columns: 1fr 80px 100px;
+  align-items: center;
+  padding: 8px;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid #39FF14;
+  border-radius: 3px;
+}
+
+.activity-type {
+  color: #00FFFF;
+  text-transform: capitalize;
+}
+
+.activity-points {
+  color: #39FF14;
+  font-weight: bold;
+  text-align: right;
+}
+
+.activity-time {
+  color: #999;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+/* Rules Grid */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.rule-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid #00FFFF;
+  border-radius: 3px;
+}
+
+.event-name {
+  color: #00FFFF;
+  text-transform: capitalize;
+}
+
+.event-points {
+  color: #39FF14;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hrm-dashboard {
+    padding: 15px;
+  }
+
+  .neon-title {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gateway-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .leaderboard-item {
+    grid-template-columns: 30px 1fr 60px 60px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animations */
+@keyframes glow {
+  0% { box-shadow: 0 0 5px currentColor; }
+  50% { box-shadow: 0 0 20px currentColor; }
+  100% { box-shadow: 0 0 5px currentColor; }
+}
+
+.tier-badge {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.neon-text {
+  animation: glow 3s ease-in-out infinite;
+}

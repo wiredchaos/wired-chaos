@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FEATURES } from '../config/featureFlags';
+import { getSuiteUrl } from '../utils/env';
 import './motherboard.css';
 
 const Motherboard = () => {
@@ -130,12 +131,32 @@ const Motherboard = () => {
     </div>
   );
 
+  const suiteUrl = getSuiteUrl();
+
+  const handleOpenSuite = () => {
+    if (suiteUrl) {
+      window.open(suiteUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className="motherboard-container">
       {FEATURES.debugMode && (
         <div className="debug-info">
           <span>STACK: react-fastapi | FEATURES.motherboardUI: {String(FEATURES.motherboardUI)}</span>
         </div>
+      )}
+      
+      {/* Suite Access Button - Only shown when configured */}
+      {suiteUrl && (
+        <button
+          onClick={handleOpenSuite}
+          className="suite-access-btn"
+          title="Open Management Suite"
+          aria-label="Open Management Suite"
+        >
+          ⚙️ Suite
+        </button>
       )}
       
       {/* Main Grid Layout */}

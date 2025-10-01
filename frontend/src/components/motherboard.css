@@ -39,6 +39,36 @@
   font-family: monospace;
 }
 
+/* Suite Access Button */
+.suite-access-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(0, 255, 255, 0.15);
+  border: 2px solid var(--wc-cyan);
+  color: var(--wc-cyan);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Orbitron', monospace;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.suite-access-btn:hover {
+  background: rgba(0, 255, 255, 0.25);
+  box-shadow: 0 0 20px var(--wc-cyan-glow);
+  transform: translateY(-2px);
+}
+
+.suite-access-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px var(--wc-cyan-glow);
+}
+
 /* Main Grid Layout */
 .motherboard-grid {
   display: grid;

@@ -1,0 +1,419 @@
+{
+  // WIRED CHAOS Build Tasks
+  // Press Ctrl+Shift+B to run the default build task
+  // Press Ctrl+Shift+P and type "Tasks: Run Task" to run other tasks
+  "version": "2.0.0",
+  "tasks": [
+    // ========== Frontend Tasks ==========
+    {
+      "label": "frontend:install",
+      "type": "shell",
+      "command": "yarn install",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "frontend:start",
+      "type": "npm",
+      "script": "start",
+      "path": "frontend/",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "frontend:start-dev-server",
+      "type": "npm",
+      "script": "start",
+      "path": "frontend/",
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Compiling...",
+          "endsPattern": "Compiled (successfully|with warnings)!"
+        }
+      },
+      "isBackground": true,
+      "presentation": {
+        "group": "frontend",
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "frontend:build",
+      "type": "npm",
+      "script": "build",
+      "path": "frontend/",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "frontend:test",
+      "type": "npm",
+      "script": "test",
+      "path": "frontend/",
+      "problemMatcher": [],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "frontend:lint",
+      "type": "shell",
+      "command": "npx eslint src/",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "frontend:lint-fix",
+      "type": "shell",
+      "command": "npx eslint src/ --fix",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    
+    // ========== Backend Tasks ==========
+    {
+      "label": "backend:install",
+      "type": "shell",
+      "command": "pip install -r requirements.txt",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "backend:start",
+      "type": "shell",
+      "command": "python server.py",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "backend:format",
+      "type": "shell",
+      "command": "black . && isort .",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "backend:lint",
+      "type": "shell",
+      "command": "flake8 .",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "backend:test",
+      "type": "shell",
+      "command": "pytest tests/ -v",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    
+    // ========== Vault33 Gatekeeper Tasks ==========
+    {
+      "label": "gatekeeper:install",
+      "type": "shell",
+      "command": "pip install -r requirements.txt",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "gatekeeper:start",
+      "type": "shell",
+      "command": "python main.py",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "gatekeeper:api",
+      "type": "shell",
+      "command": "uvicorn api.server:app --reload --host 0.0.0.0 --port 8080",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "gatekeeper:discord-bot",
+      "type": "shell",
+      "command": "python bots/discord_bot.py",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "gatekeeper:telegram-bot",
+      "type": "shell",
+      "command": "python bots/telegram_bot.py",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "gatekeeper:docker-build",
+      "type": "shell",
+      "command": "docker-compose build",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "gatekeeper:docker-up",
+      "type": "shell",
+      "command": "docker-compose up",
+      "options": {
+        "cwd": "${workspaceFolder}/vault33-gatekeeper"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "gatekeeper",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    
+    // ========== PowerShell Automation Tasks ==========
+    {
+      "label": "automation:vs-studio-bot",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/VS_STUDIO_BOT_AUTOMATION.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "automation",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "automation:setup-wired-chaos",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/setup-wired-chaos.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "automation",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "automation:mega-deployment",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/MEGA_DEPLOYMENT.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "automation",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    
+    // ========== Utility Tasks ==========
+    {
+      "label": "install:all-dependencies",
+      "dependsOn": [
+        "frontend:install",
+        "backend:install",
+        "gatekeeper:install"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "build:all",
+      "dependsOn": [
+        "frontend:build"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "test:all",
+      "dependsOn": [
+        "frontend:test",
+        "backend:test"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "lint:all",
+      "dependsOn": [
+        "frontend:lint",
+        "backend:lint"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "format:all",
+      "dependsOn": [
+        "frontend:lint-fix",
+        "backend:format"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      }
+    }
+  ]
+}

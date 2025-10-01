@@ -1,13 +1,25 @@
-# 🤖 WIRED CHAOS MASTER AUTOMATION
+# 🤖 WIRED CHAOS MASTER AUTOMATION - MEGA PROMPT INTEGRATION
 # Ultimate script that runs everything automatically with minimal user interaction
+# Includes: Mega Prompt Context, NSA-Level Security, AR/VR Integration, Cloudflare Deployment
 
 param(
     [switch]$SkipConfirmation,
     [switch]$ForceInstall,
-    [switch]$QuietMode
+    [switch]$QuietMode,
+    [switch]$ValidateContext
 )
 
 $ErrorActionPreference = "Continue"
+
+# WIRED CHAOS Official Color Palette
+$WC_COLORS = @{
+    Black = "#000000"
+    Cyan = "#00FFFF"
+    Red = "#FF3131"
+    Green = "#39FF14"
+    Pink = "#FF00FF"
+    White = "#FFFFFF"
+}
 
 # Color functions
 function Say([string]$msg) { if (-not $QuietMode) { Write-Host "🤖 $msg" -ForegroundColor Cyan } }
@@ -16,18 +28,214 @@ function Error([string]$msg) { Write-Host "❌ $msg" -ForegroundColor Red }
 function Success([string]$msg) { if (-not $QuietMode) { Write-Host "✅ $msg" -ForegroundColor Green } }
 function Info([string]$msg) { if (-not $QuietMode) { Write-Host "ℹ️  $msg" -ForegroundColor Blue } }
 
+# Mega Prompt Context Loader
+function Load-MegaPromptContext {
+    Info "Loading WIRED CHAOS Mega Prompt Context..."
+    
+    $contextFiles = @{
+        "Copilot" = ".copilot/wired-chaos-context.md"
+        "VSCode" = ".vscode/settings.json"
+        "AutoFix" = "AUTO_FIX_PATTERNS.md"
+    }
+    
+    $contextStatus = @{}
+    foreach ($key in $contextFiles.Keys) {
+        if (Test-Path $contextFiles[$key]) {
+            $contextStatus[$key] = "✅ Loaded"
+            Success "$key context available: $($contextFiles[$key])"
+        } else {
+            $contextStatus[$key] = "⚠️  Missing"
+            Warn "$key context not found: $($contextFiles[$key])"
+        }
+    }
+    
+    return $contextStatus
+}
+
 # Banner
 if (-not $QuietMode) {
     Write-Host @"
 🚀 ====================================================
    WIRED CHAOS MASTER AUTOMATION
+   🎨 MEGA PROMPT INTEGRATION ENABLED
    Complete Security & Environment Setup
    Phase 1 + Phase 2 Fully Automated
+====================================================
+   Colors: Cyan $($WC_COLORS.Cyan) | Red $($WC_COLORS.Red) | Green $($WC_COLORS.Green)
 ====================================================
 "@ -ForegroundColor Cyan
 }
 
-Say "Starting WIRED CHAOS Master Automation..."
+Say "Starting WIRED CHAOS Master Automation with Mega Prompt Integration..."
+
+# Load and validate mega prompt context
+$contextStatus = Load-MegaPromptContext
+
+# NSA-Level Security Pattern Enforcement
+function Validate-SecurityPatterns {
+    Info "🛡️  Validating NSA-level security patterns..."
+    
+    $securityChecks = @()
+    
+    # Check 1: Bearer token authentication patterns
+    $backendFiles = Get-ChildItem -Path "backend" -Filter "*.py" -Recurse -ErrorAction SilentlyContinue
+    $hasAuthPattern = $false
+    foreach ($file in $backendFiles) {
+        $content = Get-Content $file.FullName -Raw -ErrorAction SilentlyContinue
+        if ($content -match "Bearer|Authorization.*Header|HTTPException.*401") {
+            $hasAuthPattern = $true
+            break
+        }
+    }
+    if ($hasAuthPattern) {
+        $securityChecks += "✅ Bearer token authentication patterns found"
+    } else {
+        $securityChecks += "⚠️  Bearer token authentication not detected"
+    }
+    
+    # Check 2: Environment variable security
+    $envFiles = @(".env", ".env.local", ".env.production")
+    $gitignoreContent = Get-Content ".gitignore" -Raw -ErrorAction SilentlyContinue
+    $envProtected = $envFiles | ForEach-Object { $gitignoreContent -match [regex]::Escape($_) }
+    if ($envProtected -contains $true) {
+        $securityChecks += "✅ Environment files protected in .gitignore"
+    } else {
+        $securityChecks += "⚠️  Environment files should be in .gitignore"
+    }
+    
+    # Check 3: CORS configuration
+    if (Test-Path "backend/server.py") {
+        $serverContent = Get-Content "backend/server.py" -Raw -ErrorAction SilentlyContinue
+        if ($serverContent -match "CORSMiddleware|CORS") {
+            $securityChecks += "✅ CORS middleware configured"
+        } else {
+            $securityChecks += "⚠️  CORS middleware should be configured"
+        }
+    }
+    
+    foreach ($check in $securityChecks) {
+        if ($check -match "✅") {
+            Success $check
+        } else {
+            Warn $check
+        }
+    }
+    
+    return $securityChecks
+}
+
+# AR/VR System Integration Checks
+function Validate-ARVRIntegration {
+    Info "🥽 Validating AR/VR system integration..."
+    
+    $arvrChecks = @()
+    
+    # Check 1: Model files exist
+    $modelFiles = Get-ChildItem -Path "public" -Filter "*.glb" -Recurse -ErrorAction SilentlyContinue
+    if ($modelFiles.Count -gt 0) {
+        $arvrChecks += "✅ GLB model files found ($($modelFiles.Count) files)"
+    } else {
+        $arvrChecks += "ℹ️  No GLB model files found in public/"
+    }
+    
+    # Check 2: _headers file for CORS
+    if (Test-Path "public/_headers") {
+        $headersContent = Get-Content "public/_headers" -Raw -ErrorAction SilentlyContinue
+        if ($headersContent -match "model/gltf-binary|model/vnd.usdz") {
+            $arvrChecks += "✅ AR/VR MIME types configured in _headers"
+        } else {
+            $arvrChecks += "⚠️  _headers exists but missing AR/VR MIME types"
+        }
+    } else {
+        $arvrChecks += "⚠️  _headers file missing for AR/VR CORS support"
+    }
+    
+    # Check 3: model-viewer implementation
+    $frontendFiles = Get-ChildItem -Path "frontend/src" -Filter "*.js*" -Recurse -ErrorAction SilentlyContinue
+    $hasModelViewer = $false
+    foreach ($file in $frontendFiles) {
+        $content = Get-Content $file.FullName -Raw -ErrorAction SilentlyContinue
+        if ($content -match "model-viewer|ModelViewer") {
+            $hasModelViewer = $true
+            break
+        }
+    }
+    if ($hasModelViewer) {
+        $arvrChecks += "✅ model-viewer component implementation found"
+    } else {
+        $arvrChecks += "ℹ️  model-viewer component not detected"
+    }
+    
+    foreach ($check in $arvrChecks) {
+        if ($check -match "✅") {
+            Success $check
+        } elseif ($check -match "⚠️") {
+            Warn $check
+        } else {
+            Info $check
+        }
+    }
+    
+    return $arvrChecks
+}
+
+# Cloudflare Deployment Validation
+function Validate-CloudflareDeployment {
+    Info "☁️  Validating Cloudflare deployment configuration..."
+    
+    $cfChecks = @()
+    
+    # Check 1: wrangler.toml exists
+    if (Test-Path "src/wrangler.toml") {
+        $cfChecks += "✅ Worker configuration found (src/wrangler.toml)"
+    } else {
+        $cfChecks += "ℹ️  Worker configuration not found"
+    }
+    
+    # Check 2: GitHub Actions workflows
+    $workflowFiles = @(
+        ".github/workflows/frontend-deploy.yml",
+        ".github/workflows/worker-deploy.yml"
+    )
+    foreach ($workflow in $workflowFiles) {
+        if (Test-Path $workflow) {
+            $cfChecks += "✅ Deployment workflow exists: $workflow"
+        } else {
+            $cfChecks += "ℹ️  Deployment workflow not found: $workflow"
+        }
+    }
+    
+    # Check 3: Required secrets documentation
+    $secretDocs = Get-Content "VS_STUDIO_BOT_AUTOMATION.ps1" -Raw -ErrorAction SilentlyContinue
+    if ($secretDocs -match "CLOUDFLARE_API_TOKEN|CLOUDFLARE_ACCOUNT_ID") {
+        $cfChecks += "✅ Cloudflare secrets documented in automation scripts"
+    }
+    
+    foreach ($check in $cfChecks) {
+        if ($check -match "✅") {
+            Success $check
+        } else {
+            Info $check
+        }
+    }
+    
+    return $cfChecks
+}
+
+# Run validations if requested
+if ($ValidateContext) {
+    Say "Running comprehensive context validation..."
+    $securityStatus = Validate-SecurityPatterns
+    $arvrStatus = Validate-ARVRIntegration
+    $cfStatus = Validate-CloudflareDeployment
+    
+    Write-Host "`n📊 Validation Summary:" -ForegroundColor Magenta
+    Write-Host "  Security Patterns: $($securityStatus.Count) checks" -ForegroundColor Cyan
+    Write-Host "  AR/VR Integration: $($arvrStatus.Count) checks" -ForegroundColor Cyan
+    Write-Host "  Cloudflare Config: $($cfStatus.Count) checks" -ForegroundColor Cyan
+    
+    exit 0
+}
 
 # Check if we're in the right directory
 if (-not (Test-Path ".git") -or -not (Test-Path "setup-wired-chaos.ps1")) {

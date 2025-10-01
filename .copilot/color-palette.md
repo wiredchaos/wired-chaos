@@ -1,0 +1,2 @@
+﻿# Palette
+#000000 #00FFFF #FF3131 #39FF14 #FF00FF #d9fffb

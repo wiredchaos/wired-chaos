@@ -1,3 +1,11 @@
-name = "chaoswired"
-main = "src/index.js"
+name = "wired-chaos-meta"
+main = "index.js"
 compatibility_date = "2025-09-26"
+
+[env.production]
+name = "wired-chaos-meta"
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+name = "wired-chaos-meta-staging"
+vars = { ENVIRONMENT = "staging" }
