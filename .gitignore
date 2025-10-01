@@ -2,7 +2,10 @@
 
 # IDE and editors
 .idea/
-# .vscode/ - Intentionally tracked for Copilot configuration
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
 
 # Dependencies
 node_modules/

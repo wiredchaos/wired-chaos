@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# Build output
+dist/
+build/
+.output/
+.wrangler/
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Deployment reports
+deployment-report.md
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Secrets
+secrets.json
+*.key
+*.pem
+*.cert
