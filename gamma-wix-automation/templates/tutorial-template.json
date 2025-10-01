@@ -1,0 +1,95 @@
+{
+  "name": "Tutorial Template",
+  "description": "Template for WIRED CHAOS tutorial presentations",
+  "theme": {
+    "id": "wired-chaos-cyber",
+    "colors": {
+      "primary": "#00fff0",
+      "secondary": "#ff2a2a",
+      "accent": "#8000ff",
+      "background": "#000000",
+      "text": "#ffffff"
+    },
+    "fonts": {
+      "heading": "Orbitron, sans-serif",
+      "body": "Rajdhani, sans-serif",
+      "code": "Share Tech Mono, monospace"
+    }
+  },
+  "slides": [
+    {
+      "type": "title",
+      "layout": "single",
+      "template": {
+        "title": "{{tutorialTitle}}",
+        "subtitle": "Step-by-Step Guide",
+        "footer": "WIRED CHAOS"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "What You'll Learn",
+        "content": "{{objectives}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Prerequisites",
+        "content": "{{prerequisites}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Step 1: Setup",
+        "content": "{{step1}}"
+      }
+    },
+    {
+      "type": "code",
+      "layout": "single",
+      "template": {
+        "title": "Step 2: Implementation",
+        "code": "{{step2Code}}",
+        "language": "{{language}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Step 3: Configuration",
+        "content": "{{step3}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Step 4: Testing",
+        "content": "{{step4}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Common Issues & Solutions",
+        "content": "{{troubleshooting}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Next Steps",
+        "content": "{{nextSteps}}"
+      }
+    }
+  ]
+}

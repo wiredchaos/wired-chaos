@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-cyan.svg)](LICENSE)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-orange.svg)](https://workers.cloudflare.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](https://www.typescriptlang.org/)
 [![WIX](https://img.shields.io/badge/WIX-Integration-blue.svg)](https://www.wix.com/)
 [![GAMMA](https://img.shields.io/badge/GAMMA-API-purple.svg)](https://gamma.app/)
 
@@ -11,13 +12,14 @@
 
 The WIX & GAMMA Integration System provides a comprehensive solution for connecting WIX websites and GAMMA presentations with the WIRED CHAOS infrastructure, featuring:
 
-- ⚡️ **Cloudflare Workers** - High-performance API gateway with global edge caching
-- 🔒 **NSA-Level Security** - Advanced CSP, CORS, rate limiting, and CSRF protection
+- ⚡️ **TypeScript Cloudflare Workers** - Type-safe, high-performance API gateway with global edge caching
+- 🔒 **NSA-Level Security** - Advanced CSP, CORS, rate limiting, CSRF protection, and HMAC signature verification
+- 💾 **Durable Objects** - Distributed rate limiting and audit logging with persistent state
 - 🎨 **WIRED CHAOS Branding** - Pre-built templates with cyber-themed design
 - 📊 **Real-time Analytics** - WC-BUS integration for unified event tracking
 - 🥽 **AR/VR Support** - WebXR model viewer for 3D content on WIX
 - 🤖 **AI-Powered Content** - Automated presentation generation
-- 🔄 **Bi-directional Sync** - Automatic content synchronization
+- 🔄 **Bi-directional Sync** - Automatic content synchronization with Zapier & Wix Velo
 - 📱 **Responsive Design** - Mobile-first approach
 
 ## 📁 Project Structure
@@ -39,10 +41,26 @@ wix-gamma-integration/
 │   │   └── gamma-client.ts
 │   └── exports/                  # Export automation
 ├── cloudflare/                   # Cloudflare Infrastructure
-│   ├── workers/                  # Workers scripts
-│   │   └── integration-worker.js
+│   ├── workers/                  # Workers scripts (TypeScript)
+│   │   ├── integration-worker.ts # Main worker (TypeScript)
+│   │   ├── integration-worker.js # Legacy JavaScript (backup)
+│   │   ├── types.ts              # Type definitions
+│   │   ├── tsconfig.json         # TypeScript config
+│   │   ├── wrangler.toml         # Worker configuration
+│   │   └── durable-objects/      # Durable Objects
+│   │       ├── RateLimiter.ts    # Rate limiting DO
+│   │       └── AuditLogger.ts    # Audit logging DO
 │   ├── pages/                    # Pages configuration
 │   └── kv-schemas/               # KV data schemas
+├── zapier-templates/             # Zapier Automation Templates
+│   ├── README.md                 # Zapier setup guide
+│   ├── wix-to-gamma-sync.json   # WIX→GAMMA sync template
+│   └── gamma-to-wix-export.json # GAMMA→WIX export template
+├── wix-velo-examples/            # Wix Velo Backend Examples
+│   ├── README.md                 # Velo integration guide
+│   ├── worker-api-client.js     # API client library
+│   ├── data-hooks.js            # Data collection hooks
+│   └── http-functions.js        # HTTP function endpoints
 ├── shared/                       # Shared Code
 │   ├── types/                    # TypeScript definitions
 │   │   └── index.ts
@@ -53,7 +71,9 @@ wix-gamma-integration/
 └── docs/                         # Documentation
     ├── wix-integration.md
     ├── gamma-integration.md
-    └── deployment-guide.md
+    ├── deployment-guide.md
+    ├── typescript-migration.md   # TypeScript migration guide
+    └── durable-objects.md        # Durable Objects guide
 ```
 
 ## 🚀 Quick Start
@@ -61,7 +81,8 @@ wix-gamma-integration/
 ### Prerequisites
 
 - Node.js 18+
-- Cloudflare account
+- TypeScript 5+
+- Cloudflare account with Durable Objects enabled
 - WIX Developer account
 - GAMMA API key
 - Wrangler CLI
@@ -76,13 +97,43 @@ cd wired-chaos/wix-gamma-integration
 # Install dependencies
 npm install
 
+# TypeScript type check
+cd cloudflare/workers
+npx tsc --noEmit
+
 # Configure environment
 cp .env.example .env
 # Edit .env with your credentials
 
-# Deploy to Cloudflare
+# Deploy TypeScript worker to Cloudflare
 npm run deploy
 ```
+
+## 🔥 What's New in TypeScript Version
+
+### TypeScript with Strict Type Safety
+- Full TypeScript rewrite with strict mode enabled
+- Type-safe API calls and error handling
+- Better IDE support and autocomplete
+- Compile-time error detection
+
+### Durable Objects
+- **Rate Limiter DO**: Distributed rate limiting across edge locations
+- **Audit Logger DO**: Persistent audit logs with query and export
+- Automatic cleanup with alarms
+- Scalable to millions of requests
+
+### Enhanced Security
+- HMAC signature verification for webhooks (properly awaited)
+- Enhanced CORS headers for broader compatibility
+- Rate limit headers (X-RateLimit-Remaining, X-RateLimit-Reset)
+- Structured audit logging for compliance
+
+### Developer Experience
+- Zapier integration templates
+- Wix Velo backend code examples
+- Comprehensive TypeScript documentation
+- GitHub Actions workflow for automated deployment
 
 ### Basic Usage
 
@@ -128,6 +179,42 @@ const pdf = await gamma.exportPresentation(
   'pdf',
   { quality: 'high' }
 );
+```
+
+#### Zapier Integration
+
+```javascript
+// See zapier-templates/ for ready-to-use templates
+// 1. WIX to GAMMA sync - Automatically sync content updates
+// 2. GAMMA to WIX export - Export presentations and upload to WIX
+
+// Setup:
+// 1. Import template from zapier-templates/
+// 2. Configure webhook URLs
+// 3. Set API tokens in Zapier
+// 4. Test and activate
+
+// See zapier-templates/README.md for full instructions
+```
+
+#### Wix Velo Backend
+
+```javascript
+// In backend code (backend/wired-chaos/worker-api-client.js)
+import { getGammaPresentations } from 'backend/wired-chaos/worker-api-client';
+
+$w.onReady(async function () {
+  const result = await getGammaPresentations(5);
+  $w('#presentationsRepeater').data = result.data.presentations;
+});
+
+// Auto-sync with data hooks (backend/data.js)
+export function Content_afterInsert(item, context) {
+  syncWixToGamma({ action: 'create', data: item });
+  return item;
+}
+
+// See wix-velo-examples/ for complete examples
 ```
 
 ## ✨ Features
@@ -190,7 +277,7 @@ Pre-built templates:
 - PNG images
 - Batch processing
 
-### Cloudflare Worker
+### TypeScript Cloudflare Worker
 
 #### ⚡️ Performance
 - Global edge caching
@@ -201,20 +288,41 @@ Pre-built templates:
 #### 🔒 Security
 - NSA-level encryption
 - DDoS protection
-- Rate limiting
-- Audit logging
+- Durable Objects rate limiting (distributed)
+- Persistent audit logging with Durable Objects
+- HMAC webhook signature verification
 
 #### 🔄 Sync Engine
 - Bi-directional sync
 - Conflict resolution
 - Webhook integration
 - Real-time updates
+- Zapier automation support
+
+#### 💾 Durable Objects
+- **RateLimiter DO**: Distributed rate limiting across edge
+  - Per-identifier tracking (IP, user, API key)
+  - Configurable windows and limits
+  - X-RateLimit-* headers
+- **AuditLogger DO**: Persistent audit logs
+  - Query by time range and type
+  - CSV export for compliance
+  - 30-day automatic retention
 
 ## 📚 Documentation
 
+### Core Documentation
 - [WIX Integration Guide](docs/wix-integration.md)
 - [GAMMA Integration Guide](docs/gamma-integration.md)
 - [Deployment Guide](docs/deployment-guide.md)
+
+### TypeScript & Durable Objects
+- [TypeScript Migration Guide](docs/typescript-migration.md) - **NEW!**
+- [Durable Objects Guide](docs/durable-objects.md) - **NEW!**
+
+### Integration Examples
+- [Zapier Templates](zapier-templates/README.md) - **NEW!**
+- [Wix Velo Examples](wix-velo-examples/README.md) - **NEW!**
 
 ## 🎨 WIRED CHAOS Branding
 
@@ -275,6 +383,10 @@ wrangler r2 bucket create wired-chaos-ar-models
 ## 🧪 Testing
 
 ```bash
+# TypeScript type check
+cd cloudflare/workers
+npx tsc --noEmit
+
 # Run tests
 npm test
 
@@ -285,12 +397,63 @@ npm run test:integration
 npm run test:e2e
 ```
 
+## 🚀 Deployment
+
+### TypeScript Worker Deployment
+
+```bash
+# Deploy to production
+cd cloudflare/workers
+wrangler deploy --env production
+
+# Deploy to staging
+wrangler deploy --env staging
+
+# View logs
+wrangler tail --env production
+
+# Monitor Durable Objects
+# Check Cloudflare Dashboard → Workers & Pages → Durable Objects
+```
+
+### GitHub Actions
+
+The TypeScript worker automatically deploys via GitHub Actions:
+- **File**: `.github/workflows/deploy-wix-gamma-ts.yml`
+- **Triggers**: Push to main, PR, manual dispatch
+- **Steps**:
+  1. TypeScript type check
+  2. Run tests
+  3. Deploy worker
+  4. Set secrets
+  5. Generate deployment report
+
+### Secrets Configuration
+
+Set secrets in GitHub or via Wrangler:
+
+```bash
+# Via Wrangler
+echo "YOUR_TOKEN" | wrangler secret put WIX_API_TOKEN --env production
+echo "YOUR_SECRET" | wrangler secret put WIX_WEBHOOK_SECRET --env production
+echo "YOUR_KEY" | wrangler secret put GAMMA_API_KEY --env production
+
+# Via GitHub (Settings → Secrets → Actions)
+# Required secrets:
+# - CLOUDFLARE_API_TOKEN
+# - CLOUDFLARE_ACCOUNT_ID
+# - WIX_API_TOKEN
+# - WIX_WEBHOOK_SECRET
+# - GAMMA_API_KEY
+```
+
 ## 📈 Performance
 
-- **Cold start**: <100ms
+- **Cold start**: <100ms (TypeScript compiled by Wrangler)
 - **Average response**: <50ms
 - **Cache hit rate**: >95%
 - **Global latency**: <30ms
+- **Durable Objects**: Single-digit millisecond reads/writes
 
 ## 🤝 Contributing
 

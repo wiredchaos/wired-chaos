@@ -66,3 +66,93 @@ Use the built-in tasks:
 ## More Information
 
 See the main [AUTOMATION.md](../AUTOMATION.md) file for complete documentation.
+
+---
+
+## 🤖 NO TOUCH INFRA AUTOMATION Scripts
+
+### Environment Setup
+
+**Script:** `setup-environment.sh`  
+**Purpose:** Automated environment variable and secrets configuration
+
+```bash
+./scripts/setup-environment.sh
+```
+
+**Features:**
+- Interactive prompts for all required secrets
+- GitHub CLI integration for secure secret storage
+- Auto-generates webhook secrets
+- Comprehensive configuration summary
+
+---
+
+### Webhook Processor Deployment
+
+**Script:** `deploy-webhook-processor.sh`  
+**Purpose:** Deploy webhook processor to Cloudflare Workers
+
+```bash
+./scripts/deploy-webhook-processor.sh
+```
+
+**Features:**
+- Automatic Wrangler CLI installation
+- Sets all required worker secrets
+- Deploys to Cloudflare Workers edge network
+
+---
+
+### GAMMA Template Activation
+
+**Script:** `activate-gamma-templates.sh`  
+**Purpose:** Activate all 6 GAMMA presentation templates
+
+```bash
+./scripts/activate-gamma-templates.sh
+```
+
+**Templates:** Component, Feature, Milestone, Release, Tutorial, Update
+
+---
+
+### Performance Monitoring
+
+**Script:** `monitor-performance.sh`  
+**Purpose:** Monitor and report on system performance
+
+```bash
+./scripts/monitor-performance.sh
+```
+
+**Features:**
+- Checks all core endpoints
+- Measures response times
+- Calculates system health score
+- Generates comprehensive reports
+
+---
+
+### NPM Scripts
+
+All automation scripts are available via npm:
+
+```bash
+npm run setup:env          # Setup environment
+npm run deploy:webhook     # Deploy webhook processor
+npm run gamma:activate     # Activate GAMMA templates
+npm run monitor:performance # Run performance check
+npm run test:e2e          # Run E2E test (dry run)
+```
+
+---
+
+### Complete Documentation
+
+See **[NOTION_AI_BOT_COMPLETE_GUIDE.md](../NOTION_AI_BOT_COMPLETE_GUIDE.md)** for:
+- Complete automation guide
+- API reference
+- Troubleshooting
+- Best practices
+- Success metrics

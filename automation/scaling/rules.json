@@ -1,0 +1,171 @@
+{
+  "scaling": {
+    "enabled": true,
+    "version": "1.0.0",
+    "auto_scale": true,
+    "evaluation_interval_minutes": 60,
+    "rules": [
+      {
+        "id": "scale_deck_generation",
+        "workflow": "deck_generation",
+        "trigger": {
+          "metric": "success_rate",
+          "operator": "greater_than",
+          "threshold": 95,
+          "consecutive_periods": 3
+        },
+        "action": "scale_to_all_platforms",
+        "platforms": ["wix", "notion", "gamma", "zapier"],
+        "rollout_strategy": "gradual",
+        "rollout_percentage_per_day": 20
+      },
+      {
+        "id": "increase_content_sync_frequency",
+        "workflow": "content_sync",
+        "trigger": {
+          "metric": "engagement",
+          "operator": "greater_than",
+          "threshold": 1000,
+          "consecutive_periods": 2
+        },
+        "action": "increase_frequency",
+        "current_frequency": "daily",
+        "new_frequency": "hourly",
+        "apply_to": ["social_media", "blog_updates"]
+      },
+      {
+        "id": "expand_email_campaigns",
+        "workflow": "email_campaigns",
+        "trigger": {
+          "metric": "open_rate",
+          "operator": "greater_than",
+          "threshold": 40,
+          "consecutive_periods": 5
+        },
+        "action": "expand_audience",
+        "current_audience_size": 1000,
+        "expansion_factor": 1.5,
+        "segment": "warm_leads"
+      },
+      {
+        "id": "scale_notification_system",
+        "workflow": "notifications",
+        "trigger": {
+          "metric": "delivery_rate",
+          "operator": "greater_than",
+          "threshold": 98,
+          "consecutive_periods": 3
+        },
+        "action": "add_channels",
+        "new_channels": ["slack", "teams"],
+        "priority": "medium"
+      },
+      {
+        "id": "optimize_lead_scoring",
+        "workflow": "lead_scoring",
+        "trigger": {
+          "metric": "prediction_accuracy",
+          "operator": "greater_than",
+          "threshold": 85,
+          "consecutive_periods": 7
+        },
+        "action": "increase_model_complexity",
+        "update_training_data": true,
+        "retrain_interval_days": 7
+      }
+    ],
+    "platforms": [
+      {
+        "name": "wix",
+        "enabled": true,
+        "priority": 1,
+        "max_concurrent_operations": 10
+      },
+      {
+        "name": "notion",
+        "enabled": true,
+        "priority": 2,
+        "max_concurrent_operations": 20
+      },
+      {
+        "name": "gamma",
+        "enabled": true,
+        "priority": 1,
+        "max_concurrent_operations": 5
+      },
+      {
+        "name": "discord",
+        "enabled": true,
+        "priority": 3,
+        "max_concurrent_operations": 50
+      },
+      {
+        "name": "telegram",
+        "enabled": true,
+        "priority": 3,
+        "max_concurrent_operations": 50
+      },
+      {
+        "name": "x",
+        "enabled": true,
+        "priority": 2,
+        "max_concurrent_operations": 15
+      },
+      {
+        "name": "linkedin",
+        "enabled": true,
+        "priority": 2,
+        "max_concurrent_operations": 10
+      },
+      {
+        "name": "zapier",
+        "enabled": true,
+        "priority": 1,
+        "max_concurrent_operations": 100
+      }
+    ],
+    "scaling_strategies": {
+      "gradual": {
+        "description": "Gradually increase scale over time",
+        "initial_percentage": 10,
+        "increment_per_day": 10,
+        "max_percentage": 100,
+        "rollback_on_error": true
+      },
+      "immediate": {
+        "description": "Scale to 100% immediately",
+        "percentage": 100,
+        "apply_immediately": true,
+        "monitor_closely": true
+      },
+      "staged": {
+        "description": "Scale in predefined stages",
+        "stages": [25, 50, 75, 100],
+        "stage_duration_hours": 24,
+        "validate_between_stages": true
+      }
+    },
+    "safeguards": {
+      "max_scale_factor": 10,
+      "min_success_rate": 90,
+      "auto_rollback": true,
+      "rollback_triggers": [
+        {
+          "metric": "error_rate",
+          "threshold": 10,
+          "action": "immediate_rollback"
+        },
+        {
+          "metric": "response_time",
+          "threshold": 5000,
+          "action": "gradual_scale_down"
+        }
+      ]
+    },
+    "notifications": {
+      "notify_on_scale": true,
+      "notify_on_rollback": true,
+      "channels": ["discord", "telegram", "email"]
+    }
+  }
+}

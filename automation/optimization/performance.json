@@ -1,0 +1,136 @@
+{
+  "optimization": {
+    "enabled": true,
+    "version": "1.0.0",
+    "caching": {
+      "enabled": true,
+      "strategy": "lru",
+      "ttl": 3600,
+      "max_size_mb": 500,
+      "cache_targets": [
+        {
+          "type": "api_responses",
+          "ttl": 300,
+          "invalidate_on": ["data_update", "manual_flush"]
+        },
+        {
+          "type": "gamma_templates",
+          "ttl": 3600,
+          "invalidate_on": ["template_update"]
+        },
+        {
+          "type": "notion_queries",
+          "ttl": 600,
+          "invalidate_on": ["database_update"]
+        },
+        {
+          "type": "user_data",
+          "ttl": 1800,
+          "invalidate_on": ["user_update", "session_end"]
+        }
+      ],
+      "cloudflare_kv": {
+        "enabled": true,
+        "namespace": "wired-chaos-cache",
+        "edge_caching": true
+      }
+    },
+    "rate_limiting": {
+      "enabled": true,
+      "global": {
+        "requests_per_minute": 100,
+        "burst": 20,
+        "strategy": "sliding_window"
+      },
+      "per_endpoint": [
+        {
+          "endpoint": "/api/zapier/webhook",
+          "requests_per_minute": 50,
+          "burst": 10
+        },
+        {
+          "endpoint": "/api/gamma/generate",
+          "requests_per_minute": 10,
+          "burst": 3
+        },
+        {
+          "endpoint": "/api/notion/sync",
+          "requests_per_minute": 30,
+          "burst": 5
+        }
+      ],
+      "error_response": {
+        "status": 429,
+        "message": "Rate limit exceeded. Please try again later.",
+        "retry_after_seconds": 60
+      }
+    },
+    "cost_optimization": {
+      "use_cache_first": true,
+      "batch_requests": true,
+      "compress_responses": true,
+      "compression_algorithm": "gzip",
+      "minimize_api_calls": true,
+      "strategies": [
+        {
+          "name": "batch_notion_updates",
+          "description": "Batch multiple Notion updates into single API call",
+          "savings_estimate": "40%"
+        },
+        {
+          "name": "cache_gamma_templates",
+          "description": "Cache frequently used Gamma templates",
+          "savings_estimate": "60%"
+        },
+        {
+          "name": "compress_webhook_payloads",
+          "description": "Compress large webhook payloads",
+          "savings_estimate": "30%"
+        }
+      ],
+      "budget_alerts": {
+        "enabled": true,
+        "thresholds": [
+          {
+            "service": "cloudflare",
+            "monthly_limit_usd": 100,
+            "alert_at_percentage": 80
+          },
+          {
+            "service": "gamma",
+            "monthly_limit_usd": 200,
+            "alert_at_percentage": 75
+          }
+        ]
+      }
+    },
+    "performance_targets": {
+      "api_response_time_ms": 500,
+      "deck_generation_time_s": 30,
+      "email_send_time_s": 5,
+      "notion_sync_time_s": 10,
+      "webhook_processing_time_ms": 100
+    },
+    "database_optimization": {
+      "notion": {
+        "use_filters": true,
+        "limit_results": true,
+        "default_page_size": 50,
+        "cache_queries": true
+      }
+    },
+    "image_optimization": {
+      "enabled": true,
+      "formats": ["webp", "avif"],
+      "quality": 85,
+      "lazy_loading": true,
+      "cdn": "cloudflare"
+    },
+    "monitoring": {
+      "track_performance": true,
+      "log_slow_requests": true,
+      "slow_request_threshold_ms": 1000,
+      "alert_on_degradation": true
+    }
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "internationalization": {
+    "enabled": true,
+    "version": "1.0.0",
+    "default_language": "en",
+    "fallback_language": "en",
+    "supported_languages": [
+      {
+        "code": "en",
+        "name": "English",
+        "native_name": "English",
+        "rtl": false,
+        "enabled": true,
+        "completion_percentage": 100
+      },
+      {
+        "code": "es",
+        "name": "Spanish",
+        "native_name": "Español",
+        "rtl": false,
+        "enabled": true,
+        "completion_percentage": 90
+      },
+      {
+        "code": "fr",
+        "name": "French",
+        "native_name": "Français",
+        "rtl": false,
+        "enabled": true,
+        "completion_percentage": 85
+      },
+      {
+        "code": "de",
+        "name": "German",
+        "native_name": "Deutsch",
+        "rtl": false,
+        "enabled": true,
+        "completion_percentage": 85
+      },
+      {
+        "code": "pt",
+        "name": "Portuguese",
+        "native_name": "Português",
+        "rtl": false,
+        "enabled": true,
+        "completion_percentage": 80
+      },
+      {
+        "code": "zh",
+        "name": "Chinese",
+        "native_name": "中文",
+        "rtl": false,
+        "enabled": true,
+        "completion_percentage": 75
+      },
+      {
+        "code": "ja",
+        "name": "Japanese",
+        "native_name": "日本語",
+        "rtl": false,
+        "enabled": true,
+        "completion_percentage": 75
+      }
+    ],
+    "translation": {
+      "service": "deepl_api",
+      "api_key": "DEEPL_API_KEY",
+      "auto_translate": true,
+      "auto_translate_new_content": true,
+      "cache_translations": true,
+      "cache_ttl_days": 30,
+      "quality_threshold": 0.85,
+      "human_review_required": false,
+      "fallback_to_machine": true
+    },
+    "content_types": [
+      {
+        "type": "gamma_presentations",
+        "enabled": true,
+        "auto_translate": true,
+        "translate_fields": ["title", "slides.content", "description"]
+      },
+      {
+        "type": "email_templates",
+        "enabled": true,
+        "auto_translate": true,
+        "translate_fields": ["subject", "body", "preheader"]
+      },
+      {
+        "type": "wix_pages",
+        "enabled": true,
+        "auto_translate": true,
+        "translate_fields": ["title", "content", "meta_description"]
+      },
+      {
+        "type": "chatbot_responses",
+        "enabled": true,
+        "auto_translate": true,
+        "translate_fields": ["response_text", "quick_replies"]
+      },
+      {
+        "type": "notion_content",
+        "enabled": true,
+        "auto_translate": false,
+        "translate_fields": ["title", "content"]
+      },
+      {
+        "type": "social_media_posts",
+        "enabled": true,
+        "auto_translate": true,
+        "translate_fields": ["post_text", "image_alt_text"]
+      }
+    ],
+    "regions": {
+      "us": {
+        "languages": ["en"],
+        "default": "en",
+        "timezone": "America/New_York",
+        "currency": "USD"
+      },
+      "eu": {
+        "languages": ["en", "es", "fr", "de"],
+        "default": "en",
+        "timezone": "Europe/London",
+        "currency": "EUR"
+      },
+      "latam": {
+        "languages": ["es", "pt"],
+        "default": "es",
+        "timezone": "America/Mexico_City",
+        "currency": "USD"
+      },
+      "asia": {
+        "languages": ["zh", "ja", "en"],
+        "default": "en",
+        "timezone": "Asia/Tokyo",
+        "currency": "USD"
+      }
+    },
+    "locale_detection": {
+      "method": "auto",
+      "sources": [
+        "url_parameter",
+        "cookie",
+        "browser_settings",
+        "ip_geolocation"
+      ],
+      "priority": ["cookie", "url_parameter", "browser_settings", "ip_geolocation"],
+      "remember_preference": true,
+      "cookie_name": "wc_locale",
+      "cookie_duration_days": 365
+    },
+    "formatting": {
+      "date": {
+        "en": "MM/DD/YYYY",
+        "es": "DD/MM/YYYY",
+        "fr": "DD/MM/YYYY",
+        "de": "DD.MM.YYYY",
+        "pt": "DD/MM/YYYY",
+        "zh": "YYYY-MM-DD",
+        "ja": "YYYY年MM月DD日"
+      },
+      "time": {
+        "en": "12h",
+        "es": "24h",
+        "fr": "24h",
+        "de": "24h",
+        "pt": "24h",
+        "zh": "24h",
+        "ja": "24h"
+      },
+      "currency": {
+        "position": {
+          "en": "before",
+          "es": "after",
+          "fr": "after",
+          "de": "after",
+          "pt": "before",
+          "zh": "before",
+          "ja": "before"
+        },
+        "decimal_separator": {
+          "en": ".",
+          "es": ",",
+          "fr": ",",
+          "de": ",",
+          "pt": ",",
+          "zh": ".",
+          "ja": "."
+        },
+        "thousands_separator": {
+          "en": ",",
+          "es": ".",
+          "fr": " ",
+          "de": ".",
+          "pt": ".",
+          "zh": ",",
+          "ja": ","
+        }
+      }
+    },
+    "validation": {
+      "check_placeholders": true,
+      "check_html_tags": true,
+      "check_length": true,
+      "max_length_difference_percentage": 30
+    },
+    "workflow": {
+      "auto_detect_new_strings": true,
+      "notify_translators": true,
+      "review_process": false,
+      "version_control": true
+    }
+  }
+}

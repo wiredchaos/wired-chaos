@@ -1114,36 +1114,29 @@ function generatePlaceholderPage(title, description) {
 </html>`;
 }
 
-// Suite Landing Page Generator with Feature Flag Support
-function generateSuiteLandingHTML(mode = 'stub') {
-  const modeConfig = {
-    stub: {
-      title: 'WIRED CHAOS Suite (Stub Mode)',
-      features: ['Dashboard Preview', 'Admin Controls Preview', 'Coming Soon Features'],
-      badge: 'STUB MODE'
-    },
-    partial: {
-      title: 'WIRED CHAOS Suite (Partial)',
-      features: ['Dashboard', 'Admin Controls', 'Power Tools', 'API Access'],
-      badge: 'PARTIAL MODE'
-    },
-    full: {
-      title: 'WIRED CHAOS Suite',
-      features: ['Full Dashboard', 'Admin Controls', 'Power Tools', 'Reports', 'Integrations', 'API Access'],
-      badge: 'FULL MODE'
-    }
-  };
-
-  const config = modeConfig[mode] || modeConfig.stub;
-
+/**
+ * Generate Suite/Tax Landing Page with auto-redirect or config warning
+ * @param {string} title - Page title
+ * @param {string} targetUrl - URL to open in new tab (or null if not configured)
+ * @returns {string} HTML content
+ */
+function generateLandingPage(title, targetUrl) {
+  const configured = targetUrl && targetUrl.trim().length > 0;
+  
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="WIRED CHAOS Suite - Complete toolkit and dashboard">
-  <title>${config.title}</title>
+  <meta name="description" content="WIRED CHAOS ${title}">
+  <title>WIRED CHAOS ${title}</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+  ${configured ? `<script>
+    // Auto-open in new tab after 1 second
+    setTimeout(() => {
+      window.open('${targetUrl}', '_blank', 'noopener,noreferrer');
+    }, 1000);
+  </script>` : ''}
   <style>
     :root {
       --vault-ink: #0a0f13;
@@ -1165,102 +1158,111 @@ function generateSuiteLandingHTML(mode = 'stub') {
       justify-content: center;
       padding: 2rem;
     }
-    .container { max-width: 1200px; width: 100%; }
-    .header { text-align: center; margin-bottom: 3rem; }
-    .title { font-size: 3rem; margin-bottom: 1rem; }
-    .title-main {
+    .container {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+    .title {
+      font-size: 3rem;
+      margin-bottom: 1rem;
       color: var(--vault-white);
       text-shadow: 0 0 8px var(--vault-cyan), 0 0 18px rgba(0, 255, 240, 0.35), 0 0 38px var(--vault-red);
     }
-    .title-sub {
+    .subtitle {
+      font-size: 1.5rem;
       color: var(--vault-cyan);
       text-shadow: 0 0 12px var(--vault-cyan), 0 0 30px rgba(0, 255, 240, 0.7);
+      margin-bottom: 2rem;
     }
-    .subtitle { color: rgba(255, 255, 255, 0.8); font-size: 1.1rem; margin-bottom: 1rem; }
-    .mode-badge {
-      display: inline-block;
-      background: rgba(128, 0, 255, 0.2);
-      border: 1px solid var(--vault-purple);
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      color: var(--vault-purple);
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-    .feature-card {
+    .content-box {
       background: rgba(0, 255, 240, 0.05);
-      border: 2px solid var(--vault-cyan);
+      border: 2px solid ${configured ? 'var(--vault-cyan)' : 'var(--vault-red)'};
       border-radius: 15px;
       padding: 2rem;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0, 255, 240, 0.3);
-      border-color: var(--vault-green);
-    }
-    .feature-icon { font-size: 3rem; margin-bottom: 1rem; }
-    .feature-title { color: var(--vault-cyan); font-size: 1.3rem; margin-bottom: 0.5rem; }
-    .info-box {
-      background: rgba(0, 255, 240, 0.05);
-      border: 1px solid var(--vault-cyan);
-      border-radius: 12px;
-      padding: 2rem;
       margin: 2rem 0;
-      text-align: center;
     }
-    .info-box p { color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin: 0.5rem 0; }
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    .message {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .launch-button {
+      display: inline-block;
+      background: var(--vault-cyan);
+      color: var(--vault-ink);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .launch-button:hover {
+      background: var(--vault-green);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+    }
+    .warning-text {
+      color: var(--vault-red);
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .config-hint {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
     .footer {
-      text-align: center;
       margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(0, 255, 240, 0.2);
       color: rgba(255, 255, 255, 0.5);
       font-size: 0.9rem;
     }
     @media (max-width: 768px) {
-      body { padding: 1rem; }
       .title { font-size: 2rem; }
-      .features-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .subtitle { font-size: 1.2rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <header class="header">
-      <h1 class="title">
-        <div class="title-main">WIRED CHAOS</div>
-        <div class="title-sub">Suite</div>
-      </h1>
-      <p class="subtitle">Complete toolkit and dashboard for digital chaos management</p>
-      <span class="mode-badge">🔧 ${config.badge}</span>
-    </header>
-    <main>
-      <div class="features-grid">
-        ${config.features.map((feature, index) => `
-          <div class="feature-card">
-            <div class="feature-icon">${['📊', '⚙️', '🔧', '📈', '🔗', '🌐'][index] || '✨'}</div>
-            <h3 class="feature-title">${feature}</h3>
-          </div>
-        `).join('')}
-      </div>
-      <div class="info-box">
-        <p><strong>Mode: ${mode.toUpperCase()}</strong></p>
-        <p>This is the ${mode} implementation of the WIRED CHAOS Suite.</p>
-        ${mode === 'stub' ? '<p>Full features coming soon. Set mode=partial or mode=full for more functionality.</p>' : ''}
-      </div>
-    </main>
-    <footer class="footer">
-      <p>WIRED CHAOS Suite v1.0.0 | ${new Date().getFullYear()}</p>
+    <h1 class="title">WIRED CHAOS</h1>
+    <h2 class="subtitle">${title}</h2>
+    
+    <div class="content-box">
+      ${configured ? `
+        <div class="icon">🚀</div>
+        <div class="message">
+          Opening ${title} in a new tab...<br>
+          If it doesn't open automatically, click the button below.
+        </div>
+        <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="launch-button">
+          Launch ${title} →
+        </a>
+      ` : `
+        <div class="icon">🔒</div>
+        <div class="warning-text">URL Not Configured</div>
+        <div class="message">
+          The ${title} URL has not been configured in the environment variables.
+        </div>
+        <div class="config-hint">
+          Contact your administrator to configure the ${title === 'Suite' ? 'SUITE_URL' : 'TAX_URL'} environment variable.
+        </div>
+      `}
+    </div>
+    
+    <div class="footer">
+      <p>WIRED CHAOS v1.0.0 | ${new Date().getFullYear()}</p>
       <p>Powered by Cloudflare Workers</p>
-    </footer>
+    </div>
   </div>
 </body>
 </html>`;
@@ -1296,9 +1298,17 @@ export default {
       });
     }
 
-    // Handle /tax redirect to /suite
+    // Handle /tax endpoint - Opens TAX_URL or shows config warning
     if (url.pathname === '/tax' || url.pathname.startsWith('/tax/')) {
-      return Response.redirect(url.origin + '/suite', 302);
+      const taxUrl = env.TAX_URL || '';
+      return new Response(generateLandingPage('Tax Suite', taxUrl), {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/html;charset=UTF-8',
+          'Cache-Control': 'public, max-age=300',
+          ...corsHeaders
+        }
+      });
     }
 
     // Handle /vsp route (Video Sales Page)
@@ -1325,24 +1335,14 @@ export default {
       });
     }
 
-    // Handle /suite route with feature flag support
+    // Handle /suite endpoint - Opens SUITE_URL or shows config warning
     if (url.pathname === '/suite' || url.pathname.startsWith('/suite/')) {
-      // Check feature mode from query param or header
-      const mode = url.searchParams.get('mode') || 
-                   request.headers.get('X-Suite-Mode') || 
-                   'stub';
-      
-      // Validate mode
-      const validModes = ['stub', 'partial', 'full'];
-      const featureMode = validModes.includes(mode) ? mode : 'stub';
-      
-      return new Response(generateSuiteLandingHTML(featureMode), {
+      const suiteUrl = env.SUITE_URL || '';
+      return new Response(generateLandingPage('Suite', suiteUrl), {
         status: 200,
         headers: {
           'Content-Type': 'text/html;charset=UTF-8',
           'Cache-Control': 'public, max-age=300',
-          'X-Suite-Version': '1.0.0',
-          'X-Suite-Mode': featureMode,
           ...corsHeaders
         }
       });

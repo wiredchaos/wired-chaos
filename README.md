@@ -3,32 +3,6 @@
 [![Mega Prompt Integration](https://img.shields.io/badge/Mega%20Prompt-GIGA%20Integration-00FFFF?style=for-the-badge)](./MEGA_PROMPT_INTEGRATION_GUIDE.md)
 [![Build Status](https://img.shields.io/badge/build-automated-39FF14?style=for-the-badge)](./AUTOMATION_README.md)
 [![Security](https://img.shields.io/badge/security-NSA%20Level-FF3131?style=for-the-badge)](./SECURITY_ANALYSIS.md)
-[![PR Automation](https://img.shields.io/ba## 🏆 Recent Achievements
-
-**October 2025 Updates**:
-- ✅ **25 GitHub Actions Workflows** deployed and active
-- ✅ **20+ Dependency Security Updates** automatically applied
-- ✅ **`/ready` PR Automation** system deployed and operational
-- ✅ **Security Audit Report** completed with all critical vulnerabilities patched
-- ✅ **Complete VS Code Integration** with 167 lines of task automation
-- ✅ **No-Touch Infrastructure** fully operational
-
-## 🔗 Links
-
-- **Repository**: https://github.com/wiredchaos/wired-chaos
-- **Issues**: https://github.com/wiredchaos/wired-chaos/issues
-- **GitHub Actions**: https://github.com/wiredchaos/wired-chaos/actions
-- **Production Site**: https://wired-chaos.pages.dev
-- **Security Reports**: [Dependabot Alerts](https://github.com/wiredchaos/wired-chaos/security/dependabot)
-
----
-
-**Built with** ❤️ **by the WIRED CHAOS team**
-
-**Powered by**: React • FastAPI • Cloudflare • Web3 • AR/VR • AI • `/ready` Automation
-
-**Status**: 🟢 **FULLY OPERATIONAL** - All systems green, security patched, automation activeation-/ready%20Live-FF00FF?style=for-the-badge)](./AUTOMATION.md)
-[![Dependencies](https://img.shields.io/badge/Dependencies-Security%20Audited-39FF14?style=for-the-badge)](#-security-analysis)
 
 > A comprehensive Web3 platform with AR/VR integration, multi-chain NFT certificates, and NSA-level security patterns.
 
@@ -39,8 +13,9 @@
 - **🧠 AI Brain Assistant**: 3D brain visualization with AI-powered responses
 - **🔐 Vault33 Gatekeeper**: NSA-level security with wallet gating and NDA signatures
 - **☁️ Cloudflare Edge**: Global deployment on Cloudflare Workers and Pages
-- **🤖 `/ready` Automation**: Single-comment PR automation (ready → merge → deploy → test)
-- **🛡️ Security Auditing**: Automated dependency vulnerability scanning and updates
+- **🤖 Automated Workflows**: Complete CI/CD with intelligent automation
+- **🤖 SWARM Bot**: Intelligent deployment blocker automation with auto-triage and fixes
+- **🏥 Health Triage Bot**: Real-time system health monitoring and emergency response
 - **🎬 Video System**: Optional avatar linking for videos - works perfectly with or without creator avatars
 - **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
 - **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
@@ -69,29 +44,34 @@ ls -lh build/
 
 📚 **[SWARM Orchestrator Documentation](./SWARM_ORCHESTRATOR_README.md)** | **[Quick Start Guide](./QUICKSTART_SWARM.md)**
 
-## 🚀 `/ready` PR Automation (NEW!)
+## 🤖 SWARM Bot - Deployment Blocker Automation
 
-**Single-comment automation for PR processing:**
+**NEW**: Intelligent automation for deployment blockers - monitors, triages, and auto-fixes blocking issues!
 
 ```bash
-# In any PR comment, type:
-/ready
+# Install and run
+npm install
+npm run swarm-bot
 
-# This triggers:
-# 1. Mark PR ready (if draft)
-# 2. Squash merge to main
-# 3. Deploy to production
-# 4. Run smoke tests
+# Continuous monitoring
+npm run swarm-bot:monitor
 ```
 
-**VS Code Integration:**
-```json
-{
-  "label": "PR: /ready (auto-merge)",
-  "type": "shell",
-  "command": "gh pr comment ${input:prNumber} --body '/ready'"
-}
-```
+**What It Does:**
+- 🔍 **Monitors** issues with `deployment-blocker`, `critical`, `bug` labels
+- 🤖 **Auto-fixes** dependency updates, config errors, merge conflicts
+- 🚨 **Escalates** critical issues to maintainers
+- 📊 **Reports** actionable insights with Health Bot integration
+- 🎯 **Closes** stale issues automatically
+
+**Features:**
+- ✅ Integrates with Health Triage Bot for system health visibility
+- ✅ Auto-creates PRs for fixable issues
+- ✅ Provides guided resolution for complex problems
+- ✅ GitHub Actions workflow (runs every 15 minutes)
+- ✅ Comprehensive triage rules and auto-fix patterns
+
+📚 **[SWARM Bot Documentation](./SWARM_BOT_AUTOMATION.md)** | **[Quick Start](./SWARM_BOT_QUICKSTART.md)**
 
 ## 🤖 VS Studio Bot Setup (Quick Start)
 
@@ -169,35 +149,7 @@ pwsh VS_STUDIO_BOT_AUTOMATION.ps1     # VS Studio Bot automation
 
 📋 **[View Quick Reference Card](./QUICK_REFERENCE.md)**
 
-## �️ Security Analysis
-
-**Latest Security Audit Report (2025-10-01)**:
-
-### Risk Assessment: ⚠️ MEDIUM-HIGH → ✅ SECURED
-
-**Recently Patched Dependencies (20+ Updates)**:
-- ✅ **Backend**: certifi, motor, pandas, PyYAML, FastAPI group
-- ✅ **Grants-Bot**: pymongo, spacy, langchain, sendgrid
-- ✅ **Vault33**: loguru, python-telegram-bot, pydantic
-- ✅ **Frontend**: ESLint 9.36.0, concurrently 9.2.1
-
-**Automated Security Features**:
-- 🔐 **Dependabot Integration**: 26 automated dependency PRs created
-- 🛡️ **Security Audit Workflows**: Continuous vulnerability scanning
-- ⚡ **Auto-Patching**: Critical security updates applied automatically
-- 📊 **Security Reports**: Real-time vulnerability assessment
-
-**Environment Requirements**:
-```bash
-# Development environment setup
-Node.js 18+ LTS, Python 3.9+, GitHub CLI authenticated
-yarn audit --audit-level moderate
-pip-audit --desc
-```
-
-**Status**: All critical vulnerabilities patched. System secure for production.
-
-## �💼 Video Sales Page (VSP)
+## 💼 Video Sales Page (VSP)
 
 The **Video Sales Page** is a comprehensive business solution for client onboarding:
 
@@ -324,7 +276,7 @@ WIRED CHAOS includes a flexible video system where avatars are **completely opti
 import VideoPlayer from './components/VideoPlayer';
 
 // Video with avatar
-<VideoPlayer
+<VideoPlayer 
   video={{
     title: "Tutorial Video",
     url: "video.mp4",
@@ -333,7 +285,7 @@ import VideoPlayer from './components/VideoPlayer';
 />
 
 // Video without avatar - works perfectly
-<VideoPlayer
+<VideoPlayer 
   video={{
     title: "Community Video",
     url: "video.mp4",
@@ -342,7 +294,7 @@ import VideoPlayer from './components/VideoPlayer';
 />
 ```
 
-📖 **[Video System Documentation](./VIDEO_SYSTEM_README.md)**
+📖 **[Video System Documentation](./VIDEO_SYSTEM_README.md)**  
 📖 **[Complete Video API Documentation](./VIDEO_AVATAR_DOCUMENTATION.md)**
 
 ## 🎓 Multi-Chain NFT Certificates
@@ -387,19 +339,6 @@ Deployed globally on Cloudflare's edge network:
 
 WIRED CHAOS features comprehensive automation:
 
-### `/ready` PR Automation (NEW!)
-```bash
-# Single comment triggers complete pipeline:
-/ready  # → Mark Ready → Squash Merge → Deploy → Test
-```
-
-**25 Active GitHub Actions Workflows**:
-- 🚀 **comment-ready-merge.yml**: Single-comment automation
-- 🔐 **security-audit.yml**: Continuous vulnerability scanning
-- 📦 **dependabot.yml**: Automated dependency updates
-- ☁️ **deploy-frontend.yml** & **deploy-worker.yml**: Edge deployment
-- 🚨 **emergency-production.yml**: Zero-downtime deployments
-
 ### Master Automation (`RUN_MASTER_AUTOMATION.ps1`)
 - Complete environment setup
 - Security vulnerability fixes
@@ -421,7 +360,7 @@ WIRED CHAOS features comprehensive automation:
 - Configuration validation
 - Auto-fix capabilities
 
-📚 **[Automation Documentation](./AUTOMATION.md)** | 📋 **[VS Code Tasks Guide](./.vscode/tasks.json)**
+📚 **[Automation Documentation](./AUTOMATION_README.md)**
 
 ## 📊 Testing
 
@@ -452,12 +391,10 @@ pwsh SANITY_CHECK.ps1
 
 - 📖 **[Mega Prompt Integration Guide](./MEGA_PROMPT_INTEGRATION_GUIDE.md)** - Complete GIGA integration documentation
 - 📋 **[Quick Reference](./QUICK_REFERENCE.md)** - Quick reference card for developers
-- � **[PR Automation Guide](./AUTOMATION.md)** - `/ready` automation documentation
-- �🔧 **[Auto-Fix Patterns](./AUTO_FIX_PATTERNS.md)** - Common issues and solutions
-- 🤖 **[Automation Guide](./AUTOMATION_README.md)** - Master automation system documentation
-- 🛡️ **[Security Analysis](./SECURITY_ANALYSIS.md)** - Security patterns and vulnerability reports
+- 🔧 **[Auto-Fix Patterns](./AUTO_FIX_PATTERNS.md)** - Common issues and solutions
+- 🤖 **[Automation Guide](./AUTOMATION_README.md)** - Automation system documentation
+- 🛡️ **[Security Analysis](./SECURITY_ANALYSIS.md)** - Security patterns and analysis
 - 🚀 **[Deployment Guide](./DEPLOYMENT_REPORT.md)** - Deployment documentation
-- ⚙️ **[VS Code Tasks](./.vscode/tasks.json)** - Complete task automation reference
 
 ## 🎨 WIRED CHAOS Philosophy
 
@@ -487,6 +424,5 @@ MIT License - See LICENSE file for details
 
 **Powered by**: React • FastAPI • Cloudflare • Web3 • AR/VR • AI
 
-#   P R   A u t o m a t i o n   T e s t 
- 
+#   P R   A u t o m a t i o n   T e s t  
  

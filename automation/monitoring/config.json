@@ -1,0 +1,101 @@
+{
+  "monitoring": {
+    "enabled": true,
+    "version": "1.0.0",
+    "refresh_interval_seconds": 300,
+    "metrics": [
+      {
+        "name": "workflow_success_rate",
+        "type": "percentage",
+        "threshold": {
+          "warning": 90,
+          "critical": 80
+        },
+        "alert_on_breach": true
+      },
+      {
+        "name": "deck_generation_time",
+        "type": "duration_seconds",
+        "threshold": {
+          "warning": 40,
+          "critical": 60
+        },
+        "alert_on_breach": true
+      },
+      {
+        "name": "email_delivery_rate",
+        "type": "percentage",
+        "threshold": {
+          "warning": 95,
+          "critical": 90
+        },
+        "alert_on_breach": true
+      },
+      {
+        "name": "api_response_time",
+        "type": "duration_ms",
+        "threshold": {
+          "warning": 1000,
+          "critical": 2000
+        },
+        "alert_on_breach": true
+      },
+      {
+        "name": "error_rate",
+        "type": "percentage",
+        "threshold": {
+          "warning": 3,
+          "critical": 5
+        },
+        "alert_on_breach": true
+      }
+    ],
+    "thresholds": {
+      "success_rate_min": 95,
+      "response_time_max": 3000,
+      "error_rate_max": 5
+    },
+    "alerts": {
+      "discord": {
+        "enabled": true,
+        "webhook_url": "DISCORD_WEBHOOK_URL",
+        "mention_roles": ["@deployment-team"],
+        "severity_colors": {
+          "info": 3447003,
+          "warning": 16776960,
+          "critical": 15158332
+        }
+      },
+      "telegram": {
+        "enabled": true,
+        "bot_token": "TELEGRAM_BOT_TOKEN",
+        "chat_id": "TELEGRAM_CHAT_ID",
+        "parse_mode": "Markdown"
+      },
+      "email": {
+        "enabled": false,
+        "recipients": ["admin@wired-chaos.com"],
+        "smtp_config": {
+          "host": "smtp.example.com",
+          "port": 587,
+          "secure": true
+        }
+      }
+    },
+    "data_retention": {
+      "metrics_days": 90,
+      "logs_days": 30,
+      "alerts_days": 60
+    },
+    "dashboards": [
+      {
+        "name": "System Health",
+        "widgets": ["success_rate", "response_time", "error_rate"]
+      },
+      {
+        "name": "Pipeline Performance",
+        "widgets": ["deck_generation_time", "email_delivery_rate"]
+      }
+    ]
+  }
+}

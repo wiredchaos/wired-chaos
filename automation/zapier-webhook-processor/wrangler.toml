@@ -1,0 +1,14 @@
+name = "wired-chaos-zapier-webhook"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "wired-chaos-zapier-webhook-prod"
+route = "wired-chaos.pages.dev/api/zapier/*"
+
+[env.staging]
+name = "wired-chaos-zapier-webhook-staging"
+route = "staging.wired-chaos.pages.dev/api/zapier/*"
+
+[env.development]
+name = "wired-chaos-zapier-webhook-dev"
