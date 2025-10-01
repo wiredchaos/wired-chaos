@@ -8,6 +8,10 @@ pattern = "www.wiredchaos.xyz/school*"
 zone_name = "wiredchaos.xyz"
 
 [[routes]]
+pattern = "www.wiredchaos.xyz/vsp*"
+zone_name = "wiredchaos.xyz"
+
+[[routes]]
 pattern = "www.wiredchaos.xyz/suite*"
 zone_name = "wiredchaos.xyz"
 
