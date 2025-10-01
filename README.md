@@ -14,6 +14,7 @@
 - **🔐 Vault33 Gatekeeper**: NSA-level security with wallet gating and NDA signatures
 - **☁️ Cloudflare Edge**: Global deployment on Cloudflare Workers and Pages
 - **🤖 Automated Workflows**: Complete CI/CD with intelligent automation
+- **🎬 Video System**: Optional avatar linking for videos - works perfectly with or without creator avatars
 
 ## 🤖 VS Studio Bot Setup (Quick Start)
 
@@ -185,6 +186,43 @@ WIRED CHAOS features comprehensive AR/VR support:
   camera-controls auto-rotate>
 </model-viewer>
 ```
+
+## 🎬 Video System with Optional Avatar Linking
+
+WIRED CHAOS includes a flexible video system where avatars are **completely optional**:
+
+- ✅ Videos work perfectly with or without creator avatars
+- ✅ UI automatically adapts based on avatar presence
+- ✅ Avatars can be added, updated, or removed at any time
+- ✅ Clean display in both scenarios (no placeholders for missing avatars)
+- ✅ Configurable avatar position and size
+
+### Quick Example
+
+```jsx
+import VideoPlayer from './components/VideoPlayer';
+
+// Video with avatar
+<VideoPlayer 
+  video={{
+    title: "Tutorial Video",
+    url: "video.mp4",
+    avatar: "https://example.com/avatar.jpg" // ✅ Avatar included
+  }}
+/>
+
+// Video without avatar - works perfectly
+<VideoPlayer 
+  video={{
+    title: "Community Video",
+    url: "video.mp4",
+    avatar: null // ⚠️ No avatar - still works great
+  }}
+/>
+```
+
+📖 **[Video System Documentation](./VIDEO_SYSTEM_README.md)**  
+📖 **[Complete Video API Documentation](./VIDEO_AVATAR_DOCUMENTATION.md)**
 
 ## 🎓 Multi-Chain NFT Certificates
 
