@@ -1,0 +1,47 @@
+{
+  "name": "WIX to GAMMA Content Sync",
+  "description": "Automatically sync WIX content updates to GAMMA presentations",
+  "trigger": {
+    "app": "Webhooks by Zapier",
+    "event": "Catch Hook",
+    "config": {
+      "url": "https://hooks.zapier.com/hooks/catch/YOUR_HOOK_ID/",
+      "method": "POST"
+    }
+  },
+  "actions": [
+    {
+      "app": "Code by Zapier",
+      "event": "Run Javascript",
+      "config": {
+        "code": "// Transform WIX data to GAMMA format\nconst wixData = inputData.wixData;\n\nconst gammaContent = {\n  title: wixData.title,\n  slides: wixData.sections.map(section => ({\n    title: section.heading,\n    content: section.text,\n    media: section.mediaUrl\n  }))\n};\n\noutput = { gammaContent };"
+      }
+    },
+    {
+      "app": "Webhooks by Zapier",
+      "event": "POST",
+      "config": {
+        "url": "https://YOUR-WORKER.workers.dev/api/sync/wix-to-gamma",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer {{env.WIX_API_TOKEN}}",
+          "Content-Type": "application/json"
+        },
+        "body": "{{1.gammaContent}}"
+      }
+    },
+    {
+      "app": "Slack",
+      "event": "Send Channel Message",
+      "config": {
+        "channel": "#wired-chaos-sync",
+        "message": "✅ WIX content synced to GAMMA: {{inputData.wixData.title}}"
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "WIRED CHAOS Team",
+    "category": "Content Sync"
+  }
+}

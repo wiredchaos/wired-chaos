@@ -1,7 +1,22 @@
 name = "wix-gamma-integration"
-main = "integration-worker.js"
-compatibility_date = "2025-09-30"
+main = "integration-worker.ts"
+compatibility_date = "2024-09-30"
 workers_dev = true
+
+# Durable Objects
+[[durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+script_name = "wix-gamma-integration"
+
+[[durable_objects.bindings]]
+name = "AUDIT_LOGGER"
+class_name = "AuditLogger"
+script_name = "wix-gamma-integration"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RateLimiter", "AuditLogger"]
 
 # Production Environment
 [env.production]
@@ -23,6 +38,16 @@ id = "REPLACE_WITH_YOUR_SYNC_KV_ID"
 [[env.production.r2_buckets]]
 binding = "R2_BUCKET"
 bucket_name = "wired-chaos-ar-models"
+
+[[env.production.durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+script_name = "wix-gamma-integration-prod"
+
+[[env.production.durable_objects.bindings]]
+name = "AUDIT_LOGGER"
+class_name = "AuditLogger"
+script_name = "wix-gamma-integration-prod"
 
 [env.production.vars]
 ENVIRONMENT = "production"
@@ -47,6 +72,16 @@ id = "REPLACE_WITH_YOUR_STAGING_SYNC_KV_ID"
 [[env.staging.r2_buckets]]
 binding = "R2_BUCKET"
 bucket_name = "wired-chaos-ar-models-staging"
+
+[[env.staging.durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+script_name = "wix-gamma-integration-staging"
+
+[[env.staging.durable_objects.bindings]]
+name = "AUDIT_LOGGER"
+class_name = "AuditLogger"
+script_name = "wix-gamma-integration-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
