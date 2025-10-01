@@ -1,0 +1,379 @@
+name: 🤖 Wix AI Bot Automation
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - 'public/**'
+      - 'wix-gamma-integration/**'
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        type: choice
+        options:
+          - update_landing_page
+          - send_notification
+          - sync_content
+          - test_connection
+      message:
+        description: 'Custom message (optional)'
+        required: false
+        type: string
+
+jobs:
+  wix-ai-bot-integration:
+    name: Wix AI Bot Integration
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
+      github.event_name == 'push' ||
+      github.event_name == 'deployment_status' ||
+      github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🔍 Determine Event Context
+        id: context
+        run: |
+          echo "event_name=${{ github.event_name }}" >> $GITHUB_OUTPUT
+          
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "action=pr_merged" >> $GITHUB_OUTPUT
+            echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+            echo "pr_title=${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+            echo "pr_author=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "deployment_status" ]; then
+            echo "action=deployment" >> $GITHUB_OUTPUT
+            echo "deployment_state=${{ github.event.deployment_status.state }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "action=${{ github.event.inputs.action }}" >> $GITHUB_OUTPUT
+            echo "custom_message=${{ github.event.inputs.message }}" >> $GITHUB_OUTPUT
+          else
+            echo "action=push" >> $GITHUB_OUTPUT
+            echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 🤖 Call Wix AI Bot API - PR Merge
+        if: steps.context.outputs.action == 'pr_merged'
+        env:
+          WIX_API_TOKEN: ${{ secrets.WIX_API_TOKEN }}
+          WIX_SITE_ID: ${{ secrets.WIX_SITE_ID }}
+          WIX_AI_BOT_URL: ${{ secrets.WIX_AI_BOT_URL }}
+        run: |
+          echo "🔄 Triggering Wix AI Bot for PR merge event..."
+          
+          # Prepare payload
+          PAYLOAD=$(cat <<EOF
+          {
+            "event_type": "pr_merged",
+            "pr_number": "${{ steps.context.outputs.pr_number }}",
+            "pr_title": "${{ steps.context.outputs.pr_title }}",
+            "pr_author": "${{ steps.context.outputs.pr_author }}",
+            "repository": "${{ github.repository }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "action": "update_landing_page",
+            "site_id": "$WIX_SITE_ID"
+          }
+          EOF
+          )
+          
+          # Call Wix AI Bot endpoint with retry logic
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          SUCCESS=false
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ] && [ "$SUCCESS" = "false" ]; do
+            echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES..."
+            
+            RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+              "${WIX_AI_BOT_URL:-https://manage.wix.com/dashboard/7aa81323-433d-4763-b6dc-5d98d409c459/custom-agent}" \
+              -H "Authorization: Bearer ${WIX_API_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "$PAYLOAD" || echo -e "\n000")
+            
+            HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+            BODY=$(echo "$RESPONSE" | head -n-1)
+            
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "201" ] || [ "$HTTP_CODE" = "202" ]; then
+              echo "✅ Success! Wix AI Bot responded with status $HTTP_CODE"
+              echo "Response: $BODY"
+              SUCCESS=true
+            else
+              echo "⚠️  Request failed with status $HTTP_CODE"
+              echo "Response: $BODY"
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                echo "Retrying in 5 seconds..."
+                sleep 5
+              fi
+            fi
+          done
+          
+          if [ "$SUCCESS" = "false" ]; then
+            echo "❌ Failed to reach Wix AI Bot after $MAX_RETRIES attempts"
+            echo "wix_bot_status=failed" >> $GITHUB_ENV
+            exit 0  # Don't fail the workflow, just notify
+          else
+            echo "wix_bot_status=success" >> $GITHUB_ENV
+          fi
+      
+      - name: 🤖 Call Wix AI Bot API - Deployment
+        if: steps.context.outputs.action == 'deployment'
+        env:
+          WIX_API_TOKEN: ${{ secrets.WIX_API_TOKEN }}
+          WIX_SITE_ID: ${{ secrets.WIX_SITE_ID }}
+          WIX_AI_BOT_URL: ${{ secrets.WIX_AI_BOT_URL }}
+        run: |
+          echo "🚀 Triggering Wix AI Bot for deployment event..."
+          
+          PAYLOAD=$(cat <<EOF
+          {
+            "event_type": "deployment",
+            "deployment_state": "${{ steps.context.outputs.deployment_state }}",
+            "environment": "${{ github.event.deployment.environment }}",
+            "repository": "${{ github.repository }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "action": "send_notification",
+            "site_id": "$WIX_SITE_ID"
+          }
+          EOF
+          )
+          
+          curl -X POST \
+            "${WIX_AI_BOT_URL:-https://manage.wix.com/dashboard/7aa81323-433d-4763-b6dc-5d98d409c459/custom-agent}" \
+            -H "Authorization: Bearer ${WIX_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" || echo "⚠️  Notification failed (non-blocking)"
+      
+      - name: 🤖 Call Wix AI Bot API - Manual Action
+        if: steps.context.outputs.action == 'update_landing_page' || steps.context.outputs.action == 'send_notification' || steps.context.outputs.action == 'sync_content' || steps.context.outputs.action == 'test_connection'
+        env:
+          WIX_API_TOKEN: ${{ secrets.WIX_API_TOKEN }}
+          WIX_SITE_ID: ${{ secrets.WIX_SITE_ID }}
+          WIX_AI_BOT_URL: ${{ secrets.WIX_AI_BOT_URL }}
+        run: |
+          echo "🎯 Triggering Wix AI Bot for manual action: ${{ steps.context.outputs.action }}"
+          
+          PAYLOAD=$(cat <<EOF
+          {
+            "event_type": "manual",
+            "action": "${{ steps.context.outputs.action }}",
+            "message": "${{ steps.context.outputs.custom_message }}",
+            "repository": "${{ github.repository }}",
+            "triggered_by": "${{ github.actor }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "site_id": "$WIX_SITE_ID"
+          }
+          EOF
+          )
+          
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            "${WIX_AI_BOT_URL:-https://manage.wix.com/dashboard/7aa81323-433d-4763-b6dc-5d98d409c459/custom-agent}" \
+            -H "Authorization: Bearer ${WIX_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          
+          echo "Response Status: $HTTP_CODE"
+          echo "Response Body: $BODY"
+          
+          if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "201" ] || [ "$HTTP_CODE" = "202" ]; then
+            echo "✅ Action completed successfully"
+          else
+            echo "⚠️  Action may have failed (status: $HTTP_CODE)"
+          fi
+      
+      - name: 📊 Update Integration Worker
+        if: steps.context.outputs.action == 'pr_merged'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "📡 Notifying integration worker about PR merge..."
+          
+          # Call our own integration worker webhook endpoint
+          curl -X POST \
+            "https://wired-chaos.pages.dev/api/wix/webhook" \
+            -H "Authorization: Bearer ${WIX_API_TOKEN:-demo-token}" \
+            -H "Content-Type: application/json" \
+            -H "X-GitHub-Event: pull_request" \
+            -d "{
+              \"action\": \"closed\",
+              \"pull_request\": {
+                \"merged\": true,
+                \"number\": ${{ steps.context.outputs.pr_number }},
+                \"title\": \"${{ steps.context.outputs.pr_title }}\"
+              }
+            }" || echo "⚠️  Worker notification failed (non-blocking)"
+      
+      - name: 🔔 Send Fallback Notification - Discord
+        if: always() && env.wix_bot_status == 'failed'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -n "$DISCORD_WEBHOOK_URL" ]; then
+            echo "📢 Sending failure alert to Discord..."
+            
+            curl -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"embeds\": [{
+                  \"title\": \"⚠️  Wix AI Bot Integration Alert\",
+                  \"description\": \"Failed to communicate with Wix AI Bot after multiple retries.\",
+                  \"color\": 15158332,
+                  \"fields\": [
+                    {
+                      \"name\": \"Event\",
+                      \"value\": \"${{ steps.context.outputs.action }}\",
+                      \"inline\": true
+                    },
+                    {
+                      \"name\": \"Repository\",
+                      \"value\": \"${{ github.repository }}\",
+                      \"inline\": true
+                    },
+                    {
+                      \"name\": \"Triggered By\",
+                      \"value\": \"${{ github.actor }}\",
+                      \"inline\": true
+                    }
+                  ],
+                  \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+                }]
+              }"
+          fi
+      
+      - name: 📱 Send Fallback Notification - Telegram
+        if: always() && env.wix_bot_status == 'failed'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+            echo "📢 Sending failure alert to Telegram..."
+            
+            MESSAGE="⚠️ *Wix AI Bot Integration Alert*\n\nFailed to communicate with Wix AI Bot\n\n• Event: ${{ steps.context.outputs.action }}\n• Repository: ${{ github.repository }}\n• Triggered By: ${{ github.actor }}"
+            
+            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+              -d "chat_id=${TELEGRAM_CHAT_ID}" \
+              -d "text=${MESSAGE}" \
+              -d "parse_mode=Markdown"
+          fi
+      
+      - name: ✅ Success Notification
+        if: success() && env.wix_bot_status == 'success'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          echo "🎉 Wix AI Bot integration completed successfully!"
+          
+          if [ -n "$DISCORD_WEBHOOK_URL" ]; then
+            curl -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"embeds\": [{
+                  \"title\": \"✅ Wix AI Bot Integration Success\",
+                  \"description\": \"Successfully triggered Wix AI Bot automation.\",
+                  \"color\": 3066993,
+                  \"fields\": [
+                    {
+                      \"name\": \"Event\",
+                      \"value\": \"${{ steps.context.outputs.action }}\",
+                      \"inline\": true
+                    },
+                    {
+                      \"name\": \"Repository\",
+                      \"value\": \"${{ github.repository }}\",
+                      \"inline\": true
+                    }
+                  ],
+                  \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+                }]
+              }" || true
+          fi
+      
+      - name: 📝 Generate Report
+        if: always()
+        run: |
+          cat > wix-ai-bot-report.md <<EOF
+          # 🤖 Wix AI Bot Automation Report
+          
+          **Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Event Type:** ${{ steps.context.outputs.action }}
+          **Status:** ${wix_bot_status:-pending}
+          **Workflow Run:** [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          
+          ## Event Details
+          
+          - **Repository:** ${{ github.repository }}
+          - **Branch:** ${{ github.ref_name }}
+          - **Commit SHA:** ${{ github.sha }}
+          - **Triggered By:** ${{ github.actor }}
+          - **Event Name:** ${{ github.event_name }}
+          
+          ## Integration Status
+          
+          - Wix AI Bot URL: \${WIX_AI_BOT_URL:-https://manage.wix.com/dashboard/7aa81323-433d-4763-b6dc-5d98d409c459/custom-agent}
+          - Wix Site ID: ${WIX_SITE_ID:-[Not configured]}
+          - Status: ${wix_bot_status:-pending}
+          
+          ## Actions Taken
+          
+          EOF
+          
+          if [ "${{ steps.context.outputs.action }}" = "pr_merged" ]; then
+            cat >> wix-ai-bot-report.md <<EOF
+          1. ✅ PR #${{ steps.context.outputs.pr_number }} merged detected
+          2. 🔄 Landing page update triggered
+          3. 📡 Integration worker notified
+          4. 📢 Notifications sent
+          EOF
+          elif [ "${{ steps.context.outputs.action }}" = "deployment" ]; then
+            cat >> wix-ai-bot-report.md <<EOF
+          1. 🚀 Deployment status: ${{ steps.context.outputs.deployment_state }}
+          2. 📢 Notification sent to Wix AI Bot
+          EOF
+          else
+            cat >> wix-ai-bot-report.md <<EOF
+          1. 🎯 Manual action: ${{ steps.context.outputs.action }}
+          2. 🤖 Wix AI Bot triggered
+          EOF
+          fi
+          
+          cat >> wix-ai-bot-report.md <<EOF
+          
+          ## Monitoring
+          
+          - Check Wix dashboard: https://manage.wix.com/dashboard/7aa81323-433d-4763-b6dc-5d98d409c459
+          - View worker logs: \`wrangler tail\`
+          - Discord notifications: ${DISCORD_WEBHOOK_URL:+Configured}${DISCORD_WEBHOOK_URL:-Not configured}
+          - Telegram notifications: ${TELEGRAM_BOT_TOKEN:+Configured}${TELEGRAM_BOT_TOKEN:-Not configured}
+          
+          ---
+          
+          **WIRED CHAOS** - Automated with ❤️
+          EOF
+          
+          cat wix-ai-bot-report.md
+      
+      - name: 📤 Upload Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wix-ai-bot-report
+          path: wix-ai-bot-report.md
+          retention-days: 30

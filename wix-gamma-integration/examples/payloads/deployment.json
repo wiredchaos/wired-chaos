@@ -1,0 +1,26 @@
+{
+  "event_type": "deployment",
+  "deployment_state": "success",
+  "environment": "production",
+  "repository": "wiredchaos/wired-chaos",
+  "timestamp": "2024-01-15T10:35:00Z",
+  "action": "send_notification",
+  "site_id": "7aa81323-433d-4763-b6dc-5d98d409c459",
+  "data": {
+    "message": "🎉 Production deployment completed successfully!",
+    "type": "success",
+    "metadata": {
+      "deployment_id": "dep_12345",
+      "workflow_run": "https://github.com/wiredchaos/wired-chaos/actions/runs/67890",
+      "commit_sha": "abc123def456",
+      "deployed_by": "github-actions",
+      "duration_seconds": 180,
+      "services_deployed": [
+        "frontend",
+        "integration-worker",
+        "wix-gamma-integration"
+      ]
+    },
+    "timestamp": "2024-01-15T10:35:00Z"
+  }
+}
