@@ -14,12 +14,17 @@
     use the default feeds.opml with placeholder URLs.
     
     To use these feeds:
-    python src/orchestrator.py --opml-file feeds.opml.example
+    python src/orchestrator.py (with opml-file parameter feeds.opml.example)
     
     Note: If you're behind a firewall or in a restricted environment,
     these feeds may not be accessible. The pipeline will continue to work
     and simply skip any feeds that fail to load.
     -->
+    
+    <outline text="589 / LLM ML Swarm" title="589 / LLM ML Swarm">
+      <!-- Distributed agreement concepts for 589-related integrations -->
+      <outline type="rss" text="Distributed Agreement" xmlUrl="https://distributedagreement.com/feed.xml" htmlUrl="https://distributedagreement.com/"/>
+    </outline>
     
     <outline text="Tech News" title="Tech News">
       <!-- Note: These feeds may be blocked in some environments -->
