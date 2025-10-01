@@ -1,4 +1,4 @@
-﻿name: ðŸ“ Content Sync & Social Automation
+name: 📝 Content Sync & Social Automation
 
 on:
   push:
@@ -26,45 +26,56 @@ jobs:
 
     - name: Notion Content Sync
       run: |
-        echo "ðŸ”„ Syncing content from Notion..."
-        # Add Notion API sync logic here
-        curl -X POST "https://api.notion.com/v1/databases/${{ secrets.NOTION_DATABASE_ID }}/query" \
-          -H "Authorization: Bearer ${{ secrets.NOTION_API_KEY }}" \
-          -H "Notion-Version: 2022-06-28" \
-          -H "Content-Type: application/json"
+        echo "🔄 Syncing content from Notion..."
+        if [ -n "${{ secrets.NOTION_API_KEY }}" ] && [ -n "${{ secrets.NOTION_DATABASE_ID }}" ]; then
+          curl -X POST "https://api.notion.com/v1/databases/${{ secrets.NOTION_DATABASE_ID }}/query" \
+            -H "Authorization: Bearer ${{ secrets.NOTION_API_KEY }}" \
+            -H "Notion-Version: 2022-06-28" \
+            -H "Content-Type: application/json"
+          echo "✅ Notion sync completed"
+        else
+          echo "⚠️  Notion credentials not configured, skipping sync"
+        fi
       continue-on-error: true
 
     - name: Social Media Automation
       run: |
-        echo "ðŸ“± Processing social media automation..."
+        echo "📱 Processing social media automation..."
         # Twitter/X posting
-        if [ ! -z "${{ secrets.X_API_KEY }}" ]; then
+        if [ -n "${{ secrets.X_API_KEY }}" ]; then
           echo "Posting to X/Twitter..."
           # Add X API logic here
+        else
+          echo "⚠️  X/Twitter credentials not configured, skipping"
         fi
         
         # LinkedIn posting  
-        if [ ! -z "${{ secrets.LINKEDIN_ACCESS_TOKEN }}" ]; then
+        if [ -n "${{ secrets.LINKEDIN_ACCESS_TOKEN }}" ]; then
           echo "Posting to LinkedIn..."
           # Add LinkedIn API logic here
+        else
+          echo "⚠️  LinkedIn credentials not configured, skipping"
         fi
         
         # Discord notification
-        if [ ! -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+        if [ -n "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
           echo "Sending Discord notification..."
           curl -H "Content-Type: application/json" \
-            -d '{"content":"ðŸš€ WIRED CHAOS content updated and synced!"}' \
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+            -d '{"content":"🚀 WIRED CHAOS content updated and synced!"}' \
+            "${{ secrets.DISCORD_WEBHOOK_URL }}" || echo "⚠️  Discord notification failed"
+          echo "✅ Discord notification sent"
+        else
+          echo "⚠️  Discord webhook not configured, skipping notification"
         fi
       continue-on-error: true
 
     - name: Update Worker KV
       run: |
-        echo "ðŸ”„ Updating Cloudflare Worker KV..."
+        echo "🔄 Updating Cloudflare Worker KV..."
         # Add KV update logic here
       continue-on-error: true
         
     - name: Completion Status
       run: |
-        echo "âœ… Content sync and social automation completed!"
-        echo "ðŸ“Š Check your social media platforms for updates"
+        echo "✅ Content sync and social automation completed!"
+        echo "📊 Check your social media platforms for updates"
