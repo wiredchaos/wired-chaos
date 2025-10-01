@@ -15,6 +15,19 @@ npm run backend:dev           # Start FastAPI server (port 8000)
 npm run frontend:build        # Build for production
 ```
 
+### Video System (NEW)
+```bash
+# Backend API
+python backend/server.py      # Start video API server
+
+# Test video system
+python test_video_avatar.py   # Run video avatar tests
+
+# See documentation
+cat VIDEO_QUICKSTART.md       # Quick start guide
+cat VIDEO_AVATAR_DOCUMENTATION.md  # Complete documentation
+```
+
 ### Validation
 ```powershell
 .\SANITY_CHECK.ps1           # Check environment
