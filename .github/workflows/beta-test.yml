@@ -147,7 +147,7 @@ jobs:
         EOF
 
     - name: Upload BETA Test Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: beta-test-report
         path: beta_test_report.md
