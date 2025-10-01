@@ -1,0 +1,11 @@
+﻿{
+  "github.copilot.inlineSuggest.enable": true,
+  "github.copilot.chat.experimental.model": "gpt-4o",
+  "wiredChaos.contextDocs": [
+    ".copilot/wired-chaos-context.md",
+    ".copilot/autofix-patterns.md",
+    ".copilot/security-patterns.md",
+    ".copilot/ar-vr-config.md",
+    ".copilot/color-palette.md"
+  ]
+}
