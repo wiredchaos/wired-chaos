@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>WIRED CHAOS RSS Feeds - Real Feed Examples</title>
+    <dateCreated>2024-01-01T00:00:00Z</dateCreated>
+    <docs>https://github.com/wiredchaos/wired-chaos</docs>
+  </head>
+  <body>
+    <!--
+    EXAMPLE RSS FEEDS
+    
+    These are example RSS feeds you can use. Some may be blocked by firewalls
+    or require network access. For local testing without external dependencies,
+    use the default feeds.opml with placeholder URLs.
+    
+    To use these feeds:
+    python src/orchestrator.py --opml-file feeds.opml.example
+    
+    Note: If you're behind a firewall or in a restricted environment,
+    these feeds may not be accessible. The pipeline will continue to work
+    and simply skip any feeds that fail to load.
+    -->
+    
+    <outline text="Tech News" title="Tech News">
+      <!-- Note: These feeds may be blocked in some environments -->
+      <outline type="rss" text="Example Tech Feed" xmlUrl="https://example.com/tech/feed.xml" htmlUrl="https://example.com/tech/"/>
+    </outline>
+    
+    <outline text="Web3 and Crypto" title="Web3 and Crypto">
+      <outline type="rss" text="Example Crypto Feed" xmlUrl="https://example.org/crypto/rss" htmlUrl="https://example.org/crypto/"/>
+    </outline>
+    
+    <outline text="Your Custom Feeds" title="Your Custom Feeds">
+      <!-- Add your own RSS feed URLs here -->
+      <outline type="rss" text="Your Blog" xmlUrl="https://yourblog.com/feed.xml" htmlUrl="https://yourblog.com/"/>
+    </outline>
+  </body>
+</opml>

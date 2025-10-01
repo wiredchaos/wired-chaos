@@ -1,0 +1,241 @@
+/* VR Lobby Styles */
+
+.vr-lobby-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #000000 0%, #1a0066 50%, #000000 100%);
+  color: #FFFFFF;
+  padding: 2rem;
+}
+
+.lobby-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.lobby-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  background: linear-gradient(90deg, #00FFFF, #FF00FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lobby-subtitle {
+  font-size: 1.2rem;
+  color: #00FFFF;
+  letter-spacing: 0.1rem;
+}
+
+.vr-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.vr-button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: 2px solid #00FFFF;
+  background: rgba(0, 255, 255, 0.1);
+  color: #00FFFF;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  letter-spacing: 0.05rem;
+}
+
+.vr-button:hover {
+  background: rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.vr-button.active {
+  background: rgba(255, 49, 49, 0.2);
+  border-color: #FF3131;
+  color: #FF3131;
+}
+
+.vr-button.external {
+  border-color: #39FF14;
+  color: #39FF14;
+  background: rgba(57, 255, 20, 0.1);
+}
+
+.vr-button.external:hover {
+  background: rgba(57, 255, 20, 0.3);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+}
+
+.vr-embed-container {
+  max-width: 1400px;
+  margin: 0 auto 3rem auto;
+}
+
+.vr-frame-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background: #000;
+  border: 2px solid #00FFFF;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+.vr-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.vr-instructions {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(0, 255, 255, 0.1);
+  border: 2px solid #00FFFF;
+  border-radius: 10px;
+}
+
+.vr-instructions h3 {
+  color: #00FFFF;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.vr-instructions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.vr-instructions li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.vr-instructions li::before {
+  content: '▶';
+  position: absolute;
+  left: 0;
+  color: #39FF14;
+}
+
+.vr-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 3rem auto;
+}
+
+.vr-feature-card {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid #00FFFF;
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.vr-feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+  border-color: #FF00FF;
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.vr-feature-card h3 {
+  color: #00FFFF;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.vr-feature-card p {
+  color: #FFFFFF;
+  opacity: 0.9;
+}
+
+.lobby-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 3rem auto;
+}
+
+.info-section {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #39FF14;
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+.info-section h2 {
+  color: #39FF14;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.spaces-list,
+.specs-list {
+  list-style: none;
+  padding: 0;
+}
+
+.spaces-list li {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background: rgba(0, 255, 255, 0.05);
+  border-left: 3px solid #00FFFF;
+  border-radius: 5px;
+}
+
+.space-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.specs-list li {
+  padding: 0.8rem 0;
+  color: #FFFFFF;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .lobby-title {
+    font-size: 2.5rem;
+  }
+
+  .vr-controls {
+    flex-direction: column;
+  }
+
+  .vr-button {
+    width: 100%;
+  }
+
+  .vr-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lobby-info {
+    grid-template-columns: 1fr;
+  }
+}

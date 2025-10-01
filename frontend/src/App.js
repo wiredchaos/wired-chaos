@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { MotherboardHub } from "./components/MotherboardUI";
@@ -13,6 +13,8 @@ import featureFlags, { FEATURES } from "./config/featureFlags";
 import { BACKEND_URL, API_URL } from "./config/env";
 import axios from "axios";
 import { getSuiteUrl } from "./utils/env";
+import { StudentUnion, VRLobby, ConsignmentStore, ProductDashboard, AdminPanel } from "./components/StudentUnion";
+import GrantsForFounders from "./components/GrantsForFounders";
 
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
@@ -1634,7 +1636,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
+          {/* Firewall: Redirect root to school for audience selection */}
+          <Route path="/" element={<Navigate to="/school" replace />} />
+          <Route path="/motherboard" element={
             FEATURES.motherboardUI && !featureFlags.useLegacyHub ? 
               <React.Suspense fallback={<div className="loading-spinner"><div className="spinner"></div><p>Loading WIRED CHAOS...</p></div>}>
                 <Motherboard />
@@ -1655,6 +1659,19 @@ function App() {
           <Route path="/merch" element={<NeuroMetaXPage />} />
           <Route path="/school" element={<SchoolPage />} />
           <Route path="/tax" element={<TaxSuite />} />
+          
+          {/* Student Union Digital Campus Routes */}
+          <Route path="/university/student-union" element={<StudentUnion />} />
+          <Route path="/university/student-union/lobby" element={<VRLobby />} />
+          <Route path="/university/student-union/stores" element={<ConsignmentStore />} />
+          <Route path="/university/student-union/arcade" element={<StudentUnion />} />
+          <Route path="/university/student-union/events" element={<StudentUnion />} />
+          <Route path="/university/student-union/cafe" element={<StudentUnion />} />
+          <Route path="/university/student-union/profiles" element={<ProductDashboard />} />
+          <Route path="/university/student-union/admin" element={<AdminPanel />} />
+          
+          {/* Educational Courses */}
+          <Route path="/university/edu/grants-for-founders" element={<GrantsForFounders />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />
