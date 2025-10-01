@@ -65,6 +65,53 @@ class VaultUserStats(BaseModel):
     last_activity: str | None = None
     tier: str = "Seeker"
 
+# Video Models
+class VideoMetadata(BaseModel):
+    width: int | None = None
+    height: int | None = None
+    format: str | None = None
+    codec: str | None = None
+    bitrate: int | None = None
+    file_size: int | None = None
+
+class Video(BaseModel):
+    """
+    Video model with optional avatar linking.
+    The avatar_url field is optional - not all videos require an associated avatar.
+    """
+    id: str
+    title: str
+    description: str | None = None
+    video_url: str
+    thumbnail_url: str | None = None
+    avatar_url: str | None = None  # Optional: videos can exist without avatars
+    duration: int | None = None  # in seconds
+    uploaded_by: str
+    uploaded_at: str
+    updated_at: str | None = None
+    tags: list[str] = []
+    status: str = "published"  # draft, processing, published, archived
+    views: int = 0
+    metadata: VideoMetadata | None = None
+
+class VideoCreateRequest(BaseModel):
+    title: str
+    description: str | None = None
+    video_url: str
+    thumbnail_url: str | None = None
+    avatar_url: str | None = None  # Optional avatar
+    duration: int | None = None
+    tags: list[str] = []
+    metadata: VideoMetadata | None = None
+
+class VideoUpdateRequest(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    thumbnail_url: str | None = None
+    avatar_url: str | None = None  # Can add, update, or remove avatar
+    tags: list[str] | None = None
+    status: str | None = None
+
 async def llm_complete(prompt: str) -> str:
     # If no LLM key, return stubbed content (so dev isn't blocked).
     if not OPENAI_KEY:
@@ -239,6 +286,152 @@ async def blog_proxy():
         }
     except Exception as e:
         return {"error": "Blog feed temporarily unavailable", "details": str(e)}
+
+# Video API Endpoints
+# In-memory storage for demo purposes (use database in production)
+videos_store = {}
+
+@app.get("/api/videos")
+async def list_videos(status: str | None = None, has_avatar: bool | None = None):
+    """
+    List all videos with optional filtering
+    - status: Filter by video status (draft, processing, published, archived)
+    - has_avatar: Filter videos by avatar presence (true/false)
+    """
+    result = list(videos_store.values())
+    
+    # Filter by status if provided
+    if status:
+        result = [v for v in result if v.get("status") == status]
+    
+    # Filter by avatar presence if specified
+    if has_avatar is not None:
+        if has_avatar:
+            result = [v for v in result if v.get("avatar_url")]
+        else:
+            result = [v for v in result if not v.get("avatar_url")]
+    
+    return {
+        "videos": result,
+        "count": len(result),
+        "has_avatar_filter": has_avatar
+    }
+
+@app.get("/api/videos/{video_id}")
+async def get_video(video_id: str):
+    """
+    Get a specific video by ID
+    Returns the video with its optional avatar_url field
+    """
+    if video_id not in videos_store:
+        return {"error": "Video not found"}, 404
+    
+    video = videos_store[video_id]
+    return {
+        "video": video,
+        "has_avatar": bool(video.get("avatar_url"))
+    }
+
+@app.post("/api/videos", response_model=Video)
+async def create_video(video_data: VideoCreateRequest):
+    """
+    Create a new video
+    The avatar_url is optional - videos can be created without an avatar
+    """
+    import uuid
+    
+    video_id = str(uuid.uuid4())
+    video = {
+        "id": video_id,
+        "title": video_data.title,
+        "description": video_data.description,
+        "video_url": video_data.video_url,
+        "thumbnail_url": video_data.thumbnail_url,
+        "avatar_url": video_data.avatar_url,  # Optional field
+        "duration": video_data.duration,
+        "uploaded_by": "system",  # Should come from auth context
+        "uploaded_at": datetime.datetime.utcnow().isoformat(),
+        "updated_at": None,
+        "tags": video_data.tags,
+        "status": "published",
+        "views": 0,
+        "metadata": video_data.metadata.dict() if video_data.metadata else None
+    }
+    
+    videos_store[video_id] = video
+    return video
+
+@app.put("/api/videos/{video_id}")
+async def update_video(video_id: str, update_data: VideoUpdateRequest):
+    """
+    Update a video
+    Can add, update, or remove the avatar_url (set to null to remove)
+    """
+    if video_id not in videos_store:
+        return {"error": "Video not found"}, 404
+    
+    video = videos_store[video_id]
+    
+    # Update only provided fields
+    if update_data.title is not None:
+        video["title"] = update_data.title
+    if update_data.description is not None:
+        video["description"] = update_data.description
+    if update_data.thumbnail_url is not None:
+        video["thumbnail_url"] = update_data.thumbnail_url
+    # Allow explicit avatar update/removal
+    if update_data.avatar_url is not None:
+        video["avatar_url"] = update_data.avatar_url
+    if update_data.tags is not None:
+        video["tags"] = update_data.tags
+    if update_data.status is not None:
+        video["status"] = update_data.status
+    
+    video["updated_at"] = datetime.datetime.utcnow().isoformat()
+    
+    videos_store[video_id] = video
+    return {
+        "video": video,
+        "message": "Video updated successfully"
+    }
+
+@app.delete("/api/videos/{video_id}")
+async def delete_video(video_id: str):
+    """Delete a video"""
+    if video_id not in videos_store:
+        return {"error": "Video not found"}, 404
+    
+    del videos_store[video_id]
+    return {"message": "Video deleted successfully"}
+
+@app.post("/api/videos/{video_id}/views")
+async def increment_video_views(video_id: str):
+    """Increment video view count"""
+    if video_id not in videos_store:
+        return {"error": "Video not found"}, 404
+    
+    videos_store[video_id]["views"] += 1
+    return {
+        "video_id": video_id,
+        "views": videos_store[video_id]["views"]
+    }
+
+@app.get("/api/videos/stats/summary")
+async def get_video_stats():
+    """
+    Get video statistics including avatar usage
+    Shows how many videos have avatars vs those without
+    """
+    total_videos = len(videos_store)
+    videos_with_avatars = sum(1 for v in videos_store.values() if v.get("avatar_url"))
+    videos_without_avatars = total_videos - videos_with_avatars
+    
+    return {
+        "total_videos": total_videos,
+        "videos_with_avatars": videos_with_avatars,
+        "videos_without_avatars": videos_without_avatars,
+        "avatar_usage_percentage": (videos_with_avatars / total_videos * 100) if total_videos > 0 else 0
+    }
 
 if __name__ == "__main__":
     import uvicorn

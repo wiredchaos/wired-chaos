@@ -288,3 +288,61 @@ export interface CollaborationChange {
   data: any;
   conflictsWith?: string[];
 }
+
+// ========== Video Types ==========
+/**
+ * Video content with optional avatar linking
+ * The avatarUrl field is optional - not all videos require an associated avatar
+ */
+export interface Video {
+  id: string;
+  title: string;
+  description?: string;
+  videoUrl: string;
+  thumbnailUrl?: string;
+  /** Optional avatar URL - videos can exist without an avatar */
+  avatarUrl?: string;
+  duration?: number; // in seconds
+  uploadedBy: string;
+  uploadedAt: Date;
+  updatedAt?: Date;
+  tags?: string[];
+  status: 'draft' | 'processing' | 'published' | 'archived';
+  views?: number;
+  metadata?: VideoMetadata;
+}
+
+export interface VideoMetadata {
+  width?: number;
+  height?: number;
+  format?: string;
+  codec?: string;
+  bitrate?: number;
+  fileSize?: number;
+}
+
+/**
+ * Video collection for organizing videos
+ */
+export interface VideoCollection {
+  id: string;
+  name: string;
+  description?: string;
+  videos: string[]; // Video IDs
+  createdBy: string;
+  createdAt: Date;
+  updatedAt?: Date;
+  isPublic: boolean;
+}
+
+/**
+ * Video playback session
+ */
+export interface VideoSession {
+  id: string;
+  videoId: string;
+  userId?: string;
+  startedAt: Date;
+  currentTime: number;
+  completed: boolean;
+}

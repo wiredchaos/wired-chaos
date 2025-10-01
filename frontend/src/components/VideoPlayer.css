@@ -1,0 +1,184 @@
+/* VideoPlayer.css - WIRED CHAOS Video Component Styles */
+
+.video-player {
+  background: #000000;
+  border: 2px solid #00FFFF;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem 0;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.video-player:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+  border-color: #39FF14;
+}
+
+/* Video Header with Optional Avatar */
+.video-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  border-bottom: 1px solid #00FFFF;
+}
+
+.video-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+/* Avatar styling - only visible when avatarUrl is provided */
+.video-avatar {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #00FFFF;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* When no avatar, the video-info adjusts naturally */
+.video-meta {
+  flex: 1;
+}
+
+.video-title {
+  color: #00FFFF;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.video-uploader {
+  color: #39FF14;
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0 0;
+}
+
+.video-duration {
+  color: #FF00FF;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 0, 255, 0.1);
+  border: 1px solid #FF00FF;
+  border-radius: 4px;
+}
+
+/* Video Container */
+.video-container {
+  position: relative;
+  width: 100%;
+  background: #000000;
+}
+
+.video-element {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #000000;
+}
+
+/* Video Description */
+.video-description {
+  padding: 1rem;
+  background: #0a0a0a;
+  border-top: 1px solid #00FFFF33;
+}
+
+.video-description p {
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Tags */
+.video-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #0a0a0a;
+  border-top: 1px solid #00FFFF33;
+}
+
+.video-tag {
+  color: #39FF14;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid #39FF14;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.video-tag:hover {
+  background: rgba(57, 255, 20, 0.2);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+/* Debug Info (development only) */
+.video-debug-info {
+  padding: 0.5rem 1rem;
+  background: #1a1a1a;
+  border-top: 1px solid #00FFFF33;
+  text-align: center;
+}
+
+.video-debug-info small {
+  color: #FF00FF;
+  font-family: monospace;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .video-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .video-info {
+    width: 100%;
+  }
+
+  .video-duration {
+    align-self: flex-end;
+  }
+
+  .video-title {
+    font-size: 1rem;
+  }
+}
+
+/* Loading State */
+.video-player.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.video-player.loading::after {
+  content: "Loading...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #00FFFF;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+/* Error State */
+.video-player.error {
+  border-color: #FF3131;
+}
+
+.video-player.error .video-header {
+  background: linear-gradient(135deg, #330000 0%, #1a0000 100%);
+  border-bottom-color: #FF3131;
+}
