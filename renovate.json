@@ -1,0 +1,135 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":enablePreCommit",
+    "group:monorepos",
+    "group:recommended",
+    "workarounds:all"
+  ],
+  "timezone": "America/New_York",
+  "schedule": [
+    "before 10am on monday"
+  ],
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "assignees": [
+    "wiredchaos"
+  ],
+  "reviewers": [
+    "wiredchaos"
+  ],
+  "prConcurrentLimit": 10,
+  "prCreation": "immediate",
+  "prHourlyLimit": 0,
+  "rebaseWhen": "behind-base-branch",
+  "automerge": false,
+  "major": {
+    "automerge": false
+  },
+  "minor": {
+    "automerge": false
+  },
+  "patch": {
+    "automerge": false
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": false,
+    "schedule": [
+      "before 10am on monday"
+    ]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security",
+      "dependencies"
+    ],
+    "assignees": [
+      "wiredchaos"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "Group all Radix UI packages together",
+      "groupName": "Radix UI packages",
+      "matchPackagePatterns": [
+        "^@radix-ui/"
+      ]
+    },
+    {
+      "description": "Group React ecosystem packages",
+      "groupName": "React ecosystem",
+      "matchPackagePatterns": [
+        "^react",
+        "^@react-three/"
+      ]
+    },
+    {
+      "description": "Group Google API packages",
+      "groupName": "Google API packages",
+      "matchPackagePatterns": [
+        "^google-"
+      ]
+    },
+    {
+      "description": "Group FastAPI ecosystem",
+      "groupName": "FastAPI ecosystem",
+      "matchPackageNames": [
+        "fastapi",
+        "starlette",
+        "pydantic",
+        "pydantic-core",
+        "uvicorn"
+      ]
+    },
+    {
+      "description": "Separate security updates",
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "matchDatasources": [
+        "npm",
+        "pypi"
+      ],
+      "labels": [
+        "security",
+        "dependencies"
+      ],
+      "automerge": false
+    },
+    {
+      "description": "Pin specific critical packages for stability",
+      "matchPackageNames": [
+        "certifi",
+        "cryptography",
+        "urllib3"
+      ],
+      "matchDatasources": [
+        "pypi"
+      ],
+      "enabled": true,
+      "rangeStrategy": "pin"
+    }
+  ],
+  "npm": {
+    "minimumReleaseAge": "3 days"
+  },
+  "pypi": {
+    "minimumReleaseAge": "3 days"
+  },
+  "ignoreDeps": [],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/__pycache__/**",
+    "**/venv/**",
+    "**/.venv/**"
+  ]
+}
