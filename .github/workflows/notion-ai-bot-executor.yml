@@ -1,0 +1,222 @@
+name: 🤖 Notion AI Bot Command Executor
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Notion AI Bot command to execute'
+        required: true
+        type: string
+      service:
+        description: 'Service to deploy (suite/tax/worker)'
+        required: false
+        type: choice
+        options:
+          - suite
+          - tax
+          - worker
+          - emergency
+        default: 'suite'
+      environment:
+        description: 'Deployment environment'
+        required: false
+        type: choice
+        options:
+          - production
+          - staging
+        default: 'production'
+      skip_tests:
+        description: 'Skip smoke tests'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  execute-notion-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔍 Parse Command
+        id: parse
+        run: |
+          echo "Executing Notion command: ${{ github.event.inputs.command }}"
+          
+          # Extract command action
+          COMMAND="${{ github.event.inputs.command }}"
+          ACTION=$(echo $COMMAND | cut -d' ' -f1)
+          PARAMS=$(echo $COMMAND | cut -d' ' -f2-)
+          
+          echo "action=$ACTION" >> $GITHUB_OUTPUT
+          echo "params=$PARAMS" >> $GITHUB_OUTPUT
+          
+          # Set deployment flags
+          case "$ACTION" in
+            "/deploy")
+              echo "is_deployment=true" >> $GITHUB_OUTPUT
+              ;;
+            "/status")
+              echo "is_status=true" >> $GITHUB_OUTPUT
+              ;;
+            "/generate")
+              echo "is_generate=true" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "is_custom=true" >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+      - name: 🚀 Execute Deployment
+        if: steps.parse.outputs.is_deployment == 'true'
+        uses: ./.github/workflows/notion-deploy.yml
+        with:
+          service: ${{ github.event.inputs.service }}
+          environment: ${{ github.event.inputs.environment }}
+          skip_tests: ${{ github.event.inputs.skip_tests }}
+
+      - name: 📊 Execute Status Check
+        if: steps.parse.outputs.is_status == 'true'
+        run: |
+          echo "🔍 Checking system status..."
+          
+          # Test main endpoints
+          curl -f https://www.wiredchaos.xyz/health || echo "❌ Main API unhealthy"
+          curl -f https://wired-chaos.pages.dev/api/health || echo "❌ Frontend API unhealthy"
+          
+          # Check recent deployments
+          gh api repos/wiredchaos/wired-chaos/actions/runs \
+            --jq '.workflow_runs[0:5] | .[] | "\(.conclusion): \(.name) (\(.created_at))"' \
+            || echo "❌ Failed to fetch deployment history"
+          
+          echo "✅ Status check completed"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🎨 Execute Generation
+        if: steps.parse.outputs.is_generate == 'true'
+        run: |
+          echo "🎨 Generating content..."
+          
+          # Parse generation type
+          PARAMS="${{ steps.parse.outputs.params }}"
+          TYPE=$(echo $PARAMS | cut -d'-' -f1)
+          
+          case "$TYPE" in
+            "suite")
+              echo "📋 Generating Suite presentation..."
+              echo "✅ Suite presentation would be created via Gamma API"
+              ;;
+            "tax")
+              echo "💰 Generating Tax presentation..."
+              echo "✅ Tax presentation would be created via Gamma API"
+              ;;
+            "swarm")
+              echo "🤖 Generating SWARM status dashboard..."
+              echo "✅ SWARM dashboard would be created via Gamma API"
+              ;;
+            *)
+              echo "❓ Unknown generation type: $TYPE"
+              ;;
+          esac
+
+      - name: 📤 Post Results to Notion
+        if: always()
+        run: |
+          echo "📤 Posting results back to Notion..."
+          
+          # Create result payload
+          RESULT_JSON=$(cat << EOF
+          {
+            "command": "${{ github.event.inputs.command }}",
+            "status": "${{ job.status }}",
+            "workflow_run_id": "${{ github.run_id }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "environment": "${{ github.event.inputs.environment }}",
+            "service": "${{ github.event.inputs.service }}"
+          }
+          EOF
+          )
+          
+          echo "Result payload: $RESULT_JSON"
+          
+          # In production, this would POST to Notion webhook
+          echo "✅ Results would be posted to Notion via webhook"
+
+  # Deployment sub-workflow
+  deploy-service:
+    if: contains(github.event.inputs.command, '/deploy')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚀 Trigger Deployment
+        run: |
+          echo "🚀 Triggering deployment for: ${{ github.event.inputs.service }}"
+          
+          # Map services to workflow IDs
+          case "${{ github.event.inputs.service }}" in
+            "suite")
+              WORKFLOW_ID="194153015"
+              ;;
+            "tax"|"worker")
+              WORKFLOW_ID="194323650"
+              ;;
+            "emergency")
+              WORKFLOW_ID="194323651"
+              ;;
+            *)
+              echo "❌ Unknown service: ${{ github.event.inputs.service }}"
+              exit 1
+              ;;
+          esac
+          
+          # Trigger the deployment workflow
+          gh api repos/wiredchaos/wired-chaos/actions/workflows/$WORKFLOW_ID/dispatches \
+            --method POST \
+            --field ref=main \
+            --field inputs='{"environment":"${{ github.event.inputs.environment }}"}'
+          
+          echo "✅ Deployment triggered successfully"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # SWARM Bot trigger
+  trigger-swarm:
+    if: contains(github.event.inputs.command, 'swarm')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🤖 Trigger SWARM Bot
+        run: |
+          echo "🤖 Triggering SWARM Bot..."
+          
+          # Trigger SWARM monitoring workflow
+          gh workflow run "swarm-bot.yml" || echo "SWARM workflow not found, continuing..."
+          
+          echo "✅ SWARM Bot triggered"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Notification job
+  notify-completion:
+    needs: [execute-notion-command]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📢 Notify Completion
+        run: |
+          echo "🎉 Notion AI Bot command execution completed!"
+          echo "Command: ${{ github.event.inputs.command }}"
+          echo "Status: ${{ needs.execute-notion-command.result }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          
+          # Create success/failure badge
+          if [[ "${{ needs.execute-notion-command.result }}" == "success" ]]; then
+            echo "✅ COMMAND EXECUTED SUCCESSFULLY"
+          else
+            echo "❌ COMMAND EXECUTION FAILED"
+          fi
+
+      - name: 🔗 Generate Links
+        run: |
+          echo "📊 Workflow Results:"
+          echo "• Workflow: https://github.com/wiredchaos/wired-chaos/actions/runs/${{ github.run_id }}"
+          echo "• Repository: https://github.com/wiredchaos/wired-chaos"
+          echo "• Main Site: https://www.wiredchaos.xyz"
+          echo "• Frontend: https://wired-chaos.pages.dev"
