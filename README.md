@@ -14,6 +14,8 @@
 - **🔐 Vault33 Gatekeeper**: NSA-level security with wallet gating and NDA signatures
 - **☁️ Cloudflare Edge**: Global deployment on Cloudflare Workers and Pages
 - **🤖 Automated Workflows**: Complete CI/CD with intelligent automation
+- **🤖 SWARM Bot**: Intelligent deployment blocker automation with auto-triage and fixes
+- **🏥 Health Triage Bot**: Real-time system health monitoring and emergency response
 - **🎬 Video System**: Optional avatar linking for videos - works perfectly with or without creator avatars
 - **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
 - **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
@@ -41,6 +43,35 @@ ls -lh build/
 ```
 
 📚 **[SWARM Orchestrator Documentation](./SWARM_ORCHESTRATOR_README.md)** | **[Quick Start Guide](./QUICKSTART_SWARM.md)**
+
+## 🤖 SWARM Bot - Deployment Blocker Automation
+
+**NEW**: Intelligent automation for deployment blockers - monitors, triages, and auto-fixes blocking issues!
+
+```bash
+# Install and run
+npm install
+npm run swarm-bot
+
+# Continuous monitoring
+npm run swarm-bot:monitor
+```
+
+**What It Does:**
+- 🔍 **Monitors** issues with `deployment-blocker`, `critical`, `bug` labels
+- 🤖 **Auto-fixes** dependency updates, config errors, merge conflicts
+- 🚨 **Escalates** critical issues to maintainers
+- 📊 **Reports** actionable insights with Health Bot integration
+- 🎯 **Closes** stale issues automatically
+
+**Features:**
+- ✅ Integrates with Health Triage Bot for system health visibility
+- ✅ Auto-creates PRs for fixable issues
+- ✅ Provides guided resolution for complex problems
+- ✅ GitHub Actions workflow (runs every 15 minutes)
+- ✅ Comprehensive triage rules and auto-fix patterns
+
+📚 **[SWARM Bot Documentation](./SWARM_BOT_AUTOMATION.md)** | **[Quick Start](./SWARM_BOT_QUICKSTART.md)**
 
 ## 🤖 VS Studio Bot Setup (Quick Start)
 
