@@ -155,7 +155,8 @@ async function demonstrateSwarmBot() {
     log('\nRecent Resolutions:', 'cyan');
     resolutions.slice(-3).forEach(r => {
       const icon = r.success ? '✅' : '❌';
-      log(`  ${icon} ${r.issue.type} (${r.duration}ms)`);
+      const issueType = r.issue?.type || 'unknown';
+      log(`  ${icon} ${issueType} (${r.duration}ms)`);
     });
   } else {
     log('No resolutions attempted yet', 'yellow');

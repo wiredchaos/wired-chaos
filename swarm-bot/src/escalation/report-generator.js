@@ -128,10 +128,10 @@ class ReportGenerator {
         : 0,
       recent: resolutions.map(r => ({
         id: r.id,
-        issue_type: r.issue.type,
+        issue_type: r.issue?.type || 'unknown',
         strategy: r.strategy,
         success: r.success,
-        duration: `${r.duration}ms`,
+        duration: `${r.duration || 0}ms`,
         timestamp: r.timestamp
       }))
     };
