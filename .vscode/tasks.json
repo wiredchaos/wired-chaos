@@ -596,6 +596,135 @@
         "group": "emergent"
       },
       "detail": "Fix two-tier school system firewall"
+    },
+    // ========== PR Automation Tasks ==========
+    {
+      "label": "PR: /ready (auto-ready & merge current PR)",
+      "type": "shell",
+      "command": "gh pr comment ${input:prNumberForReady} --body \"/ready\"",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Post /ready comment on PR to trigger auto-ready & merge workflow"
+    },
+    {
+      "label": "PR: Add automerge label",
+      "type": "shell",
+      "command": "gh pr edit ${input:prNumberForLabel} --add-label automerge",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Add 'automerge' label to PR for scheduled auto-merge processing"
+    },
+    {
+      "label": "PR: Remove automerge label",
+      "type": "shell",
+      "command": "gh pr edit ${input:prNumberForLabel} --remove-label automerge",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Remove 'automerge' label from PR to prevent auto-merge"
+    },
+    {
+      "label": "PR: View status",
+      "type": "shell",
+      "command": "gh pr view ${input:prNumberForView}",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "View PR details including status, checks, and labels"
+    },
+    {
+      "label": "PR: List open PRs",
+      "type": "shell",
+      "command": "gh pr list --state open",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "List all open pull requests in the repository"
+    },
+    {
+      "label": "PR: List PRs with automerge label",
+      "type": "shell",
+      "command": "gh pr list --state open --label automerge",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "List all PRs with 'automerge' label"
+    },
+    {
+      "label": "PR: Trigger Edge Smoke Tests",
+      "type": "shell",
+      "command": "gh workflow run \"Edge Smoke Tests\"",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Manually trigger Edge Smoke Tests workflow"
+    },
+    {
+      "label": "PR: Manual ready & merge (workflow dispatch)",
+      "type": "shell",
+      "command": "gh workflow run \"Comment Ready & Merge\" -f pr_number=${input:prNumberForManualMerge} -f merge_method=${input:mergeMethod} -f delete_branch=${input:deleteBranch}",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "pr-automation"
+      },
+      "detail": "Manually trigger ready & merge workflow via workflow dispatch"
     }
   ],
   "inputs": [
@@ -604,6 +733,44 @@
       "type": "promptString",
       "description": "Enter PR number to resolve conflicts for",
       "default": "22"
+    },
+    {
+      "id": "prNumberForReady",
+      "type": "promptString",
+      "description": "Enter PR number to mark ready and merge",
+      "default": ""
+    },
+    {
+      "id": "prNumberForLabel",
+      "type": "promptString",
+      "description": "Enter PR number to add/remove automerge label",
+      "default": ""
+    },
+    {
+      "id": "prNumberForView",
+      "type": "promptString",
+      "description": "Enter PR number to view",
+      "default": ""
+    },
+    {
+      "id": "prNumberForManualMerge",
+      "type": "promptString",
+      "description": "Enter PR number for manual merge",
+      "default": ""
+    },
+    {
+      "id": "mergeMethod",
+      "type": "pickString",
+      "description": "Select merge method",
+      "options": ["squash", "merge", "rebase"],
+      "default": "squash"
+    },
+    {
+      "id": "deleteBranch",
+      "type": "pickString",
+      "description": "Delete branch after merge?",
+      "options": ["true", "false"],
+      "default": "true"
     }
   ]
 }

@@ -4,11 +4,199 @@ This document describes the comment-driven and automated PR workflows for the WI
 
 ## 📋 Table of Contents
 
+- [VS Code Integration](#vs-code-integration)
 - [Comment-Driven PR Ready & Merge](#comment-driven-pr-ready--merge)
 - [Auto Ready & Merge](#auto-ready--merge)
 - [Manual Workflow Dispatch](#manual-workflow-dispatch)
 - [Troubleshooting](#troubleshooting)
 - [Edge Smoke Tests](#edge-smoke-tests)
+
+## 🎮 VS Code Integration
+
+The WIRED CHAOS repository includes VS Code tasks for triggering PR automation workflows directly from your IDE. This provides a one-click solution for common PR operations.
+
+### Prerequisites
+
+1. **GitHub CLI (`gh`) installed and authenticated**
+   ```bash
+   # Install GitHub CLI (if not already installed)
+   # Windows: winget install --id GitHub.cli
+   # macOS: brew install gh
+   # Linux: See https://github.com/cli/cli#installation
+
+   # Authenticate with GitHub
+   gh auth login
+   ```
+
+2. **VS Code with the workspace open**
+   - Open the WIRED CHAOS repository folder in VS Code
+
+### Available PR Automation Tasks
+
+Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS), then type "Tasks: Run Task" to see all available tasks.
+
+#### 🚀 PR: /ready (auto-ready & merge current PR)
+
+**What it does:** Posts a `/ready` comment on a PR to trigger the Comment Ready & Merge workflow.
+
+**Steps:**
+1. Press `Ctrl+Shift+P` → Tasks: Run Task
+2. Select **"PR: /ready (auto-ready & merge current PR)"**
+3. Enter the PR number when prompted
+4. The task will post `/ready` comment on the PR
+5. The GitHub Actions workflow will:
+   - Mark the PR as ready (if draft)
+   - Wait for checks to pass
+   - Merge the PR (squash by default)
+   - Delete the branch
+   - Trigger Edge Smoke Tests
+
+**Example:**
+```
+Enter PR number: 42
+✓ Posted /ready comment on PR #42
+```
+
+#### 🏷️ PR: Add automerge label
+
+**What it does:** Adds the `automerge` label to a PR for scheduled auto-merge processing (every 6 hours).
+
+**Steps:**
+1. Press `Ctrl+Shift+P` → Tasks: Run Task
+2. Select **"PR: Add automerge label"**
+3. Enter the PR number when prompted
+4. The label will be added immediately
+5. The PR will be automatically processed during the next scheduled run (every 6 hours)
+
+**Example:**
+```
+Enter PR number: 42
+✓ Added 'automerge' label to PR #42
+```
+
+#### 🗑️ PR: Remove automerge label
+
+**What it does:** Removes the `automerge` label from a PR to prevent auto-merge.
+
+**Steps:**
+1. Press `Ctrl+Shift+P` → Tasks: Run Task
+2. Select **"PR: Remove automerge label"**
+3. Enter the PR number when prompted
+
+#### 📊 PR: View status
+
+**What it does:** Displays detailed information about a PR including status, checks, and labels.
+
+**Steps:**
+1. Press `Ctrl+Shift+P` → Tasks: Run Task
+2. Select **"PR: View status"**
+3. Enter the PR number when prompted
+
+#### 📋 PR: List open PRs
+
+**What it does:** Shows all open pull requests in the repository.
+
+**Steps:**
+1. Press `Ctrl+Shift+P` → Tasks: Run Task
+2. Select **"PR: List open PRs"**
+
+#### 🔍 PR: List PRs with automerge label
+
+**What it does:** Shows all PRs with the `automerge` label.
+
+**Steps:**
+1. Press `Ctrl+Shift+P` → Tasks: Run Task
+2. Select **"PR: List PRs with automerge label"**
+
+#### 🧪 PR: Trigger Edge Smoke Tests
+
+**What it does:** Manually triggers the Edge Smoke Tests workflow.
+
+**Steps:**
+1. Press `Ctrl+Shift+P` → Tasks: Run Task
+2. Select **"PR: Trigger Edge Smoke Tests"**
+
+#### ⚙️ PR: Manual ready & merge (workflow dispatch)
+
+**What it does:** Manually triggers the ready & merge workflow with custom options (merge method, branch deletion).
+
+**Steps:**
+1. Press `Ctrl+Shift+P` → Tasks: Run Task
+2. Select **"PR: Manual ready & merge (workflow dispatch)"**
+3. Enter the PR number when prompted
+4. Select merge method: `squash` (default), `merge`, or `rebase`
+5. Choose whether to delete branch: `true` (default) or `false`
+
+### Quick Workflow Examples
+
+#### Example 1: One-Click PR Merge from VS Code
+
+```
+1. Open VS Code
+2. Press Ctrl+Shift+P
+3. Type "Tasks: Run Task"
+4. Select "PR: /ready (auto-ready & merge current PR)"
+5. Enter PR number (e.g., "42")
+6. Done! Check GitHub Actions for progress
+```
+
+#### Example 2: Schedule PR for Auto-Merge
+
+```
+1. Open VS Code
+2. Press Ctrl+Shift+P
+3. Type "Tasks: Run Task"
+4. Select "PR: Add automerge label"
+5. Enter PR number (e.g., "42")
+6. Done! PR will be auto-merged in the next scheduled run
+```
+
+#### Example 3: Quick PR Status Check
+
+```
+1. Press Ctrl+Shift+P
+2. Type "Tasks: Run Task"
+3. Select "PR: View status"
+4. Enter PR number (e.g., "42")
+5. View full PR details in the terminal
+```
+
+### Keyboard Shortcuts (Optional)
+
+You can add custom keyboard shortcuts for frequently used tasks in `.vscode/keybindings.json`:
+
+```json
+[
+  {
+    "key": "ctrl+shift+r",
+    "command": "workbench.action.tasks.runTask",
+    "args": "PR: /ready (auto-ready & merge current PR)"
+  },
+  {
+    "key": "ctrl+shift+l",
+    "command": "workbench.action.tasks.runTask",
+    "args": "PR: Add automerge label"
+  }
+]
+```
+
+### Browser Integration
+
+If you prefer to work in the browser, you can still use the GitHub CLI commands directly:
+
+```bash
+# Post /ready comment on PR #42
+gh pr comment 42 --body "/ready"
+
+# Add automerge label to PR #42
+gh pr edit 42 --add-label automerge
+
+# View PR status
+gh pr view 42
+
+# Manually trigger workflow
+gh workflow run "Comment Ready & Merge" -f pr_number=42
+```
 
 ## 🚀 Comment-Driven PR Ready & Merge
 
@@ -317,6 +505,13 @@ Each workflow run generates a summary visible in the Actions tab:
 
 | Task | Method | Location |
 |------|--------|----------|
+| **VS Code Tasks** | | |
+| Merge PR via comment (VS Code) | Tasks → PR: /ready | VS Code Command Palette |
+| Add automerge label (VS Code) | Tasks → PR: Add automerge label | VS Code Command Palette |
+| View PR status (VS Code) | Tasks → PR: View status | VS Code Command Palette |
+| List open PRs (VS Code) | Tasks → PR: List open PRs | VS Code Command Palette |
+| Manual merge (VS Code) | Tasks → PR: Manual ready & merge | VS Code Command Palette |
+| **GitHub Web UI** | | |
 | Merge PR via comment | Comment `/ready` on PR | Any PR you own/admin |
 | Merge specific PR | Comment `/ready <number>` | Any PR |
 | Manual merge | Actions → Comment Ready & Merge → Run workflow | Actions tab |
@@ -324,6 +519,11 @@ Each workflow run generates a summary visible in the Actions tab:
 | Immediate auto-merge | Actions → Auto Ready & Merge → Run workflow | Actions tab |
 | View logs | Actions → Workflow run → Expand steps | Actions tab |
 | Trigger smoke tests | Actions → Edge Smoke Tests → Run workflow | Actions tab |
+| **GitHub CLI** | | |
+| Merge PR via comment | `gh pr comment <PR> --body "/ready"` | Command line |
+| Add automerge label | `gh pr edit <PR> --add-label automerge` | Command line |
+| View PR status | `gh pr view <PR>` | Command line |
+| Manual merge | `gh workflow run "Comment Ready & Merge" -f pr_number=<PR>` | Command line |
 
 ## 📝 Notes
 
