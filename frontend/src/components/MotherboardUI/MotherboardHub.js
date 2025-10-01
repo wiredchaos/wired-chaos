@@ -29,7 +29,7 @@ const MotherboardHub = () => {
       title: 'NEURO LAB',
       description: 'Onboarding Academy Hub',
       variant: 'cyan',
-      path: '/neuro',
+      path: '/neurolab',
       status: 'active'
     },
     {

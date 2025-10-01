@@ -1,0 +1,122 @@
+name: Deploy Worker to Cloudflare
+
+on:
+  push:
+    branches:
+      - main
+      - wiredchaos-patch-1
+    paths:
+      - 'backend/**'
+      - 'src/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Worker
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install Wrangler
+        run: npm install -g wrangler
+        
+      - name: Deploy Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          cd src || echo "No src directory, checking for worker files..."
+          
+          # Create basic worker if none exists
+          if [ ! -f "index.js" ] && [ ! -f "../backend/server.py" ]; then
+            echo "Creating basic worker..."
+            cat > index.js << 'EOF'
+          export default {
+            async fetch(request, env, ctx) {
+              const url = new URL(request.url);
+              
+              // CORS headers
+              const corsHeaders = {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+              };
+              
+              if (request.method === 'OPTIONS') {
+                return new Response(null, { headers: corsHeaders });
+              }
+              
+              // API Routes
+              if (url.pathname.startsWith('/api/')) {
+                const response = {
+                  message: 'WIRED CHAOS API Online',
+                  timestamp: new Date().toISOString(),
+                  path: url.pathname,
+                  status: 'active'
+                };
+                
+                return new Response(JSON.stringify(response), {
+                  headers: { 
+                    'Content-Type': 'application/json',
+                    ...corsHeaders
+                  }
+                });
+              }
+              
+              // Health check
+              if (url.pathname === '/health') {
+                return new Response(JSON.stringify({ 
+                  status: 'healthy',
+                  service: 'WIRED CHAOS Worker',
+                  timestamp: new Date().toISOString()
+                }), {
+                  headers: { 
+                    'Content-Type': 'application/json',
+                    ...corsHeaders
+                  }
+                });
+              }
+              
+              // Default response
+              return new Response(JSON.stringify({
+                message: 'WIRED CHAOS Worker - Active',
+                endpoints: ['/api/*', '/health'],
+                timestamp: new Date().toISOString()
+              }), {
+                headers: { 
+                  'Content-Type': 'application/json',
+                  ...corsHeaders
+                }
+              });
+            },
+          };
+          EOF
+          
+            cat > wrangler.toml << 'EOF'
+          name = "wired-chaos-worker"
+          main = "index.js"
+          compatibility_date = "2024-09-30"
+          
+          [env.production]
+          name = "wired-chaos-worker"
+          routes = [
+            { pattern = "api.wired-chaos.pages.dev/*", zone_name = "wired-chaos.pages.dev" }
+          ]
+          EOF
+          fi
+          
+          # Deploy worker
+          wrangler deploy --env production
+          
+      - name: Deploy Status
+        run: |
+          echo "⚡ Worker deployed successfully!"
+          echo "Worker URL: https://wired-chaos-worker.wiredchaos.workers.dev"
+          echo "API Endpoints: /api/*, /health"
