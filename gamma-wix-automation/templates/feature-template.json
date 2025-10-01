@@ -1,0 +1,79 @@
+{
+  "name": "Feature Release Template",
+  "description": "Template for WIRED CHAOS feature release presentations",
+  "theme": {
+    "id": "wired-chaos-cyber",
+    "colors": {
+      "primary": "#00fff0",
+      "secondary": "#ff2a2a",
+      "accent": "#8000ff",
+      "background": "#000000",
+      "text": "#ffffff"
+    },
+    "fonts": {
+      "heading": "Orbitron, sans-serif",
+      "body": "Rajdhani, sans-serif",
+      "code": "Share Tech Mono, monospace"
+    }
+  },
+  "slides": [
+    {
+      "type": "title",
+      "layout": "single",
+      "template": {
+        "title": "{{featureName}}",
+        "subtitle": "New Feature Release - {{version}}",
+        "footer": "WIRED CHAOS"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "What's New",
+        "content": "{{description}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "two-column",
+      "template": {
+        "title": "Key Benefits",
+        "content": "{{benefits}}"
+      }
+    },
+    {
+      "type": "image",
+      "layout": "single",
+      "template": {
+        "title": "Demo",
+        "images": ["{{demoImage}}"]
+      }
+    },
+    {
+      "type": "code",
+      "layout": "single",
+      "template": {
+        "title": "Implementation",
+        "code": "{{implementation}}",
+        "language": "{{language}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Getting Started",
+        "content": "{{gettingStarted}}"
+      }
+    },
+    {
+      "type": "content",
+      "layout": "single",
+      "template": {
+        "title": "Resources",
+        "content": "Documentation: {{docsUrl}}\nGitHub: {{githubUrl}}"
+      }
+    }
+  ]
+}
