@@ -12,6 +12,7 @@ import TaxSuite from "./components/TaxSuite";
 import featureFlags, { FEATURES } from "./config/featureFlags";
 import { BACKEND_URL, API_URL } from "./config/env";
 import axios from "axios";
+import { getSuiteUrl } from "./utils/env";
 
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
@@ -1451,6 +1452,79 @@ const NeuroMetaXPage = () => {
     </div>
   );
 };
+
+// School Page - Educational Hub
+const SchoolPage = () => {
+  const navigate = useNavigate();
+  const suiteUrl = getSuiteUrl();
+  
+  return (
+    <div className="agent-page school-page">
+      <div className="page-header">
+        <Button onClick={() => navigate('/')} className="back-btn">← Back to Hub</Button>
+        {suiteUrl && (
+          <a 
+            href={suiteUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="suite-link-button"
+          >
+            Open Suite →
+          </a>
+        )}
+        <h1>🎓 WIRED CHAOS SCHOOL</h1>
+        <p>Educational Resources & Learning Portal</p>
+      </div>
+      
+      <div className="widget-grid">
+        <Card className="widget-card">
+          <h3>📚 LEARNING MODULES</h3>
+          <p>Comprehensive courses on Web3, blockchain, and digital ecosystems</p>
+          <div className="module-list">
+            <div className="module-item">🧠 Web3 Fundamentals</div>
+            <div className="module-item">🔐 Blockchain Security</div>
+            <div className="module-item">🎨 NFT Creation & Trading</div>
+            <div className="module-item">💼 DeFi Strategies</div>
+          </div>
+        </Card>
+        
+        <Card className="widget-card">
+          <h3>🎓 CERTIFICATIONS</h3>
+          <p>Earn blockchain-verified certificates of completion</p>
+          <Button onClick={() => navigate('/neurolab')} className="cert-btn">
+            View Certificate Programs
+          </Button>
+        </Card>
+        
+        <Card className="widget-card">
+          <h3>🌐 COMMUNITY LEARNING</h3>
+          <p>Connect with peers and mentors in the WIRED CHAOS ecosystem</p>
+          <div className="community-links">
+            <a href="https://cryptospaces.net" target="_blank" rel="noopener noreferrer">
+              Join CryptoSpaces Community
+            </a>
+          </div>
+        </Card>
+        
+        {suiteUrl && (
+          <Card className="widget-card suite-card">
+            <h3>🚀 TAX SUITE</h3>
+            <p>Access the full suite of tax and compliance tools</p>
+            <a 
+              href={suiteUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="suite-access-btn"
+            >
+              Launch Suite →
+            </a>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const IndustryPage = ({ industry }) => {
   const navigate = useNavigate();
   
@@ -1579,6 +1653,7 @@ function App() {
           <Route path="/b2b" element={<B2BPage />} />
           <Route path="/vrg33589" element={<VRG33589Page />} />
           <Route path="/merch" element={<NeuroMetaXPage />} />
+          <Route path="/school" element={<SchoolPage />} />
           <Route path="/tax" element={<TaxSuite />} />
           
           {/* SEO Ghost Pages */}

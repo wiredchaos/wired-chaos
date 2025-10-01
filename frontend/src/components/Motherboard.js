@@ -12,6 +12,7 @@ const Motherboard = () => {
   const navigate = useNavigate();
   const [activePanel, setActivePanel] = useState(null);
   const [connectionPaths, setConnectionPaths] = useState([]);
+  const suiteUrl = getSuiteUrl();
 
   const panelNodes = [
     {
@@ -131,8 +132,6 @@ const Motherboard = () => {
     </div>
   );
 
-  const suiteUrl = getSuiteUrl();
-
   const handleOpenSuite = () => {
     if (suiteUrl) {
       window.open(suiteUrl, '_blank', 'noopener,noreferrer');
@@ -157,9 +156,7 @@ const Motherboard = () => {
         >
           ⚙️ Suite
         </button>
-      )}
-      
-      {/* Main Grid Layout */}
+      )}      {/* Main Grid Layout */}
       <div className="motherboard-grid">
         {/* Top Row */}
         {renderPanel(panelNodes[0], 'grid-csn')}
