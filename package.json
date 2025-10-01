@@ -17,6 +17,7 @@
     "test:swarm-bot": "node swarm-bot-automation.test.js",
     "swarm-bot": "node swarm-bot-automation.js",
     "swarm-bot:monitor": "node swarm-bot-automation.js --monitor",
+    "swarm-bot:demo": "node demo-swarm-bot.js",
     "health-bot": "node health-bot-vscode-integration.js",
     "ci": "npm run frontend:build && npm run worker:deploy",
     "smoke-test": "echo \"Running smoke tests...\" && npm run test:smoke",
