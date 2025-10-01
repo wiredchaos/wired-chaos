@@ -134,8 +134,12 @@ jobs:
             # Create individual activation script
             cat > "src/activate-${template}.js" << EOF
           #!/usr/bin/env node
-          const fs = require('fs');
-          const path = require('path');
+          import fs from 'fs';
+          import path from 'path';
+          import { fileURLToPath } from 'url';
+          
+          const __filename = fileURLToPath(import.meta.url);
+          const __dirname = path.dirname(__filename);
           
           const templatePath = path.join(__dirname, '..', 'templates', '${template}-template.json');
           
@@ -166,8 +170,12 @@ jobs:
           # Create master activation script
           cat > "src/activate-all-templates.js" << 'EOF'
           #!/usr/bin/env node
-          const { execSync } = require('child_process');
-          const path = require('path');
+          import { execSync } from 'child_process';
+          import path from 'path';
+          import { fileURLToPath } from 'url';
+          
+          const __filename = fileURLToPath(import.meta.url);
+          const __dirname = path.dirname(__filename);
           
           const templates = ['component', 'feature', 'milestone', 'release', 'tutorial', 'update'];
           
@@ -190,8 +198,8 @@ jobs:
           chmod +x "src/activate-all-templates.js"
           
           # Update package.json
-          node -e "
-            const fs = require('fs');
+          node --input-type=module -e "
+            import fs from 'fs';
             const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
             pkg.scripts = pkg.scripts || {};
             pkg.scripts['gamma:activate'] = 'node src/activate-all-templates.js';

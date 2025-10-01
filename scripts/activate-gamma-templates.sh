@@ -66,7 +66,7 @@ for template in "${TEMPLATE_TYPES[@]}"; do
     fi
     
     # Validate template JSON
-    if ! node -e "JSON.parse(require('fs').readFileSync('templates/${template}-template.json', 'utf8'))" 2>/dev/null; then
+    if ! node --input-type=module -e "import fs from 'fs'; JSON.parse(fs.readFileSync('templates/${template}-template.json', 'utf8'))" 2>/dev/null; then
         echo -e "${RED}❌ Invalid JSON in template: $template${NC}"
         FAILED=$((FAILED + 1))
         continue
@@ -79,8 +79,12 @@ for template in "${TEMPLATE_TYPES[@]}"; do
  * Activate ${template} presentation template
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const templatePath = path.join(__dirname, '..', 'templates', '${template}-template.json');
 const template = JSON.parse(fs.readFileSync(templatePath, 'utf8'));
@@ -134,8 +138,12 @@ cat > "src/activate-all-templates.js" << 'EOF'
  * Activates all GAMMA presentation templates
  */
 
-const { execSync } = require('child_process');
-const path = require('path');
+import { execSync } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const templates = [
     'component',
@@ -185,8 +193,8 @@ if [ -f "package.json" ]; then
     cp package.json package.json.backup
     
     # Use node to update package.json
-    node -e "
-        const fs = require('fs');
+    node --input-type=module -e "
+        import fs from 'fs';
         const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
         pkg.scripts = pkg.scripts || {};
         pkg.scripts['gamma:activate'] = 'node src/activate-all-templates.js';
