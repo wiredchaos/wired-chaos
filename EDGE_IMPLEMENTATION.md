@@ -40,6 +40,9 @@ This implementation adds a new `/school` endpoint to the Cloudflare Worker and c
 | `/health` | GET | `{ ok: true }` | ✅ |
 | `/tax` | HEAD | HTTP 302 → `/suite` | ✅ |
 | `/suite` | GET | HTML content | ✅ |
+| `/suite?mode=stub` | GET | HTML with STUB MODE badge | ✅ |
+| `/suite?mode=partial` | GET | HTML with PARTIAL MODE badge | ✅ |
+| `/suite?mode=full` | GET | HTML with FULL MODE badge | ✅ |
 | `/gamma/tour` | GET | HTML content | ✅ |
 | `/gamma/journal` | GET | HTML content | ✅ |
 | `/gamma/workbook` | GET | HTML content | ✅ |
@@ -111,9 +114,23 @@ zone_name = "wiredchaos.xyz"
    - LocalStorage persistence for mode selection
    - Responsive card layout for links
 
-4. **Suite & Gamma Pages** (`/suite`, `/gamma/*`)
-   - Placeholder pages with consistent styling
-   - Dynamic titles based on path
+4. **Suite Landing Page** (`/suite`)
+   - **Feature Flag Support**: Stub, Partial, and Full modes
+   - **Query Parameter**: `?mode=stub|partial|full`
+   - **HTTP Header**: `X-Suite-Mode: stub|partial|full`
+   - **Cyberpunk Design**: WIRED CHAOS neon-themed UI
+   - **Responsive**: Mobile-first with breakpoints at 768px and 480px
+   - **Accessibility**: ARIA labels, keyboard navigation, reduced-motion support
+   - **Response Headers**: `X-Suite-Version` and `X-Suite-Mode`
+   
+   **Feature Modes:**
+   - `stub` (default): Preview mode with 3 feature cards
+   - `partial`: 4 active features (Dashboard, Admin, Tools, API)
+   - `full`: All 6 features (adds Reports, Integrations)
+
+5. **Gamma Pages** (`/gamma/*`)
+   - Dynamic pages for tour, journal, workbook
+   - Consistent styling with route-based titles
 
 5. **Bus Event System** (`/bus/publish`, `/bus/poll`)
    - Publish endpoint with wallet gating
@@ -151,6 +168,17 @@ wrangler deploy
 curl https://www.wiredchaos.xyz/health
 curl -I https://www.wiredchaos.xyz/tax
 curl https://www.wiredchaos.xyz/school
+
+# Test Suite Landing with feature flags
+curl https://www.wiredchaos.xyz/suite
+curl https://www.wiredchaos.xyz/suite?mode=stub
+curl https://www.wiredchaos.xyz/suite?mode=partial
+curl https://www.wiredchaos.xyz/suite?mode=full
+
+# Test with HTTP header
+curl -H "X-Suite-Mode: partial" https://www.wiredchaos.xyz/suite
+
+# Test other endpoints
 curl https://www.wiredchaos.xyz/bus/poll?since=0
 ```
 

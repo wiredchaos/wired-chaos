@@ -9,6 +9,7 @@ import NFTNeuroHologram from "./components/NFTNeuroHologram";
 import NeuroMetaXHero from "./components/NeuroMetaXHero";
 import CertificateMinter from "./components/CertificateMinter";
 import TaxSuite from "./components/TaxSuite";
+import SuiteLanding from "./components/SuiteLanding";
 import featureFlags, { FEATURES } from "./config/featureFlags";
 import { BACKEND_URL, API_URL } from "./config/env";
 import axios from "axios";
@@ -1659,6 +1660,7 @@ function App() {
           <Route path="/merch" element={<NeuroMetaXPage />} />
           <Route path="/school" element={<SchoolPage />} />
           <Route path="/tax" element={<TaxSuite />} />
+          <Route path="/suite" element={<SuiteLanding />} />
           
           {/* Student Union Digital Campus Routes */}
           <Route path="/university/student-union" element={<StudentUnion />} />

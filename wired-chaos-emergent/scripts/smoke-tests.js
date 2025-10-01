@@ -98,6 +98,24 @@ const smokeTests = [
     expect: { status: 200, contains: 'html' }
   },
   {
+    name: 'Suite Landing (Stub Mode)',
+    url: '/suite?mode=stub',
+    method: 'GET',
+    expect: { status: 200, contains: ['WIRED CHAOS', 'Suite', 'STUB MODE'] }
+  },
+  {
+    name: 'Suite Landing (Partial Mode)',
+    url: '/suite?mode=partial',
+    method: 'GET',
+    expect: { status: 200, contains: ['WIRED CHAOS', 'Suite', 'PARTIAL MODE'] }
+  },
+  {
+    name: 'Suite Landing (Full Mode)',
+    url: '/suite?mode=full',
+    method: 'GET',
+    expect: { status: 200, contains: ['WIRED CHAOS', 'Suite', 'FULL MODE'] }
+  },
+  {
     name: 'GAMMA Tour',
     url: '/gamma/tour',
     method: 'GET',
