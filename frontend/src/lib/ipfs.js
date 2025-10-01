@@ -4,15 +4,14 @@
  */
 
 import { IPFS_CONFIG } from '../chains/config';
+import { IPFS_TOKEN } from '../config/env';
 
 /**
  * Pin JSON metadata to IPFS using Web3.Storage
  */
 export const pinMetadataToIPFS = async (metadata) => {
   try {
-    const ipfsToken = process.env.REACT_APP_IPFS_TOKEN;
-    
-    if (!ipfsToken) {
+    if (!IPFS_TOKEN) {
       throw new Error('IPFS token not configured');
     }
 
@@ -29,7 +28,7 @@ export const pinMetadataToIPFS = async (metadata) => {
     const response = await fetch(IPFS_CONFIG.pinUrl, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${ipfsToken}`,
+        'Authorization': `Bearer ${IPFS_TOKEN}`,
       },
       body: formData
     });
@@ -72,9 +71,7 @@ export const pinMetadataToIPFS = async (metadata) => {
  */
 export const pinImageToIPFS = async (imageBlob, filename) => {
   try {
-    const ipfsToken = process.env.REACT_APP_IPFS_TOKEN;
-    
-    if (!ipfsToken) {
+    if (!IPFS_TOKEN) {
       throw new Error('IPFS token not configured');
     }
 
@@ -84,7 +81,7 @@ export const pinImageToIPFS = async (imageBlob, filename) => {
     const response = await fetch(IPFS_CONFIG.pinUrl, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${ipfsToken}`,
+        'Authorization': `Bearer ${IPFS_TOKEN}`,
       },
       body: formData
     });
