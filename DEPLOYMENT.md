@@ -58,12 +58,66 @@ Configure these secrets in GitHub repository settings:
 - `BACKEND_API_KEY`
 - `DATABASE_URL`
 
+### Cloudflare Worker Environment Variables
+Configure these in the Cloudflare dashboard or wrangler.toml:
+- `SUITE_URL` - URL for the Suite application (optional, shows "not configured" if empty)
+- `TAX_URL` - URL for the Tax Suite application (optional, shows "not configured" if empty)
+
+To set via Cloudflare dashboard:
+1. Go to Workers & Pages > wired-chaos-meta > Settings > Variables
+2. Add `SUITE_URL` and `TAX_URL` with appropriate values
+3. Redeploy the worker
+
+To set via wrangler CLI:
+```bash
+wrangler secret put SUITE_URL
+wrangler secret put TAX_URL
+```
+
+Or configure in wrangler.toml for specific environments:
+```toml
+[env.production]
+vars = { SUITE_URL = "https://suite.wiredchaos.xyz", TAX_URL = "https://tax.wiredchaos.xyz" }
+```
+
 ## 📊 Status Monitoring
 
 ### Health Endpoints
 - **Frontend**: https://wired-chaos.pages.dev/health
 - **Worker**: https://wired-chaos-worker.wiredchaos.workers.dev/health
 - **Main Page**: https://wired-chaos.pages.dev/
+
+### Worker Endpoints
+The Cloudflare Worker provides several edge-served endpoints:
+
+#### `/health`
+Returns JSON health status:
+```json
+{
+  "ok": true,
+  "timestamp": 1234567890
+}
+```
+
+#### `/suite`
+Edge-hosted HTML landing page that:
+- Opens the configured `SUITE_URL` in a new tab automatically (1 second delay)
+- Shows manual "Launch Suite" button as fallback
+- Displays "URL not configured" warning if `SUITE_URL` is not set
+
+#### `/tax`
+Edge-hosted HTML landing page that:
+- Opens the configured `TAX_URL` in a new tab automatically (1 second delay)
+- Shows manual "Launch Tax Suite" button as fallback
+- Displays "URL not configured" warning if `TAX_URL` is not set
+
+#### Other Endpoints
+- `/school` - School landing page
+- `/vsp` - Video Sales Page
+- `/gamma/*` - Gamma module routes
+- `/bus/*` - Event bus endpoints
+- `/wl/xp/*` - Wallet XP endpoints
+- `/api/*` - API proxy routes
 
 ### Navigation System
 The emergency production environment routes all navigation through:
