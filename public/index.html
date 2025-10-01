@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIRED CHAOS - Digital Ecosystem Motherboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000000;
+            color: #00FFFF;
+            font-family: 'Orbitron', 'Courier New', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background Grid */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        /* Title */
+        .main-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .wired-chaos-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            color: #00FFFF;
+            text-shadow: 
+                0 0 10px #FF3131,
+                0 0 20px #FF3131,
+                0 0 30px #FF6B00,
+                0 0 40px #FF6B00,
+                0 0 60px #39FF14;
+            animation: title-pulse 3s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes title-pulse {
+            0%, 100% { opacity: 0.9; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #39FF14;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+        }
+        
+        /* Navigation Grid */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            margin: 2rem 0;
+        }
+        
+        .nav-card {
+            background: linear-gradient(135deg, #001010, #000000);
+            border: 2px solid #FF3131;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FF3131, #00FFFF, #39FF14, #FF3131);
+            z-index: -1;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-card:hover::before {
+            opacity: 1;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 49, 49, 0.3);
+        }
+        
+        .nav-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00FFFF;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-description {
+            color: #CCCCCC;
+            font-size: 0.9rem;
+        }
+        
+        /* University 589 Button */
+        .university-589 {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 2px solid #FF3131;
+            color: #FF3131;
+            font-size: 2rem;
+            font-weight: 900;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .university-589:hover {
+            background: #FF3131;
+            color: #000000;
+            text-shadow: none;
+            box-shadow: 0 0 30px #FF3131;
+        }
+        
+        /* Esoteric Mode */
+        .esoteric-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .number-589 {
+            font-size: 20rem;
+            font-weight: 900;
+            color: #FF3131;
+            text-shadow: 
+                0 0 20px #FF3131,
+                0 0 40px #FF3131,
+                0 0 60px #FF3131,
+                0 0 100px #FF3131;
+            animation: pulse-589 3s ease-in-out infinite;
+            user-select: none;
+        }
+        
+        @keyframes pulse-589 {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        
+        /* Status Bar */
+        .status-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 16, 16, 0.8);
+            border: 1px solid #00FFFF;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #39FF14;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .nav-card {
+                padding: 1.5rem;
+            }
+            
+            .number-589 {
+                font-size: 10rem;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    
+    <button class="university-589" onclick="toggleEsotericMode()">589</button>
+    
+    <div class="container">
+        <div class="main-title">
+            <h1 class="wired-chaos-title">WIRED CHAOS</h1>
+            <p class="subtitle">Digital Ecosystem Motherboard</p>
+        </div>
+        
+        <div class="nav-grid">
+            <div class="nav-card" onclick="navigate('neurolab')">
+                <span class="nav-icon">🧠</span>
+                <div class="nav-title">NEURO LAB</div>
+                <div class="nav-description">Web3 Onboarding Academy Hub</div>
+            </div>
+            
+            <div class="nav-card" onclick="navigate('vault33')">
+                <span class="nav-icon">🔐</span>
+                <div class="nav-title">VAULT 33</div>
+                <div class="nav-description">WL Gamification System</div>
+            </div>
+            
+            <div class="nav-card" onclick="navigate('fm333')">
+                <span class="nav-icon">📻</span>
+                <div class="nav-title">33.3 FM</div>
+                <div class="nav-description">DOGECHAIN Radio Stream</div>
+            </div>
+            
+            <div class="nav-card" onclick="navigate('csn')">
+                <span class="nav-icon">🚀</span>
+                <div class="nav-title">CSN</div>
+                <div class="nav-description">Crypto Spaces Network</div>
+            </div>
+            
+            <div class="nav-card" onclick="navigate('vrg33589')">
+                <span class="nav-icon">👁️</span>
+                <div class="nav-title">VRG-33-589</div>
+                <div class="nav-description">Merovingian Lore System</div>
+            </div>
+            
+            <div class="nav-card" onclick="navigate('university')">
+                <span class="nav-icon">🎓</span>
+                <div class="nav-title">WC UNIVERSITY</div>
+                <div class="nav-description">Educational Platform</div>
+            </div>
+            
+            <div class="nav-card" onclick="navigate('bwb')">
+                <span class="nav-icon">📰</span>
+                <div class="nav-title">BWB</div>
+                <div class="nav-description">Barbed Wired Broadcast</div>
+            </div>
+            
+            <div class="nav-card" onclick="navigate('eveningvibes')">
+                <span class="nav-icon">🌙</span>
+                <div class="nav-title">EVENING VIBES</div>
+                <div class="nav-description">Level Up Lounge</div>
+            </div>
+            
+            <div class="nav-card" onclick="navigate('b2b')">
+                <span class="nav-icon">💼</span>
+                <div class="nav-title">B2B</div>
+                <div class="nav-description">Enterprise Solutions</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="esoteric-mode" id="esotericMode">
+        <div class="number-589">589</div>
+    </div>
+    
+    <div class="status-bar">
+        <div class="status-item">
+            <span class="status-dot"></span>
+            <span>SYSTEM ONLINE</span>
+        </div>
+        <div class="status-item">
+            <span>API: </span>
+            <span id="api-status">Checking...</span>
+        </div>
+        <div class="status-item">
+            <span>EMERGENCY PRODUCTION ENVIRONMENT</span>
+        </div>
+    </div>
+    
+    <script>
+        // Navigation function
+        function navigate(section) {
+            console.log('Navigating to:', section);
+            
+            const messages = {
+                neurolab: '🧠 NEURO LAB\n\nWeb3 Onboarding Academy\n• Blockchain Education\n• NFT Guidance\n• DeFi Training\n\nFull React app deploying...',
+                vault33: '🔐 VAULT 33\n\nWL Gamification System\n• Merovingian Path Tracking\n• Fragment Collection\n• Burn Mechanics\n\nAdvanced features loading...',
+                fm333: '📻 33.3 FM\n\nDOGECHAIN Radio\n• Live Streaming\n• Barbed Wired Broadcasts\n• Evening Vibes Sessions\n\nTuning in...',
+                csn: '🚀 CSN\n\nCrypto Spaces Network\n• Live Community\n• Real-time Updates\n• Market Analysis\n\nConnecting...',
+                vrg33589: '👁️ VRG-33-589\n\nMerovingian Lore System\n• Echo Generation\n• Layer Access\n• Frequency Resonance\n\nAccessing vault...',
+                university: '🎓 WC UNIVERSITY\n\nEducational Platform\n• Traditional Learning\n• Esoteric Paths\n• Certificate Minting\n\nRedirecting to /school...',
+                bwb: '📰 BWB\n\nBarbed Wired Broadcast\n• Live Feed\n• RSS Integration\n• Latest Posts\n\nLoading feed...',
+                eveningvibes: '🌙 EVENING VIBES\n\nLevel Up Lounge\n• Hologram Crew\n• Vibe Check Portal\n• Community Hub\n\nEntering lounge...',
+                b2b: '💼 B2B\n\nEnterprise Solutions\n• Professional Services\n• Integration Support\n• Custom Development\n\nProcessing inquiry...'
+            };
+            
+            alert(messages[section] || `Accessing ${section.toUpperCase()}...`);
+        }
+        
+        // Esoteric mode toggle
+        function toggleEsotericMode() {
+            const esotericMode = document.getElementById('esotericMode');
+            if (esotericMode.style.display === 'flex') {
+                esotericMode.style.display = 'none';
+            } else {
+                esotericMode.style.display = 'flex';
+            }
+        }
+        
+        // Click anywhere in esoteric mode to exit
+        document.getElementById('esotericMode').addEventListener('click', function() {
+            this.style.display = 'none';
+        });
+        
+        // API Status Check
+        function checkAPIStatus() {
+            const apiStatus = document.getElementById('api-status');
+            
+            fetch('https://wired-chaos-worker.wiredchaos.workers.dev/health')
+                .then(response => response.json())
+                .then(data => {
+                    apiStatus.textContent = '🟢 Worker Online';
+                    apiStatus.style.color = '#39FF14';
+                })
+                .catch(error => {
+                    apiStatus.textContent = '🟡 Worker Deploying';
+                    apiStatus.style.color = '#FFFF00';
+                });
+        }
+        
+        // Check API status on load and every 30 seconds
+        checkAPIStatus();
+        setInterval(checkAPIStatus, 30000);
+        
+        // Add some interactive effects
+        document.addEventListener('mousemove', function(e) {
+            const cards = document.querySelectorAll('.nav-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const deltaX = e.clientX - centerX;
+                const deltaY = e.clientY - centerY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                
+                if (distance < 200) {
+                    const intensity = Math.max(0, 1 - distance / 200);
+                    card.style.transform = `translateY(-${intensity * 10}px) rotateX(${deltaY * intensity * 0.1}deg) rotateY(${deltaX * intensity * 0.1}deg)`;
+                } else {
+                    card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+                }
+            });
+        });
+        
+        console.log('🧠 WIRED CHAOS - Emergency Production Environment');
+        console.log('🔧 Full React app deployment in progress...');
+        console.log('⚡ Worker API: https://wired-chaos-worker.wiredchaos.workers.dev');
+    </script>
+</body>
+</html>

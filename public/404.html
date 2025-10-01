@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | WIRED CHAOS</title>
+    <style>
+        body {
+            background: #000000;
+            color: #00FFFF;
+            font-family: 'Orbitron', 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: 900;
+            color: #FF3131;
+            text-shadow: 0 0 30px #FF3131;
+            margin-bottom: 1rem;
+            animation: glitch 2s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translateX(0); }
+            92% { transform: translateX(-2px); }
+            94% { transform: translateX(2px); }
+            96% { transform: translateX(-2px); }
+        }
+        
+        .error-message {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #39FF14;
+        }
+        
+        .back-btn {
+            background: linear-gradient(45deg, #001A1A, #00FFFF);
+            border: none;
+            color: #000000;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: linear-gradient(45deg, #002626, #39FF14);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="error-code">404</div>
+    <div class="error-message">Page Not Found in the Digital Ecosystem</div>
+    <a href="/" class="back-btn">← Return to Motherboard</a>
+    
+    <script>
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 5000);
+    </script>
+</body>
+</html>

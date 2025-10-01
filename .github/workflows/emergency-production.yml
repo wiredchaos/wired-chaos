@@ -1,0 +1,40 @@
+name: Emergency Production Fix
+
+on:
+  push:
+    branches:
+      - main
+      - wiredchaos-patch-1
+    paths:
+      - 'public/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Emergency Production
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: wired-chaos
+          directory: public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Production Status
+        run: |
+          echo "🚀 WIRED CHAOS Emergency Production Environment Deployed!"
+          echo "URL: https://wired-chaos.pages.dev"
+          echo "Status: LIVE and OPERATIONAL"
+          echo "Features:"
+          echo "  ✅ Complete navigation system"
+          echo "  ✅ University 589 esoteric mode"
+          echo "  ✅ API connectivity check"
+          echo "  ✅ Mobile responsive design"
+          echo "  ✅ Interactive 3D effects"
