@@ -48,9 +48,37 @@ function Write-Header([string]$title) {
 "" | Out-File -FilePath "deployment.log" -Encoding UTF8
 Write-Info "WIRED CHAOS VS Studio Bot Automation Started"
 
-Write-Header "🤖 WIRED CHAOS VS STUDIO BOT AUTOMATION"
+Write-Header "🤖 WIRED CHAOS VS STUDIO BOT AUTOMATION - MEGA PROMPT ENABLED"
 Write-Info "Automating complete setup and deployment per GitHub Issue #2"
 Write-Info "Repository: https://github.com/wiredchaos/wired-chaos/issues/2"
+Write-Info "🎨 Mega Prompt Integration: Design System + Security + AR/VR"
+
+# Validate Mega Prompt Context
+Write-Header "🎯 MEGA PROMPT CONTEXT VALIDATION"
+
+$megaPromptFiles = @{
+    "Copilot Context" = ".copilot/wired-chaos-context.md"
+    "VS Code Settings" = ".vscode/settings.json"
+    "Auto-Fix Patterns" = "AUTO_FIX_PATTERNS.md"
+}
+
+$contextReady = $true
+foreach ($name in $megaPromptFiles.Keys) {
+    $path = $megaPromptFiles[$name]
+    if (Test-Path $path) {
+        Write-Success "$name available: $path"
+    } else {
+        Write-Warning "$name not found: $path"
+        $contextReady = $false
+    }
+}
+
+if ($contextReady) {
+    Write-Success "All mega prompt context files available"
+    Write-Info "✨ WIRED CHAOS Design System: Cyan #00FFFF | Red #FF3131 | Green #39FF14"
+} else {
+    Write-Warning "Some mega prompt context files are missing - will continue anyway"
+}
 
 # TASK 1: DEPENDENCY INSTALLATION
 if (-not $SkipDependencies) {
