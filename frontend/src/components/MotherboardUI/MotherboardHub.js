@@ -95,8 +95,8 @@ const MotherboardHub = () => {
       title: 'WC UNIVERSITY',
       description: 'Educational Seal Chips',
       variant: 'cyan',
-      path: '/university',
-      status: 'inactive'
+      path: '/university/student-union',
+      status: 'active'
     },
     {
       icon: '🐕',
