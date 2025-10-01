@@ -1,0 +1,115 @@
+/**
+ * SwarmStatusWidget Styles
+ * Neon cyan borders, glitch red text for offline pill
+ */
+
+/* Loading state */
+.swarm-status-loading {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.swarm-pulse {
+  color: #00FFFF; /* neon cyan */
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Offline pill - compact badge */
+.swarm-offline-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #00FFFF; /* neon cyan border */
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  font-size: 0.75rem;
+  font-family: monospace;
+  cursor: help;
+  transition: all 0.2s ease;
+}
+
+.swarm-offline-pill:hover {
+  border-color: #FF3131; /* glitch red on hover */
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.swarm-pill-text {
+  color: #FF3131; /* glitch red text */
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+/* Full widget - online state */
+.swarm-status-widget {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 0.75rem 1rem;
+  border: 1px solid #00FFFF; /* neon cyan */
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  min-width: 150px;
+  font-family: monospace;
+  transition: all 0.2s ease;
+}
+
+.swarm-status-widget:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+.swarm-status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.swarm-icon {
+  font-size: 1.25rem;
+}
+
+.swarm-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #00FFFF;
+  letter-spacing: 0.05em;
+}
+
+.swarm-status-indicator {
+  margin-left: auto;
+  font-size: 0.75rem;
+}
+
+.swarm-status-indicator.online {
+  color: #39FF14; /* electric green */
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.swarm-status-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.swarm-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.swarm-label {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.swarm-value {
+  color: #00FFFF;
+  font-weight: 600;
+}

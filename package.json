@@ -11,6 +11,8 @@
     "frontend:build": "cd frontend && npm run build",
     "frontend:start": "cd frontend && npm start",
     "backend:dev": "cd backend && python server.py",
+    "worker:dev": "cd src && npx wrangler dev",
+    "worker:deploy": "cd src && npx wrangler deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -23,6 +25,7 @@
   "author": "WIRED CHAOS Team",
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "wrangler": "^3.0.0"
   }
 }

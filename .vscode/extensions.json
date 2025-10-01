@@ -1,0 +1,43 @@
+{
+  // Recommended extensions for WIRED CHAOS development
+  // VS Code will prompt to install these when you open the workspace
+  "recommendations": [
+    // JavaScript/TypeScript/React Development
+    "dbaeumer.vscode-eslint",           // ESLint - Linting for JavaScript/TypeScript
+    "esbenp.prettier-vscode",           // Prettier - Code formatter
+    "bradlc.vscode-tailwindcss",        // Tailwind CSS IntelliSense
+    "formulahendry.auto-rename-tag",    // Auto rename paired HTML/JSX tags
+    "dsznajder.es7-react-js-snippets",  // React/Redux snippets
+    
+    // Python Development
+    "ms-python.python",                 // Python language support
+    "ms-python.vscode-pylance",         // Fast Python language server
+    "ms-python.black-formatter",        // Black code formatter for Python
+    "ms-python.isort",                  // Import sorting for Python
+    "ms-python.flake8",                 // Python linting with flake8
+    
+    // PowerShell Development
+    "ms-vscode.powershell",             // PowerShell language support
+    
+    // Git & GitHub
+    "github.vscode-pull-request-github", // GitHub Pull Requests and Issues
+    "eamodio.gitlens",                  // GitLens - Git supercharged
+    
+    // General Development
+    "editorconfig.editorconfig",        // EditorConfig support
+    "streetsidesoftware.code-spell-checker", // Spell checker
+    "wayou.vscode-todo-highlight",      // TODO/FIXME highlighting
+    
+    // Markdown
+    "yzhang.markdown-all-in-one",       // Markdown support
+    
+    // Docker (for vault33-gatekeeper)
+    "ms-azuretools.vscode-docker",      // Docker support
+    
+    // API Development
+    "humao.rest-client"                 // REST Client for testing APIs
+  ],
+  
+  // Optional extensions that might be useful but not critical
+  "unwantedRecommendations": []
+}
