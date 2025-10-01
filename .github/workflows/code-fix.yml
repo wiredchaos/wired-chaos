@@ -1,4 +1,4 @@
-name: Code Quality Fix
+﻿name: Code Quality Fix
 
 on:
   workflow_dispatch:
@@ -159,10 +159,10 @@ $CHANGELOG_CONTENT
 
 ### Verification
 
-- ✅ Only allowed file types modified (js, jsx, mjs, css, html, py, ps1, psm1, sol)
-- ✅ Infrastructure files untouched (no .github, docker, terraform, etc.)
-- ✅ All changes reviewed by automated linters/formatters
-- ✅ Changelog generated automatically
+- âœ… Only allowed file types modified (js, jsx, mjs, css, html, py, ps1, psm1, sol)
+- âœ… Infrastructure files untouched (no .github, docker, terraform, etc.)
+- âœ… All changes reviewed by automated linters/formatters
+- âœ… Changelog generated automatically
 
 ### Review Checklist
 
@@ -193,12 +193,12 @@ $CHANGELOG_CONTENT
             echo "**Mode:** Apply Fixes" >> $GITHUB_STEP_SUMMARY
             
             if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
-              echo "**Result:** ✅ Changes applied and PR created" >> $GITHUB_STEP_SUMMARY
+              echo "**Result:** âœ… Changes applied and PR created" >> $GITHUB_STEP_SUMMARY
               echo "**Branch:** \`$BRANCH_NAME\`" >> $GITHUB_STEP_SUMMARY
             else
-              echo "**Result:** ℹ️ No changes needed" >> $GITHUB_STEP_SUMMARY
+              echo "**Result:** â„¹ï¸ No changes needed" >> $GITHUB_STEP_SUMMARY
             fi
           else
             echo "**Mode:** Check Only" >> $GITHUB_STEP_SUMMARY
-            echo "**Result:** ✅ Checks completed" >> $GITHUB_STEP_SUMMARY
+            echo "**Result:** âœ… Checks completed" >> $GITHUB_STEP_SUMMARY
           fi

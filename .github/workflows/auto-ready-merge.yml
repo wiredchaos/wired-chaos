@@ -1,4 +1,4 @@
-name: 🤖 Auto Ready & Merge
+﻿name: ðŸ¤– Auto Ready & Merge
 
 on:
   schedule:
@@ -37,8 +37,8 @@ jobs:
           LABEL="${{ inputs.label || 'automerge' }}"
           AUTHOR_FILTER="${{ inputs.author_filter || 'Copilot|wiredchaos' }}"
 
-          echo "🔍 Searching for open PRs with label: $LABEL"
-          echo "📝 Author filter: $AUTHOR_FILTER"
+          echo "ðŸ” Searching for open PRs with label: $LABEL"
+          echo "ðŸ“ Author filter: $AUTHOR_FILTER"
 
           # Get all open PRs with the label
           gh pr list \
@@ -48,7 +48,7 @@ jobs:
             --jq '.[] | select(.headRepository.isFork == false) | .number' > pr_numbers.txt
 
           if [ ! -s pr_numbers.txt ]; then
-            echo "ℹ️ No matching PRs found"
+            echo "â„¹ï¸ No matching PRs found"
             echo "found=false" >> $GITHUB_OUTPUT
             exit 0
           fi
@@ -59,19 +59,19 @@ jobs:
             AUTHOR=$(gh pr view $PR_NUM --json author --jq '.author.login')
             if echo "$AUTHOR" | grep -qE "$AUTHOR_FILTER"; then
               echo "$PR_NUM" >> filtered_prs.txt
-              echo "✅ PR #$PR_NUM by $AUTHOR matches filter"
+              echo "âœ… PR #$PR_NUM by $AUTHOR matches filter"
             else
-              echo "⏭️ PR #$PR_NUM by $AUTHOR doesn't match filter"
+              echo "â­ï¸ PR #$PR_NUM by $AUTHOR doesn't match filter"
             fi
           done < pr_numbers.txt
 
           if [ -s filtered_prs.txt ]; then
             echo "found=true" >> $GITHUB_OUTPUT
             echo "count=$(wc -l < filtered_prs.txt)" >> $GITHUB_OUTPUT
-            echo "📊 Found $(wc -l < filtered_prs.txt) matching PR(s)"
+            echo "ðŸ“Š Found $(wc -l < filtered_prs.txt) matching PR(s)"
           else
             echo "found=false" >> $GITHUB_OUTPUT
-            echo "ℹ️ No PRs matching author filter"
+            echo "â„¹ï¸ No PRs matching author filter"
           fi
         env:
           GH_TOKEN: ${{ github.token }}
@@ -79,13 +79,13 @@ jobs:
       - name: Process matching PRs
         if: steps.find_prs.outputs.found == 'true'
         run: |
-          echo "🚀 Processing ${{ steps.find_prs.outputs.count }} PR(s)"
+          echo "ðŸš€ Processing ${{ steps.find_prs.outputs.count }} PR(s)"
 
           while read PR_NUM; do
             echo ""
-            echo "═══════════════════════════════════════════════════════"
-            echo "📋 Processing PR #$PR_NUM"
-            echo "═══════════════════════════════════════════════════════"
+            echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+            echo "ðŸ“‹ Processing PR #$PR_NUM"
+            echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 
             # Get PR details
             gh pr view $PR_NUM --json number,title,isDraft,state,headRefName > pr_${PR_NUM}.json
@@ -96,75 +96,75 @@ jobs:
 
             # Skip if already merged or closed
             if [ "$STATE" != "OPEN" ]; then
-              echo "⏭️ PR #$PR_NUM is $STATE, skipping"
+              echo "â­ï¸ PR #$PR_NUM is $STATE, skipping"
               continue
             fi
 
             # Mark ready if draft
             if [ "$IS_DRAFT" = "true" ]; then
-              echo "📝 Marking PR #$PR_NUM as ready..."
+              echo "ðŸ“ Marking PR #$PR_NUM as ready..."
 
               # Try CLI first
               if gh pr ready $PR_NUM; then
-                echo "✅ Marked ready using gh CLI"
+                echo "âœ… Marked ready using gh CLI"
               else
-                echo "⚠️ CLI failed, trying REST API..."
+                echo "âš ï¸ CLI failed, trying REST API..."
                 # Fallback to REST API
                 gh api \
                   --method PATCH \
                   "/repos/${{ github.repository }}/pulls/$PR_NUM" \
                   -f draft=false
-                echo "✅ Marked ready using REST API"
+                echo "âœ… Marked ready using REST API"
               fi
 
               # Wait a moment for the state to update
               sleep 5
             else
-              echo "ℹ️ PR #$PR_NUM is already ready"
+              echo "â„¹ï¸ PR #$PR_NUM is already ready"
             fi
 
             # Wait for checks (optional, with timeout)
-            echo "⏳ Checking PR status..."
+            echo "â³ Checking PR status..."
             timeout 300 gh pr checks $PR_NUM --watch || {
               EXIT_CODE=$?
               if [ $EXIT_CODE -eq 124 ]; then
-                echo "⚠️ Timeout waiting for checks after 5 minutes"
+                echo "âš ï¸ Timeout waiting for checks after 5 minutes"
               else
-                echo "ℹ️ No required checks or checks not applicable"
+                echo "â„¹ï¸ No required checks or checks not applicable"
               fi
             }
 
             # Show check status
-            gh pr checks $PR_NUM || echo "ℹ️ Unable to get check status"
+            gh pr checks $PR_NUM || echo "â„¹ï¸ Unable to get check status"
 
             # Merge the PR
-            echo "🔀 Merging PR #$PR_NUM..."
+            echo "ðŸ”€ Merging PR #$PR_NUM..."
             if gh pr merge $PR_NUM --squash --auto --delete-branch; then
-              echo "✅ PR #$PR_NUM merged successfully"
+              echo "âœ… PR #$PR_NUM merged successfully"
 
               # Trigger Edge Smoke Tests
-              echo "🧪 Triggering Edge Smoke Tests..."
+              echo "ðŸ§ª Triggering Edge Smoke Tests..."
               if gh workflow run "Edge Smoke Tests" 2>/dev/null; then
-                echo "✅ Edge Smoke Tests triggered"
+                echo "âœ… Edge Smoke Tests triggered"
               else
                 # Try alternative names
                 for NAME in "edge-smoke-tests" "smoke-tests" "edge-tests"; do
                   if gh workflow run "$NAME" 2>/dev/null; then
-                    echo "✅ Triggered '$NAME' workflow"
+                    echo "âœ… Triggered '$NAME' workflow"
                     break
                   fi
-                done || echo "ℹ️ Edge Smoke Tests workflow not found"
+                done || echo "â„¹ï¸ Edge Smoke Tests workflow not found"
               fi
             else
-              echo "⚠️ Normal merge failed, trying with admin override..."
+              echo "âš ï¸ Normal merge failed, trying with admin override..."
               if gh pr merge $PR_NUM --squash --auto --delete-branch --admin; then
-                echo "✅ PR #$PR_NUM merged with admin override"
+                echo "âœ… PR #$PR_NUM merged with admin override"
               else
-                echo "❌ Failed to merge PR #$PR_NUM"
+                echo "âŒ Failed to merge PR #$PR_NUM"
               fi
             fi
 
-            echo "═══════════════════════════════════════════════════════"
+            echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 
           done < filtered_prs.txt
         env:
@@ -173,7 +173,7 @@ jobs:
       - name: Summary
         if: always()
         run: |
-          echo "## 🤖 Auto Ready & Merge Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## ðŸ¤– Auto Ready & Merge Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           if [ "${{ steps.find_prs.outputs.found }}" = "true" ]; then

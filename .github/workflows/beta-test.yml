@@ -1,4 +1,4 @@
-name: 🧪 BETA Test & Integration Verification
+﻿name: ðŸ§ª BETA Test & Integration Verification
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
 
     - name: Setup Test Environment
       run: |
-        echo "🧪 Setting up BETA test environment..."
+        echo "ðŸ§ª Setting up BETA test environment..."
         echo "BETA_TEST_ACTIVE=true" >> $GITHUB_ENV
         echo "TEST_TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
 
@@ -64,61 +64,61 @@ jobs:
     - name: Run Frontend Tests
       run: |
         cd frontend
-        echo "🧪 Running frontend BETA tests..."
+        echo "ðŸ§ª Running frontend BETA tests..."
         yarn test --coverage --watchAll=false --testPathPattern=beta
       continue-on-error: true
 
     - name: Run Backend Tests
       run: |
         cd backend
-        echo "🧪 Running backend BETA tests..."
+        echo "ðŸ§ª Running backend BETA tests..."
         python -m pytest tests/ -v --tb=short
       continue-on-error: true
 
     - name: Integration Test - Gamma
       if: github.event.inputs.test_suite == 'full' || github.event.inputs.test_suite == 'gamma'
       run: |
-        echo "🔗 Testing Gamma integration..."
+        echo "ðŸ”— Testing Gamma integration..."
         # Add Gamma API test here
-        echo "✅ Gamma integration test completed"
+        echo "âœ… Gamma integration test completed"
       continue-on-error: true
 
     - name: Integration Test - Notion
       if: github.event.inputs.test_suite == 'full' || github.event.inputs.test_suite == 'notion'
       run: |
-        echo "🔗 Testing Notion integration..."
+        echo "ðŸ”— Testing Notion integration..."
         if [ ! -z "${{ secrets.NOTION_API_KEY }}" ]; then
           curl -X GET "https://api.notion.com/v1/users" \
             -H "Authorization: Bearer ${{ secrets.NOTION_API_KEY }}" \
             -H "Notion-Version: 2022-06-28"
-          echo "✅ Notion API connection verified"
+          echo "âœ… Notion API connection verified"
         else
-          echo "⚠️ Notion API key not configured"
+          echo "âš ï¸ Notion API key not configured"
         fi
       continue-on-error: true
 
     - name: Integration Test - Wix
       if: github.event.inputs.test_suite == 'full' || github.event.inputs.test_suite == 'wix'
       run: |
-        echo "🔗 Testing Wix integration..."
+        echo "ðŸ”— Testing Wix integration..."
         # Add Wix API test here
-        echo "✅ Wix integration test completed"
+        echo "âœ… Wix integration test completed"
       continue-on-error: true
 
     - name: BETA Test Status Check
       run: |
-        echo "🔍 Checking BETA test status..."
+        echo "ðŸ” Checking BETA test status..."
         echo "BETA_TEST_ACTIVE: $BETA_TEST_ACTIVE"
         echo "TEST_ENVIRONMENT: $TEST_ENVIRONMENT"
         echo "TEST_TIMESTAMP: $TEST_TIMESTAMP"
         
         # Create BETA test report
         cat > beta_test_report.md << EOF
-        # 🧪 BETA TEST REPORT
+        # ðŸ§ª BETA TEST REPORT
         
         **Test Run:** $TEST_TIMESTAMP
         **Environment:** $TEST_ENVIRONMENT
-        **Status:** ACTIVE ✅
+        **Status:** ACTIVE âœ…
         
         ## Test Results
         - Frontend Tests: Completed
@@ -126,11 +126,11 @@ jobs:
         - Integration Tests: Completed
         
         ## BETA Features Verified
-        - Certificate Minting: ✅
-        - Blockchain Integration: ✅
-        - 3D Components: ✅
-        - Brain Assistant: ✅
-        - Vault System: ✅
+        - Certificate Minting: âœ…
+        - Blockchain Integration: âœ…
+        - 3D Components: âœ…
+        - Brain Assistant: âœ…
+        - Vault System: âœ…
         
         ## Integration Status
         - Gamma: Ready for configuration
@@ -156,19 +156,19 @@ jobs:
       if: always()
       run: |
         if [ ! -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
-          STATUS="✅ PASSED"
+          STATUS="âœ… PASSED"
           if [ "${{ job.status }}" != "success" ]; then
-            STATUS="❌ FAILED"
+            STATUS="âŒ FAILED"
           fi
           
           curl -H "Content-Type: application/json" \
-            -d "{\"content\":\"🧪 BETA TEST $STATUS - WIRED CHAOS\\n⏰ $TEST_TIMESTAMP\\n🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+            -d "{\"content\":\"ðŸ§ª BETA TEST $STATUS - WIRED CHAOS\\nâ° $TEST_TIMESTAMP\\nðŸ”— https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
         fi
       continue-on-error: true
 
     - name: Final Status
       run: |
-        echo "🎉 BETA test and integration verification completed!"
-        echo "📊 Check the artifacts for detailed test reports"
-        echo "🔗 BETA environment is LIVE and ready for testing"
+        echo "ðŸŽ‰ BETA test and integration verification completed!"
+        echo "ðŸ“Š Check the artifacts for detailed test reports"
+        echo "ðŸ”— BETA environment is LIVE and ready for testing"

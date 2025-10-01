@@ -1,4 +1,4 @@
-name: 🔧 Worker Deploy (Cloudflare Worker)
+﻿name: ðŸ”§ Worker Deploy (Cloudflare Worker)
 
 on:
   push:
@@ -56,5 +56,5 @@ jobs:
         
     - name: Update deployment status
       run: |
-        echo "⚡ Worker deployed successfully!"
+        echo "âš¡ Worker deployed successfully!"
         echo "Worker URL: https://wired-chaos-worker.your-account.workers.dev"

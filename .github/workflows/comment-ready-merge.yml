@@ -1,4 +1,4 @@
-name: 🚀 Comment Ready & Merge
+﻿name: ðŸš€ Comment Ready & Merge
 
 on:
   issue_comment:
@@ -87,7 +87,7 @@ jobs:
           # Check if commenter is owner
           if [ "$COMMENTER" = "$OWNER" ]; then
             echo "authorized=true" >> $GITHUB_OUTPUT
-            echo "✅ User $COMMENTER is repository owner"
+            echo "âœ… User $COMMENTER is repository owner"
             exit 0
           fi
 
@@ -97,10 +97,10 @@ jobs:
 
           if [ "$PERMISSION" = "admin" ] || [ "$PERMISSION" = "maintain" ]; then
             echo "authorized=true" >> $GITHUB_OUTPUT
-            echo "✅ User $COMMENTER has $PERMISSION permission"
+            echo "âœ… User $COMMENTER has $PERMISSION permission"
           else
             echo "authorized=false" >> $GITHUB_OUTPUT
-            echo "❌ User $COMMENTER does not have sufficient permissions"
+            echo "âŒ User $COMMENTER does not have sufficient permissions"
           fi
         env:
           GH_TOKEN: ${{ github.token }}
@@ -119,14 +119,14 @@ jobs:
           github.event_name == 'issue_comment' &&
           (steps.parse_comment.outputs.valid != 'true' || steps.check_auth.outputs.authorized != 'true')
         run: |
-          echo "⏭️ Skipping: Invalid command or unauthorized user"
+          echo "â­ï¸ Skipping: Invalid command or unauthorized user"
           exit 0
 
       - name: Get PR details
         id: pr_details
         run: |
           PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
-          echo "📋 Getting details for PR #$PR_NUM"
+          echo "ðŸ“‹ Getting details for PR #$PR_NUM"
 
           gh pr view $PR_NUM --json number,title,isDraft,headRefName,state --jq '.' > pr.json
           cat pr.json
@@ -151,14 +151,14 @@ jobs:
         continue-on-error: true
         run: |
           PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
-          echo "📝 Marking PR #$PR_NUM as ready using gh CLI..."
+          echo "ðŸ“ Marking PR #$PR_NUM as ready using gh CLI..."
 
           if gh pr ready $PR_NUM; then
             echo "success=true" >> $GITHUB_OUTPUT
-            echo "✅ Successfully marked PR as ready"
+            echo "âœ… Successfully marked PR as ready"
           else
             echo "success=false" >> $GITHUB_OUTPUT
-            echo "⚠️ gh pr ready failed, will try REST API"
+            echo "âš ï¸ gh pr ready failed, will try REST API"
           fi
         env:
           GH_TOKEN: ${{ github.token }}
@@ -169,14 +169,14 @@ jobs:
           steps.mark_ready_cli.outputs.success != 'true'
         run: |
           PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
-          echo "📝 Marking PR #$PR_NUM as ready using REST API..."
+          echo "ðŸ“ Marking PR #$PR_NUM as ready using REST API..."
 
           gh api \
             --method PATCH \
             "/repos/${{ github.repository }}/pulls/$PR_NUM" \
             -f draft=false
 
-          echo "✅ Successfully marked PR as ready via REST API"
+          echo "âœ… Successfully marked PR as ready via REST API"
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -185,20 +185,20 @@ jobs:
         continue-on-error: true
         run: |
           PR_NUM="${{ steps.set_pr.outputs.pr_number }}"
-          echo "⏳ Waiting for required checks on PR #$PR_NUM..."
+          echo "â³ Waiting for required checks on PR #$PR_NUM..."
 
           # Try to watch checks with timeout (10 minutes)
           timeout 600 gh pr checks $PR_NUM --watch || {
             EXIT_CODE=$?
             if [ $EXIT_CODE -eq 124 ]; then
-              echo "⚠️ Timeout waiting for checks after 10 minutes"
+              echo "âš ï¸ Timeout waiting for checks after 10 minutes"
             else
-              echo "ℹ️ No required checks found or checks command not applicable"
+              echo "â„¹ï¸ No required checks found or checks command not applicable"
             fi
           }
 
           # Get final check status
-          gh pr checks $PR_NUM || echo "ℹ️ Unable to get check status"
+          gh pr checks $PR_NUM || echo "â„¹ï¸ Unable to get check status"
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -209,7 +209,7 @@ jobs:
           MERGE_METHOD="${{ inputs.merge_method || 'squash' }}"
           DELETE_BRANCH="${{ inputs.delete_branch || 'true' }}"
 
-          echo "🔀 Merging PR #$PR_NUM using method: $MERGE_METHOD"
+          echo "ðŸ”€ Merging PR #$PR_NUM using method: $MERGE_METHOD"
 
           # Build merge command
           MERGE_CMD="gh pr merge $PR_NUM --$MERGE_METHOD --auto"
@@ -221,17 +221,17 @@ jobs:
           # Try normal merge first
           if eval $MERGE_CMD; then
             echo "success=true" >> $GITHUB_OUTPUT
-            echo "✅ PR merged successfully"
+            echo "âœ… PR merged successfully"
           else
-            echo "⚠️ Normal merge failed, attempting with admin override..."
+            echo "âš ï¸ Normal merge failed, attempting with admin override..."
             # Try with admin flag
             ADMIN_CMD="$MERGE_CMD --admin"
             if eval $ADMIN_CMD; then
               echo "success=true" >> $GITHUB_OUTPUT
-              echo "✅ PR merged successfully with admin override"
+              echo "âœ… PR merged successfully with admin override"
             else
               echo "success=false" >> $GITHUB_OUTPUT
-              echo "❌ Failed to merge PR even with admin override"
+              echo "âŒ Failed to merge PR even with admin override"
               exit 1
             fi
           fi
@@ -242,24 +242,24 @@ jobs:
         if: steps.merge_pr.outputs.success == 'true'
         continue-on-error: true
         run: |
-          echo "🧪 Attempting to trigger Edge Smoke Tests workflow..."
+          echo "ðŸ§ª Attempting to trigger Edge Smoke Tests workflow..."
 
           # Try to find and trigger the workflow
           WORKFLOW_NAME="Edge Smoke Tests"
 
           # Try by name first
           if gh workflow run "$WORKFLOW_NAME" 2>/dev/null; then
-            echo "✅ Successfully triggered '$WORKFLOW_NAME' workflow"
+            echo "âœ… Successfully triggered '$WORKFLOW_NAME' workflow"
           else
             # Try common variations
             for NAME in "edge-smoke-tests" "smoke-tests" "edge-tests"; do
               if gh workflow run "$NAME" 2>/dev/null; then
-                echo "✅ Successfully triggered '$NAME' workflow"
+                echo "âœ… Successfully triggered '$NAME' workflow"
                 exit 0
               fi
             done
 
-            echo "ℹ️ Edge Smoke Tests workflow not found - you may need to trigger it manually"
+            echo "â„¹ï¸ Edge Smoke Tests workflow not found - you may need to trigger it manually"
             echo "Available workflows:"
             gh workflow list
           fi
@@ -269,11 +269,11 @@ jobs:
       - name: Summary
         if: always()
         run: |
-          echo "## 🚀 Ready & Merge Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## ðŸš€ Ready & Merge Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **PR Number:** #${{ steps.set_pr.outputs.pr_number }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Was Draft:** ${{ steps.pr_details.outputs.is_draft }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Merge Method:** ${{ inputs.merge_method || 'squash' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Merge Status:** ${{ steps.merge_pr.outputs.success == 'true' && '✅ Success' || '❌ Failed' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Merge Status:** ${{ steps.merge_pr.outputs.success == 'true' && 'âœ… Success' || 'âŒ Failed' }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Workflow triggered by: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY

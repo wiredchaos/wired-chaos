@@ -1,4 +1,4 @@
-name: 🤖 VS Studio Bot Automation
+﻿name: ðŸ¤– VS Studio Bot Automation
 
 on:
   workflow_dispatch:
@@ -43,7 +43,7 @@ jobs:
     - name: Setup PowerShell Environment
       shell: pwsh
       run: |
-        Write-Host "🤖 Setting up PowerShell environment for VS Studio Bot..."
+        Write-Host "ðŸ¤– Setting up PowerShell environment for VS Studio Bot..."
         Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
         
     - name: Install GitHub CLI
@@ -64,7 +64,7 @@ jobs:
     - name: Run VS Studio Bot Setup
       shell: pwsh
       run: |
-        Write-Host "🚀 Running VS Studio Bot Setup automation..."
+        Write-Host "ðŸš€ Running VS Studio Bot Setup automation..."
         
         $params = @('-SkipConfirmation', '-QuietMode')
         
@@ -99,7 +99,7 @@ jobs:
       if: success()
       shell: pwsh
       run: |
-        Write-Host "🚀 Triggering deployment workflows for environment: ${{ inputs.environment }}"
+        Write-Host "ðŸš€ Triggering deployment workflows for environment: ${{ inputs.environment }}"
         
         $environment = '${{ inputs.environment }}'
         
@@ -119,7 +119,7 @@ jobs:
           gh workflow run beta-test.yml
         }
         
-        Write-Host "✅ Deployment workflows triggered for $environment environment"
+        Write-Host "âœ… Deployment workflows triggered for $environment environment"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
@@ -127,23 +127,23 @@ jobs:
       if: always()
       shell: pwsh
       run: |
-        Write-Host "📊 VS Studio Bot Setup Summary"
+        Write-Host "ðŸ“Š VS Studio Bot Setup Summary"
         Write-Host "================================"
         
         if (Test-Path "deployment_logs.txt") {
-          Write-Host "📝 Deployment logs generated"
+          Write-Host "ðŸ“ Deployment logs generated"
           $logContent = Get-Content "deployment_logs.txt" -Tail 10
           Write-Host "Last 10 log entries:"
           $logContent | ForEach-Object { Write-Host "  $_" }
         }
         
         Write-Host ""
-        Write-Host "🔗 Useful Links:"
-        Write-Host "  • Actions: https://github.com/${{ github.repository }}/actions"
-        Write-Host "  • Security Analysis: Generated in artifacts"
-        Write-Host "  • Test Results: Updated in repository"
+        Write-Host "ðŸ”— Useful Links:"
+        Write-Host "  â€¢ Actions: https://github.com/${{ github.repository }}/actions"
+        Write-Host "  â€¢ Security Analysis: Generated in artifacts"
+        Write-Host "  â€¢ Test Results: Updated in repository"
         Write-Host ""
-        Write-Host "✅ VS Studio Bot automation completed!"
+        Write-Host "âœ… VS Studio Bot automation completed!"
 
   notify-completion:
     needs: vs-bot-setup
@@ -153,10 +153,10 @@ jobs:
     steps:
     - name: Notification
       run: |
-        echo "🤖 VS Studio Bot Setup completed with status: ${{ needs.vs-bot-setup.result }}"
+        echo "ðŸ¤– VS Studio Bot Setup completed with status: ${{ needs.vs-bot-setup.result }}"
         
         if [ "${{ needs.vs-bot-setup.result }}" = "success" ]; then
-          echo "✅ Automation successful - deployments triggered"
+          echo "âœ… Automation successful - deployments triggered"
         else
-          echo "⚠️ Automation completed with issues - check logs"
+          echo "âš ï¸ Automation completed with issues - check logs"
         fi

@@ -1,4 +1,4 @@
-name: 📝 Content Sync & Social Automation
+﻿name: ðŸ“ Content Sync & Social Automation
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
 
     - name: Notion Content Sync
       run: |
-        echo "🔄 Syncing content from Notion..."
+        echo "ðŸ”„ Syncing content from Notion..."
         # Add Notion API sync logic here
         curl -X POST "https://api.notion.com/v1/databases/${{ secrets.NOTION_DATABASE_ID }}/query" \
           -H "Authorization: Bearer ${{ secrets.NOTION_API_KEY }}" \
@@ -36,7 +36,7 @@ jobs:
 
     - name: Social Media Automation
       run: |
-        echo "📱 Processing social media automation..."
+        echo "ðŸ“± Processing social media automation..."
         # Twitter/X posting
         if [ ! -z "${{ secrets.X_API_KEY }}" ]; then
           echo "Posting to X/Twitter..."
@@ -53,18 +53,18 @@ jobs:
         if [ ! -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
           echo "Sending Discord notification..."
           curl -H "Content-Type: application/json" \
-            -d '{"content":"🚀 WIRED CHAOS content updated and synced!"}' \
+            -d '{"content":"ðŸš€ WIRED CHAOS content updated and synced!"}' \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
         fi
       continue-on-error: true
 
     - name: Update Worker KV
       run: |
-        echo "🔄 Updating Cloudflare Worker KV..."
+        echo "ðŸ”„ Updating Cloudflare Worker KV..."
         # Add KV update logic here
       continue-on-error: true
         
     - name: Completion Status
       run: |
-        echo "✅ Content sync and social automation completed!"
-        echo "📊 Check your social media platforms for updates"
+        echo "âœ… Content sync and social automation completed!"
+        echo "ðŸ“Š Check your social media platforms for updates"
