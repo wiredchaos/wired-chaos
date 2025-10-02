@@ -1,0 +1,18 @@
+{
+  "name": "@wired-chaos/education",
+  "version": "1.0.0",
+  "description": "WIRED CHAOS Education Platform - Two-Tiered Learning System",
+  "main": "src/curriculum-manager.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-modules test/education.test.js"
+  },
+  "keywords": [
+    "education",
+    "curriculum",
+    "blockchain",
+    "nft-certificates"
+  ],
+  "author": "WIRED CHAOS Team",
+  "license": "MIT"
+}
