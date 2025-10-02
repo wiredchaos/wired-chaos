@@ -307,7 +307,8 @@ class HealthBotVSCodeIntegration {
         const endpoints = [
             { url: 'https://www.wiredchaos.xyz/health', name: 'Main Health' },
             { url: 'https://www.wiredchaos.xyz/api/health', name: 'API Health' },
-            { url: 'https://www.wiredchaos.xyz/vsp', name: 'VSP Health' }
+            { url: 'https://www.wiredchaos.xyz/vsp', name: 'VSP Health' },
+            { url: 'https://wired-chaos-worker.wiredchaos.workers.dev/health', name: 'Worker Health' }
         ];
 
         const results = {
@@ -353,6 +354,118 @@ class HealthBotVSCodeIntegration {
         results.passRate = (results.passed / results.total) * 100;
 
         return results;
+    }
+
+    // Monitor Cloudflare Worker health specifically
+    async monitorWorkerHealth() {
+        console.log('⚡ [HEALTH-BOT] Monitoring Cloudflare Worker health...');
+
+        const workerHealth = {
+            timestamp: new Date().toISOString(),
+            endpoints: [],
+            overallScore: 0,
+            status: 'UNKNOWN'
+        };
+
+        // Test worker endpoints with retry logic (resilient pattern from 404.html auto-redirect)
+        const workerEndpoints = [
+            { url: 'https://www.wiredchaos.xyz/health', name: 'Primary Health' },
+            { url: 'https://www.wiredchaos.xyz/suite', name: 'Suite Landing' },
+            { url: 'https://www.wiredchaos.xyz/tax', name: 'Tax Landing' },
+            { url: 'https://wired-chaos-worker.wiredchaos.workers.dev/health', name: 'Worker Direct' }
+        ];
+
+        let passedCount = 0;
+        let totalAttempts = 0;
+        let successfulAttempts = 0;
+
+        for (const endpoint of workerEndpoints) {
+            const endpointResult = {
+                name: endpoint.name,
+                url: endpoint.url,
+                attempts: [],
+                finalStatus: 'UNKNOWN',
+                healthy: false
+            };
+
+            // Retry up to 3 times with exponential backoff (resilient pattern)
+            for (let attempt = 1; attempt <= 3; attempt++) {
+                totalAttempts++;
+                try {
+                    const startTime = Date.now();
+                    const response = await axios.get(endpoint.url, { 
+                        timeout: 5000,
+                        validateStatus: (status) => status < 500 // Accept 404 as valid worker response
+                    });
+                    const responseTime = Date.now() - startTime;
+
+                    const attemptResult = {
+                        attempt: attempt,
+                        status: response.status,
+                        responseTime: responseTime,
+                        success: response.status >= 200 && response.status < 400
+                    };
+
+                    endpointResult.attempts.push(attemptResult);
+
+                    if (attemptResult.success) {
+                        endpointResult.finalStatus = 'HEALTHY';
+                        endpointResult.healthy = true;
+                        successfulAttempts++;
+                        passedCount++;
+                        break; // Success, no need to retry
+                    }
+
+                    // If not successful and not the last attempt, wait with exponential backoff
+                    if (attempt < 3) {
+                        await new Promise(resolve => setTimeout(resolve, attempt * 1000));
+                    }
+
+                } catch (error) {
+                    endpointResult.attempts.push({
+                        attempt: attempt,
+                        status: 'ERROR',
+                        error: error.message,
+                        success: false
+                    });
+
+                    // Wait before retry (exponential backoff)
+                    if (attempt < 3) {
+                        await new Promise(resolve => setTimeout(resolve, attempt * 1000));
+                    }
+                }
+            }
+
+            // If all attempts failed
+            if (!endpointResult.healthy) {
+                endpointResult.finalStatus = 'FAILED';
+            }
+
+            workerHealth.endpoints.push(endpointResult);
+        }
+
+        // Calculate health score based on success rate and resilience
+        const endpointScore = (passedCount / workerEndpoints.length) * 100;
+        const resilienceScore = (successfulAttempts / totalAttempts) * 100;
+        workerHealth.overallScore = (endpointScore + resilienceScore) / 2;
+
+        // Determine status
+        if (workerHealth.overallScore >= 80) {
+            workerHealth.status = 'HEALTHY';
+        } else if (workerHealth.overallScore >= 50) {
+            workerHealth.status = 'DEGRADED';
+        } else {
+            workerHealth.status = 'CRITICAL';
+        }
+
+        workerHealth.summary = {
+            passedEndpoints: passedCount,
+            totalEndpoints: workerEndpoints.length,
+            successRate: `${endpointScore.toFixed(1)}%`,
+            resilienceRate: `${resilienceScore.toFixed(1)}%`
+        };
+
+        return workerHealth;
     }
 
     // Trigger emergency response

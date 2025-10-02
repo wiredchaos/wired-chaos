@@ -73,6 +73,37 @@ npm run swarm-bot:monitor
 
 📚 **[SWARM Bot Documentation](./SWARM_BOT_AUTOMATION.md)** | **[Quick Start](./SWARM_BOT_QUICKSTART.md)**
 
+## 🤖 SWARM General - Infrastructure Health & Deployment
+
+**NEW**: No-touch infrastructure automation for Cloudflare Workers with integrated health triage!
+
+```bash
+# Automatic deployment on code changes
+git push origin main
+
+# Manual deployment
+gh workflow run swarm-general.yml
+
+# Health check only
+gh workflow run swarm-general.yml -f deployment_type=health-check-only
+```
+
+**What It Does:**
+- 🏥 **Pre-deployment health checks** before every deployment
+- 🚀 **Automated Cloudflare Workers deployment** with zero manual intervention
+- 🔍 **Post-deployment verification** with resilient retry patterns
+- 🔧 **Auto-recovery** from failures with emergency workflows
+- 📊 **Continuous monitoring** every 30 minutes
+
+**Features:**
+- ✅ Resilient patterns inspired by 404 auto-redirect system
+- ✅ Multi-endpoint health verification with exponential backoff
+- ✅ Integrated SWARM Bot triage for automatic issue resolution
+- ✅ Emergency response with auto-escalation (3 levels)
+- ✅ Extensible architecture for future infrastructure health bots
+
+📚 **[SWARM General Documentation](./SWARM_GENERAL_GUIDE.md)** | **[Quick Start](./SWARM_GENERAL_QUICKSTART.md)**
+
 ## 🤖 VS Studio Bot Setup (Quick Start)
 
 **Automated one-click deployment solution:**

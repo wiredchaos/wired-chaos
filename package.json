@@ -16,6 +16,7 @@
     "worker:dev": "cd src && npx wrangler dev",
     "test": "npm run frontend:build && echo 'Build test completed successfully'",
     "test:swarm-bot": "node swarm-bot-automation.test.js",
+    "test:swarm-general": "node test-swarm-general.js",
     "swarm-bot": "node swarm-bot-automation.js",
     "swarm-bot:monitor": "node swarm-bot-automation.js --monitor",
     "swarm-bot:demo": "node demo-swarm-bot.js",
