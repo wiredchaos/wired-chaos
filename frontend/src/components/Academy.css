@@ -1,0 +1,402 @@
+/* WIRED CHAOS Academy Styles */
+
+.academy {
+  min-height: 100vh;
+  background: #000000;
+  color: #FFFFFF;
+}
+
+/* Hero Section */
+.academy-hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(180deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  color: #00FFFF;
+  margin-bottom: 15px;
+  font-weight: 800;
+  text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: #8B9DC3;
+  margin-bottom: 50px;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  color: #00FFFF;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #8B9DC3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Tier Selection */
+.tier-selection {
+  padding: 60px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #00FFFF;
+  margin-bottom: 50px;
+  font-weight: 700;
+}
+
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 40px;
+}
+
+.tier-card {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.tier-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 255, 255, 0.2);
+}
+
+.tier-card.business {
+  border-color: rgba(255, 0, 255, 0.5);
+  background: rgba(255, 0, 255, 0.05);
+}
+
+.tier-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: #39FF14;
+  color: #000000;
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.tier-badge.premium {
+  background: linear-gradient(135deg, #FF00FF 0%, #00FFFF 100%);
+  color: #000000;
+}
+
+.tier-name {
+  font-size: 2rem;
+  color: #00FFFF;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.tier-card.business .tier-name {
+  color: #FF00FF;
+}
+
+.tier-description {
+  color: #8B9DC3;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.tier-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.tier-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #FFFFFF;
+}
+
+.stat-icon {
+  font-size: 1.3rem;
+}
+
+.features-list {
+  margin-bottom: 30px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.feature-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.feature-content {
+  flex: 1;
+}
+
+.feature-title {
+  font-weight: 600;
+  color: #00FFFF;
+  margin-bottom: 5px;
+}
+
+.tier-card.business .feature-title {
+  color: #FF00FF;
+}
+
+.feature-desc {
+  color: #8B9DC3;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.tier-button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.community-btn {
+  background: linear-gradient(135deg, #00FFFF 0%, #00CCCC 100%);
+  color: #000000;
+}
+
+.community-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+}
+
+.business-btn {
+  background: linear-gradient(135deg, #FF00FF 0%, #CC00CC 100%);
+  color: #000000;
+}
+
+.business-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4);
+}
+
+/* Testimonials */
+.testimonials {
+  padding: 60px 20px;
+  background: rgba(0, 255, 255, 0.02);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid rgba(0, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 30px;
+  display: flex;
+  gap: 20px;
+}
+
+.testimonial-avatar {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.testimonial-content {
+  flex: 1;
+}
+
+.testimonial-quote {
+  font-size: 1.1rem;
+  color: #FFFFFF;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.testimonial-author {
+  margin-top: 15px;
+}
+
+.author-name {
+  font-weight: 700;
+  color: #00FFFF;
+  margin-bottom: 3px;
+}
+
+.author-role {
+  color: #8B9DC3;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.author-tier {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.author-tier.community {
+  background: rgba(0, 255, 255, 0.2);
+  color: #00FFFF;
+}
+
+.author-tier.business {
+  background: rgba(255, 0, 255, 0.2);
+  color: #FF00FF;
+}
+
+/* Call to Action */
+.cta-section {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 255, 255, 0.1) 100%);
+}
+
+.cta-title {
+  font-size: 2.5rem;
+  color: #00FFFF;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.cta-text {
+  font-size: 1.2rem;
+  color: #8B9DC3;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cta-button {
+  padding: 16px 40px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cta-button.primary {
+  background: linear-gradient(135deg, #00FFFF 0%, #00CCCC 100%);
+  color: #000000;
+}
+
+.cta-button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+}
+
+.cta-button.secondary {
+  background: transparent;
+  border: 2px solid #00FFFF;
+  color: #00FFFF;
+}
+
+.cta-button.secondary:hover {
+  background: rgba(0, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .tier-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-stats {
+    gap: 30px;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+
+  .tier-card {
+    padding: 25px;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
