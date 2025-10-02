@@ -99,6 +99,11 @@ export default {
         return await this.handleEducationEndpoints(path, method, request, processor, corsHeaders);
       }
 
+      // 🎮 VRG33589 GAME ENDPOINTS
+      if (path.startsWith('/game/')) {
+        return await this.handleGameEndpoints(path, method, request, processor, corsHeaders);
+      }
+
       // 💼 BUSINESS ENDPOINTS
       if (path.startsWith('/business/')) {
         return await this.handleBusinessEndpoints(path, method, request, processor, corsHeaders);
@@ -381,6 +386,90 @@ export default {
     return new Response(JSON.stringify({
       success: false,
       error: `Unknown admin action: ${action}`
+    }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  },
+
+  // 🎮 VRG33589 GAME ENDPOINT HANDLERS
+  async handleGameEndpoints(path, method, request, processor, corsHeaders) {
+    const segments = path.split('/');
+    const action = segments[2]; // /game/[action]
+
+    switch (action) {
+      case 'state':
+        if (method === 'GET') {
+          const wallet = segments[3];
+          if (!wallet) {
+            return new Response(JSON.stringify({
+              success: false,
+              error: 'Wallet address required'
+            }), {
+              status: 400,
+              headers: { 'Content-Type': 'application/json', ...corsHeaders }
+            });
+          }
+
+          // Proxy to backend game API
+          return new Response(JSON.stringify({
+            success: true,
+            message: 'Game state endpoint - proxy to backend',
+            wallet: wallet
+          }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders }
+          });
+        }
+        break;
+
+      case 'initialize':
+        if (method === 'POST') {
+          const body = await request.json();
+          const { wallet_address } = body;
+
+          return new Response(JSON.stringify({
+            success: true,
+            message: 'Game initialized',
+            wallet: wallet_address,
+            layer: 'surface'
+          }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders }
+          });
+        }
+        break;
+
+      case 'puzzle':
+        if (method === 'POST') {
+          return new Response(JSON.stringify({
+            success: true,
+            message: 'Puzzle submission endpoint',
+            swarm_verification: 'pending'
+          }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders }
+          });
+        }
+        break;
+
+      case 'leaderboard':
+        if (method === 'GET') {
+          return new Response(JSON.stringify({
+            success: true,
+            leaderboard: [],
+            message: 'Game leaderboard endpoint'
+          }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders }
+          });
+        }
+        break;
+    }
+
+    return new Response(JSON.stringify({
+      success: false,
+      error: `Unknown game action: ${action}`
     }), {
       status: 400,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
