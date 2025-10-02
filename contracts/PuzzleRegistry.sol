@@ -7,6 +7,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @title PuzzleRegistry
  * @dev Registry for puzzle definitions and solutions
  * @author WIRED CHAOS Development Team
+ * 
+ * IMPORTANT: This is a REFERENCE IMPLEMENTATION for EVM chains.
+ * Actual puzzle management is client-side. See frontend/src/game/puzzle-solver.js
  */
 contract PuzzleRegistry is Ownable {
     

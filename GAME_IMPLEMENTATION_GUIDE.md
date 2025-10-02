@@ -2,7 +2,9 @@
 
 ## Quick Start
 
-The VRG33589 NFT Game System has been fully implemented and integrated into the WIRED CHAOS platform. Here's how to access and use it:
+The VRG33589 NFT Game System has been fully implemented and integrated into the WIRED CHAOS platform. **VRG33589 is an XRPL (XRP Ledger) NFT project**, and the game is designed to work with XRPL wallets and NFTs.
+
+Here's how to access and use it:
 
 ### Accessing the Game
 
@@ -44,26 +46,36 @@ wired-chaos/
 
 ## Features Implemented
 
-### ✅ Smart Contracts (Solidity)
+### ✅ XRPL Integration
 
-**VRG33589Game.sol**
-- Prompt credit claiming and spending
-- Puzzle creation and solving
+**VRG33589 on XRPL**
+- VRG33589 NFTs exist on the XRP Ledger
+- Game integrates with XRPL wallets (Xaman, Crossmark)
+- NFT ownership verified by querying XRPL network
+- Compatible with XRPL Testnet and Mainnet
+
+### ✅ Smart Contracts (Reference Implementation)
+
+**Note:** The Solidity contracts serve as reference implementations. The actual game runs on XRPL NFTs with client-side game state management.
+
+**VRG33589Game.sol (Reference)**
+- Prompt credit claiming and spending logic
+- Puzzle creation and solving mechanics
 - Reality layer tracking (Surface → Deep → Core → Void)
 - System patch mechanism
-- Player progress storage
+- Player progress storage model
 
-**NFTVerifier.sol**
-- NFT ownership verification
+**NFTVerifier.sol (Reference)**
+- NFT ownership verification patterns
 - Rarity-based credit calculation
 - Collection bonus logic
 
-**CreditManager.sol**
+**CreditManager.sol (Reference)**
 - Credit expiration (7 days)
 - Streaming credits for legendary holders
 - Balance tracking
 
-**PuzzleRegistry.sol**
+**PuzzleRegistry.sol (Reference)**
 - Puzzle database with types (Riddle, Cipher, Meta, Collaborative)
 - Solution verification via hashing
 - Solve tracking and statistics
@@ -105,9 +117,9 @@ wired-chaos/
 ### ✅ Game Logic Utilities
 
 **wallet-connector.js**
-- MetaMask/Web3 integration
+- XRPL wallet integration (Xaman, Crossmark)
 - Demo mode for development
-- NFT verification (simplified)
+- VRG33589 NFT verification via XRPL queries
 - Wallet event listeners
 
 **credit-tracker.js**
@@ -133,8 +145,8 @@ wired-chaos/
 ### 1. Player Onboarding
 
 ```
-Player connects wallet → System checks NFT ownership → 
-Credits calculated based on rarity → Game state initialized
+Player connects XRPL wallet (Xaman/Crossmark) → System queries XRPL for VRG33589 NFTs → 
+Credits calculated based on NFT rarity → Game state initialized
 ```
 
 ### 2. Gameplay Loop

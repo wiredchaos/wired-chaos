@@ -8,6 +8,9 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * @title CreditManager
  * @dev Manage prompt credits with expiration and streaming
  * @author WIRED CHAOS Development Team
+ * 
+ * IMPORTANT: This is a REFERENCE IMPLEMENTATION for EVM chains.
+ * Actual credit management is client-side. See frontend/src/game/credit-tracker.js
  */
 contract CreditManager is Ownable, ReentrancyGuard {
     

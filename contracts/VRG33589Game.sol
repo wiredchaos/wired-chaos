@@ -9,6 +9,13 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * @dev The Eternal Loop - NFT-gated game system for VRG33589 holders
  * @author WIRED CHAOS Development Team
  * 
+ * IMPORTANT: This is a REFERENCE IMPLEMENTATION for EVM chains.
+ * VRG33589 NFTs exist on the XRPL (XRP Ledger), not Ethereum.
+ * 
+ * This contract demonstrates the game logic that is implemented
+ * client-side with XRPL NFT verification. Future versions may use
+ * XRPL Hooks for on-chain game state management.
+ * 
  * Features:
  * - Prompt credit management based on NFT ownership
  * - Reality layer progression tracking

@@ -2,14 +2,21 @@
 
 ## Overview
 
-The VRG33589 NFT Game System is an interactive, NFT-gated puzzle game that gamifies VRG33589 NFT holders through riddles, clues, and an eternal simulation loop. The game encourages secondary market trading through prompt credit mechanics while preventing player takeover attempts through dynamic patching.
+The VRG33589 NFT Game System is an interactive, NFT-gated puzzle game that gamifies VRG33589 **XRPL NFT** holders through riddles, clues, and an eternal simulation loop. The game encourages secondary market trading through prompt credit mechanics while preventing player takeover attempts through dynamic patching.
+
+**Important:** VRG33589 is an XRPL (XRP Ledger) NFT project. The game integrates with XRPL wallets (Xaman, Crossmark) and queries the XRPL network for NFT ownership verification.
 
 ## Architecture
 
 ### Smart Contracts (`contracts/`)
 
-#### VRG33589Game.sol
-Main game contract that manages:
+**Note:** The Solidity contracts in the `contracts/` directory serve as reference implementations for the game logic. The actual VRG33589 NFTs exist on the XRPL network. Game state can be managed either:
+- Client-side with local storage (current implementation)
+- Via backend API querying XRPL
+- Using XRPL hooks (when available)
+
+#### VRG33589Game.sol (Reference Implementation)
+Reference game contract that manages:
 - Prompt credit system (daily claims, spending)
 - Game progress tracking (reality layers, loop iterations)
 - Puzzle solving mechanics
@@ -55,7 +62,7 @@ Comprehensive puzzle database:
 
 #### Game.js
 Main game page with:
-- Wallet connection
+- XRPL wallet connection (Xaman/Crossmark wallets)
 - Tab navigation (Dashboard, Puzzles, Community, History)
 - System status bar (loop, layer, stability)
 - Glitch effects when system unstable
@@ -128,8 +135,8 @@ When players get too close to "solving" the game, the system triggers a patch:
 
 1. **Connect Wallet**
    - Navigate to `/game` or `/game/eternal-loop`
-   - Connect your Web3 wallet
-   - System checks for VRG33589 NFT ownership
+   - Connect your XRPL wallet (Xaman or Crossmark)
+   - System checks for VRG33589 NFT ownership on XRPL network
 
 2. **Claim Credits**
    - Visit Dashboard tab
@@ -150,20 +157,44 @@ When players get too close to "solving" the game, the system triggers a patch:
 
 ### For Developers
 
-#### Deploy Smart Contracts
+#### XRPL Integration
+
+**Important:** VRG33589 NFTs are on the XRPL network. The Solidity contracts serve as reference implementations only.
+
+**XRPL NFT Integration:**
+```javascript
+import { Client } from 'xrpl';
+import { getChainConfig } from '../chains/config';
+
+// Query VRG33589 NFTs for a wallet
+const config = getChainConfig('xrpl');
+const client = new Client(config.wsUrl);
+await client.connect();
+
+const response = await client.request({
+  command: 'account_nfts',
+  account: walletAddress,
+  ledger_index: 'validated'
+});
+
+// Filter for VRG33589 NFTs by issuer or taxon
+const vrg33589NFTs = response.result.account_nfts.filter(nft => {
+  return nft.Issuer === 'VRG33589_ISSUER_ADDRESS';
+});
+```
+
+#### Reference Smart Contracts (Ethereum/EVM)
+
+The Solidity contracts in `contracts/` are reference implementations showing the game logic. For production:
+- Game state is managed client-side with local storage
+- NFT verification queries XRPL directly
+- Future: Use XRPL Hooks when available for on-chain game logic
 
 ```bash
-# Install dependencies
+# If deploying reference contracts to EVM chains
 npm install
-
-# Compile contracts
 npx hardhat compile
-
-# Deploy to testnet
 npx hardhat run scripts/deploy-game.js --network sepolia
-
-# Verify on Etherscan
-npx hardhat verify --network sepolia DEPLOYED_ADDRESS
 ```
 
 #### Configure Frontend

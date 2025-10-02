@@ -8,6 +8,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @title NFTVerifier
  * @dev Verify VRG33589 NFT ownership and calculate credit bonuses
  * @author WIRED CHAOS Development Team
+ * 
+ * IMPORTANT: This is a REFERENCE IMPLEMENTATION for EVM chains.
+ * VRG33589 NFTs exist on XRPL. Actual implementation queries XRPL
+ * using the `account_nfts` command. See frontend/src/game/wallet-connector.js
  */
 contract NFTVerifier is Ownable {
     
