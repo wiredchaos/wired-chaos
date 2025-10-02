@@ -1,0 +1,23 @@
+{
+  "name": "@wired-chaos/task-engine",
+  "version": "1.0.0",
+  "description": "Task management and routing engine for WIRED CHAOS swarms",
+  "main": "src/router.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"No tests configured yet\""
+  },
+  "keywords": [
+    "task-management",
+    "swarm",
+    "orchestration",
+    "wired-chaos"
+  ],
+  "author": "WIRED CHAOS Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

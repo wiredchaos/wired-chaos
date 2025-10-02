@@ -1,0 +1,29 @@
+{
+  "name": "@wired-chaos/task-management-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker for WIRED CHAOS task management system",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
+    "tail": "wrangler tail",
+    "build": "tsc"
+  },
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "task-management",
+    "wired-chaos"
+  ],
+  "author": "WIRED CHAOS Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "typescript": "^5.0.0",
+    "wrangler": "^3.0.0"
+  }
+}
