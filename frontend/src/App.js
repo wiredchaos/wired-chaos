@@ -16,6 +16,7 @@ import axios from "axios";
 import { getSuiteUrl } from "./utils/env";
 import { StudentUnion, VRLobby, ConsignmentStore, ProductDashboard, AdminPanel } from "./components/StudentUnion";
 import GrantsForFounders from "./components/GrantsForFounders";
+import Game from "./components/game/Game";
 
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
@@ -1674,6 +1675,10 @@ function App() {
           
           {/* Educational Courses */}
           <Route path="/university/edu/grants-for-founders" element={<GrantsForFounders />} />
+          
+          {/* VRG33589 NFT Game System */}
+          <Route path="/game" element={<Game />} />
+          <Route path="/game/eternal-loop" element={<Game />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />

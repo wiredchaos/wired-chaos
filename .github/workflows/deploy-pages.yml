@@ -1,0 +1,297 @@
+name: Deploy to Cloudflare Pages with Health Check Guard
+
+on:
+  push:
+    branches:
+      - main
+      - "preview/*"
+  workflow_dispatch:
+    inputs:
+      force_redeploy:
+        description: 'Force redeploy even if health check passes'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+env:
+  NODE_VERSION: '20'
+  HEALTH_CHECK_RETRIES: 3
+  HEALTH_CHECK_DELAY: 30
+
+jobs:
+  deploy:
+    name: 🚀 Deploy Frontend with Health Guard
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      issues: write
+    
+    steps:
+      - name: 🔍 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+
+      - name: 📦 Install Dependencies
+        run: |
+          echo "🔧 Installing frontend dependencies..."
+          cd frontend
+          npm ci --silent
+          echo "✅ Dependencies installed"
+
+      - name: 🏗️ Build React Application
+        run: |
+          echo "🏗️ Building React frontend..."
+          cd frontend
+          npm run build
+          
+          # Verify build output
+          if [ -f "build/index.html" ]; then
+            BUILD_SIZE=$(stat -c%s "build/index.html")
+            echo "✅ Build successful - index.html: ${BUILD_SIZE} bytes"
+          else
+            echo "❌ Build failed - index.html not found"
+            exit 1
+          fi
+
+      - name: 🌐 Deploy to Cloudflare Pages
+        id: pages_deploy
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: wired-chaos
+          directory: frontend/build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ⏱️ Wait for Deployment Propagation
+        run: |
+          echo "⏱️ Waiting ${HEALTH_CHECK_DELAY}s for deployment to propagate..."
+          sleep ${{ env.HEALTH_CHECK_DELAY }}
+
+      - name: 🔍 Health Check Guard
+        id: health_check
+        run: |
+          echo "🔍 Running health check guard..."
+          
+          SITE_URL="https://wired-chaos.pages.dev"
+          SUCCESS_COUNT=0
+          
+          for i in $(seq 1 ${{ env.HEALTH_CHECK_RETRIES }}); do
+            echo "🔄 Health check attempt $i/${{ env.HEALTH_CHECK_RETRIES }}..."
+            
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "$SITE_URL" || echo "000")
+            
+            if [ "$HTTP_STATUS" = "200" ]; then
+              echo "✅ Health check passed: HTTP $HTTP_STATUS"
+              SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
+              
+              # Additional content verification
+              CONTENT=$(curl -s --max-time 30 "$SITE_URL" || echo "")
+              if echo "$CONTENT" | grep -q "React\|emergent\|WIRED CHAOS"; then
+                echo "✅ Content verification passed - React app detected"
+                echo "health_status=success" >> $GITHUB_OUTPUT
+                echo "site_url=$SITE_URL" >> $GITHUB_OUTPUT
+                break
+              else
+                echo "⚠️ Content verification failed - unexpected content"
+              fi
+            else
+              echo "❌ Health check failed: HTTP $HTTP_STATUS"
+            fi
+            
+            if [ $i -lt ${{ env.HEALTH_CHECK_RETRIES }} ]; then
+              echo "⏱️ Waiting 15s before retry..."
+              sleep 15
+            fi
+          done
+          
+          if [ $SUCCESS_COUNT -eq 0 ]; then
+            echo "❌ All health checks failed after ${{ env.HEALTH_CHECK_RETRIES }} attempts"
+            echo "health_status=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: 🔧 Auto-Heal on Failure
+        if: failure() && steps.health_check.outputs.health_status == 'failed'
+        run: |
+          echo "🚨 HEALTH CHECK FAILED - INITIATING AUTO-HEAL"
+          echo ""
+          echo "🔧 Auto-heal process:"
+          echo "1. Detected Pages deployment failure"
+          echo "2. Attempting configuration fix via API"
+          echo "3. Will trigger new deployment automatically"
+          echo ""
+          
+          # Create auto-heal script
+          cat > auto-heal.sh << 'EOF'
+          #!/bin/bash
+          echo "🤖 Auto-healing Pages deployment..."
+          
+          # Verify build exists
+          if [ ! -f "frontend/build/index.html" ]; then
+            echo "❌ Build not found - rebuilding..."
+            cd frontend
+            npm run build
+            cd ..
+          fi
+          
+          # API call to fix Pages configuration
+          curl -X PATCH \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/pages/projects/wired-chaos" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "build_config": {
+                "build_command": "cd frontend && npm install && npm run build",
+                "destination_dir": "frontend/build",
+                "root_dir": "/"
+              }
+            }'
+          
+          # Trigger new deployment
+          curl -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/pages/projects/wired-chaos/deployments" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+            -H "Content-Type: application/json"
+          
+          echo "✅ Auto-heal deployment triggered"
+          EOF
+          
+          chmod +x auto-heal.sh
+          ./auto-heal.sh
+
+      - name: 🔄 Final Health Verification (Post Auto-Heal)
+        if: failure()
+        run: |
+          echo "🔄 Final health verification after auto-heal..."
+          sleep 60  # Wait for auto-heal deployment
+          
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "https://wired-chaos.pages.dev" || echo "000")
+          
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ Auto-heal successful - site is now live!"
+          else
+            echo "❌ Auto-heal failed - manual intervention required"
+            echo "🔍 Debug info:"
+            echo "   Status: HTTP $HTTP_STATUS"
+            echo "   URL: https://wired-chaos.pages.dev"
+            echo "   Next steps: Check Cloudflare Pages dashboard"
+            exit 1
+          fi
+
+      - name: 📊 Generate Deployment Report
+        if: always()
+        run: |
+          echo "📊 Generating deployment report..."
+          
+          REPORT_FILE="deployment-report-$(date +%Y%m%d-%H%M%S).md"
+          
+          cat > "$REPORT_FILE" << EOF
+          # 🚀 Cloudflare Pages Deployment Report
+          
+          **Date**: $(date)
+          **Branch**: ${{ github.ref_name }}
+          **Commit**: ${{ github.sha }}
+          **Status**: ${{ steps.health_check.outputs.health_status || 'unknown' }}
+          
+          ## 📋 Deployment Details
+          - **Site URL**: https://wired-chaos.pages.dev
+          - **Build Status**: ${{ job.status }}
+          - **Health Check**: ${{ steps.health_check.outputs.health_status || 'failed' }}
+          - **Node.js Version**: ${{ env.NODE_VERSION }}
+          
+          ## 🔍 Verification Results
+          - **Frontend Build**: $([ -f "frontend/build/index.html" ] && echo "✅ Success" || echo "❌ Failed")
+          - **Pages Deployment**: ${{ steps.pages_deploy.outcome }}
+          - **Health Check**: ${{ steps.health_check.outputs.health_status || 'failed' }}
+          
+          ## 🌐 Live URLs
+          $([ "${{ steps.health_check.outputs.health_status }}" = "success" ] && echo "- ✅ Homepage: https://wired-chaos.pages.dev" || echo "- ❌ Site not accessible")
+          $([ "${{ steps.health_check.outputs.health_status }}" = "success" ] && echo "- ✅ University: https://wired-chaos.pages.dev/university" || echo "")
+          $([ "${{ steps.health_check.outputs.health_status }}" = "success" ] && echo "- ✅ Suite: https://wired-chaos.pages.dev/suite" || echo "")
+          $([ "${{ steps.health_check.outputs.health_status }}" = "success" ] && echo "- ✅ Tax: https://wired-chaos.pages.dev/tax" || echo "")
+          
+          ---
+          **Generated by**: WIRED CHAOS Deploy Guard
+          **Workflow**: ${{ github.workflow }}
+          **Run ID**: ${{ github.run_id }}
+          EOF
+          
+          echo "📄 Report generated: $REPORT_FILE"
+
+      - name: 📤 Upload Deployment Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-report-${{ github.run_number }}
+          path: |
+            deployment-report-*.md
+            frontend/build/
+          retention-days: 30
+
+      - name: 🚨 Create Issue on Failure
+        if: failure() && steps.health_check.outputs.health_status == 'failed'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `🚨 Pages Deployment Failed - Health Check Guard Triggered - ${new Date().toISOString().split('T')[0]}`;
+            const body = `## 🚨 Cloudflare Pages Deployment Failure
+            
+            **Date**: ${new Date().toISOString()}
+            **Branch**: ${{ github.ref_name }}
+            **Commit**: ${{ github.sha }}
+            **Workflow Run**: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            ### 🔍 Failure Details
+            - **Health Check**: Failed after ${{ env.HEALTH_CHECK_RETRIES }} attempts
+            - **Expected**: HTTP 200 from https://wired-chaos.pages.dev
+            - **Auto-Heal**: ${{ steps.health_check.outputs.health_status == 'failed' && 'Attempted' || 'Not triggered' }}
+            
+            ### 🛠️ Investigation Required
+            - [ ] Check Cloudflare Pages dashboard
+            - [ ] Verify build configuration
+            - [ ] Test site manually: https://wired-chaos.pages.dev
+            - [ ] Review deployment logs above
+            
+            ### 🎯 Next Steps
+            1. Review the workflow logs above
+            2. Check Cloudflare Pages project settings
+            3. Verify build output directory: \`frontend/build\`
+            4. Manually trigger redeploy if needed
+            
+            ---
+            **Auto-created by**: WIRED CHAOS Deploy Guard
+            **Priority**: High - Frontend deployment blocked`;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['bug', 'deployment', 'pages', 'high-priority', 'auto-created']
+            });
+
+      - name: 🎉 Success Notification
+        if: success() && steps.health_check.outputs.health_status == 'success'
+        run: |
+          echo "🎉 DEPLOYMENT SUCCESSFUL!"
+          echo ""
+          echo "✅ Results:"
+          echo "   🌐 Site: https://wired-chaos.pages.dev"
+          echo "   🏫 University: https://wired-chaos.pages.dev/university"
+          echo "   💼 Suite: https://wired-chaos.pages.dev/suite"
+          echo "   📊 Tax: https://wired-chaos.pages.dev/tax"
+          echo ""
+          echo "🚀 WIRED CHAOS Frontend: LIVE!"
