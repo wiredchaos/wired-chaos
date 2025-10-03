@@ -19,6 +19,7 @@
 - **🎬 Video System**: Optional avatar linking for videos - works perfectly with or without creator avatars
 - **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
 - **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
+- **🎮 VRG33589 "The Eternal Loop"**: XRPL NFT game with 589 LLM swarm AI and reality layer progression
 
 ## 🆕 SWARM Orchestrator Pipeline
 
@@ -72,6 +73,27 @@ npm run swarm-bot:monitor
 - ✅ Comprehensive triage rules and auto-fix patterns
 
 📚 **[SWARM Bot Documentation](./SWARM_BOT_AUTOMATION.md)** | **[Quick Start](./SWARM_BOT_QUICKSTART.md)**
+
+## 🎮 VRG33589 "The Eternal Loop" Game
+
+**NEW**: XRPL-powered NFT game with AI-driven gameplay and reality layer progression!
+
+```bash
+# Backend API
+cd backend && python server.py
+
+# Frontend (includes game UI)
+cd frontend && npm start
+```
+
+**Features:**
+- 🎯 **XRPL Integration**: Cost-efficient blockchain operations on XRP Ledger
+- 🤖 **589 LLM Swarm**: AI-generated puzzles and dynamic difficulty adjustment
+- 🌀 **Reality Layers**: Progress through Surface → Deep → Core → Void
+- 💎 **NFT Economy**: Daily credit generation based on NFT rarity
+- 🏆 **Leaderboard**: Compete with other players in loop iterations
+
+📚 **[Complete Game Documentation](./VRG33589_ETERNAL_LOOP.md)**
 
 ## 🤖 VS Studio Bot Setup (Quick Start)
 

@@ -1,0 +1,57 @@
+# Cloudflare Pages Configuration for WIRED CHAOS Frontend
+# Date: October 1, 2025
+
+name = "wired-chaos"
+compatibility_date = "2025-10-01"
+
+# Pages-specific configuration
+[env.production]
+name = "wired-chaos"
+vars = { 
+  ENVIRONMENT = "production",
+  REACT_APP_API_URL = "https://www.wiredchaos.xyz/api",
+  REACT_APP_GAMMA_API = "https://gamma.app/api",
+  REACT_APP_NOTION_WEBHOOK = "https://www.wiredchaos.xyz/notion/webhook"
+}
+
+[env.preview]
+name = "wired-chaos-preview"
+vars = { 
+  ENVIRONMENT = "preview",
+  REACT_APP_API_URL = "https://chaoswired-staging.wiredchaos.workers.dev/api",
+  REACT_APP_GAMMA_API = "https://gamma.app/api",
+  REACT_APP_NOTION_WEBHOOK = "https://chaoswired-staging.wiredchaos.workers.dev/notion/webhook"
+}
+
+# Build configuration
+[build]
+command = "cd frontend && npm install && npm run build"
+cwd = "."
+publish = "frontend/build"
+
+# Headers for static assets
+[[headers]]
+for = "/*"
+[headers.values]
+X-Frame-Options = "DENY"
+X-Content-Type-Options = "nosniff"
+Referrer-Policy = "strict-origin-when-cross-origin"
+X-XSS-Protection = "1; mode=block"
+
+# React Router SPA configuration
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+conditions = {Country = ["US", "CA", "GB", "AU", "DE", "FR", "JP"]}
+
+# API routing to Workers
+[[redirects]]
+from = "/api/*"
+to = "https://www.wiredchaos.xyz/api/:splat"
+status = 200
+
+[[redirects]]
+from = "/gamma/*"
+to = "https://www.wiredchaos.xyz/gamma/:splat"
+status = 200

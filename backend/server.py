@@ -8,6 +8,9 @@ from starlette.middleware.cors import CORSMiddleware
 from cert_api import router as cert_router
 from brain_assistant_api import router as brain_router
 
+# Import VRG33589 game system
+from vrg33589_game import router as game_router
+
 PORT = int(os.getenv("PORT", "8080"))
 OPENAI_KEY = os.getenv("OPENAI_API_KEY", "")
 MODEL = os.getenv("MODEL", "gpt-4o-mini")
@@ -20,6 +23,9 @@ app.include_router(cert_router)
 
 # Include brain assistant API routes  
 app.include_router(brain_router)
+
+# Include VRG33589 game routes
+app.include_router(game_router)
 
 # Add CORS middleware
 app.add_middleware(
