@@ -561,7 +561,7 @@
     },
     {
       "label": "🔄 SWARM: Trigger Full Deployment",
-      "type": "shell", 
+      "type": "shell",
       "command": "gh workflow run deployment-orchestration.yml -f phase='all' && gh workflow run swarm-orchestration-trigger.yml",
       "group": "build",
       "problemMatcher": [],
@@ -608,7 +608,7 @@
       "label": "📈 SWARM: Performance Monitor",
       "type": "shell",
       "command": "gh workflow run performance-monitoring.yml && echo '📊 Performance monitoring activated'",
-      "group": "test", 
+      "group": "test",
       "problemMatcher": [],
       "presentation": {
         "echo": true,
@@ -619,7 +619,7 @@
       "detail": "Activate SWARM performance monitoring and analytics"
     },
     {
-      "label": "🔧 SWARM: Validate Environment", 
+      "label": "🔧 SWARM: Validate Environment",
       "type": "shell",
       "command": "echo '🔍 Validating SWARM environment...' && gh auth status && node --version && python --version && git status",
       "group": "test",

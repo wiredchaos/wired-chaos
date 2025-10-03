@@ -260,25 +260,25 @@
   .playground-hub {
     padding: 1rem;
   }
-  
+
   .hub-title {
     font-size: 2rem;
   }
-  
+
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     padding: 1rem;
   }
-  
+
   .stat-number {
     font-size: 1.5rem;
   }
-  
+
   .playground-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .achievements-grid {
     grid-template-columns: 1fr;
   }

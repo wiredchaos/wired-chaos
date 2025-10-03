@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './RFPMarketplace.css';
 
-// TODO: Implement RFP Marketplace UI  
+// TODO: Implement RFP Marketplace UI
 // Features to implement:
 // - Browse and filter RFPs by category, budget, timeline
 // - Post new RFPs with detailed requirements
@@ -47,7 +47,7 @@ const RFPMarketplace = () => {
         {/* TODO: Implement filter controls */}
         <div className="filter-group">
           <label>Category:</label>
-          <select value={filters.category} onChange={(e) => 
+          <select value={filters.category} onChange={(e) =>
             setFilters({...filters, category: e.target.value})}>
             <option value="all">All Categories</option>
             <option value="web-dev">Web Development</option>

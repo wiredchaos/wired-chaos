@@ -6,7 +6,7 @@ This directory contains developer-focused playground components for advanced AI 
 
 ### API Testing Suite
 - **REST API Explorer**: Interactive API documentation and testing
-- **GraphQL Playground**: Query builder and schema explorer  
+- **GraphQL Playground**: Query builder and schema explorer
 - **WebSocket Tester**: Real-time connection testing
 - **Blockchain RPC**: Direct blockchain node interaction
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './EscrowManager.css';
 
 // TODO: Implement Escrow Manager UI
@@ -23,7 +23,7 @@ const EscrowManager = ({ projectId }) => {
   const loadProjectEscrows = async (id) => {
     // TODO: Fetch escrow data from smart contract
     console.log('Loading escrows for project:', id);
-    
+
     // Mock data for development
     setEscrows([
       {
@@ -41,7 +41,7 @@ const EscrowManager = ({ projectId }) => {
         createdAt: new Date('2025-10-01')
       }
     ]);
-    
+
     setActiveEscrow(escrows[0]);
     setLoading(false);
   };
@@ -77,7 +77,7 @@ const EscrowManager = ({ projectId }) => {
               <div className="amount">Total: {activeEscrow.amount}</div>
               <div className="status">Status: {activeEscrow.status}</div>
             </div>
-            
+
             <div className="parties">
               <div className="party">
                 <label>Client:</label>
@@ -101,13 +101,13 @@ const EscrowManager = ({ projectId }) => {
                     </div>
                     <div className="milestone-amount">{milestone.amount}</div>
                   </div>
-                  
+
                   <div className="milestone-actions">
                     {milestone.status === 'completed' && (
                       <span className="completed-badge">✅ Completed</span>
                     )}
                     {milestone.status === 'in-progress' && (
-                      <button 
+                      <button
                         className="release-payment-btn"
                         onClick={() => releaseMilestonePayment(milestone.id)}
                       >
@@ -124,17 +124,17 @@ const EscrowManager = ({ projectId }) => {
           </div>
 
           <div className="escrow-actions">
-            <button 
+            <button
               className="dispute-btn"
               onClick={() => raiseDispute(activeEscrow.id, 'Payment dispute')}
             >
               ⚠️ Raise Dispute
             </button>
-            
+
             <button className="extend-escrow-btn">
               🔄 Extend Deadline
             </button>
-            
+
             <button className="close-escrow-btn">
               ✅ Close Escrow
             </button>

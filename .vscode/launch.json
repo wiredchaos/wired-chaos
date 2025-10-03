@@ -36,7 +36,7 @@
         "order": 2
       }
     },
-    
+
     // ========== Backend Debugging ==========
     {
       "name": "Backend: Main Server",
@@ -102,7 +102,7 @@
         "order": 4
       }
     },
-    
+
     // ========== Vault33 Gatekeeper Debugging ==========
     {
       "name": "Gatekeeper: Main",
@@ -176,7 +176,7 @@
         "order": 4
       }
     },
-    
+
     // ========== Python Testing ==========
     {
       "name": "Python: Current Test File",
@@ -211,7 +211,7 @@
         "order": 2
       }
     },
-    
+
     // ========== SWARM Automation Debugging ==========
     {
       "name": "🚀 SWARM: Bot Automation Debug",
@@ -247,7 +247,7 @@
       }
     },
     {
-      "name": "📊 SWARM: Orchestrator Debug", 
+      "name": "📊 SWARM: Orchestrator Debug",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/automation/swarm-orchestrator.js",
@@ -281,7 +281,7 @@
     {
       "name": "🏪 SWARM: Marketplace Debug",
       "type": "chrome",
-      "request": "launch", 
+      "request": "launch",
       "url": "http://localhost:3000/marketplace",
       "webRoot": "${workspaceFolder}/frontend/src/components/marketplace",
       "sourceMaps": true,
@@ -290,7 +290,7 @@
         "order": 5
       }
     },
-    
+
     // ========== Current File Debugging ==========
     {
       "name": "Python: Current File",
@@ -305,7 +305,7 @@
       }
     }
   ],
-  
+
   // ========== Compound Configurations ==========
   // Launch multiple debuggers at once
   "compounds": [

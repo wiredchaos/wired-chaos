@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './HolderBenefits.css';
 
 // TODO: Implement Holder Benefits Display
@@ -22,7 +22,7 @@ const HolderBenefits = ({ walletAddress }) => {
   const verifyHolderStatus = async (address) => {
     // TODO: Call Vault33 Gatekeeper API to verify NFT holdings
     console.log('Verifying holder status for:', address);
-    
+
     // Mock data for development
     setHolderStatus({
       isHolder: true,
@@ -30,14 +30,14 @@ const HolderBenefits = ({ walletAddress }) => {
       nftCount: 5,
       stakingLevel: 'High'
     });
-    
+
     setBenefits([
       { type: 'fee-reduction', value: '50%', description: 'Marketplace fees reduced to 2.5%' },
       { type: 'priority-listing', value: 'Active', description: 'RFPs get priority placement' },
       { type: 'exclusive-access', value: 'Gold+', description: 'Access to premium contractor pool' },
       { type: 'analytics', value: 'Advanced', description: 'Detailed project analytics and insights' }
     ]);
-    
+
     setLoading(false);
   };
 
@@ -50,7 +50,7 @@ const HolderBenefits = ({ walletAddress }) => {
       <div className="holder-benefits non-holder">
         <h3>🎭 NFT Holder Benefits</h3>
         <p>Connect your wallet and hold WIRED CHAOS NFTs to unlock exclusive benefits!</p>
-        
+
         <div className="benefits-preview">
           <h4>Available Benefits:</h4>
           <ul>
@@ -61,7 +61,7 @@ const HolderBenefits = ({ walletAddress }) => {
             <li>🎯 Personalized project matching</li>
           </ul>
         </div>
-        
+
         <button className="mint-nft-btn">
           🎨 Mint Your NFT
         </button>

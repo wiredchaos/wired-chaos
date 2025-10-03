@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
+import { useEffect, useState } from 'react';
 import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import './PlaygroundHub.css';
 
 const PlaygroundHub = () => {
@@ -28,7 +27,7 @@ const PlaygroundHub = () => {
       //   headers: { 'Authorization': `Bearer ${userToken}` }
       // });
       // const stats = await response.json();
-      
+
       // Mock data for now
       setUserStats({
         experimentsCompleted: 12,
@@ -116,7 +115,7 @@ const PlaygroundHub = () => {
       <div className="hub-header">
         <h1 className="hub-title">WIRED CHAOS Playground</h1>
         <p className="hub-subtitle">Experiment, Learn, Build, Earn</p>
-        
+
         <div className="user-stats">
           <div className="stats-grid">
             <div className="stat-item">
@@ -170,7 +169,7 @@ const PlaygroundHub = () => {
                   <div className="section-stats">
                     <span className="experiment-count">{section.experiments} experiments</span>
                   </div>
-                  <Button 
+                  <Button
                     className="launch-button"
                     disabled={section.status === 'premium' || section.status === 'beta'}
                   >

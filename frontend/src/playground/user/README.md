@@ -10,7 +10,7 @@ This directory contains user-facing playground components for experimenting with
 - **Code Assistant**: AI coding helper with Web3 examples
 - **NFT Designer**: AI-assisted NFT artwork generator
 
-### Web3 Playground Components  
+### Web3 Playground Components
 - **Wallet Connector**: Multi-chain wallet connection interface
 - **Token Swapper**: DEX integration for token exchanges
 - **NFT Minter**: Simple NFT creation and minting interface
