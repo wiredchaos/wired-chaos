@@ -851,6 +851,29 @@
       },
       "detail": "Manually trigger ready & merge workflow via workflow dispatch"
     }
+    ,
+    // ========== NO TOUCH Infra Automation ==========
+    {
+      "label": "NO TOUCH Infra Automation",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "& { if (Test-Path ./SANITY_CHECK.ps1) { ./SANITY_CHECK.ps1 } else { Write-Host 'SANITY_CHECK.ps1 not found' } ; if (Test-Path ./frontend) { cd ./frontend; if (Get-Command npm -ErrorAction SilentlyContinue) { npm test } else { Write-Host 'npm not found' } } else { Write-Host 'frontend folder not found' } ; cd .. ; if (Test-Path ./backend) { cd ./backend; if (Get-Command pytest -ErrorAction SilentlyContinue) { pytest } else { Write-Host 'pytest not found' } } else { Write-Host 'backend folder not found' } }"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "group": "swarm-deployment"
+      },
+      "detail": "Run full environment, frontend, and backend validation for zero-touch infra automation."
+    }
   ],
   "inputs": [
     {
