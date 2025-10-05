@@ -2,24 +2,24 @@ name: 🚀 Deploy Complete WIRED CHAOS System
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Deployment environment'
+        description: "Deployment environment"
         required: true
-        default: 'production'
+        default: "production"
         type: choice
         options:
-        - production
-        - staging
-        - emergency
+          - production
+          - staging
+          - emergency
 
 env:
-  NODE_VERSION: '18'
-  PYTHON_VERSION: '3.9'
+  NODE_VERSION: "18"
+  PYTHON_VERSION: "3.9"
 
 jobs:
   test:
@@ -50,7 +50,7 @@ jobs:
 
       - name: 🧪 Run Python tests
         run: |
-          python -m pytest tests/ -v || echo "Tests completed with warnings"
+          python -m pytest backend/tests/ -v || echo "Tests completed with warnings"
 
       - name: 🧪 Run frontend tests
         working-directory: frontend
