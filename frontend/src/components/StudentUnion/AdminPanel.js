@@ -7,6 +7,8 @@ import './AdminPanel.css';
 
 const AdminPanel = () => {
   const [activeSection, setActiveSection] = useState('overview');
+  // Tenant context: 'school' or 'business'
+  const tenant = (window.location.pathname.includes('b2b') || window.location.pathname.includes('business')) ? 'business' : 'school';
 
   const stats = {
     totalStudents: 1247,
@@ -29,12 +31,13 @@ const AdminPanel = () => {
   ];
 
   return (
-    <div className="admin-panel-container">
+  <div className={`admin-panel-container tenant-${tenant}`}> 
       <div className="admin-header">
         <h1 className="admin-title">
           <span className="glitch" data-text="ADMIN PANEL">ADMIN PANEL</span>
         </h1>
-        <p className="admin-subtitle">University Staff • Student Union Management</p>
+        <p className="admin-subtitle">{tenant === 'business' ? 'Business Tenant Oversight' : 'University Staff • Student Union Management'}</p>
+        <div className={`tenant-badge tenant-${tenant}`}>{tenant === 'business' ? 'Business' : 'School'}</div>
       </div>
 
       <div className="admin-stats-grid">

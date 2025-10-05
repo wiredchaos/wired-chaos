@@ -59,13 +59,16 @@ const BrainGeometry = ({ position, isWalking, currentMessage }) => {
 
   // Brain material with realistic appearance
   const brainMaterial = React.useMemo(() => {
-    return new THREE.MeshPhongMaterial({
+    const mat = new THREE.MeshPhongMaterial({
       color: '#ff6b9d',
       shininess: 30,
       transparent: true,
       opacity: 0.9,
       side: THREE.DoubleSide
     });
+    // Patch for CRACO/Three.js production build: enforce LinearEncoding
+    if (mat.map) mat.map.encoding = THREE.LinearEncoding;
+    return mat;
   }, []);
 
   return (
@@ -136,7 +139,12 @@ const NeuralConnections = () => {
     <group ref={connectionsRef}>
       {connections.map((geometry, i) => (
         <line key={i} geometry={geometry}>
-          <lineBasicMaterial color="#00ffff" transparent opacity={0.6} />
+          <lineBasicMaterial
+            color="#00ffff"
+            transparent
+            opacity={0.6}
+            ref={mat => { if (mat) mat.encoding = THREE.LinearEncoding; }}
+          />
         </line>
       ))}
     </group>
