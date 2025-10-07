@@ -30,6 +30,7 @@
     "site:wipe": "pwsh scripts/site-wipe-fresh-build.ps1 -Force",
     "site:wipe:safe": "pwsh scripts/site-wipe-fresh-build.ps1",
     "site:wipe:unix": "bash scripts/site-wipe-fresh-build.sh",
+    "codex:check-secrets": "node scripts/codex/fix-secrets.js --check",
     "test:e2e": "gh workflow run e2e-signup-automation.yml -f dry_run=true",
     "test:e2e:live": "gh workflow run e2e-signup-automation.yml -f dry_run=false -f notify=true"
   },

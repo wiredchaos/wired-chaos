@@ -144,6 +144,24 @@ npm run deploy:webhook     # Deploy webhook processor
 npm run gamma:activate     # Activate GAMMA templates
 npm run monitor:performance # Run performance check
 npm run test:e2e          # Run E2E test (dry run)
+npm run codex:check-secrets # Secret scanning helper
+```
+
+---
+
+## Codex Guardrails
+
+Additional safety utilities maintained under `scripts/codex/` help keep
+credentials out of source control.
+
+- **`fix-secrets.js`** – Secret scanner used by Codex workflows
+
+```bash
+# Run from the repository root
+node scripts/codex/fix-secrets.js --check
+
+# Or via npm
+npm run codex:check-secrets
 ```
 
 ---
