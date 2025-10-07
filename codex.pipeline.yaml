@@ -1,0 +1,45 @@
+version: 1
+name: wired-chaos-dual-canary
+description: >
+  Dual deploy pipeline orchestrated by Codex with staged canary ramps and SLO gates.
+inputs:
+  environment: staging
+  version_tag: HEAD
+stages:
+  - name: bootstrap
+    steps:
+      - run: node scripts/orchestrator/execute.js --summary-only
+        displayName: Orchestrator self-check
+  - name: deploy_wix
+    agent: wix/runner
+    steps:
+      - run: node scripts/wix/build.js --tag ${version_tag}
+      - run: node scripts/wix/deploy.js --site $WIX_SITE_ID --tag ${version_tag} --canary 5
+      - run: node scripts/swarm/log.js --event "wix:canary:5" --env ${environment}
+  - name: deploy_gamma
+    agent: gamma/runner
+    steps:
+      - run: pnpm -C apps/gamma install && pnpm -C apps/gamma build
+      - run: node scripts/gamma/deploy.js --space $GAMMA_SPACE_ID --tag ${version_tag} --canary 5
+      - run: node scripts/swarm/log.js --event "gamma:canary:5" --env ${environment}
+  - name: canary_ramp
+    agent: qa/canary-orchestrator
+    steps:
+      - run: node scripts/canary/shift.js --apps wix,gamma --pct 5
+      - run: node scripts/slo/check.js --apps wix,gamma --slo-url $NOTION_SLO_BADGE_URL --min 99
+      - run: node scripts/swarm/log.js --event "canary:ramp:5" --env ${environment}
+      - run: node scripts/canary/shift.js --apps wix,gamma --pct 25
+      - run: node scripts/slo/check.js --apps wix,gamma --slo-url $NOTION_SLO_BADGE_URL --min 99
+      - run: node scripts/swarm/log.js --event "canary:ramp:25" --env ${environment}
+      - run: node scripts/canary/shift.js --apps wix,gamma --pct 50
+      - run: node scripts/slo/check.js --apps wix,gamma --slo-url $NOTION_SLO_BADGE_URL --min 99
+      - run: node scripts/swarm/log.js --event "canary:ramp:50" --env ${environment}
+      - run: node scripts/canary/shift.js --apps wix,gamma --pct 100
+      - run: node scripts/slo/check.js --apps wix,gamma --slo-url $NOTION_SLO_BADGE_URL --min 99
+      - run: node scripts/swarm/log.js --event "canary:ramp:100" --env ${environment}
+  - name: sync_and_finalize
+    steps:
+      - run: node scripts/notion/sync.js
+      - run: node scripts/flags/set.js --app wix --flag CanaryEnabled=false
+      - run: node scripts/flags/set.js --app gamma --flag CanaryEnabled=false
+      - run: node scripts/swarm/log.js --event "deploy:complete" --env ${environment}
