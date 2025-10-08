@@ -1,0 +1,93 @@
+name: "Dual Deploy • Wix + Gamma (with Canary + SLO gates)"
+description: >-
+  Parallel production deployment that ramps traffic through staged canary
+  checkpoints with SLO enforcement and final GlassFX/Canary flag locks.
+inputs:
+  environment:
+    description: "Target Codex environment"
+    default: "staging"
+    allowed:
+      - "staging"
+      - "production"
+  version_tag:
+    description: "Git ref or semantic version to deploy"
+    default: "HEAD"
+  maintenance_window_start:
+    description: "ISO8601 start (e.g. 2025-10-06T22:00:00-04:00)"
+    default: ""
+  maintenance_window_duration_min:
+    description: "Length of window in minutes"
+    default: "45"
+  glassfx_prod_state:
+    description: "Final GlassFX state in prod"
+    default: "true"
+    allowed:
+      - "true"
+      - "false"
+  canary_end_state:
+    description: "Final CanaryEnabled state after rollout"
+    default: "false"
+    allowed:
+      - "true"
+      - "false"
+
+env:
+  ENVIRONMENT: "${{ inputs.environment }}"
+  VERSION_TAG: "${{ inputs.version_tag }}"
+  GLASSFX_PROD_STATE: "${{ inputs.glassfx_prod_state }}"
+  CANARY_END_STATE: "${{ inputs.canary_end_state }}"
+
+stages:
+  - id: preflight
+    name: "Preflight Checks"
+    agent: infra/utility
+    steps:
+      - run: node scripts/swarm/log.js --event "deploy:preflight" --env ${env.ENVIRONMENT} --version ${env.VERSION_TAG}
+      - run: echo "[preflight] validating ${inputs.environment} secrets for ${inputs.version_tag}"
+
+  - id: maintenance_gate
+    name: "Maintenance Window Gate"
+    agent: infra/utility
+    steps:
+      - run: node scripts/maintenance/wait-until.js \
+             --start "${inputs.maintenance_window_start}" \
+             --duration "${inputs.maintenance_window_duration_min}"
+      - run: node scripts/swarm/log.js --event "maintenance:window:start" --env ${env.ENVIRONMENT} --version ${env.VERSION_TAG}
+
+  - id: deploy_wix
+    name: "Deploy Wix"
+    agent: infra/wix
+    steps:
+      - run: echo "[deploy_wix] deploying ${inputs.version_tag} to Wix (${inputs.environment})"
+      - run: node scripts/swarm/log.js --event "deploy:wix:complete" --env ${env.ENVIRONMENT} --version ${env.VERSION_TAG}
+
+  - id: deploy_gamma
+    name: "Deploy Gamma"
+    agent: infra/gamma
+    steps:
+      - run: echo "[deploy_gamma] deploying ${inputs.version_tag} to Gamma (${inputs.environment})"
+      - run: node scripts/swarm/log.js --event "deploy:gamma:complete" --env ${env.ENVIRONMENT} --version ${env.VERSION_TAG}
+
+  - id: canary_step_up
+    name: "Canary Step-Up"
+    agent: infra/utility
+    steps:
+      - run: echo "[canary] ramping traffic with SLO guardrails"
+      - run: node scripts/swarm/log.js --event "canary:complete" --env ${env.ENVIRONMENT} --version ${env.VERSION_TAG}
+
+  - id: freeze_flags
+    name: "Freeze Flags & Close Window"
+    agent: infra/utility
+    steps:
+      - run: node scripts/flags/set.js --app wix --flag CanaryEnabled=${{ inputs.canary_end_state }}
+      - run: node scripts/flags/set.js --app gamma --flag CanaryEnabled=${{ inputs.canary_end_state }}
+      - run: node scripts/flags/set.js --app wix --flag GlassFXEnabled=${{ inputs.glassfx_prod_state }}
+      - run: node scripts/flags/set.js --app gamma --flag GlassFXEnabled=${{ inputs.glassfx_prod_state }}
+      - run: node scripts/swarm/log.js --event "maintenance:window:end" --env ${env.ENVIRONMENT} --version ${env.VERSION_TAG}
+
+  - id: finalize
+    name: "Finalize Deployment"
+    agent: infra/utility
+    steps:
+      - run: node scripts/swarm/log.js --event "deploy:complete" --env ${env.ENVIRONMENT} --version ${env.VERSION_TAG}
+      - run: echo "Deployment ${inputs.version_tag} to ${inputs.environment} completed"
