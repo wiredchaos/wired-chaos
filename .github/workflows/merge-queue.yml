@@ -1,0 +1,34 @@
+name: Merge Queue (Oldest→Newest)
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "owner/repo (default wiredchaos/wired-chaos)"
+        required: false
+      method:
+        description: "merge method: squash|merge|rebase"
+        required: false
+        default: "squash"
+
+jobs:
+  queue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: read
+      checks: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Run queue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.event.inputs.repo || 'wiredchaos/wired-chaos' }}
+          MERGE_METHOD: ${{ github.event.inputs.method }}
+        run: |
+          bash scripts/pr-merge-queue.sh
