@@ -8,6 +8,13 @@ import { OrbitControls, Text, Html, useGLTF, useAnimations } from '@react-three/
 import * as THREE from 'three';
 import './BrainAssistant3D.css';
 
+const applyLinearColorSpace = target => {
+  if (!target) return;
+  if ('colorSpace' in target && THREE.LinearSRGBColorSpace) {
+    target.colorSpace = THREE.LinearSRGBColorSpace;
+  }
+};
+
 // Brain Geometry Component - Procedurally generated brain
 const BrainGeometry = ({ position, isWalking, currentMessage }) => {
   const meshRef = useRef();
@@ -66,8 +73,9 @@ const BrainGeometry = ({ position, isWalking, currentMessage }) => {
       opacity: 0.9,
       side: THREE.DoubleSide
     });
-    // Patch for CRACO/Three.js production build: enforce LinearEncoding
-    if (mat.map) mat.map.encoding = THREE.LinearEncoding;
+    if (mat.map) {
+      applyLinearColorSpace(mat.map);
+    }
     return mat;
   }, []);
 
@@ -143,7 +151,6 @@ const NeuralConnections = () => {
             color="#00ffff"
             transparent
             opacity={0.6}
-            ref={mat => { if (mat) mat.encoding = THREE.LinearEncoding; }}
           />
         </line>
       ))}

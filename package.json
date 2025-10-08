@@ -14,7 +14,7 @@
     "worker:deploy": "echo 'Worker deployment completed - stub mode'",
     "backend:dev": "cd backend && python server.py",
     "worker:dev": "cd src && npx wrangler dev",
-    "test": "npm run frontend:build && echo 'Build test completed successfully'",
+    "test": "node scripts/run-tests.js",
     "test:swarm-bot": "node swarm-bot-automation.test.js",
     "swarm-bot": "node swarm-bot-automation.js",
     "swarm-bot:monitor": "node swarm-bot-automation.js --monitor",
@@ -44,7 +44,8 @@
   "license": "MIT",
   "dependencies": {
     "@octokit/rest": "^21.0.2",
-    "axios": "^1.7.7"
+    "axios": "^1.7.7",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
