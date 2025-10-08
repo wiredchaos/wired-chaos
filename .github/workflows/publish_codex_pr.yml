@@ -1,0 +1,102 @@
+name: 🚀 Publish CODEX PR Kit
+
+on:
+  workflow_dispatch:
+    inputs:
+      regenerate_assets:
+        description: 'Regenerate press kit sources before publishing'
+        required: false
+        default: 'true'
+      upload_artifact:
+        description: 'Upload compiled press kit as an artifact'
+        required: false
+        default: 'true'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/publish_codex_pr.yml'
+      - 'docs/codex-release/**'
+      - 'scripts/codex/**'
+      - 'package.json'
+      - 'package-lock.json'
+
+permissions:
+  contents: read
+  actions: read
+  id-token: write
+
+jobs:
+  build-and-publish:
+    name: 📦 Build Press Kit Assets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install base dependencies
+        run: npm install --no-fund
+
+      - name: 🛠️ Generate press kit sources
+        run: npm run codex:press-kit
+
+      - name: 📄 Install publishing toolchain
+        run: npm install --no-save --no-fund md-to-pdf @marp-team/marp-cli
+
+      - name: 🧾 Build whitepaper PDF
+        run: npx md-to-pdf docs/codex-release/WHITEPAPER.md --output docs/codex-release/WHITEPAPER.pdf
+
+      - name: 📊 Build pitch deck (PPTX + PDF)
+        run: |
+          npx @marp-team/marp-cli docs/codex-release/PITCHDECK.marp.md --pptx docs/codex-release/PITCHDECK.pptx --pdf docs/codex-release/PITCHDECK.pdf
+
+      - name: 🧠 Compile distribution manifest
+        run: |
+          cat <<'JSON' > docs/codex-release/press-kit-manifest.json
+          {
+            "generated_at": "${{ github.run_id }}",
+            "commit": "${{ github.sha }}",
+            "trigger": "${{ github.event_name }}",
+            "assets": {
+              "pr_bundle": "docs/codex-release/PR_BUNDLE.md",
+              "whitepaper_md": "docs/codex-release/WHITEPAPER.md",
+              "whitepaper_pdf": "docs/codex-release/WHITEPAPER.pdf",
+              "pitchdeck_marp": "docs/codex-release/PITCHDECK.marp.md",
+              "pitchdeck_pdf": "docs/codex-release/PITCHDECK.pdf",
+              "pitchdeck_pptx": "docs/codex-release/PITCHDECK.pptx",
+              "release_post": "docs/codex-release/RELEASE_POST.md",
+              "changelog": "docs/codex-release/CHANGELOG.yaml"
+            }
+          }
+          JSON
+
+      - name: 📤 Upload press kit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-press-kit-${{ github.run_number }}
+          path: |
+            docs/codex-release/PR_BUNDLE.md
+            docs/codex-release/WHITEPAPER.md
+            docs/codex-release/WHITEPAPER.pdf
+            docs/codex-release/PITCHDECK.marp.md
+            docs/codex-release/PITCHDECK.pdf
+            docs/codex-release/PITCHDECK.pptx
+            docs/codex-release/RELEASE_POST.md
+            docs/codex-release/CHANGELOG.yaml
+            docs/codex-release/press-kit-manifest.json
+          retention-days: 30
+
+      - name: ✅ Summary
+        run: |
+          echo "## CODEX Press Kit" >> $GITHUB_STEP_SUMMARY
+          echo "- Run ID: ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Assets directory: docs/codex-release" >> $GITHUB_STEP_SUMMARY
+          echo "- Artifact uploaded: true" >> $GITHUB_STEP_SUMMARY

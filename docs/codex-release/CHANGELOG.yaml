@@ -1,0 +1,13 @@
+version: 3.0.0
+codename: "GIGA PROMPT — CODEX PR Push"
+released: 2025-10-07T20:52:08.725Z
+summary:
+  - Generated unified press bundle for WIRED CHAOS CODEX launch.
+  - Authored technical whitepaper and investor pitch deck sources.
+  - Published security baseline and automation roadmap.
+assets:
+  pr_bundle: docs/codex-release/PR_BUNDLE.md
+  whitepaper_pdf: docs/codex-release/WHITEPAPER.pdf
+  pitchdeck_pptx: docs/codex-release/PITCHDECK.pptx
+  release_post: docs/codex-release/RELEASE_POST.md
+  changelog: docs/codex-release/CHANGELOG.yaml
