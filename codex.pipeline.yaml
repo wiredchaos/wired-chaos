@@ -1,0 +1,93 @@
+version: 1
+name: Dual Deploy • Wix + Gamma (with Canary + SLO gates)
+
+triggers:
+  - manual
+  - on_tag: ["v*"]
+  - on_branch: ["main"]
+
+inputs:
+  environment:
+    default: "staging"
+    allowed: ["staging", "production"]
+  version_tag:
+    default: "HEAD"
+
+env:
+  ENVIRONMENT: ${inputs.environment}
+  VERSION_TAG: ${inputs.version_tag}
+
+stages:
+  - id: preflight
+    name: Preflight & Secrets Check
+    agent: infra/utility
+    steps:
+      - run: node scripts/preflight/check-secrets.js
+        env:
+          REQ_SECRETS: "WIX_API_KEY,WIX_SITE_ID,GAMMA_TOKEN,GAMMA_SPACE_ID,SWARM_NOTION_TOKEN,SWARM_DB_ID,NOTION_SLO_BADGE_URL"
+
+  - id: deploy_wix
+    name: Deploy WIX
+    agent: wix/runner
+    parallel_group: deploys
+    env:
+      CANARY_PERCENT: "5"
+      CANARY_ENABLED: "true"
+    steps:
+      - checkout: true
+      - run: node scripts/wix/build.js --tag ${env.VERSION_TAG}
+      - run: node scripts/wix/deploy.js --site $WIX_SITE_ID --tag ${env.VERSION_TAG} --canary ${env.CANARY_PERCENT}
+        envFrom:
+          - secret: WIX_API_KEY
+          - secret: WIX_SITE_ID
+      - run: node scripts/slo/ping.js --app wix --phase canary-5
+      - run: node scripts/swarm/log.js --event "wix:canary:5" --env ${env.ENVIRONMENT}
+
+  - id: deploy_gamma
+    name: Deploy GAMMA
+    agent: gamma/runner
+    parallel_group: deploys
+    env:
+      CANARY_PERCENT: "5"
+      CANARY_ENABLED: "true"
+    steps:
+      - checkout: true
+      - run: pnpm -C apps/gamma install && pnpm -C apps/gamma build
+      - run: node scripts/gamma/deploy.ts --space $GAMMA_SPACE_ID --tag ${env.VERSION_TAG} --canary ${env.CANARY_PERCENT}
+        envFrom:
+          - secret: GAMMA_TOKEN
+          - secret: GAMMA_SPACE_ID
+      - run: node scripts/slo/ping.js --app gamma --phase canary-5
+      - run: node scripts/swarm/log.js --event "gamma:canary:5" --env ${env.ENVIRONMENT}
+
+  - id: canary_step_up
+    name: Canary Ramp (25% → 50% → 100%) with SLO gates
+    needs: [deploy_wix, deploy_gamma]
+    agent: qa/canary-orchestrator
+    steps:
+      - run: node scripts/canary/shift.js --apps wix,gamma --pct 25
+      - run: node scripts/slo/check.js --apps wix,gamma --slo-url $NOTION_SLO_BADGE_URL --min 99.0 --window "10m" || codex.fail "SLO breach at 25%"
+        envFrom:
+          - secret: NOTION_SLO_BADGE_URL
+      - run: node scripts/swarm/log.js --event "canary:ramp:25" --env ${env.ENVIRONMENT}
+
+      - run: node scripts/canary/shift.js --apps wix,gamma --pct 50
+      - run: node scripts/slo/check.js --apps wix,gamma --slo-url $NOTION_SLO_BADGE_URL --min 99.0 --window "10m" || codex.fail "SLO breach at 50%"
+        envFrom:
+          - secret: NOTION_SLO_BADGE_URL
+      - run: node scripts/swarm/log.js --event "canary:ramp:50" --env ${env.ENVIRONMENT}
+
+      - run: node scripts/canary/shift.js --apps wix,gamma --pct 100
+      - run: node scripts/slo/check.js --apps wix,gamma --slo-url $NOTION_SLO_BADGE_URL --min 99.0 --window "15m" || codex.fail "SLO breach at 100%"
+        envFrom:
+          - secret: NOTION_SLO_BADGE_URL
+      - run: node scripts/swarm/log.js --event "canary:complete" --env ${env.ENVIRONMENT}
+
+  - id: finalize_flags
+    name: Flip Feature Flags & Close
+    needs: [canary_step_up]
+    agent: infra/utility
+    steps:
+      - run: node scripts/flags/set.js --app wix --flag CanaryEnabled=false
+      - run: node scripts/flags/set.js --app gamma --flag CanaryEnabled=false
+      - run: node scripts/swarm/log.js --event "deploy:complete" --env ${env.ENVIRONMENT}

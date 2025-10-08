@@ -1,0 +1,17 @@
+version: 1
+agents:
+  - id: infra/utility
+    labels: ["ubuntu-22", "node-20"]
+    concurrency: 2
+
+  - id: wix/runner
+    labels: ["wix", "node-20"]
+    concurrency: 1
+
+  - id: gamma/runner
+    labels: ["gamma", "node-20", "pnpm"]
+    concurrency: 1
+
+  - id: qa/canary-orchestrator
+    labels: ["qa", "node-20"]
+    concurrency: 1
