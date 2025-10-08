@@ -31,7 +31,8 @@
     "site:wipe:safe": "pwsh scripts/site-wipe-fresh-build.ps1",
     "site:wipe:unix": "bash scripts/site-wipe-fresh-build.sh",
     "test:e2e": "gh workflow run e2e-signup-automation.yml -f dry_run=true",
-    "test:e2e:live": "gh workflow run e2e-signup-automation.yml -f dry_run=false -f notify=true"
+    "test:e2e:live": "gh workflow run e2e-signup-automation.yml -f dry_run=false -f notify=true",
+    "codex:press-kit": "node scripts/codex/generate-press-kit.js"
   },
   "keywords": [
     "web3",
