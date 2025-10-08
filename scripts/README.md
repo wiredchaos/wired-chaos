@@ -119,7 +119,7 @@ See the main [AUTOMATION.md](../AUTOMATION.md) file for complete documentation.
 
 ### Performance Monitoring
 
-**Script:** `monitor-performance.sh`  
+**Script:** `monitor-performance.sh`
 **Purpose:** Monitor and report on system performance
 
 ```bash
@@ -131,6 +131,27 @@ See the main [AUTOMATION.md](../AUTOMATION.md) file for complete documentation.
 - Measures response times
 - Calculates system health score
 - Generates comprehensive reports
+
+---
+
+### Secret Hygiene (Codex)
+
+**Script:** `node scripts/codex/fix-secrets.js`
+**Purpose:** Scan the repository for accidentally committed secrets
+
+```bash
+# Check mode (default)
+node scripts/codex/fix-secrets.js --check
+
+# Attempt automated remediation
+node scripts/codex/fix-secrets.js --apply
+```
+
+**Features:**
+- Detects common API keys (OpenAI, GitHub, Stripe, Slack, AWS, Google, etc.)
+- Warns when tracked `.env` files are found in the repository
+- Optional remediation mode to automatically redact discovered tokens
+- Ignores binary assets and build artifacts for fast scans
 
 ---
 
