@@ -20,6 +20,19 @@
 - **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
 - **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
 
+### 🧭 Autonomous Evolution Foundations
+
+- **📒 Autonomous Evolution Roadmap**: Multi-phase blueprint that builds on the
+  No Touch Infra Automation base, expands SWARM telemetry, introduces human-in-
+  the-loop decisioning, and charts the path to supervised infrastructure
+  autonomy. [Read the plan →](./docs/swarm_extension_plan.md)
+- **🔑 Production Secret Provisioning**: Step-by-step instructions for loading the
+  Codex vault with the production Wix, Gamma, Notion, and SendGrid credentials
+  required by the autonomous deployment pipeline. [Follow the checklist →](./docs/codex_vault_provisioning.md)
+- **🕒 Maintenance Window Rollout**: Runbook for the Codex maintenance gate,
+  feature-flag freeze, and acceptance checks that wrap the dual Wix + Gamma
+  deploy. [View the playbook →](./docs/maintenance_window_rollout.md)
+
 ## 🆕 SWARM Orchestrator Pipeline
 
 Transform project files, RSS feeds, and X/Twitter mentions into structured outputs:
