@@ -116,12 +116,43 @@ Or configure in wrangler.toml for specific environments:
 vars = { SUITE_URL = "https://suite.wiredchaos.xyz", TAX_URL = "https://tax.wiredchaos.xyz" }
 ```
 
+## 🤖 SWARM General - Automated Health & Deployment
+
+**NEW**: No-touch infrastructure automation with integrated health monitoring!
+
+The **SWARM General** workflow provides automated Cloudflare Workers deployment with:
+
+- ✅ **Pre-deployment health checks** - Validate before deploying
+- ✅ **Automated deployment** - Triggers on code changes
+- ✅ **Post-deployment verification** - Multi-endpoint health checks with retry logic
+- ✅ **Auto-recovery** - Automatic issue resolution and emergency workflows
+- ✅ **Scheduled monitoring** - Health checks every 30 minutes
+
+**Quick Commands:**
+```bash
+# Automatic deployment (push to main)
+git push origin main
+
+# Manual deployment
+gh workflow run swarm-general.yml
+
+# Health check only
+gh workflow run swarm-general.yml -f deployment_type=health-check-only
+
+# Force deployment
+gh workflow run swarm-general.yml -f deployment_type=force
+```
+
+📚 **[SWARM General Guide](./SWARM_GENERAL_GUIDE.md)** | **[Quick Start](./SWARM_GENERAL_QUICKSTART.md)**
+
 ## 📊 Status Monitoring
 
 ### Health Endpoints
 - **Frontend**: https://wired-chaos.pages.dev/health
 - **Worker**: https://wired-chaos-worker.wiredchaos.workers.dev/health
 - **Main Page**: https://wired-chaos.pages.dev/
+
+**Automated Monitoring**: SWARM General tests these endpoints automatically with resilient retry patterns.
 
 ### Worker Endpoints
 The Cloudflare Worker provides several edge-served endpoints:
