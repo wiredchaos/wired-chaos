@@ -28,6 +28,9 @@
     "deploy:webhook": "bash scripts/deploy-webhook-processor.sh",
     "gamma:activate": "bash scripts/activate-gamma-templates.sh",
     "monitor:performance": "bash scripts/monitor-performance.sh",
+    "site:wipe": "pwsh scripts/site-wipe-fresh-build.ps1 -Force",
+    "site:wipe:safe": "pwsh scripts/site-wipe-fresh-build.ps1",
+    "site:wipe:unix": "bash scripts/site-wipe-fresh-build.sh",
     "test:e2e": "gh workflow run e2e-signup-automation.yml -f dry_run=true",
     "test:e2e:live": "gh workflow run e2e-signup-automation.yml -f dry_run=false -f notify=true"
   },
