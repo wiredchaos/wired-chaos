@@ -36,7 +36,7 @@
         "order": 2
       }
     },
-    
+
     // ========== Backend Debugging ==========
     {
       "name": "Backend: Main Server",
@@ -102,7 +102,7 @@
         "order": 4
       }
     },
-    
+
     // ========== Vault33 Gatekeeper Debugging ==========
     {
       "name": "Gatekeeper: Main",
@@ -176,7 +176,7 @@
         "order": 4
       }
     },
-    
+
     // ========== Python Testing ==========
     {
       "name": "Python: Current Test File",
@@ -211,7 +211,86 @@
         "order": 2
       }
     },
-    
+
+    // ========== SWARM Automation Debugging ==========
+    {
+      "name": "🚀 SWARM: Bot Automation Debug",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/swarm-bot-automation.js",
+      "args": ["--debug", "--action=dev-test"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "swarm:*"
+      },
+      "presentation": {
+        "group": "swarm",
+        "order": 1
+      }
+    },
+    {
+      "name": "⚡ SWARM: Worker Debug (Local)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/wrangler",
+      "args": ["dev", "--local", "--port", "8787"],
+      "cwd": "${workspaceFolder}/src",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "presentation": {
+        "group": "swarm",
+        "order": 2
+      }
+    },
+    {
+      "name": "📊 SWARM: Orchestrator Debug",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/automation/swarm-orchestrator.js",
+      "args": ["--monitor", "--debug"],
+      "cwd": "${workspaceFolder}/automation",
+      "console": "integratedTerminal",
+      "env": {
+        "DEBUG": "orchestrator:*"
+      },
+      "presentation": {
+        "group": "swarm",
+        "order": 3
+      }
+    },
+    {
+      "name": "🎮 SWARM: Playground Frontend Debug",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000/playground",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      },
+      "preLaunchTask": "🎮 SWARM: Start Playground Dev Mode",
+      "presentation": {
+        "group": "swarm",
+        "order": 4
+      }
+    },
+    {
+      "name": "🏪 SWARM: Marketplace Debug",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000/marketplace",
+      "webRoot": "${workspaceFolder}/frontend/src/components/marketplace",
+      "sourceMaps": true,
+      "presentation": {
+        "group": "swarm",
+        "order": 5
+      }
+    },
+
     // ========== Current File Debugging ==========
     {
       "name": "Python: Current File",
@@ -226,7 +305,7 @@
       }
     }
   ],
-  
+
   // ========== Compound Configurations ==========
   // Launch multiple debuggers at once
   "compounds": [
@@ -263,6 +342,45 @@
       ],
       "presentation": {
         "group": "compound",
+        "order": 3
+      }
+    },
+    {
+      "name": "🎮 SWARM: Full Playground Stack",
+      "configurations": [
+        "🎮 SWARM: Playground Frontend Debug",
+        "Backend: Main Server",
+        "⚡ SWARM: Worker Debug (Local)"
+      ],
+      "stopAll": true,
+      "presentation": {
+        "group": "swarm",
+        "order": 1
+      }
+    },
+    {
+      "name": "🤖 SWARM: Complete Automation Debug",
+      "configurations": [
+        "🚀 SWARM: Bot Automation Debug",
+        "📊 SWARM: Orchestrator Debug",
+        "⚡ SWARM: Worker Debug (Local)"
+      ],
+      "stopAll": true,
+      "presentation": {
+        "group": "swarm",
+        "order": 2
+      }
+    },
+    {
+      "name": "🏪 SWARM: Marketplace Full Stack",
+      "configurations": [
+        "🏪 SWARM: Marketplace Debug",
+        "Backend: Main Server",
+        "Gatekeeper: API Server"
+      ],
+      "stopAll": true,
+      "presentation": {
+        "group": "swarm",
         "order": 3
       }
     }
