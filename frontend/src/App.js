@@ -47,7 +47,7 @@ const BotBrain = ({ onRoute, onClose }) => {
   if (step === 'greeting') {
     return (
       <div className="bot-brain-overlay">
-        <div className="bot-brain-modal">
+      <div className="bot-brain-modal" data-glass="true">
           <div className="bot-header">
             <h3>🧠 WIRED CHAOS ROUTING AGENT</h3>
             <button onClick={onClose} className="bot-close">×</button>
@@ -61,6 +61,7 @@ const BotBrain = ({ onRoute, onClose }) => {
                   key={option.id}
                   onClick={() => handleOptionSelect(option)}
                   className="bot-option"
+                  data-glass="true"
                 >
                   <span className="option-icon">{option.icon}</span>
                   <span className="option-label">{option.label}</span>
@@ -1634,7 +1635,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App glass-app">
       <BrowserRouter>
         <Routes>
           {/* Firewall: Redirect root to school for audience selection */}
