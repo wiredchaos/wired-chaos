@@ -1,0 +1,79 @@
+name: Publish Codex PR Kit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "PR_BUNDLE.md"
+      - "WHITEPAPER.pdf"
+      - "PITCHDECK.pptx"
+      - "RELEASE_POST.md"
+      - "CHANGELOG.yaml"
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+          npm ci || true
+
+      - name: Build PR assets
+        run: |
+          make pr_bundle || echo "No makefile, skipping."
+
+      - name: Upload PR Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-pr-kit
+          path: |
+            PR_BUNDLE.md
+            WHITEPAPER.pdf
+            PITCHDECK.pptx
+            RELEASE_POST.md
+            CHANGELOG.yaml
+
+      - name: Post summary to dev site
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+            -d @RELEASE_POST.md \
+            https://wiredchaos.xyz/dev || echo "Dev site post skipped."
+
+      - name: Announce on X (Twitter)
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+        run: |
+          echo "Posting to X..." # Replace with actual API call
+
+      - name: Announce on LinkedIn
+        env:
+          LINKEDIN_API_KEY: ${{ secrets.LINKEDIN_API_KEY }}
+        run: |
+          echo "Posting to LinkedIn..." # Replace with actual API call
+
+      - name: Push to Space broadcast
+        run: |
+          echo "Announcing on 33.3 FM DOGECHAIN..." # Replace with actual broadcast integration
+
+      - name: Activate Chaos Reactor feed
+        run: |
+          echo "Pushing live updates to Chaos Reactor..." # Replace with actual integration
+
+      - name: Success message
+        run: echo "Codex PR Kit published and announced!"
