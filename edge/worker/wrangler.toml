@@ -1,0 +1,26 @@
+name = "wired-chaos-task-management"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# Worker configuration
+workers_dev = true
+
+# Route patterns (update with your domain)
+# Uncomment and configure when deploying
+# [[routes]]
+# pattern = "tasks.wiredchaos.xyz/*"
+# zone_name = "wiredchaos.xyz"
+
+# Environment variables
+[vars]
+ENVIRONMENT = "development"
+
+# Production environment
+[env.production]
+name = "wired-chaos-task-management-prod"
+vars = { ENVIRONMENT = "production" }
+
+# Staging environment
+[env.staging]
+name = "wired-chaos-task-management-staging"
+vars = { ENVIRONMENT = "staging" }
