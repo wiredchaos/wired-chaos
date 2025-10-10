@@ -4,7 +4,26 @@
 const { Octokit } = require('@octokit/rest');
 const { HealthBotVSCodeIntegration } = require('./health-bot-vscode-integration.js');
 
+const fs = require('fs');
+const path = require('path');
+
 class SwarmBotAutomation {
+    static get missionProtocol() {
+        // Loads the mission protocol prompt from the JSON file
+        try {
+            const protocolPath = path.resolve(__dirname, 'swarm-mission-protocol.json');
+            const data = fs.readFileSync(protocolPath, 'utf-8');
+            const json = JSON.parse(data);
+            return json.prompt;
+        } catch (e) {
+            return 'Mission protocol unavailable.';
+        }
+    }
+
+    static printMissionProtocol() {
+        console.log(this.missionProtocol);
+    }
+
     constructor(config = {}) {
         this.config = {
             owner: 'wiredchaos',
@@ -108,7 +127,7 @@ class SwarmBotAutomation {
         console.log('🤖 [SWARM-BOT] Monitoring blocking issues...');
 
         const allBlockingIssues = [];
-        
+
         // Fetch issues with blocking labels
         for (const label of this.config.labels.blocking) {
             try {
@@ -132,7 +151,7 @@ class SwarmBotAutomation {
         }
 
         console.log(`📊 Found ${allBlockingIssues.length} blocking issues`);
-        
+
         return allBlockingIssues;
     }
 
@@ -178,7 +197,7 @@ class SwarmBotAutomation {
                 const fixed = await this.attemptAutoFix(issue, autoFixPattern);
                 triageResult.autoFixAttempted = true;
                 triageResult.resolved = fixed;
-                
+
                 if (fixed) {
                     triageResult.actions.push('Auto-fix successful');
                 } else {
@@ -201,7 +220,7 @@ class SwarmBotAutomation {
         await this.addTriageLabels(issue, triageResult);
 
         this.actionLog.push(triageResult);
-        
+
         return triageResult;
     }
 
@@ -226,16 +245,16 @@ class SwarmBotAutomation {
             switch (pattern.action) {
                 case 'updateDependencies':
                     return await this.autoFixDependencies(issue);
-                
+
                 case 'fixConfiguration':
                     return await this.autoFixConfiguration(issue);
-                
+
                 case 'fixDeploymentIssue':
                     return await this.autoFixDeployment(issue);
-                
+
                 case 'resolveConflicts':
                     return await this.autoResolveConflicts(issue);
-                
+
                 default:
                     console.log(`  ⚠️  No auto-fix handler for action: ${pattern.action}`);
                     return false;
@@ -284,7 +303,7 @@ Closes #${issue.number}
             // 3. Commit changes
             // 4. Create PR
             // For now, we'll just log the intention
-            
+
             console.log(`  ✅ Would create PR: ${prTitle}`);
             return true;
         } catch (error) {
@@ -539,6 +558,12 @@ module.exports = { SwarmBotAutomation };
 // CLI usage
 if (require.main === module) {
     const swarmBot = new SwarmBotAutomation();
+
+    // Print mission protocol if requested
+    if (process.argv.includes('--mission-protocol')) {
+        SwarmBotAutomation.printMissionProtocol();
+        process.exit(0);
+    }
 
     // Check for continuous monitoring flag
     const continuousMode = process.argv.includes('--monitor');

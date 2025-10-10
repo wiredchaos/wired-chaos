@@ -1,0 +1,30 @@
+{
+  "name": "Automation Conduit (Zapier Node)",
+  "description": "WIRED CHAOS synaptic bridge for routing automations and data between all swarm brains and platforms.",
+  "palette": {
+    "neonCyan": "#00FFFF",
+    "glitchRed": "#FF3131",
+    "electricGreen": "#39FF14",
+    "cyberMagenta": "#FF00FF"
+  },
+  "typography": ["Rajdhani Bold"],
+  "ui": "holo-glass panels, neon streaks, animated pulse lines, soft static ping on success",
+  "zaps": [
+    {
+      "name": "CI/CD Trigger",
+      "trigger": "GitHub commit or PR merged",
+      "actions": ["Run deployment workflow", "Send status to Notion", "Notify Gamma dashboard"]
+    },
+    {
+      "name": "Swarm Event Relay",
+      "trigger": "Task completed in Notion or Gamma",
+      "actions": ["Send update to Discord", "Log to Motherboard Health View"]
+    },
+    {
+      "name": "Zero Touch Deployment",
+      "trigger": "New release in GitHub",
+      "actions": ["Deploy via Cloudflare", "Update Wix site", "Send executive alert"]
+    }
+  ],
+  "commandProtocol": "Automation Conduit synced. All neural Zaps firing. SWARM throughput optimal."
+}
