@@ -1,0 +1,9 @@
+:root{
+  --wc-black:#000000;--wc-cyan:#00FFFF;--wc-red:#FF3131;--wc-green:#39FF14;--wc-pink:#FF00FF;
+  --glass-bg:rgba(0,0,0,.35);--glass-bg-strong:rgba(0,0,0,.55);
+  --glass-border:rgba(255,255,255,.16);--glass-highlight:rgba(255,255,255,.28);--glass-shadow:rgba(0,0,0,.35);
+  --glass-blur:18px;--glass-radius:20px;--glass-radius-lg:28px;
+  --glass-noise:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='64' height='64' filter='url(%23n)' opacity='0.06'/></svg>");
+  --glass-enabled:1;
+}
+[data-glass="0"] *{--glass-enabled:0}

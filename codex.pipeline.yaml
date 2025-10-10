@@ -1,0 +1,9 @@
+stages:
+  # Inserted after finalize_flags to roll out GlassFX
+  - id: flip_glass_flag
+    name: GlassFX toggle per env
+    agent: infra/utility
+    steps:
+      - run: node scripts/flags/set.js --app wix --flag GlassFXEnabled=true
+      - run: node scripts/flags/set.js --app gamma --flag GlassFXEnabled=true
+      - run: node scripts/swarm/log.js --event 'glassfx:enabled:${{ inputs.environment }}' --env ${{ inputs.environment }}
