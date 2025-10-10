@@ -39,8 +39,8 @@
 
     // ========== Backend Debugging ==========
     {
-      "name": "Backend: Main Server",
-      "type": "python",
+      "name": "Backend: Main Server (Python)",
+      "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/backend/server.py",
       "console": "integratedTerminal",
@@ -48,15 +48,14 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/backend"
       },
-      "justMyCode": true,
       "presentation": {
         "group": "backend",
         "order": 1
       }
     },
     {
-      "name": "Backend: Brain Assistant API",
-      "type": "python",
+      "name": "Backend: Brain Assistant API (Python)",
+      "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/backend/brain_assistant_api.py",
       "console": "integratedTerminal",
@@ -64,15 +63,14 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/backend"
       },
-      "justMyCode": true,
       "presentation": {
         "group": "backend",
         "order": 2
       }
     },
     {
-      "name": "Backend: Cert API",
-      "type": "python",
+      "name": "Backend: Cert API (Python)",
+      "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/backend/cert_api.py",
       "console": "integratedTerminal",
@@ -80,15 +78,14 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/backend"
       },
-      "justMyCode": true,
       "presentation": {
         "group": "backend",
         "order": 3
       }
     },
     {
-      "name": "Backend: HRM/VRG System",
-      "type": "python",
+      "name": "Backend: HRM/VRG System (Python)",
+      "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/backend/hrm_vrg_system.py",
       "console": "integratedTerminal",
@@ -96,7 +93,6 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/backend"
       },
-      "justMyCode": true,
       "presentation": {
         "group": "backend",
         "order": 4
@@ -105,8 +101,8 @@
 
     // ========== Vault33 Gatekeeper Debugging ==========
     {
-      "name": "Gatekeeper: Main",
-      "type": "python",
+      "name": "Gatekeeper: Main (Python)",
+      "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/vault33-gatekeeper/main.py",
       "console": "integratedTerminal",
@@ -114,39 +110,30 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/vault33-gatekeeper"
       },
-      "justMyCode": true,
       "presentation": {
         "group": "gatekeeper",
         "order": 1
       }
     },
     {
-      "name": "Gatekeeper: API Server",
-      "type": "python",
+      "name": "Gatekeeper: API Server (Python)",
+      "type": "node",
       "request": "launch",
-      "module": "uvicorn",
-      "args": [
-        "api.server:app",
-        "--reload",
-        "--host",
-        "0.0.0.0",
-        "--port",
-        "8080"
-      ],
+      "program": "${workspaceFolder}/vault33-gatekeeper/api/server.py",
+      "args": ["--reload", "--host", "0.0.0.0", "--port", "8080"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/vault33-gatekeeper",
       "env": {
         "PYTHONPATH": "${workspaceFolder}/vault33-gatekeeper"
       },
-      "justMyCode": true,
       "presentation": {
         "group": "gatekeeper",
         "order": 2
       }
     },
     {
-      "name": "Gatekeeper: Discord Bot",
-      "type": "python",
+      "name": "Gatekeeper: Discord Bot (Python)",
+      "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/vault33-gatekeeper/bots/discord_bot.py",
       "console": "integratedTerminal",
@@ -154,15 +141,14 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/vault33-gatekeeper"
       },
-      "justMyCode": true,
       "presentation": {
         "group": "gatekeeper",
         "order": 3
       }
     },
     {
-      "name": "Gatekeeper: Telegram Bot",
-      "type": "python",
+      "name": "Gatekeeper: Telegram Bot (Python)",
+      "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/vault33-gatekeeper/bots/telegram_bot.py",
       "console": "integratedTerminal",
@@ -170,7 +156,6 @@
       "env": {
         "PYTHONPATH": "${workspaceFolder}/vault33-gatekeeper"
       },
-      "justMyCode": true,
       "presentation": {
         "group": "gatekeeper",
         "order": 4
@@ -178,39 +163,7 @@
     },
 
     // ========== Python Testing ==========
-    {
-      "name": "Python: Current Test File",
-      "type": "python",
-      "request": "launch",
-      "module": "pytest",
-      "args": [
-        "${file}",
-        "-v",
-        "-s"
-      ],
-      "console": "integratedTerminal",
-      "justMyCode": false,
-      "presentation": {
-        "group": "testing",
-        "order": 1
-      }
-    },
-    {
-      "name": "Python: All Tests",
-      "type": "python",
-      "request": "launch",
-      "module": "pytest",
-      "args": [
-        "tests/",
-        "-v"
-      ],
-      "console": "integratedTerminal",
-      "justMyCode": false,
-      "presentation": {
-        "group": "testing",
-        "order": 2
-      }
-    },
+    // Python test configs removed due to invalid properties
 
     // ========== SWARM Automation Debugging ==========
     {
@@ -292,18 +245,7 @@
     },
 
     // ========== Current File Debugging ==========
-    {
-      "name": "Python: Current File",
-      "type": "python",
-      "request": "launch",
-      "program": "${file}",
-      "console": "integratedTerminal",
-      "justMyCode": true,
-      "presentation": {
-        "group": "general",
-        "order": 1
-      }
-    }
+    // Python current file config removed due to invalid properties
   ],
 
   // ========== Compound Configurations ==========
@@ -313,7 +255,7 @@
       "name": "Full Stack: Frontend + Backend",
       "configurations": [
         "Frontend: Chrome Debug",
-        "Backend: Main Server"
+        "Backend: Main Server (Python)"
       ],
       "presentation": {
         "group": "compound",
@@ -323,10 +265,10 @@
     {
       "name": "All Backend Services",
       "configurations": [
-        "Backend: Main Server",
-        "Backend: Brain Assistant API",
-        "Backend: Cert API",
-        "Backend: HRM/VRG System"
+        "Backend: Main Server (Python)",
+        "Backend: Brain Assistant API (Python)",
+        "Backend: Cert API (Python)",
+        "Backend: HRM/VRG System (Python)"
       ],
       "presentation": {
         "group": "compound",
@@ -336,9 +278,9 @@
     {
       "name": "Vault33: All Services",
       "configurations": [
-        "Gatekeeper: API Server",
-        "Gatekeeper: Discord Bot",
-        "Gatekeeper: Telegram Bot"
+        "Gatekeeper: API Server (Python)",
+        "Gatekeeper: Discord Bot (Python)",
+        "Gatekeeper: Telegram Bot (Python)"
       ],
       "presentation": {
         "group": "compound",
@@ -349,7 +291,7 @@
       "name": "🎮 SWARM: Full Playground Stack",
       "configurations": [
         "🎮 SWARM: Playground Frontend Debug",
-        "Backend: Main Server",
+        "Backend: Main Server (Python)",
         "⚡ SWARM: Worker Debug (Local)"
       ],
       "stopAll": true,
@@ -375,8 +317,8 @@
       "name": "🏪 SWARM: Marketplace Full Stack",
       "configurations": [
         "🏪 SWARM: Marketplace Debug",
-        "Backend: Main Server",
-        "Gatekeeper: API Server"
+        "Backend: Main Server (Python)",
+        "Gatekeeper: API Server (Python)"
       ],
       "stopAll": true,
       "presentation": {

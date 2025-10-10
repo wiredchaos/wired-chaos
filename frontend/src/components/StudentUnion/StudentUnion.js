@@ -9,6 +9,8 @@ import './StudentUnion.css';
 const StudentUnion = () => {
   const navigate = useNavigate();
   const [activeArea, setActiveArea] = useState(null);
+  // Tenant context: 'school' or 'business'
+  const tenant = (window.location.pathname.includes('b2b') || window.location.pathname.includes('business')) ? 'business' : 'school';
 
   const areas = [
     {
@@ -75,16 +77,16 @@ const StudentUnion = () => {
   };
 
   return (
-    <div className="student-union-container">
+  <div className={`student-union-container tenant-${tenant}`}> 
       <div className="union-header">
         <div className="header-content">
           <h1 className="union-title">
             <span className="glitch" data-text="STUDENT UNION">STUDENT UNION</span>
           </h1>
           <p className="union-subtitle">Digital Campus • VR/AR Social Space • Consignment Marketplace</p>
-          <div className="university-badge">
-            <span className="badge-icon">🎓</span>
-            <span className="badge-text">WIRED CHAOS UNIVERSITY</span>
+          <div className={`university-badge badge-${tenant}`}>
+            <span className="badge-icon">{tenant === 'business' ? '💼' : '🎓'}</span>
+            <span className="badge-text">{tenant === 'business' ? 'BUSINESS TENANT' : 'WIRED CHAOS UNIVERSITY'}</span>
           </div>
         </div>
       </div>
@@ -93,7 +95,7 @@ const StudentUnion = () => {
         {areas.map((area) => (
           <div
             key={area.id}
-            className={`union-area-card ${activeArea === area.id ? 'active' : ''}`}
+            className={`union-area-card ${activeArea === area.id ? 'active' : ''} tenant-${tenant}`}
             onClick={() => handleAreaClick(area)}
             onMouseEnter={() => setActiveArea(area.id)}
             onMouseLeave={() => setActiveArea(null)}
@@ -104,6 +106,7 @@ const StudentUnion = () => {
             <div className={`area-status ${area.status}`}>
               {area.status === 'active' ? '● LIVE' : '○ SOON'}
             </div>
+            <div className={`tenant-badge tenant-${tenant}`}>{tenant === 'business' ? 'Business' : 'School'}</div>
           </div>
         ))}
       </div>

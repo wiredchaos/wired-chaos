@@ -1,3 +1,6 @@
+name = "chaoswired"
+main = "unified-worker.js"
+compatibility_date = "2025-10-01"
 
 name = "wired-chaos-meta"
 main = "src/index.js"
@@ -48,10 +51,32 @@ zone_name = "wiredchaos.xyz"
 pattern = "www.wiredchaos.xyz/vsp*"
 zone_name = "wiredchaos.xyz"
 
+# KV Namespaces
+[[kv_namespaces]]
+binding = "WIRED_CHAOS_KV"
+id = "your_kv_namespace_id"
+preview_id = "your_preview_kv_namespace_id"
+
 [env.production]
 name = "chaoswired"
-vars = { ENVIRONMENT = "production" }
+vars = { 
+  ENVIRONMENT = "production",
+  STUB_MODE = "false",
+  AUTO_ROLLBACK = "true",
+  NOTION_API_KEY = "",
+  GAMMA_API_KEY = "",
+  ZAPIER_WEBHOOK_SECRET = "",
+  WIX_API_KEY = ""
+}
 
 [env.staging]
 name = "chaoswired-staging"
-vars = { ENVIRONMENT = "staging" }
+vars = { 
+  ENVIRONMENT = "staging",
+  STUB_MODE = "true",
+  AUTO_ROLLBACK = "true",
+  NOTION_API_KEY = "",
+  GAMMA_API_KEY = "",
+  ZAPIER_WEBHOOK_SECRET = "",
+  WIX_API_KEY = ""
+}

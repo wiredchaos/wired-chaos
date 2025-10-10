@@ -437,6 +437,52 @@
       "problemMatcher": [],
       "detail": "Generate CODE_FIX_CHANGELOG.md from current changes"
     },
+    // ========== Edge Worker Tasks (WIRED CHAOS Platform) ==========
+    {
+      "label": "worker:dev",
+      "type": "shell",
+      "command": "npx wrangler dev",
+      "options": {
+        "cwd": "${workspaceFolder}/edge/worker"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "worker",
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Start edge worker development server (InsightX + Resources)"
+    },
+    {
+      "label": "worker:deploy",
+      "type": "shell",
+      "command": "npx wrangler deploy",
+      "options": {
+        "cwd": "${workspaceFolder}/edge/worker"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "worker",
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Deploy edge worker to Cloudflare"
+    },
+    {
+      "label": "dev:all",
+      "dependsOn": [
+        "worker:dev",
+        "frontend:start-dev-server"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Start both edge worker and frontend development servers"
+    },
     // ========== Utility Tasks ==========
     {
       "label": "install:all-dependencies",
@@ -850,6 +896,29 @@
         "group": "pr-automation"
       },
       "detail": "Manually trigger ready & merge workflow via workflow dispatch"
+    }
+    ,
+    // ========== NO TOUCH Infra Automation ==========
+    {
+      "label": "NO TOUCH Infra Automation",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "& { if (Test-Path ./SANITY_CHECK.ps1) { ./SANITY_CHECK.ps1 } else { Write-Host 'SANITY_CHECK.ps1 not found' } ; if (Test-Path ./frontend) { cd ./frontend; if (Get-Command npm -ErrorAction SilentlyContinue) { npm test } else { Write-Host 'npm not found' } } else { Write-Host 'frontend folder not found' } ; cd .. ; if (Test-Path ./backend) { cd ./backend; if (Get-Command pytest -ErrorAction SilentlyContinue) { pytest } else { Write-Host 'pytest not found' } } else { Write-Host 'backend folder not found' } }"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "group": "swarm-deployment"
+      },
+      "detail": "Run full environment, frontend, and backend validation for zero-touch infra automation."
     }
   ],
   "inputs": [
