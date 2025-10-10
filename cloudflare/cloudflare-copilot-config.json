@@ -1,0 +1,58 @@
+{
+  "name": "WIRED CHAOS Edge Sentinel",
+  "branding": {
+    "palette": {
+      "neonCyan": "#00FFFF",
+      "glitchRed": "#FF3131",
+      "electricGreen": "#39FF14",
+      "accentPink": "#FF00FF",
+      "voidBlack": "#000000"
+    },
+    "typeface": "Rajdhani SemiBold",
+    "visual": "Pulsing neon map, electric arcs, glitch flickers"
+  },
+  "workers": [
+    {
+      "name": "motherboard-router",
+      "entry": "src/index.js",
+      "routes": ["wiredchaos.xyz/*", "api.wiredchaos.xyz/*"],
+      "kv_namespaces": ["MOTHERBOARD_KV"],
+      "durable_objects": ["MotherboardSession", "TenantState"],
+      "analytics": true,
+      "firewall": {
+        "ddos_protection": true,
+        "sql_injection": true,
+        "edge_auth": "bearer",
+        "tenant_routing": true
+      },
+      "env": {
+        "MOTHERBOARD_MODE": "production",
+        "ALLOWED_TENANTS": "business,school,dev"
+      }
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "MOTHERBOARD_KV",
+      "id": "motherboard_kv",
+      "description": "Global edge state for tenant-aware routing, session, and analytics"
+    }
+  ],
+  "durable_objects": [
+    {
+      "name": "MotherboardSession",
+      "class": "MotherboardSession",
+      "description": "Tracks user/tenant session and edge state"
+    },
+    {
+      "name": "TenantState",
+      "class": "TenantState",
+      "description": "Maintains tenant isolation and routing logic"
+    }
+  ],
+  "analytics": {
+    "integrations": ["GammaDashboard", "NotionLogs"],
+    "metrics": ["latency", "uptime", "propagation", "firewall_events"]
+  },
+  "command_protocol": "Edge Sentinel online. Global perimeter secured. Propagation clean. Traffic optimization stable. No unauthorized echoes detected."
+}

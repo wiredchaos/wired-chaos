@@ -17,6 +17,8 @@ import { getSuiteUrl } from "./utils/env";
 import { StudentUnion, VRLobby, ConsignmentStore, ProductDashboard, AdminPanel } from "./components/StudentUnion";
 import GrantsForFounders from "./components/GrantsForFounders";
 import Game from "./components/game/Game";
+import Dashboard from "./pages/Dashboard";
+import Resources from "./pages/Resources";
 
 // Import the new locked theme motherboard component
 const Motherboard = React.lazy(() => import('./components/Motherboard'));
@@ -1679,6 +1681,9 @@ function App() {
           {/* VRG33589 NFT Game System */}
           <Route path="/game" element={<Game />} />
           <Route path="/game/eternal-loop" element={<Game />} />
+          {/* WIRED CHAOS Platform - InsightX Dashboard + Resources */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/resources" element={<Resources />} />
           
           {/* SEO Ghost Pages */}
           <Route path="/industry/finance" element={<IndustryPage industry="finance" />} />

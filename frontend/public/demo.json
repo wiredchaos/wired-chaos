@@ -1,0 +1,41 @@
+{
+  "panels": [
+    {
+      "id": "tenant-business",
+      "title": "Business Tenant Panel",
+      "status": "active",
+      "metrics": { "users": 42, "transactions": 128, "uptime": "99.99%" },
+      "lastUpdate": "2025-10-04T12:00:00Z"
+    },
+    {
+      "id": "tenant-school",
+      "title": "School Tenant Panel",
+      "status": "active",
+      "metrics": { "users": 87, "transactions": 54, "uptime": "100%" },
+      "lastUpdate": "2025-10-04T12:00:00Z"
+    },
+    {
+      "id": "marketplace",
+      "title": "Marketplace Integration",
+      "status": "operational",
+      "metrics": { "listings": 12, "sales": 7, "volume": "3.2 ETH" },
+      "lastUpdate": "2025-10-04T12:00:00Z"
+    },
+    {
+      "id": "analytics",
+      "title": "Analytics Panel",
+      "status": "live",
+      "metrics": { "events": 233, "errors": 0, "latency": "120ms" },
+      "lastUpdate": "2025-10-04T12:00:00Z"
+    },
+    {
+      "id": "status",
+      "title": "System Status",
+      "status": "green",
+      "metrics": { "api": "healthy", "websocket": "connected" },
+      "lastUpdate": "2025-10-04T12:00:00Z"
+    }
+  ],
+  "demoMode": true,
+  "message": "WIRED CHAOS Neural Grid Demo Data Loaded"
+}

@@ -1,0 +1,83 @@
+<!-- Holographic Gate (Wix Node) Embed for WIRED CHAOS -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIRED CHAOS — Holographic Gate</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0B0B0B 60%, #00FFFF 100%);
+      color: #00FFFF;
+      font-family: 'Orbitron', 'Rajdhani', 'Share Tech Mono', monospace;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .holo-header {
+      margin-top: 2rem;
+      font-size: 2.5rem;
+      letter-spacing: 0.1em;
+      color: #FF00FF;
+      text-shadow: 0 0 8px #39FF14, 0 0 24px #00FFFF;
+    }
+    .holo-panel {
+      background: rgba(0,255,255,0.08);
+      border: 2px solid #FF3131;
+      border-radius: 24px;
+      box-shadow: 0 4px 32px 0 #00FFFF44;
+      margin: 2rem 0;
+      padding: 2rem 3rem;
+      max-width: 700px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: pulse 2.5s infinite alternate;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 4px 32px 0 #00FFFF44; }
+      100% { box-shadow: 0 8px 64px 0 #FF00FF66; }
+    }
+    .holo-feed {
+      margin: 1rem 0;
+      color: #39FF14;
+      font-size: 1.1rem;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    .holo-chip {
+      display: inline-block;
+      background: #FF3131;
+      color: #fff;
+      border-radius: 8px;
+      padding: 0.2em 0.7em;
+      margin: 0 0.3em;
+      font-size: 0.95em;
+      font-family: 'Rajdhani', sans-serif;
+      box-shadow: 0 0 8px #FF00FF;
+    }
+    .holo-footer {
+      margin-top: 2rem;
+      color: #FF00FF;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 8px #00FFFF;
+    }
+  </style>
+</head>
+<body>
+  <div class="holo-header">WIRED CHAOS — Holographic Gate</div>
+  <div class="holo-panel">
+    <div class="holo-feed">Live Gamma Dashboard: <span class="holo-chip">/dashboards/gamma</span></div>
+    <div class="holo-feed">Notion Briefings: <span class="holo-chip">/briefings/notion</span></div>
+    <div class="holo-feed">Product Updates: <span class="holo-chip">/updates/products</span></div>
+    <div class="holo-feed">Partner Microsites: <span class="holo-chip">DoginalDogs, CryptoSpaces.net, Lurky.app</span></div>
+    <div class="holo-feed">Cloudflare Deploys: <span class="holo-chip">/deploys/cloudflare</span></div>
+  </div>
+  <div class="holo-footer">Holographic Gate operational. Public layer synced with Motherboard core. All circuits live.</div>
+</body>
+</html>
