@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "deckTitle": "WIRED CHAOS — AI Consulting Block",
+    "deckUrl": "https://gamma.app/docs/wired-chaos"
+  },
+  "blocks": [
+    { "text": "Hook — What we build in 15 minutes" },
+    { "text": "Offer — RSS-powered AI stack" },
+    { "text": "CTA — Book a slot" }
+  ]
+}
