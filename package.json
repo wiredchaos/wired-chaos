@@ -4,6 +4,9 @@
   "description": "WIRED CHAOS - Full Stack Web3 Application",
   "main": "index.js",
   "scripts": {
+    "build:css": "rollup -c rollup.config.mjs",
+    "cdn:version": "node scripts/cdn_version.js && node scripts/cdn_latest.js",
+    "deploy:cdn": "npm run build:css && npm run cdn:version",
     "dev": "npm run frontend:dev",
     "build": "npm run frontend:build",
     "start": "npm run frontend:start",
