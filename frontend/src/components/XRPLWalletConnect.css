@@ -1,0 +1,138 @@
+/* XRPL Wallet Connect Styles */
+
+.xrpl-wallet-connect {
+  margin: 20px 0;
+}
+
+.wallet-prompt {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid #00FFFF;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.wallet-prompt h3 {
+  color: #00FFFF;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.wallet-prompt p {
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.wallet-input {
+  width: 100%;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #00FFFF;
+  border-radius: 5px;
+  color: #00FFFF;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.wallet-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.btn-connect {
+  width: 100%;
+  padding: 15px;
+  background: rgba(0, 255, 255, 0.1);
+  border: 2px solid #00FFFF;
+  border-radius: 5px;
+  color: #00FFFF;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+.btn-connect:hover:not(:disabled) {
+  background: #00FFFF;
+  color: #000000;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.btn-connect:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wallet-info {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.info-text {
+  color: #FFFFFF;
+  opacity: 0.7;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.info-text a {
+  color: #39FF14;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.info-text a:hover {
+  text-decoration: underline;
+}
+
+/* Connected State */
+.xrpl-wallet-connected {
+  margin: 20px 0;
+}
+
+.wallet-badge {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(0, 255, 255, 0.1);
+  border: 2px solid #00FFFF;
+  border-radius: 25px;
+  padding: 10px 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.wallet-icon {
+  font-size: 1.5rem;
+}
+
+.wallet-address {
+  flex: 1;
+  color: #00FFFF;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+.btn-disconnect {
+  padding: 8px 16px;
+  background: rgba(255, 49, 49, 0.1);
+  border: 2px solid #FF3131;
+  border-radius: 5px;
+  color: #FF3131;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-disconnect:hover {
+  background: #FF3131;
+  color: #FFFFFF;
+}
