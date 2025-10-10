@@ -1,0 +1,35 @@
+{
+  "name": "Mother Memory Core (Notion Node)",
+  "description": "WIRED CHAOS cognitive archive and synchronization core. Maintains Neural Wiki, project logs, dashboards, and operational intelligence.",
+  "palette": {
+    "neonCyan": "#00FFFF",
+    "glitchRed": "#FF3131",
+    "electricGreen": "#39FF14",
+    "cyberMagenta": "#FF00FF"
+  },
+  "typography": ["Orbitron", "Share Tech Mono"],
+  "iconography": ["microchip", "brain-circuit", "ai-hologram"],
+  "databases": [
+    {
+      "name": "Neural Wiki",
+      "properties": [
+        { "name": "Title", "type": "title" },
+        { "name": "Type", "type": "select", "options": ["Briefing", "Postmortem", "Storyboard", "Log"] },
+        { "name": "Chain", "type": "multi_select", "options": ["Ethereum", "Solana", "XRPL", "Hedera", "Dogecoin"] },
+        { "name": "Swarm Link", "type": "url" },
+        { "name": "Status", "type": "select", "options": ["Active", "Archived"] },
+        { "name": "Last Sync", "type": "date" }
+      ]
+    },
+    {
+      "name": "Motherboard Health View",
+      "properties": [
+        { "name": "Deployment Status", "type": "status" },
+        { "name": "PR Queue", "type": "number" },
+        { "name": "Wallet Uptime", "type": "number" },
+        { "name": "Production Telemetry", "type": "text" }
+      ]
+    }
+  ],
+  "commandProtocol": "Mother Memory Core online. Neural logs synchronized. All swarm intelligence archived to Notion. Data mirrors stable."
+}
