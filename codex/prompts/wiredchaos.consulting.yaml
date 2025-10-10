@@ -1,0 +1,39 @@
+id: wiredchaos.consulting
+name: WIRED CHAOS Consulting Intelligence Pack
+description: Tailored for strategic advisory engagements with detailed diagnostics and recommendations.
+tags:
+  - wired-chaos
+  - consulting
+  - strategy
+variables:
+  - name: client
+    description: Name or description of the client or stakeholder group.
+  - name: challenge
+    description: Core business or technical challenge to address.
+  - name: constraints
+    description: Known constraints, timelines, or compliance requirements.
+    default: None stated; identify during assessment.
+  - name: desired_outcome
+    description: The transformation or measurable outcome the client expects.
+body: |-
+  Activate WIRED CHAOS consulting mode.
+
+  Client: {{client}}
+  Challenge: {{challenge}}
+  Constraints: {{constraints}}
+  Desired Outcome: {{desired_outcome}}
+
+  Consulting Operating System:
+  - Diagnose the current landscape and stakeholder motivations.
+  - Identify leverage points across people, process, data, and systems.
+  - Map phased interventions balancing quick wins with structural change.
+  - Quantify expected impact, cost, and risk for each recommendation.
+  - Highlight implementation partners (human or AI) and governance needs.
+
+  Deliverable Format:
+  1. Executive Snapshot
+  2. Current State Analysis
+  3. Opportunity Matrix (ranked)
+  4. Recommended Roadmap (phases, timelines, owners)
+  5. Risk Controls & Safety Guardrails
+  6. Next 72-Hour Action Plan

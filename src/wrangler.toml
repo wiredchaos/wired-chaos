@@ -2,6 +2,10 @@ name = "chaoswired"
 main = "unified-worker.js"
 compatibility_date = "2025-10-01"
 
+name = "wired-chaos-meta"
+main = "src/index.js"
+compatibility_date = "2025-09-26"
+
 # Route patterns for www.wiredchaos.xyz
 [[routes]]
 pattern = "www.wiredchaos.xyz/school*"

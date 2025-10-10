@@ -1,0 +1,63 @@
+name = "wired-chaos-edge"
+main = "src/index.js"
+compatibility_date = "2025-01-15"
+workers_dev = true
+
+# KV Bindings for Resources Repository
+[[kv_namespaces]]
+binding = "PROFILES"
+id = "profiles_namespace"
+preview_id = "profiles_preview"
+
+[[kv_namespaces]]
+binding = "PROVIDERS"
+id = "providers_namespace"
+preview_id = "providers_preview"
+
+[[kv_namespaces]]
+binding = "VAULT"
+id = "vault_namespace"
+preview_id = "vault_preview"
+
+# Environment Variables
+[vars]
+INSIGHTX_API_URL = "https://api.insightx.network"
+TICKER_ALLOW_ORIGINS = "*"
+SESSION_COOKIE_NAME = "wc_session"
+
+# Secrets (set via wrangler secret put)
+# INSIGHTX_API_KEY - InsightX API key
+# VAULT_KMS_KEY - 32-byte encryption key for vault
+
+[env.production]
+name = "wired-chaos-edge-prod"
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+name = "wired-chaos-edge-staging"
+name = "wired-chaos-task-management"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# Worker configuration
+workers_dev = true
+
+# Route patterns (update with your domain)
+# Uncomment and configure when deploying
+# [[routes]]
+# pattern = "tasks.wiredchaos.xyz/*"
+# zone_name = "wiredchaos.xyz"
+
+# Environment variables
+[vars]
+ENVIRONMENT = "development"
+
+# Production environment
+[env.production]
+name = "wired-chaos-task-management-prod"
+vars = { ENVIRONMENT = "production" }
+
+# Staging environment
+[env.staging]
+name = "wired-chaos-task-management-staging"
+vars = { ENVIRONMENT = "staging" }

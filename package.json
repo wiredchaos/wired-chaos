@@ -27,6 +27,9 @@
     "deploy:webhook": "bash scripts/deploy-webhook-processor.sh",
     "gamma:activate": "bash scripts/activate-gamma-templates.sh",
     "monitor:performance": "bash scripts/monitor-performance.sh",
+    "site:wipe": "pwsh scripts/site-wipe-fresh-build.ps1 -Force",
+    "site:wipe:safe": "pwsh scripts/site-wipe-fresh-build.ps1",
+    "site:wipe:unix": "bash scripts/site-wipe-fresh-build.sh",
     "test:e2e": "gh workflow run e2e-signup-automation.yml -f dry_run=true",
     "test:e2e:live": "gh workflow run e2e-signup-automation.yml -f dry_run=false -f notify=true"
   },
@@ -41,10 +44,14 @@
   "license": "MIT",
   "dependencies": {
     "@octokit/rest": "^21.0.2",
-    "axios": "^1.7.7"
+    "axios": "^1.7.7",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.21",
     "concurrently": "^9.2.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.14",
     "wrangler": "^4.40.3"
   }
 }

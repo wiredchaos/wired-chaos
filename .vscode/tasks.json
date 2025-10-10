@@ -437,6 +437,52 @@
       "problemMatcher": [],
       "detail": "Generate CODE_FIX_CHANGELOG.md from current changes"
     },
+    // ========== Edge Worker Tasks (WIRED CHAOS Platform) ==========
+    {
+      "label": "worker:dev",
+      "type": "shell",
+      "command": "npx wrangler dev",
+      "options": {
+        "cwd": "${workspaceFolder}/edge/worker"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "group": "worker",
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Start edge worker development server (InsightX + Resources)"
+    },
+    {
+      "label": "worker:deploy",
+      "type": "shell",
+      "command": "npx wrangler deploy",
+      "options": {
+        "cwd": "${workspaceFolder}/edge/worker"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "group": "worker",
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Deploy edge worker to Cloudflare"
+    },
+    {
+      "label": "dev:all",
+      "dependsOn": [
+        "worker:dev",
+        "frontend:start-dev-server"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "utility",
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Start both edge worker and frontend development servers"
+    },
     // ========== Utility Tasks ==========
     {
       "label": "install:all-dependencies",
@@ -506,6 +552,131 @@
         "reveal": "always",
         "panel": "shared"
       }
+    },
+    // ========== SWARM AUTOMATION TASKS ==========
+    {
+      "label": "🚀 SWARM: Deploy Marketplace",
+      "type": "shell",
+      "command": "gh workflow run marketplace-deploy.yml",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "swarm-deployment"
+      },
+      "detail": "Deploy contractor marketplace via SWARM automation"
+    },
+    {
+      "label": "🎬 SWARM: Generate Gamma Video",
+      "type": "shell",
+      "command": "gh workflow run gamma-video-swarm.yml",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "group": "swarm-content"
+      },
+      "detail": "Generate Gamma presentation videos via SWARM"
+    },
+    {
+      "label": "📊 SWARM: Full Automation Check",
+      "type": "shell",
+      "command": "gh run list --limit 10 && echo '\\n🔍 Checking SWARM status...' && gh run list --workflow=swarm-bot.yml --limit 3",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "group": "swarm-monitoring"
+      },
+      "detail": "Check status of all SWARM automation workflows"
+    },
+    {
+      "label": "🔄 SWARM: Trigger Full Deployment",
+      "type": "shell",
+      "command": "gh workflow run deployment-orchestration.yml -f phase='all' && gh workflow run swarm-orchestration-trigger.yml",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "group": "swarm-deployment"
+      },
+      "detail": "Trigger complete SWARM deployment orchestration"
+    },
+    {
+      "label": "⚡ SWARM: NO TOUCH Deploy",
+      "type": "shell",
+      "command": "gh workflow run no-touch-automation.yml && echo '🚀 NO TOUCH deployment initiated!'",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "group": "swarm-deployment"
+      },
+      "detail": "Activate zero-touch deployment automation"
+    },
+    {
+      "label": "🎮 SWARM: Start Playground Dev Mode",
+      "type": "shell",
+      "command": "concurrently \"cd frontend && npm start\" \"cd backend && python server.py\" \"cd src && npx wrangler dev\"",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "dev-servers"
+      },
+      "detail": "Start all development servers for marketplace and playground"
+    },
+    {
+      "label": "📈 SWARM: Performance Monitor",
+      "type": "shell",
+      "command": "gh workflow run performance-monitoring.yml && echo '📊 Performance monitoring activated'",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared",
+        "group": "swarm-monitoring"
+      },
+      "detail": "Activate SWARM performance monitoring and analytics"
+    },
+    {
+      "label": "🔧 SWARM: Validate Environment",
+      "type": "shell",
+      "command": "echo '🔍 Validating SWARM environment...' && gh auth status && node --version && python --version && git status",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared",
+        "group": "validation"
+      },
+      "detail": "Validate complete SWARM development environment"
     },
     // ========== EMERGENT Deployment Tasks ==========
     {
@@ -725,6 +896,29 @@
         "group": "pr-automation"
       },
       "detail": "Manually trigger ready & merge workflow via workflow dispatch"
+    }
+    ,
+    // ========== NO TOUCH Infra Automation ==========
+    {
+      "label": "NO TOUCH Infra Automation",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "& { if (Test-Path ./SANITY_CHECK.ps1) { ./SANITY_CHECK.ps1 } else { Write-Host 'SANITY_CHECK.ps1 not found' } ; if (Test-Path ./frontend) { cd ./frontend; if (Get-Command npm -ErrorAction SilentlyContinue) { npm test } else { Write-Host 'npm not found' } } else { Write-Host 'frontend folder not found' } ; cd .. ; if (Test-Path ./backend) { cd ./backend; if (Get-Command pytest -ErrorAction SilentlyContinue) { pytest } else { Write-Host 'pytest not found' } } else { Write-Host 'backend folder not found' } }"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "group": "swarm-deployment"
+      },
+      "detail": "Run full environment, frontend, and backend validation for zero-touch infra automation."
     }
   ],
   "inputs": [
