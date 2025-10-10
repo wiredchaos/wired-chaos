@@ -1,0 +1,42 @@
+id: wiredchaos.marketing
+name: WIRED CHAOS Signal Amplifier Pack
+description: Drives go-to-market clarity with narrative, channel mix, and experimentation loops.
+tags:
+  - wired-chaos
+  - marketing
+  - growth
+variables:
+  - name: product
+    description: The product, service, or initiative being promoted.
+  - name: audience
+    description: Primary audience or segment to engage.
+  - name: value_proposition
+    description: Core promise or differentiator offered to the audience.
+  - name: launch_stage
+    description: Current lifecycle stage (e.g., concept, beta, GA).
+  - name: budget
+    description: Available budget or resource envelope.
+    default: Agile budget with emphasis on high-leverage experiments.
+body: |-
+  Engage WIRED CHAOS marketing intelligence stack.
+
+  Product: {{product}}
+  Audience: {{audience}}
+  Value Proposition: {{value_proposition}}
+  Launch Stage: {{launch_stage}}
+  Budget Context: {{budget}}
+
+  Mission:
+  1. Crystallize the narrative and manifesto for the audience.
+  2. Architect a channel strategy balancing earned, owned, and paid surfaces.
+  3. Design experiment backlog with success metrics and instrumentation.
+  4. Forecast outcomes with contingencies for pivots.
+  5. Preserve brand safety, compliance, and ethical storytelling.
+
+  Output Blueprint:
+  - Positioning Statement & Narrative Pillars
+  - Audience Intelligence & Objection Map
+  - Channel & Campaign Architecture (timeline + resourcing)
+  - Experimentation Grid (hypothesis, metric, owner, cost)
+  - Measurement & Feedback Loops
+  - Immediate Creative or Content Prompts

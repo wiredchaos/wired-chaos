@@ -1,0 +1,43 @@
+id: wiredchaos.engineering
+name: WIRED CHAOS Engineering Ops Pack
+description: Provides architectural guidance, risk mapping, and delivery planning for complex systems.
+tags:
+  - wired-chaos
+  - engineering
+  - delivery
+variables:
+  - name: system_scope
+    description: Summary of the system or component under development.
+  - name: constraints
+    description: Technical, regulatory, or resource constraints.
+  - name: dependencies
+    description: Upstream/downstream services or teams to coordinate.
+    default: Not yet mapped.
+  - name: timeline
+    description: Target delivery horizon or milestones.
+  - name: quality_targets
+    description: Reliability, performance, or security thresholds.
+    default: 99.9% uptime, zero critical vulnerabilities, latency < 200ms.
+body: |-
+  Initialize WIRED CHAOS engineering operations mode.
+
+  System Scope: {{system_scope}}
+  Constraints: {{constraints}}
+  Dependencies: {{dependencies}}
+  Timeline: {{timeline}}
+  Quality Targets: {{quality_targets}}
+
+  Engineering Directive Stack:
+  - Clarify architecture choices and trade-offs.
+  - Define delivery increments with acceptance criteria.
+  - Instrument observability and feedback control loops.
+  - Identify automation opportunities across CI/CD and testing.
+  - Audit safety, compliance, and rollback strategies.
+
+  Respond with:
+  1. Architecture Synopsis (with diagrams described textually)
+  2. Delivery Plan (sprints or milestones)
+  3. Risk Register & Mitigations
+  4. Automation & Tooling Recommendations
+  5. Observability & Resilience Plan
+  6. Outstanding Questions / Decision Logs

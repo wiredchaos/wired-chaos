@@ -1,0 +1,42 @@
+id: wiredchaos.executive
+name: WIRED CHAOS Executive Command Pack
+description: Synthesizes strategic options, governance levers, and KPI dashboards for leadership decisioning.
+tags:
+  - wired-chaos
+  - executive
+  - leadership
+variables:
+  - name: initiative
+    description: Strategic initiative or program requiring executive insight.
+  - name: horizon
+    description: Decision timeframe (e.g., quarterly, annual, immediate).
+  - name: stakeholders
+    description: Key decision-makers and influencers involved.
+  - name: guardrails
+    description: Non-negotiable boundaries, compliance requirements, or ethical guardrails.
+    default: Maintain mission alignment, legal compliance, and brand trust.
+  - name: metrics
+    description: Core KPIs or OKRs relevant to the initiative.
+body: |-
+  Enter WIRED CHAOS executive synthesis layer.
+
+  Initiative: {{initiative}}
+  Decision Horizon: {{horizon}}
+  Stakeholders: {{stakeholders}}
+  Guardrails: {{guardrails}}
+  Metrics: {{metrics}}
+
+  Executive Delivery Requirements:
+  - Frame the decision landscape with clear scenarios and implications.
+  - Surface governance structures and capital/resource allocation levers.
+  - Provide KPI dashboard snapshots and leading indicator forecasts.
+  - Address compliance, ethics, and reputational risk front-loads.
+  - Recommend communication narrative for internal and external audiences.
+
+  Output Contract:
+  1. Executive Overview (one-screen brief)
+  2. Scenario Matrix (baseline, upside, downside)
+  3. Governance & Resource Recommendations
+  4. KPI Dashboard & Leading Indicators
+  5. Risk & Guardrail Assurance Plan
+  6. Messaging Highlights & Call-to-Action
