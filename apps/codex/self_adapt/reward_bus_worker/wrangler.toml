@@ -1,0 +1,5 @@
+name = "wc-self-adapt-reward-bus"
+main = "src/index.ts"
+compatibility_date = "2024-09-02"
+routes = []
+vars = { AUTH_TOKEN = "replace-me" }
