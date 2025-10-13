@@ -1,0 +1,255 @@
+.game-dashboard {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  border-color: rgba(0, 255, 255, 0.6);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Credit Card */
+.credit-display {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.credit-amount {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #00ffff;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.credit-label {
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.5rem;
+}
+
+.claim-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #00ffff 0%, #0099ff 100%);
+  color: black;
+  font-weight: bold;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.claim-btn:hover:not(:disabled) {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.claim-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.credit-info {
+  background: rgba(0, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+/* Reality Layer Card */
+.layer-progress {
+  margin: 2rem 0;
+}
+
+.layer-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.layer-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  flex: 1;
+}
+
+.layer-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.layer-node.active .layer-dot {
+  background: rgba(0, 255, 255, 0.5);
+  border-color: #00ffff;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+
+.layer-node.current .layer-dot {
+  background: #00ffff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.layer-name {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.layer-node.active .layer-name {
+  color: #00ffff;
+}
+
+.stability-bar {
+  display: flex;
+  width: 100px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stability-fill {
+  background: linear-gradient(90deg, #ff0000 0%, #ffff00 50%, #00ff00 100%);
+  transition: width 0.3s ease;
+}
+
+/* Stats Card */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00ffff;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* Wallet Card */
+.wallet-info {
+  text-align: center;
+}
+
+.wallet-address {
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: #00ffff;
+  margin-bottom: 1rem;
+}
+
+.wallet-disconnected {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.wallet-disconnected p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+}
+
+.nft-holdings {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.nft-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.nft-count {
+  font-size: 1.5rem;
+  color: #00ffff;
+  font-weight: bold;
+}
+
+/* Common Info Rows */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.info-row span:first-child {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.info-row span:last-child {
+  color: #00ffff;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
