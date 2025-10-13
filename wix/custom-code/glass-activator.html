@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/styles/glass-tokens.css">
+<link rel="stylesheet" href="/styles/glass.css">
+<script>
+  window.WCHAOS_FLAGS=window.WCHAOS_FLAGS||{};
+  window.WCHAOS_FLAGS.GlassFXEnabled=true; // Codex toggles per env/app
+  (function(){
+    const enable=!!(window.WCHAOS_FLAGS&&window.WCHAOS_FLAGS.GlassFXEnabled);
+    document.documentElement.setAttribute('data-glass', enable?'1':'0');
+    const sel=['[data-glass="1"] .glass-target','[aria-label*="glass"]','[data-role*="glass"]'];
+    const apply=()=>{document.querySelectorAll(sel.join(',')).forEach(el=>el.classList.add('wc-glass'))};
+    (document.readyState==='loading')?document.addEventListener('DOMContentLoaded',apply):apply();
+    new MutationObserver(apply).observe(document.body,{childList:true,subtree:true});
+  })();
+</script>
