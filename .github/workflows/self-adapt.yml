@@ -1,0 +1,39 @@
+name: self-adapt-nightly
+on:
+  schedule:
+    - cron: "17 7 * * *"  # daily 07:17 UTC
+  workflow_dispatch: {}
+
+jobs:
+  aggregate-and-train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-self-adapt.txt
+      - name: Aggregate self-edits
+        env:
+          CHAOS_SELF_EDIT_DIR: runtime/self_edits
+          CHAOS_SELF_EDIT_SUMMARY: artifacts/self_edit_summary.json
+        run: |
+          mkdir -p runtime/self_edits artifacts/adapters artifacts
+          python scripts/aggregate_self_edits.py
+      - name: Optional LoRA training (mock)
+        if: ${{ env.SELF_ADAPT_ENABLE_TRAIN == '1' }}
+        env:
+          SELF_ADAPT_ENABLE_TRAIN: ${{ secrets.SELF_ADAPT_ENABLE_TRAIN }}
+        run: |
+          python apps/codex/self_adapt/train_lora.py --base_model meta-llama/Llama-3.1-8B-Instruct
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: self-adapt-artifacts
+          path: |
+            artifacts/**
+            runtime/self_edits/**
