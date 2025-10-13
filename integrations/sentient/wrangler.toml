@@ -1,0 +1,10 @@
+name = "wc-sentient-bridge"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[vars]
+# Non-secret, optional defaults (secrets set via wrangler secret)
+ENVIRONMENT = "production"
+
+[observability]
+enabled = true

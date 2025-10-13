@@ -1,0 +1,12 @@
+{
+  "data": {
+    "formName": "Consulting Lead",
+    "pageUrl": "https://wiredchaos.xyz/consulting",
+    "fields": {
+      "name": "Neo",
+      "email": "neo@zion.example",
+      "use_case": "AI Academy for local businesses"
+    },
+    "contact": { "email": "neo@zion.example" }
+  }
+}

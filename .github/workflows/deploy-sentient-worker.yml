@@ -1,0 +1,37 @@
+name: Deploy Sentient Bridge
+
+on:
+  push:
+    paths:
+      - "integrations/sentient/**"
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        working-directory: integrations/sentient
+        run: npm ci
+
+      - name: Publish with Wrangler
+        working-directory: integrations/sentient
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          SENTIENT_WEBHOOK_URL: ${{ secrets.SENTIENT_WEBHOOK_URL }}
+          SENTIENT_API_KEY: ${{ secrets.SENTIENT_API_KEY }}
+          WEBHOOK_SHARED_SECRET: ${{ secrets.WEBHOOK_SHARED_SECRET }}
+          ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+        run: npx wrangler deploy
