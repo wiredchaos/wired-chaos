@@ -1,0 +1,20 @@
+[
+  {
+    "name": "rss_summarizer",
+    "desc": "Summarize latest AI/ML RSS items and extract bullets with links.",
+    "call": {"type": "python", "import": "apps.codex.tools.rss:run"},
+    "tags": ["rss","summary","blog"]
+  },
+  {
+    "name": "seo_optimizer",
+    "desc": "Optimize draft for WIRED CHAOS SEO + alt text + OG tags.",
+    "call": {"type": "python", "import": "apps.codex.tools.seo:run"},
+    "tags": ["seo","marketing","gm","post"]
+  },
+  {
+    "name": "pr_sweeper",
+    "desc": "Repo Janitor — analyze and patch CI-safe changes; emits PR.",
+    "call": {"type": "python", "import": "apps.codex.tools.janitor:run"},
+    "tags": ["devops","github","ci","pr"]
+  }
+]

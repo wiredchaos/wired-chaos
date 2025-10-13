@@ -1,0 +1,21 @@
+version: 1
+default_agent: codex
+token_budget: 4500        # approximate context token cap
+reserve_for_user: 800     # holdout for live user msg
+topk:
+  docs: 4
+  memory: 3
+  history: 6
+  tools: 2
+paths:
+  docs_glob: "knowledge/**/*.md"
+  memory_glob: "runtime/memory/**/*.jsonl"
+  history_glob: "runtime/history/**/*.jsonl"
+registries:
+  tools: "apps/codex/context_engine/registries/tools.json"
+  system_prompts: "apps/codex/context_engine/registries/system_prompts.json"
+embedding:
+  model: "sentence-transformers/all-MiniLM-L6-v2"
+  device: "auto"
+packing:
+  order: ["system", "docs", "memory", "tools", "history", "user"]

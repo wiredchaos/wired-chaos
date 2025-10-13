@@ -1,0 +1,26 @@
+name: context-curator-smoke
+on:
+  push:
+    paths:
+      - "apps/codex/context_engine/**"
+      - "requirements-context.txt"
+  workflow_dispatch: {}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          pip install -r requirements-context.txt
+          pip install -r requirements-self-adapt.txt
+      - name: Smoke
+        run: |
+          mkdir -p knowledge runtime/memory runtime/history
+          echo "# WIRED CHAOS RSS\nAutomation pipeline with FreshRSS + OPML." > knowledge/rss.md
+          echo '{"ts":"now","msg":"Previous GM post performed well"}' > runtime/history/h1.jsonl
+          echo '{"ts":"now","delta":"tone: more analytical"}' > runtime/memory/m1.jsonl
+          python apps/codex/context_engine/demo_curate.py
