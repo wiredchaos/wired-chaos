@@ -1,0 +1,263 @@
+{
+  "environment": "staging",
+  "secrets": {
+    "missing": [
+      "SWARM_NOTION_TOKEN",
+      "SWARM_DB_ID",
+      "WIX_API_KEY",
+      "WIX_SITE_ID",
+      "WIX_SYNC_ENDPOINT",
+      "GAMMA_TOKEN",
+      "GAMMA_SPACE_ID",
+      "NOTION_SLO_BADGE_URL"
+    ],
+    "emailStatus": {
+      "sendgridConfigured": false,
+      "smtpConfigured": false,
+      "missing": [
+        "SENDGRID_API_KEY",
+        "SMTP_HOST",
+        "SMTP_PORT",
+        "SMTP_USER",
+        "SMTP_PASS"
+      ]
+    }
+  },
+  "canonicalPaths": [
+    {
+      "path": "apps/wix-sync-worker",
+      "exists": false
+    },
+    {
+      "path": "apps/gamma",
+      "exists": false
+    },
+    {
+      "path": "scripts",
+      "exists": true
+    },
+    {
+      "path": ".github/workflows",
+      "exists": true
+    },
+    {
+      "path": "docs/NOTION_DB_TEMPLATE.json",
+      "exists": false
+    },
+    {
+      "path": "docs/WIREDCHAOS_PALETTE.md",
+      "exists": false
+    }
+  ],
+  "componentGraph": [
+    {
+      "name": "wix-sync-worker",
+      "path": "apps/wix-sync-worker",
+      "buildCmd": "node scripts/wix/build.js --tag ${version_tag}",
+      "deployCmd": "node scripts/wix/deploy.js --site $WIX_SITE_ID --tag ${version_tag} --canary ${canary_pct}",
+      "dependencies": [
+        "scripts/wix/build.js",
+        "scripts/wix/deploy.js"
+      ],
+      "exists": false
+    },
+    {
+      "name": "gamma-app",
+      "path": "apps/gamma",
+      "buildCmd": "pnpm -C apps/gamma install && pnpm -C apps/gamma build",
+      "deployCmd": "node scripts/gamma/deploy.js --space $GAMMA_SPACE_ID --tag ${version_tag} --canary ${canary_pct}",
+      "dependencies": [
+        "scripts/gamma/deploy.js"
+      ],
+      "exists": false
+    },
+    {
+      "name": "notion-sync-worker",
+      "path": "scripts/notion",
+      "buildCmd": "node scripts/notion/sync.js --dry-run",
+      "deployCmd": "node scripts/notion/sync.js",
+      "dependencies": [
+        "scripts/notion/sync.js"
+      ],
+      "exists": true
+    }
+  ],
+  "botInventory": [
+    {
+      "name": "SWARM ↔ Emergent Bridge",
+      "slug": "swarm-emergent-bridge",
+      "purpose": "Unify deploy logs, violations, and SLO data into Notion.",
+      "inputs": [
+        "GitHub events",
+        "Gamma events",
+        "Wix events"
+      ],
+      "outputs": [
+        "Notion DeployEvent pages"
+      ],
+      "triggers": [
+        "Pull requests",
+        "Tags",
+        "Manual runs"
+      ]
+    },
+    {
+      "name": "Notion→Wix Sync Worker",
+      "slug": "notion-wix-sync-worker",
+      "purpose": "Mirror Notion database items to the Wix CMS SwarmRegistry collection.",
+      "inputs": [
+        "Notion database rows"
+      ],
+      "outputs": [
+        "Wix CMS upserts"
+      ],
+      "triggers": [
+        "Scheduled syncs",
+        "On-demand deploy hooks"
+      ],
+      "endpoint": "/_functions/notionSync"
+    },
+    {
+      "name": "Marketing SWARM",
+      "slug": "marketing-swarm",
+      "purpose": "Generate campaigns from curated feeds and project memory.",
+      "inputs": [
+        "Awesome ML & AI OPML feeds",
+        "X/Twitter discovery",
+        "Project tags"
+      ],
+      "outputs": [
+        "Post drafts",
+        "CTA blocks",
+        "Promo schedules"
+      ],
+      "triggers": [
+        "New feed items",
+        "Calendar beats"
+      ]
+    },
+    {
+      "name": "SEO SWARM",
+      "slug": "seo-swarm",
+      "purpose": "Deliver keywords, schema.org markup, and Ask Engine Optimization (AEO) assets.",
+      "inputs": [
+        "Site maps",
+        "Post drafts",
+        "X threads"
+      ],
+      "outputs": [
+        "Meta tags",
+        "JSON-LD documents",
+        "Alt text",
+        "Headline tests"
+      ]
+    },
+    {
+      "name": "MERCH Line SWARM (University + BeastCoast)",
+      "slug": "merch-line-swarm",
+      "purpose": "Coordinate print-on-demand plus AR/VR try-on experiences across dual stores.",
+      "inputs": [
+        "Product specs",
+        "Size tables",
+        "Mockups"
+      ],
+      "outputs": [
+        "Wix collections",
+        "AR assets (GLB/USDZ)",
+        "SEO content"
+      ]
+    },
+    {
+      "name": "Funnel Engine SWARM",
+      "slug": "funnel-engine-swarm",
+      "purpose": "Provide form builder, conditional logic, and analytics routing.",
+      "inputs": [
+        "Lead forms",
+        "UTM parameters",
+        "Experiment definitions"
+      ],
+      "outputs": [
+        "Dynamic routes",
+        "Feature flags",
+        "Dashboards"
+      ]
+    },
+    {
+      "name": "RSS LLM-ML Ingest SWARM",
+      "slug": "rss-llm-ml-swarm",
+      "purpose": "Process OPML feeds through FreshRSS and produce research briefs.",
+      "inputs": [
+        "arXiv ML",
+        "BAIR",
+        "MIT AI",
+        "Nvidia AI feeds"
+      ],
+      "outputs": [
+        "Briefs",
+        "Voiceover teasers",
+        "Prompt drills"
+      ]
+    },
+    {
+      "name": "Investor Showcase (Gamma)",
+      "slug": "investor-showcase-gamma",
+      "purpose": "Maintain Gamma demo pages featuring Neurodivergent HRM and status panels.",
+      "inputs": [
+        "Emergent LLM key",
+        "HRM schema"
+      ],
+      "outputs": [
+        "Gamma blocks",
+        "Investor-ready pages"
+      ]
+    },
+    {
+      "name": "Ticket Simulator / Ed-Trading SWARM",
+      "slug": "ticket-simulator-swarm",
+      "purpose": "Offer paper-trading modules and Telegram bot practice flows.",
+      "inputs": [
+        "Course modules",
+        "Simulated tokens ($CHAOS, $NEURO, $VRG)"
+      ],
+      "outputs": [
+        "Dashboards",
+        "Leaderboards",
+        "NFT-gated allocations"
+      ]
+    },
+    {
+      "name": "DBN → Barbed Wired Broadcasting",
+      "slug": "dbn-barbed-wired-broadcasting",
+      "purpose": "Produce newsdesk captions and maintain plushy Neuro anchor continuity.",
+      "inputs": [
+        "External feeds",
+        "Internal alerts"
+      ],
+      "outputs": [
+        "Short scripts",
+        "Overlay assets"
+      ]
+    }
+  ],
+  "pipeline": {
+    "path": "codex.pipeline.yaml",
+    "created": true
+  },
+  "canaryPlan": [
+    5,
+    25,
+    50,
+    100
+  ],
+  "sloGate": {
+    "url": null,
+    "minimum": 99
+  },
+  "postDeployEvents": [
+    "wix:canary:x",
+    "gamma:canary:x",
+    "canary:ramp:xx",
+    "deploy:complete"
+  ],
+  "timestamp": "2025-10-05T21:28:39.690Z"
+}
