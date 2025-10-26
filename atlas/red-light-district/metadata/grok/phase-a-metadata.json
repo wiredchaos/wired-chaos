@@ -1,0 +1,92 @@
+{
+  "$schema": "https://wired-chaos.io/schemas/grok-asset-metadata.json",
+  "project": "WIRED CHAOS · Red Light District",
+  "version": "0.1.0",
+  "generatedAt": "${ISO_TIMESTAMP}",
+  "assets": [
+    {
+      "id": "RLD-AXON-01",
+      "promptRef": "renders/octane/phase-a-prompts.json#establishing-neon-parallax",
+      "cameraAngle": "establishing",
+      "atlas": {
+        "drivePath": "atlas://wiredchaos/red-light-district/renders/octane/axon-01.png",
+        "watermark": "WIRED CHAOS ∴ RLD",
+        "contexts": [
+          "atlas_redlight_main.atx#octane"
+        ]
+      },
+      "storage": {
+        "primary": "r2://wired-chaos/red-light-district/axon-01.png",
+        "backup": "s3://wired-chaos-backup/rld/axon-01.png"
+      },
+      "lore": {
+        "registrySlug": "motherboard-city.red-light-district",
+        "memoryFragment": "xrpl://fragments/RLD-AXON-01",
+        "summary": "Neon skyline establishing shot anchoring the Red Light District quadrant."
+      }
+    },
+    {
+      "id": "RLD-NANOTAG-07",
+      "promptRef": "renders/octane/phase-a-prompts.json#detail-holo-graffiti",
+      "cameraAngle": "detail",
+      "atlas": {
+        "drivePath": "atlas://wiredchaos/red-light-district/renders/octane/nanotag-07.png",
+        "watermark": "WIRED CHAOS MICRO",
+        "contexts": [
+          "atlas_redlight_main.atx#octane"
+        ]
+      },
+      "storage": {
+        "primary": "r2://wired-chaos/red-light-district/nanotag-07.png",
+        "backup": "s3://wired-chaos-backup/rld/nanotag-07.png"
+      },
+      "lore": {
+        "registrySlug": "motherboard-city.red-light-district",
+        "memoryFragment": "xrpl://fragments/RLD-NANOTAG-07",
+        "summary": "Close-up evidence of adaptive graffiti reacting to passerby bio-signatures."
+      }
+    },
+    {
+      "id": "RLD-XRPL-32",
+      "promptRef": "renders/octane/phase-a-prompts.json#proof-terminal-trade",
+      "cameraAngle": "proof-terminal",
+      "atlas": {
+        "drivePath": "atlas://wiredchaos/red-light-district/renders/octane/xrpl-32.png",
+        "watermark": "WIRED CHAOS XRPL",
+        "contexts": [
+          "atlas_redlight_main.atx#cipher"
+        ]
+      },
+      "storage": {
+        "primary": "r2://wired-chaos/red-light-district/xrpl-32.png",
+        "backup": "s3://wired-chaos-backup/rld/xrpl-32.png"
+      },
+      "lore": {
+        "registrySlug": "motherboard-city.red-light-district",
+        "memoryFragment": "xrpl://fragments/RLD-XRPL-32",
+        "summary": "Terminal node used for sanctioned memory fragment trades within the district."
+      }
+    },
+    {
+      "id": "RLD-CIPHER-19",
+      "promptRef": "renders/octane/phase-a-prompts.json#cipher-wall-inspection",
+      "cameraAngle": "cipher-wall",
+      "atlas": {
+        "drivePath": "atlas://wiredchaos/red-light-district/renders/octane/cipher-19.png",
+        "watermark": "WIRED CHAOS SIGIL",
+        "contexts": [
+          "atlas_redlight_main.atx#cipher"
+        ]
+      },
+      "storage": {
+        "primary": "r2://wired-chaos/red-light-district/cipher-19.png",
+        "backup": "s3://wired-chaos-backup/rld/cipher-19.png"
+      },
+      "lore": {
+        "registrySlug": "motherboard-city.red-light-district",
+        "memoryFragment": "xrpl://fragments/RLD-CIPHER-19",
+        "summary": "Glyph wall containing the rotating passphrases that guard the speakeasy vault."
+      }
+    }
+  ]
+}
