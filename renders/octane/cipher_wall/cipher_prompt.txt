@@ -1,0 +1,6 @@
+Massive holographic mural wall, layered tags animate as shifting glyphs (Atlantean + Akira Codex hybrid),
+cyan barbed-wire motif frames center sigil, glitch red tear lines, electric green pathfinding arrows,
+coded easter eggs that align with WIRED CHAOS timeline markers (589, 33.3, XRPL waves),
+camera 35mm, frontal orthographic feel, minimal perspective distortion, crystalline neon refractions,
+render_only, omit_prompt_text_in_output
+NEG: readable real-world text blocks, copyrighted logos, purple tint

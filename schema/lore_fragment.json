@@ -1,0 +1,32 @@
+{
+  "title": "LoreFragment",
+  "type": "object",
+  "required": ["_id","title","slug","module","rarity","createdAt","checksum"],
+  "properties": {
+    "_id": { "type": "string", "description": "ObjectId as string" },
+    "title": { "type": "string" },
+    "slug": { "type": "string" },
+    "module": { "type": "string", "enum": ["RedLightDistrict","AkiraCodex","MotherboardCity"] },
+    "rarity": { "type": "string", "enum": ["common","uncommon","rare","mythic"] },
+    "glyph": { "type": "string", "description": "encoded glyph payload" },
+    "proof": { "type": "string", "description": "verification kiosk receipt / hash" },
+    "media": {
+      "type": "object",
+      "properties": {
+        "shot": { "type": "string", "enum": ["establishing","details","env_story","proof_terminal","cipher_wall"] },
+        "path": { "type": "string" },
+        "metadataPath": { "type": "string" }
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "properties": {
+        "arc": { "type": "string", "enum": ["589","33.3","XRPL"] },
+        "index": { "type": "integer" }
+      }
+    },
+    "traits": { "type": "object", "additionalProperties": true },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "checksum": { "type": "string" }
+  }
+}

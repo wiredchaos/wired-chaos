@@ -1,0 +1,10 @@
+3D Octane hyperreal cinematic wide shot of WIRED CHAOS Red Light District, midnight rain
+motherboard street grid glowing neon cyan pathways, glitch red signage bands, electric green data vines,
+glass effect billboards reflecting puddles, holographic kanji + barbed-wire cyan filaments across alley,
+black monolith storefronts with cyan edge-light, accent pink signal beacons, volumetric fog shafts,
+NPC silhouettes trading glowing “lore fragments” in hush-markets, XRPL wave lines faint in the distance,
+camera 24mm, low angle, parallax neon reflections, depth of field, film grain subtle,
+global illumination high, specular puddle caustics, subsurface scattering on banner fabrics,
+fog density 0.35, bloom 0.2, exposure +0.3, contrast 1.1
+render_only, omit_prompt_text_in_output
+NEG: cartoon, low-res, overexposed whites, purple hues, text artifacts, logo tampering

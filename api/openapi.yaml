@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: WIRED CHAOS — Red Light District API
+  version: 0.1.0
+paths:
+  /health:
+    get:
+      summary: Liveness
+      responses:
+        "200":
+          description: OK
+  /cipher/decode:
+    post:
+      summary: Decode holographic glyph payload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: string
+                scheme:
+                  type: string
+                  default: wc-v1
+      responses:
+        "200":
+          description: Decoded preview
+  /cipher/encode:
+    post:
+      summary: Encode message into cipher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                scheme:
+                  type: string
+                  default: wc-v1
+      responses:
+        "200":
+          description: Encoded message
