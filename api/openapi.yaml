@@ -1,0 +1,84 @@
+openapi: 3.0.3
+info:
+  title: WIRED CHAOS RLD API
+  version: 0.2.0
+paths:
+  /health:
+    get:
+      summary: Liveness
+      responses:
+        "200":
+          description: OK
+  /cipher/encode:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                scheme:
+                  type: string
+                  enum:
+                    - wc-v1
+                    - wc-v2
+      responses:
+        "200":
+          description: OK
+  /cipher/decode:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scheme:
+                  type: string
+                cipher:
+                  type: string
+                mac:
+                  type: string
+      responses:
+        "200":
+          description: OK
+  /fragments:
+    post:
+      summary: Create lore fragment (encrypt glyph)
+      responses:
+        "200":
+          description: OK
+  /fragments/{slug}:
+    get:
+      summary: Get fragment
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /drops:
+    post:
+      summary: Create encrypted message drop
+      responses:
+        "200":
+          description: OK
+  /drops/{id}/claim:
+    post:
+      summary: Claim and decrypt a drop
+      responses:
+        "200":
+          description: OK
+  /decoder/parse:
+    post:
+      summary: Parse holographic street-art glyphs
+      responses:
+        "200":
+          description: OK
