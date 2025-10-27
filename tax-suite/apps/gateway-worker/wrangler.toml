@@ -1,0 +1,16 @@
+name = "tax-suite-gateway"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+[vars]
+TAX_EFILE_ENABLED = "false"
+TRANSMITTER_BASE_URL = "https://internal-alb.example.local"
+AUTH_TOKEN = "REDACTED"
+
+[[r2_buckets]]
+binding = "R2_XML"
+bucket_name = "taxsuite-xml"
+
+[[r2_buckets]]
+binding = "R2_ACK"
+bucket_name = "taxsuite-ack"

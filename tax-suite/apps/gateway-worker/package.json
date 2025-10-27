@@ -1,0 +1,17 @@
+{
+  "name": "@wired-chaos/tax-suite-gateway-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "dev": "wrangler dev",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241101.0",
+    "typescript": "^5.4.0",
+    "wrangler": "^4.40.3"
+  }
+}
