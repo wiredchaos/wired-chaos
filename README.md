@@ -424,5 +424,17 @@ MIT License - See LICENSE file for details
 
 **Powered by**: React • FastAPI • Cloudflare • Web3 • AR/VR • AI
 
-#   P R   A u t o m a t i o n   T e s t  
+ 
+## Contracts
+cd packages/codex-contracts && pnpm build && npx hardhat run scripts/deploy.ts --network xrpl_evm
+
+### Encrypted Traits (FHE)
+- Optional FHE hook lives at `contracts/ConfidentialHookFHE.sol`
+- See `packages/codex-contracts/README-FHE.md` for toolchain & deploy notes
+- Policy & governance: `docs/TKMS-POLICY.md`
+- Architecture decision: `docs/ADR-0002-confidential-traits.md`
+
+## RSS → Prompt Drills
+Use `@wiredchaos/codex-core` → `fetchFreshRSS()` and `toPromptDrills()` to turn feed items into drills for WIRED CHAOS posting.
+ 
  
