@@ -19,6 +19,7 @@
 - **🎬 Video System**: Optional avatar linking for videos - works perfectly with or without creator avatars
 - **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
 - **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
+- **🛰 WIRED CHAOS Doge Notary**: Auto-detects document size & privacy mode, builds WCN-INS-1 manifests, and notarizes files on Dogecoin with GROK branding
 
 ## 🆕 SWARM Orchestrator Pipeline
 
@@ -118,6 +119,18 @@ pwsh SANITY_CHECK.ps1 -Fix
 # 4. Start development
 npm run frontend:dev
 ```
+
+## 🛰 WIRED CHAOS Doge Notary
+
+The `apps/wcn-doge-notary` package ships the full WIRED CHAOS Dogecoin notary stack:
+
+- `wcn` CLI for `notarize`, `verify`, and `info` commands (supports `--dry-run`).
+- Express microservice (`npm run start:api`) exposing `/notarize`, `/verify`, `/inscription/:id`, and `/health`.
+- FreshRSS automation (`npm run freshrss`) that renders articles into GROK-branded PDFs and inscribes them on Dogecoin.
+- PR notarization workflow at `.github/workflows/notary.yml` that notarizes merged diffs.
+- Drag-and-drop verifier UI at `apps/wcn-doge-notary/public/verifier.html` with the WIRED CHAOS palette.
+
+Read the dedicated [WIRED CHAOS Doge Notary README](./apps/wcn-doge-notary/README.md) for setup, environment variables, and operational runbooks.
 
 📚 **[Read the Complete Integration Guide](./MEGA_PROMPT_INTEGRATION_GUIDE.md)**
 

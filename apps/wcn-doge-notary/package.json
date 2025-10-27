@@ -1,0 +1,25 @@
+{
+  "name": "wcn-doge-notary",
+  "version": "0.1.0",
+  "description": "WIRED CHAOS Dogecoin notary CLI and API",
+  "type": "module",
+  "bin": {
+    "wcn": "dist/bin/wcn.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "start:api": "node dist/api/server.js",
+    "dev:cli": "tsx src/cli.ts",
+    "dev:api": "tsx src/api/server.ts",
+    "freshrss": "node dist/integrations/freshrss.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rimraf": "^5.0.7",
+    "tslib": "^2.6.3",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,42 @@
+name: WCN Doge Notary
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  notarize:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install notary CLI
+        run: |
+          cd apps/wcn-doge-notary
+          npm install
+          npm run build
+      - name: Collect PR diff
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} > pr.diff
+      - name: Notarize diff
+        env:
+          DOGE_WALLET_MNEMONIC: ${{ secrets.DOGE_WALLET_MNEMONIC }}
+          DOGE_RPC_URL: ${{ secrets.DOGE_RPC_URL }}
+          INSCRIBE_SERVICE_URL: ${{ secrets.INSCRIBE_SERVICE_URL }}
+        run: |
+          node apps/wcn-doge-notary/dist/bin/wcn.js notarize \
+            --file pr.diff \
+            --title "PR ${GITHUB_REPOSITORY}#${{ github.event.pull_request.number }}" \
+            --privacy public > notarization.json
+      - name: Upload proof bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-notary-output
+          path: |
+            pr.diff
+            notarization.json
