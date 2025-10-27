@@ -1,0 +1,27 @@
+:root {
+  --wc-black: #000000;
+  --wc-cyan: #00ffff;
+  --wc-red: #ff3131;
+  --wc-green: #39ff14;
+  --wc-pink: #ff00ff;
+}
+
+html,
+body {
+  background: var(--wc-black);
+  color: white;
+  font-family: system-ui, sans-serif;
+}
+
+.glass {
+  backdrop-filter: saturate(140%) blur(10px);
+  background: rgba(0, 255, 255, 0.06);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+a {
+  color: var(--wc-cyan);
+  text-decoration: none;
+}
