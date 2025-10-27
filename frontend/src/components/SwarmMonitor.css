@@ -1,0 +1,272 @@
+/* Swarm Monitor Styles */
+
+.swarm-monitor {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid #00FFFF;
+  border-radius: 10px;
+  padding: 25px;
+  margin: 20px 0;
+}
+
+.monitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.monitor-header h3 {
+  color: #00FFFF;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  margin: 0;
+}
+
+.loading-indicator {
+  color: #00FFFF;
+  font-size: 1.5rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Swarm Overview */
+.swarm-overview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.swarm-stat {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #00FFFF;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.swarm-stat .stat-label {
+  color: #FFFFFF;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.swarm-stat .stat-value {
+  color: #00FFFF;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Swarm Cards */
+.swarm-types {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+  .swarm-types {
+    grid-template-columns: 1fr;
+  }
+  
+  .swarm-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.swarm-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.swarm-card:hover {
+  transform: translateY(-3px);
+}
+
+.puzzle-swarm {
+  border-color: #00FFFF;
+}
+
+.puzzle-swarm:hover {
+  box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+}
+
+.patch-swarm {
+  border-color: #FF00FF;
+}
+
+.patch-swarm:hover {
+  box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+}
+
+.guardian-swarm {
+  border-color: #FF3131;
+}
+
+.guardian-swarm:hover {
+  box-shadow: 0 5px 15px rgba(255, 49, 49, 0.3);
+}
+
+.community-swarm {
+  border-color: #39FF14;
+}
+
+.community-swarm:hover {
+  box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+}
+
+.swarm-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.swarm-icon {
+  font-size: 1.5rem;
+}
+
+.swarm-name {
+  color: #FFFFFF;
+  font-weight: bold;
+  flex: 1;
+}
+
+.swarm-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.swarm-desc {
+  color: #FFFFFF;
+  opacity: 0.7;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.swarm-status {
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.swarm-status.active {
+  background: rgba(57, 255, 20, 0.2);
+  color: #39FF14;
+}
+
+.swarm-status.standby {
+  background: rgba(0, 255, 255, 0.2);
+  color: #00FFFF;
+}
+
+.swarm-status.monitoring {
+  background: rgba(255, 165, 0, 0.2);
+  color: #FFA500;
+}
+
+/* Task Queue */
+.task-queue {
+  margin-top: 25px;
+}
+
+.task-queue h4 {
+  color: #00FFFF;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.empty-queue {
+  color: #FFFFFF;
+  opacity: 0.5;
+  text-align: center;
+  padding: 20px;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.task-item:hover {
+  border-color: #00FFFF;
+}
+
+.task-icon {
+  font-size: 1.3rem;
+}
+
+.task-info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-type {
+  color: #FFFFFF;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.task-urgency {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.collab-badge {
+  background: rgba(255, 0, 255, 0.2);
+  color: #FF00FF;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Swarm Info */
+.swarm-info {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.info-text {
+  color: #FFFFFF;
+  opacity: 0.8;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.info-text strong {
+  color: #00FFFF;
+}
