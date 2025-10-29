@@ -1,0 +1,10 @@
+{
+  "widgets": [
+    {"type": "gauge", "title": "Collective Benefit", "metric": "collective_benefit"},
+    {"type": "gauge", "title": "Safety Preservation", "metric": "safety_preservation"},
+    {"type": "gauge", "title": "Incentive Correction", "metric": "incentive_correction"},
+    {"type": "gauge", "title": "Transparency & Accountability", "metric": "transparency"},
+    {"type": "gauge", "title": "Cooperative Governance", "metric": "cooperative_governance"},
+    {"type": "log", "title": "Recent Alerts", "metric": "alerts"}
+  ]
+}

@@ -1,0 +1,24 @@
+name: anti_moloch_swarm
+class: governance
+priority: root
+depends_on:
+  - emergent_core
+  - codex_nodes
+  - seo_swarm
+  - rss_pipeline
+triggers:
+  - resource_conflict
+  - aggressive_scaling
+  - reward_hacking
+  - externality_shift
+  - opaque_decision
+actions:
+  - run_policy_evaluation
+  - inject_alignment_prompt
+  - broadcast_cooperative_fix
+config:
+  risk_threshold: 0.20
+  block_threshold: 0.35
+  use_llm: env:UNIVERSAL_LLM_KEY
+  slack_webhook: env:SLACK_WEBHOOK
+  discord_webhook: env:DISCORD_WEBHOOK
