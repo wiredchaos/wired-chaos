@@ -1,0 +1,31 @@
+name: Deploy Late Bus Worker
+on:
+  push:
+    branches: [ "feature/late-bus-worker" ]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci --prefix apps/late-bus-worker
+      - name: Publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          workingDirectory: apps/late-bus-worker
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          LATE_API_BASE: https://getlate.dev/api
+          LATE_API_KEY: ${{ secrets.LATE_API_KEY }}
+          APPROVER_TOKEN: ${{ secrets.APPROVER_TOKEN }}
+          ALLOWED_ORIGIN: ${{ secrets.ALLOWED_ORIGIN }}
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+          LOG_LEVEL: info

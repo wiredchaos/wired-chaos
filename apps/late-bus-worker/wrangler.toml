@@ -1,0 +1,14 @@
+name = "late-bus-worker"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+workers_dev = true
+
+[vars]
+LATE_API_BASE = "https://getlate.dev/api"
+
+# Inject the rest as secrets:
+# wrangler secret put LATE_API_KEY
+# wrangler secret put APPROVER_TOKEN
+# wrangler secret put ALLOWED_ORIGIN
+# wrangler secret put WEBHOOK_SECRET
+# wrangler secret put LOG_LEVEL
