@@ -1,0 +1,8 @@
+services:
+  codex:
+    enabled: true
+    modules:
+      - prbot
+      - governance
+      - tax
+      - emergent

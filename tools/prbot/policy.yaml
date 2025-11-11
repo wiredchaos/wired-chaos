@@ -1,0 +1,12 @@
+# Default CODEX PR review policy.
+# Populate batches and rules according to your governance requirements.
+
+batches:
+  1: []
+
+rules:
+  default:
+    label: "default"
+    match: ".*"
+    steps: []
+    automerge: false
