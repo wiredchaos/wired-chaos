@@ -27,3 +27,4 @@ Paste GIGA PROMPT into system prompt for:
 - Multi-engine keyword clusters
 - Schema markup
 - CSV output
+- Sample Business Ascent School funnel JSON for testing and automation demos

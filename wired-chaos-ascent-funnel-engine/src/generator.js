@@ -10,15 +10,22 @@
 const { readFileSync } = require('node:fs');
 const { resolve } = require('node:path');
 
-const systemPromptPath = resolve(
-  process.cwd(),
-  'wired-chaos-ascent-funnel-engine',
-  'codex',
-  'system_prompt.txt'
+const baseDir = resolve(process.cwd(), 'wired-chaos-ascent-funnel-engine');
+
+const systemPromptPath = resolve(baseDir, 'codex', 'system_prompt.txt');
+const businessAscentFunnelPath = resolve(
+  baseDir,
+  'src',
+  'funnels',
+  'business-ascent-school.json'
 );
 
 function loadSystemPrompt() {
   return readFileSync(systemPromptPath, 'utf8');
+}
+
+function loadBusinessAscentSchoolFunnel() {
+  return JSON.parse(readFileSync(businessAscentFunnelPath, 'utf8'));
 }
 
 function createFunnelContext(overrides = {}) {
@@ -26,7 +33,10 @@ function createFunnelContext(overrides = {}) {
     {
       prompt: loadSystemPrompt(),
       timestamp: new Date().toISOString(),
-      engine: 'WIRED_CHAOS_ASCENT_FUNNEL_ENGINE'
+      engine: 'WIRED_CHAOS_ASCENT_FUNNEL_ENGINE',
+      samples: {
+        businessAscentSchool: loadBusinessAscentSchoolFunnel()
+      }
     },
     overrides
   );
@@ -34,5 +44,6 @@ function createFunnelContext(overrides = {}) {
 
 module.exports = {
   loadSystemPrompt,
+  loadBusinessAscentSchoolFunnel,
   createFunnelContext
 };
