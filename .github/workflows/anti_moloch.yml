@@ -1,0 +1,30 @@
+name: Anti-Moloch Governance Sweep
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  push:
+    branches: [ main ]
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    env:
+      UNIVERSAL_LLM_KEY: ${{ secrets.UNIVERSAL_LLM_KEY }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: pip install -r requirements.txt || true
+      - name: Run governance sweep
+        run: python -m swarm.anti_moloch.monitor_entry
+      - name: Upload alerts
+        uses: actions/upload-artifact@v4
+        with:
+          name: anti_moloch_alerts
+          path: artifacts/anti_moloch_*.json
+          if-no-files-found: ignore
