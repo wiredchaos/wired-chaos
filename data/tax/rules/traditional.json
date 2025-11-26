@@ -1,0 +1,171 @@
+[
+  {
+    "id": "TRAD_401K_MAXIMIZE",
+    "name": "Maximize Elective Deferrals",
+    "category": "Retirement",
+    "description": "Increase employee elective deferrals to available 401(k)/403(b) limits including catch-up contributions.",
+    "eligibility": [
+      { "expr": "hasQualifiedPlan()" },
+      { "expr": "hasEarnedIncomeAbove(5000)" }
+    ],
+    "calc": "optimize_elective_deferral_limit(client_profile)",
+    "outputs": ["employee_deferral_increase", "cash_flow_impact", "tax_savings"],
+    "risk_score": 10,
+    "documentation": [
+      "Payroll deferral change confirmation",
+      "Plan document showing limit"
+    ]
+  },
+  {
+    "id": "TRAD_BACKDOOR_ROTH",
+    "name": "Backdoor Roth Conversion",
+    "category": "Retirement",
+    "description": "Execute nondeductible IRA contribution followed by Roth conversion for high-income taxpayers.",
+    "eligibility": [
+      { "expr": "incomeAboveIRAThreshold()" },
+      { "expr": "hasNoPreTaxIRA()" }
+    ],
+    "calc": "estimate_backdoor_roth_savings(client_profile)",
+    "outputs": ["conversion_amount", "basis_created", "taxable_conversion"],
+    "risk_score": 22,
+    "documentation": [
+      "Form 8606 workpapers",
+      "Custodian confirmations"
+    ]
+  },
+  {
+    "id": "TRAD_QBI_OPTIMIZER",
+    "name": "QBI Threshold Optimization",
+    "category": "Business",
+    "description": "Model reasonable compensation, retirement deferrals, and grouping elections to maximize §199A deduction.",
+    "eligibility": [
+      { "expr": "hasPassThroughIncome()" },
+      { "expr": "withinQBISafeHarbor()" }
+    ],
+    "calc": "simulate_qbi_thresholds(client_profile, tax_dataset)",
+    "outputs": ["qualified_business_income", "w2_wage_ratio", "qbi_deduction"],
+    "risk_score": 26,
+    "documentation": [
+      "Entity financial statements",
+      "Officer payroll analysis"
+    ]
+  },
+  {
+    "id": "TRAD_ENTITY_ACCOUNTABLE_PLAN",
+    "name": "Accountable Plan Reimbursements",
+    "category": "Business",
+    "description": "Adopt accountable plan to reimburse business expenses and reduce taxable wages.",
+    "eligibility": [
+      { "expr": "isSOrCCorpOwner()" },
+      { "expr": "hasOutOfPocketExpenses()" }
+    ],
+    "calc": "project_accountable_plan_reimbursements(client_profile)",
+    "outputs": ["reimbursement_total", "payroll_tax_savings", "documentation_actions"],
+    "risk_score": 16,
+    "documentation": [
+      "Accountable plan policy",
+      "Expense substantiation packets"
+    ]
+  },
+  {
+    "id": "TRAD_HEALTH_SAVINGS_ACCOUNT",
+    "name": "Health Savings Account Funding",
+    "category": "Health",
+    "description": "Contribute to HSA at family or individual limits with catch-up where eligible.",
+    "eligibility": [
+      { "expr": "isHSAEligible()" }
+    ],
+    "calc": "calculate_hsa_contribution_gap(client_profile)",
+    "outputs": ["hsa_contribution", "federal_tax_savings", "state_tax_savings"],
+    "risk_score": 8,
+    "documentation": [
+      "High deductible health plan evidence",
+      "Contribution confirmation"
+    ]
+  },
+  {
+    "id": "TRAD_DONOR_ADVISED_FUND",
+    "name": "Donor Advised Fund Bunching",
+    "category": "Charitable",
+    "description": "Front-load multiple years of charitable giving into a DAF to exceed standard deduction.",
+    "eligibility": [
+      { "expr": "itemizedDeductionsNearStandard()" },
+      { "expr": "hasAppreciatedAssets()" }
+    ],
+    "calc": "model_daf_bunching(client_profile)",
+    "outputs": ["donation_amount", "charitable_deduction", "capital_gain_avoided"],
+    "risk_score": 18,
+    "documentation": [
+      "DAF contribution receipt",
+      "Appraisal for non-cash assets"
+    ]
+  },
+  {
+    "id": "TRAD_COST_SEGREGATION",
+    "name": "Cost Segregation Study",
+    "category": "Real Estate",
+    "description": "Reclassify building components to accelerate depreciation with bonus eligibility.",
+    "eligibility": [
+      { "expr": "ownsDepreciableRealEstate()" },
+      { "expr": "propertyPlacedInServiceAfter(2017)" }
+    ],
+    "calc": "estimate_cost_segregation_bonus(property_data)",
+    "outputs": ["bonus_depreciation", "taxable_income_reduction", "roi"],
+    "risk_score": 32,
+    "documentation": [
+      "Engineering cost seg report",
+      "Fixed asset ledger"
+    ]
+  },
+  {
+    "id": "TRAD_SECTION179_FLEET",
+    "name": "Section 179 Fleet Expensing",
+    "category": "Business",
+    "description": "Apply §179 expensing for qualifying vehicles or equipment purchases.",
+    "eligibility": [
+      { "expr": "hasQualifiedPropertyPurchases()" },
+      { "expr": "taxableIncomePositive()" }
+    ],
+    "calc": "section179_expense_schedule(client_profile, tax_dataset)",
+    "outputs": ["section179_deduction", "depreciation_remaining", "tax_savings"],
+    "risk_score": 20,
+    "documentation": [
+      "Purchase invoices",
+      "Business use log"
+    ]
+  },
+  {
+    "id": "TRAD_NIIT_MITIGATION",
+    "name": "Net Investment Income Mitigation",
+    "category": "Investment",
+    "description": "Shift investment allocations or entity structure to reduce NIIT exposure.",
+    "eligibility": [
+      { "expr": "adjustedGrossIncomeAbove(250000)" },
+      { "expr": "hasNetInvestmentIncome()" }
+    ],
+    "calc": "analyze_niit_restructuring(client_profile, tax_dataset)",
+    "outputs": ["niit_reduction", "entity_structures", "action_items"],
+    "risk_score": 24,
+    "documentation": [
+      "Investment statements",
+      "Entity ownership records"
+    ]
+  },
+  {
+    "id": "TRAD_PTET_ELECTION",
+    "name": "Pass-Through Entity Tax Election",
+    "category": "State and Local",
+    "description": "Model elective PTET payments to bypass SALT cap in conforming states.",
+    "eligibility": [
+      { "expr": "stateAllowsPTET(client_profile.state)" },
+      { "expr": "hasPassThroughIncome()" }
+    ],
+    "calc": "simulate_ptet_cashflow(client_profile, tax_dataset)",
+    "outputs": ["state_tax_paid", "federal_deduction", "net_cash_effect"],
+    "risk_score": 30,
+    "documentation": [
+      "State election forms",
+      "Payment confirmations"
+    ]
+  }
+]
