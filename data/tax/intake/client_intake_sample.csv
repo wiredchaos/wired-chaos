@@ -1,0 +1,11 @@
+record_type,description,amount,currency,category,sub_category,metadata
+W2,Wages from WC Media LLC,185000,USD,Income,Employment,"box1=185000;retirement=19000"
+1099-INT,Online bank savings interest,450,USD,Income,Interest,"payer=Alchemy Bank"
+K1,S-Corp ordinary business income,185000,USD,PassThrough,Ordinary,"entity=WC Media LLC;box1=185000"
+EXPENSE,Home office rent allocation,7200,USD,Deduction,BusinessUse,"square_feet=250"
+DEDUCTION,Donor advised fund contribution,15000,USD,Deduction,Charitable,"asset=BTC;txid=0xabc123"
+CRYPTO-TRADE,BTC sale lot 2024-01-15,32000,USD,DigitalAsset,CapitalGain,"cost_basis=28000;wallet=xpub123"
+CRYPTO-INCOME,ETH staking rewards,6500,USD,DigitalAsset,Staking,"protocol=Lido;claim_count=12"
+ETF,IBIT spot ETF purchase,20500,USD,Investment,ETF,"shares=50"
+STATE-TAX,California PTET installment,22000,USD,Payment,SALT,"due_date=2025-06-15"
+NOTE,Client prefers audit risk <= moderate,,USD,Preference,,"risk_tolerance=moderate"

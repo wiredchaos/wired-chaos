@@ -1,0 +1,3 @@
+This runtime prompt delegates to the WIRED CHAOS ASCENT FUNNEL ENGINE system prompt located in ../codex/system_prompt.txt.
+
+Load the contents of that file verbatim when initializing the EMERGENT runtime to guarantee parity across CODEX and EMERGENT environments.

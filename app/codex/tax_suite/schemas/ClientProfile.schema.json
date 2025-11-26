@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://wiredchaos.ai/schemas/ClientProfile.schema.json",
+  "title": "ClientProfile",
+  "type": "object",
+  "required": [
+    "tax_year",
+    "filing_status",
+    "state",
+    "entities",
+    "digital_assets"
+  ],
+  "properties": {
+    "tax_year": {
+      "type": "integer",
+      "minimum": 1900
+    },
+    "filing_status": {
+      "type": "string",
+      "enum": [
+        "SINGLE",
+        "MFJ",
+        "MFS",
+        "HOH",
+        "QUALIFYING_WIDOW"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 2
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "name", "ownership_pct"],
+        "properties": {
+          "type": {"type": "string"},
+          "name": {"type": "string"},
+          "ownership_pct": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "k1_box1": {"type": "number"},
+          "reasonable_comp": {"type": "number"},
+          "qbi_qualified": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "digital_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["asset", "activity"],
+        "properties": {
+          "asset": {"type": "string"},
+          "type": {"type": "string"},
+          "wallet": {"type": "string"},
+          "activity": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "cost_basis": {"type": "number"},
+          "proceeds": {"type": "number"},
+          "income_usd": {"type": "number"},
+          "lots": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["acq_date", "shares", "cost_basis"],
+              "properties": {
+                "acq_date": {"type": "string", "format": "date"},
+                "shares": {"type": "number", "minimum": 0},
+                "cost_basis": {"type": "number"},
+                "proceeds": {"type": "number"}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "deductions_paid": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "dependents": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "w2_income": {
+      "type": "number"
+    },
+    "1099_income": {
+      "type": "number"
+    },
+    "capital_gains": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": false
+}

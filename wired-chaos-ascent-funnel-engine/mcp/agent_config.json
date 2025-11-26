@@ -1,0 +1,19 @@
+{
+  "agent_name": "ascension_funnel_engine",
+  "role": "funnel_generator",
+  "style": "WIRED_CHAOS_FNNL_SEO_AI",
+  "targets": ["google", "bing", "chatgpt", "gemini", "alexa", "siri"],
+  "constraints": {
+    "no_poetic_language": true,
+    "no_symbolism": true,
+    "no_lore": true,
+    "mandatory_seo": true
+  },
+  "tasks": [
+    "funnel_generation",
+    "seo_clustering",
+    "metadata_creation",
+    "multi_model_adaptation",
+    "csv_output"
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "version": "1.0.0",
+  "released_at": "2024-01-01T00:00:00Z",
+  "strategies": [
+    {
+      "id": "TRAD_401K_MAX",
+      "name": "Maximize 401(k) Contributions",
+      "category": "Traditional",
+      "eligibility": [
+        {
+          "expr": "hasEmployerPlan()",
+          "description": "Employer sponsored plan detected"
+        }
+      ],
+      "calc": "limitContribution('401k', contribution_room)",
+      "outputs": [
+        "employee_contribution",
+        "employer_match"
+      ],
+      "risk_score": 12,
+      "docs": [
+        "paystub",
+        "plan statements"
+      ],
+      "description": "Encourage full employee deferral to reduce taxable wages."
+    },
+    {
+      "id": "TRAD_HSA_FUNDING",
+      "name": "Fund HSA to Annual Limit",
+      "category": "Traditional",
+      "eligibility": [
+        {
+          "expr": "hasHDHP()",
+          "description": "Client is enrolled in high deductible health plan"
+        }
+      ],
+      "calc": "maxContribution('HSA')",
+      "outputs": [
+        "deductible_contribution"
+      ],
+      "risk_score": 10,
+      "docs": [
+        "insurance verification"
+      ],
+      "description": "Applies above-the-line deduction for HSA contributions."
+    },
+    {
+      "id": "TRAD_QBI_OPTIMIZE",
+      "name": "Optimize Qualified Business Income Deduction",
+      "category": "Entity",
+      "eligibility": [
+        {
+          "expr": "hasPassThroughIncome()"
+        },
+        {
+          "expr": "taxable_income_below_qbi_phaseout()"
+        }
+      ],
+      "calc": "computeQBI(qualified_business_income, wages, unadjusted_basis)",
+      "outputs": [
+        "qbi_deduction"
+      ],
+      "risk_score": 32,
+      "docs": [
+        "K-1",
+        "financial statements"
+      ],
+      "description": "Evaluates Section 199A deduction limits for pass-through income."
+    },
+    {
+      "id": "TRAD_DONOR_ADVISED",
+      "name": "Donor Advised Fund Bunching",
+      "category": "Charitable",
+      "eligibility": [
+        {
+          "expr": "hasCharitableIntent()"
+        },
+        {
+          "expr": "itemize_deductions_possible()"
+        }
+      ],
+      "calc": "frontLoadDonations(deduction_targets)",
+      "outputs": [
+        "charitable_deduction"
+      ],
+      "risk_score": 24,
+      "docs": [
+        "charity receipts",
+        "DAF confirmation"
+      ],
+      "description": "Bundles multiple years of giving to maximize itemized deductions."
+    },
+    {
+      "id": "TRAD_529_SUPERFUND",
+      "name": "529 Plan Superfunding",
+      "category": "Education",
+      "eligibility": [
+        {
+          "expr": "hasDependents()"
+        },
+        {
+          "expr": "estate_tax_focus()"
+        }
+      ],
+      "calc": "spreadGiftOverYears(529_contribution, 5)",
+      "outputs": [
+        "gift_exclusion_applied"
+      ],
+      "risk_score": 35,
+      "docs": [
+        "529 statements",
+        "gift tax return"
+      ],
+      "description": "Leverages five-year election for accelerated education funding."
+    },
+    {
+      "id": "CRYPTO_SPECIFIC_ID",
+      "name": "Specific-ID / HIFO Lot Optimization",
+      "category": "Crypto Capital Gains",
+      "eligibility": [
+        {
+          "expr": "hasMultipleLots('crypto')"
+        },
+        {
+          "expr": "taxable_account==true"
+        }
+      ],
+      "calc": "maximizeLossOrMinimizeGainByHighestBasis()",
+      "outputs": [
+        "gain_saved",
+        "basis_adjusted"
+      ],
+      "risk_score": 28,
+      "docs": [
+        "lot evidence",
+        "wallet exports"
+      ],
+      "description": "Selects highest basis lots to minimize realized gains."
+    },
+    {
+      "id": "CRYPTO_LOSS_HARVEST",
+      "name": "Digital Asset Loss Harvesting",
+      "category": "Crypto Capital Gains",
+      "eligibility": [
+        {
+          "expr": "hasUnrealizedLosses('crypto')"
+        }
+      ],
+      "calc": "harvestLossLots(unrealized_positions)",
+      "outputs": [
+        "losses_realized",
+        "wash_sale_flag"
+      ],
+      "risk_score": 34,
+      "docs": [
+        "transaction logs",
+        "wallet exports"
+      ],
+      "description": "Realizes losses on underperforming tokens before year end."
+    },
+    {
+      "id": "CRYPTO_STAKING_RECLASS",
+      "name": "Staking Income Reclassification",
+      "category": "Crypto Income",
+      "eligibility": [
+        {
+          "expr": "hasStakingIncome()"
+        },
+        {
+          "expr": "entityType('S_Corp')"
+        }
+      ],
+      "calc": "evaluateEntityRouting(staking_income)",
+      "outputs": [
+        "self_employment_tax_saved"
+      ],
+      "risk_score": 42,
+      "docs": [
+        "validator logs",
+        "entity agreements"
+      ],
+      "description": "Routes staking rewards through entities to manage SE tax exposure."
+    },
+    {
+      "id": "ETF_ASSET_LOCATION",
+      "name": "ETF Asset Location Optimization",
+      "category": "ETFs & Securities",
+      "eligibility": [
+        {
+          "expr": "hasTaxDeferredAccounts()"
+        },
+        {
+          "expr": "hasHighYieldETF()"
+        }
+      ],
+      "calc": "relocateAssetsByTaxEfficiency(portfolio_map)",
+      "outputs": [
+        "yield_shielded"
+      ],
+      "risk_score": 18,
+      "docs": [
+        "brokerage statements"
+      ],
+      "description": "Positions income-heavy ETFs in tax-advantaged accounts."
+    },
+    {
+      "id": "ETF_1256_MTMT",
+      "name": "1256 Contract Mark-to-Market",
+      "category": "ETFs & Securities",
+      "eligibility": [
+        {
+          "expr": "holds1256Contracts()"
+        }
+      ],
+      "calc": "applySection1256Split(gain_loss_detail)",
+      "outputs": [
+        "capital_gain_60_40"
+      ],
+      "risk_score": 36,
+      "docs": [
+        "broker 1099"
+      ],
+      "description": "Applies 60/40 blended rate to eligible futures and ETF contracts."
+    },
+    {
+      "id": "STATE_PTET",
+      "name": "Pass-Through Entity Tax Election",
+      "category": "State Planning",
+      "eligibility": [
+        {
+          "expr": "stateAllowsPTET()"
+        },
+        {
+          "expr": "saltCapBinding()"
+        }
+      ],
+      "calc": "modelPTEElection(state_income, ptet_rate)",
+      "outputs": [
+        "federal_deduction",
+        "state_credit"
+      ],
+      "risk_score": 40,
+      "docs": [
+        "state guidance",
+        "entity resolution"
+      ],
+      "description": "Evaluates state-level workaround for SALT deduction limits."
+    },
+    {
+      "id": "AUDIT_VAULT_PREP",
+      "name": "Audit Vault Evidence Checklist",
+      "category": "Compliance",
+      "eligibility": [
+        {
+          "expr": "always_true()"
+        }
+      ],
+      "calc": "compileDocumentationChecklist(strategy_outputs)",
+      "outputs": [
+        "doc_checklist",
+        "retention_schedule"
+      ],
+      "risk_score": 8,
+      "docs": [
+        "documentation matrix"
+      ],
+      "description": "Generates evidence requests to pair with each recommended strategy."
+    }
+  ]
+}

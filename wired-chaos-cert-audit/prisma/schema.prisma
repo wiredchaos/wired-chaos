@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Certificate {
+  id                     String   @id
+  expected_inscription_id String
+  expected_content_hash   String?
+  expected_txid           String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  audits                  CertificateAudit[]
+}
+
+model CertificateAudit {
+  audit_id       BigInt   @id @default(autoincrement())
+  certificate_id String
+  status         String
+  provider_chain String
+  details        Json
+  occurred_at    DateTime @default(now())
+
+  certificate Certificate @relation(fields: [certificate_id], references: [id])
+
+  @@index([certificate_id])
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "id": "CERT-1",
+    "expected_inscription_id": "inscription:abc",
+    "expected_content_hash": "deadbeef",
+    "expected_txid": "tx123"
+  }
+]
