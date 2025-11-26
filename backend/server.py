@@ -7,6 +7,7 @@ from starlette.middleware.cors import CORSMiddleware
 # Import certificate API and brain assistant API
 from cert_api import router as cert_router
 from brain_assistant_api import router as brain_router
+from llm_guard_api import router as llm_guard_router
 
 PORT = int(os.getenv("PORT", "8080"))
 OPENAI_KEY = os.getenv("OPENAI_API_KEY", "")
@@ -18,8 +19,11 @@ app = FastAPI(title="WIRED CHAOS Bot Brain")
 # Include certificate API routes
 app.include_router(cert_router)
 
-# Include brain assistant API routes  
+# Include brain assistant API routes
 app.include_router(brain_router)
+
+# Include LLM guard API routes
+app.include_router(llm_guard_router)
 
 # Add CORS middleware
 app.add_middleware(
