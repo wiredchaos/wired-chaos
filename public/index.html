@@ -1,356 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WIRED CHAOS - Digital Ecosystem Motherboard</title>
+  <meta charset="utf-8" />
+  <title>WIRED CHAOS — Access Gate</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="WIRED CHAOS — access the esoteric layer by solving the Ripple XRP riddle." />
+  <link rel="icon" href="/public/favicon.svg" />
+  <link rel="manifest" href="/public/manifest.json" />
+  <meta property="og:title" content="WIRED CHAOS — Access Gate" />
+  <meta property="og:description" content="Solve the Ripple XRP riddle to enter the esoteric layer." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/public/favicon.svg" />
+  <link rel="preload" href="/assets/styles.css" as="style" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <noscript>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: #000000;
-            color: #00FFFF;
-            font-family: 'Orbitron', 'Courier New', monospace;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        /* Animated Background Grid */
-        .cyber-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: grid-move 20s linear infinite;
-            z-index: -1;
-        }
-        
-        @keyframes grid-move {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-        
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        
-        /* Title */
-        .main-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .wired-chaos-title {
-            font-size: clamp(3rem, 8vw, 8rem);
-            font-weight: 900;
-            color: #00FFFF;
-            text-shadow:
-                0 0 10px #FF3131,
-                0 0 20px #FF3131,
-                0 0 30px #FF6B00,
-                0 0 40px #FF6B00,
-                0 0 60px #39FF14;
-            animation: title-pulse 3s ease-in-out infinite;
-            margin-bottom: 1rem;
-        }
-        
-        @keyframes title-pulse {
-            0%, 100% { opacity: 0.9; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); }
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            color: #39FF14;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 2rem;
-        }
-        
-        /* Navigation Grid */
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            width: 100%;
-            margin: 2rem 0;
-        }
-        
-        .nav-card {
-            background: linear-gradient(135deg, #001010, #000000);
-            border: 2px solid #FF3131;
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #FF3131, #00FFFF, #39FF14, #FF3131);
-            z-index: -1;
-            border-radius: 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .nav-card:hover::before {
-            opacity: 1;
-        }
-        
-        .nav-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 49, 49, 0.3);
-        }
-        
-        .nav-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        
-        .nav-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #00FFFF;
-            margin-bottom: 0.5rem;
-        }
-        
-        .nav-description {
-            color: #CCCCCC;
-            font-size: 0.9rem;
-        }
-        
-        /* University 589 Button */
-        .university-589 {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: 2px solid #FF3131;
-            color: #FF3131;
-            font-size: 2rem;
-            font-weight: 900;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            font-family: 'Orbitron', monospace;
-        }
-        
-        .university-589:hover {
-            background: #FF3131;
-            color: #000000;
-            text-shadow: none;
-            box-shadow: 0 0 30px #FF3131;
-        }
-        
-        /* Status Bar */
-        .status-bar {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(0, 16, 16, 0.8);
-            border: 1px solid #00FFFF;
-            padding: 10px 20px;
-            font-size: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #39FF14;
-            animation: blink 2s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.3; }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .nav-card {
-                padding: 1.5rem;
-            }
-            
-            .status-bar {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-        }
+      .gate-form { display:none }
+      .noscript-info { color:#39FF14; text-align:center; margin-top:2rem; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  </noscript>
 </head>
-<body>
-    <div class="cyber-grid"></div>
-    
-    <button class="university-589" onclick="navigate('university')">589</button>
-    
-    <div class="container">
-        <div class="main-title">
-            <h1 class="wired-chaos-title">WIRED CHAOS</h1>
-            <p class="subtitle">Digital Ecosystem Motherboard</p>
-        </div>
-        
-        <div class="nav-grid">
-            <div class="nav-card" onclick="navigate('neurolab')">
-                <span class="nav-icon">🧠</span>
-                <div class="nav-title">NEURO LAB</div>
-                <div class="nav-description">Web3 Onboarding Academy Hub</div>
-            </div>
-            
-            <div class="nav-card" onclick="navigate('vault33')">
-                <span class="nav-icon">🔐</span>
-                <div class="nav-title">VAULT 33</div>
-                <div class="nav-description">WL Gamification System</div>
-            </div>
-            
-            <div class="nav-card" onclick="navigate('fm333')">
-                <span class="nav-icon">📻</span>
-                <div class="nav-title">33.3 FM</div>
-                <div class="nav-description">DOGECHAIN Radio Stream</div>
-            </div>
-            
-            <div class="nav-card" onclick="navigate('csn')">
-                <span class="nav-icon">🚀</span>
-                <div class="nav-title">CSN</div>
-                <div class="nav-description">Crypto Spaces Network</div>
-            </div>
-            
-            <div class="nav-card" onclick="navigate('vrg33589')">
-                <span class="nav-icon">👁️</span>
-                <div class="nav-title">VRG-33-589</div>
-                <div class="nav-description">Merovingian Lore System</div>
-            </div>
-            
-            <div class="nav-card" onclick="navigate('university')">
-                <span class="nav-icon">🎓</span>
-                <div class="nav-title">WC UNIVERSITY</div>
-                <div class="nav-description">Educational Platform</div>
-            </div>
-            
-            <div class="nav-card" onclick="navigate('bwb')">
-                <span class="nav-icon">📰</span>
-                <div class="nav-title">BWB</div>
-                <div class="nav-description">Barbed Wired Broadcast</div>
-            </div>
-            
-            <div class="nav-card" onclick="navigate('eveningvibes')">
-                <span class="nav-icon">🌙</span>
-                <div class="nav-title">EVENING VIBES</div>
-                <div class="nav-description">Level Up Lounge</div>
-            </div>
-            
-            <div class="nav-card" onclick="navigate('b2b')">
-                <span class="nav-icon">💼</span>
-                <div class="nav-title">B2B</div>
-                <div class="nav-description">Enterprise Solutions</div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="status-bar">
-        <div class="status-item">
-            <span class="status-dot"></span>
-            <span>SYSTEM ONLINE</span>
-        </div>
-        <div class="status-item">
-            <span>API: </span>
-            <span id="api-status">Checking...</span>
-        </div>
-        <div class="status-item">
-            <span>EMERGENCY PRODUCTION ENVIRONMENT</span>
-        </div>
-    </div>
-    
-    <script>
-        // Navigation function
-        function navigate(section) {
-            console.log('Navigating to:', section);
-            
-            const routes = {
-                neurolab: '/school?section=neurolab',
-                vault33: '/school?section=vault33',
-                fm333: '/school?section=fm333',
-                csn: '/school?section=csn',
-                vrg33589: '/school?section=vrg33589',
-                university: '/school',
-                bwb: '/school?section=bwb',
-                eveningvibes: '/school?section=eveningvibes',
-                b2b: '/school?section=b2b'
-            };
-            
-            const route = routes[section] || '/school';
-            window.location.href = route;
-        }
-        
-        // API Status Check
-        function checkAPIStatus() {
-            const apiStatus = document.getElementById('api-status');
-            
-            fetch('https://wired-chaos-worker.wiredchaos.workers.dev/health')
-                .then(response => response.json())
-                .then(data => {
-                    apiStatus.textContent = '🟢 Worker Online';
-                    apiStatus.style.color = '#39FF14';
-                })
-                .catch(error => {
-                    apiStatus.textContent = '🟡 Worker Deploying';
-                    apiStatus.style.color = '#FFFF00';
-                });
-        }
-        
-        // Check API status on load and every 30 seconds
-        checkAPIStatus();
-        setInterval(checkAPIStatus, 30000);
-        
-        console.log('🧠 WIRED CHAOS - Emergency Production Environment');
-        console.log('🔧 Full React app deployment in progress...');
-        console.log('⚡ Worker API: https://wired-chaos-worker.wiredchaos.workers.dev');
-    </script>
+<body class="wc-body">
+  <canvas id="wc-ripples" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <main class="container" role="main" aria-labelledby="title">
+    <h1 id="title" class="brand">WIRED <span>CHAOS</span></h1>
+    <p class="tagline">“Key to the Ledger”</p>
+
+    <section class="riddle">
+      <blockquote class="verse" aria-label="The Ripple Riddle">
+        “Born before the storm, I move without a wave.<br/>
+        I settle debts in seconds, yet no coin I save.<br/>
+        My heart beats on ledgers, my blood flows through banks.<br/>
+        Decode my symbol, and you’ll earn the ranks.”
+      </blockquote>
+
+      <form id="gate-form" class="gate-form" aria-label="Answer the riddle" autocomplete="off">
+        <label for="answer" class="sr-only">Your answer</label>
+        <input id="answer" name="answer" inputmode="verbatim" autocomplete="off"
+               placeholder="Type the symbol…" maxlength="8"
+               aria-describedby="hint" />
+        <button type="submit" class="btn">Unlock</button>
+        <div id="hint" class="hint">Hint: The three-letter asset at the heart of Ripple.</div>
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="noscript-info">
+        JavaScript is required to enter. Enable scripts and reload.
+      </div>
+    </section>
+
+    <footer class="foot">
+      <small>© WIRED CHAOS</small>
+    </footer>
+  </main>
+
+  <script type="module" src="/assets/emergent.js"></script>
 </body>
 </html>

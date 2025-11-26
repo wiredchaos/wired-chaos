@@ -1,0 +1,34 @@
+# Default CODEX PR review policy for WIRED CHAOS.
+#
+# The structure is intentionally lightweight so maintainers can add additional
+# rules without writing Python. Update ``batches`` to group related pull
+# requests and expand the ``rules`` map with pattern-based policies.
+
+batches:
+  nightly-automerge:
+    - "chore: dependency updates"
+    - "docs: automated handbook refresh"
+
+rules:
+  security-critical:
+    label: "security"
+    match: "^security:"  # Titles beginning with "security:"
+    steps:
+      - "security.scan"
+      - "security.notify"
+    automerge: false
+
+  automerge-default:
+    label: "automerge"
+    match: "^chore:"
+    steps:
+      - "ci.test"
+      - "ci.lint"
+    automerge: true
+
+  default:
+    label: "default"
+    match: ".*"
+    steps:
+      - "ci.test"
+    automerge: false
