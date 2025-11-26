@@ -1,0 +1,27 @@
+name: WIRED CHAOS Funnel Engine CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-funnel-engine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Funnel Generator
+        run: node scripts/funnel_engine.js
+
+      - name: Export Outputs
+        run: mkdir -p dist && cp -r outputs/* dist/
+
+      - name: Deploy to Repo
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: output
+          folder: dist
