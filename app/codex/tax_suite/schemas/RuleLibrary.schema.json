@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://wiredchaos.ai/schemas/RuleLibrary.schema.json",
+  "title": "RuleLibrary",
+  "type": "object",
+  "required": ["version", "strategies"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^v?[0-9]+\.[0-9]+\.[0-9]+$"
+    },
+    "released_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "strategies": {
+      "type": "array",
+      "items": {
+        "$ref": "StrategyRule.schema.json"
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false
+}

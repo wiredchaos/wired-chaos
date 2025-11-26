@@ -1,0 +1,50 @@
+{
+  "tax_year": 2025,
+  "filing_status": "MFJ",
+  "state": "CA",
+  "entities": [
+    {
+      "type": "S_Corp",
+      "name": "WC Media LLC",
+      "ownership_pct": 100,
+      "k1_box1": 185000,
+      "qbi_qualified": true
+    }
+  ],
+  "digital_assets": [
+    {
+      "asset": "BTC",
+      "wallet": "xpub123",
+      "activity": ["buy", "sell", "stake"],
+      "cost_basis": 45000,
+      "proceeds": 58000,
+      "lots": [
+        {"acq_date": "2024-01-15", "shares": 0.5, "cost_basis": 20000, "proceeds": 25000},
+        {"acq_date": "2024-07-21", "shares": 0.5, "cost_basis": 25000, "proceeds": 33000}
+      ]
+    },
+    {
+      "asset": "ETH",
+      "activity": ["LP", "harvest"],
+      "income_usd": 6500
+    },
+    {
+      "asset": "IBIT",
+      "type": "ETF",
+      "activity": ["buy", "hold"],
+      "lots": [
+        {"acq_date": "2024-01-15", "shares": 50, "cost_basis": 20500, "proceeds": 0}
+      ]
+    }
+  ],
+  "deductions_paid": {
+    "mortgage_interest": 18000,
+    "state_tax_paid": 10000,
+    "charity_cash": 2500
+  },
+  "w2_income": 120000,
+  "1099_income": 35000,
+  "capital_gains": 22000,
+  "dependents": 2
+}
+

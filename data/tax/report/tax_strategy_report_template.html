@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WIRED CHAOS Tax Strategy Report</title>
+    <style>
+      body { font-family: "Inter", Arial, sans-serif; margin: 40px; color: #102a43; }
+      header { border-bottom: 3px solid #334e68; padding-bottom: 16px; margin-bottom: 24px; }
+      h1 { font-size: 2.2rem; letter-spacing: 0.03em; }
+      h2 { color: #243b53; margin-top: 32px; border-left: 4px solid #243b53; padding-left: 12px; }
+      h3 { color: #486581; margin-top: 20px; }
+      table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+      th, td { border: 1px solid #bcccdc; padding: 8px 10px; text-align: left; }
+      th { background-color: #d9e2ec; font-weight: 600; }
+      .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 24px 0; }
+      .card { border: 1px solid #bcccdc; border-radius: 8px; padding: 16px; background: #f0f4f8; box-shadow: 0 2px 4px rgba(15, 23, 42, 0.06); }
+      .metric { font-size: 1.4rem; font-weight: 700; }
+      .subtext { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: #829ab1; }
+      .risk-low { color: #0f8a5f; }
+      .risk-medium { color: #f0b429; }
+      .risk-high { color: #d64545; }
+      footer { margin-top: 48px; font-size: 0.85rem; color: #486581; border-top: 1px solid #d9e2ec; padding-top: 12px; }
+      code { background: #e0fcff; padding: 2px 6px; border-radius: 4px; font-size: 0.9rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>WIRED CHAOS Tax Strategy Report</h1>
+      <p><strong>Client:</strong> {{ client.name }} · <strong>Tax Year:</strong> {{ tax_year }} · <strong>State:</strong> {{ client.state }}</p>
+      <p><strong>Prepared:</strong> {{ report.generated_at }} · <strong>Codex Version:</strong> {{ metadata.codex_version }} · <strong>Session:</strong> {{ metadata.session_id }}</p>
+    </header>
+
+    <section>
+      <h2>Baseline Summary</h2>
+      <div class="summary-grid">
+        <div class="card">
+          <div class="subtext">Baseline Liability</div>
+          <div class="metric">{{ baseline.total_tax | currency }}</div>
+        </div>
+        <div class="card">
+          <div class="subtext">Optimized Liability</div>
+          <div class="metric">{{ optimized.total_tax | currency }}</div>
+        </div>
+        <div class="card">
+          <div class="subtext">Projected Savings</div>
+          <div class="metric">{{ optimized.total_savings | currency }}</div>
+        </div>
+        <div class="card">
+          <div class="subtext">Audit Score</div>
+          <div class="metric">{{ optimized.audit_score }}/100</div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Baseline</th>
+            <th>Optimized</th>
+            <th>Delta</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for metric in baseline.components %}
+          <tr>
+            <td>{{ metric.label }}</td>
+            <td>{{ metric.baseline | currency }}</td>
+            <td>{{ metric.optimized | currency }}</td>
+            <td>{{ metric.delta | currency }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Ranked Strategies</h2>
+      {% for strategy in strategies %}
+      <article class="card">
+        <h3>{{ loop.index }}. {{ strategy.name }}</h3>
+        <p><strong>Category:</strong> {{ strategy.category }} · <strong>Audit Risk:</strong> <span class="risk-{{ strategy.risk_band }}">{{ strategy.risk_band | capitalize }}</span> · <strong>Score:</strong> {{ strategy.composite_score }}</p>
+        <p>{{ strategy.summary }}</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for metric in strategy.metrics %}
+            <tr>
+              <td>{{ metric.label }}</td>
+              <td>{{ metric.value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <h4>Implementation Roadmap</h4>
+        <ol>
+          {% for step in strategy.implementation_steps %}
+          <li>{{ step }}</li>
+          {% endfor %}
+        </ol>
+        <h4>Documentation Checklist</h4>
+        <ul>
+          {% for item in strategy.documentation %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% endfor %}
+    </section>
+
+    <section>
+      <h2>Audit Vault</h2>
+      <p>All inputs and outputs are hashed with <code>{{ metadata.vault_hash_algorithm }}</code> and stored at <code>{{ audit_vault.location }}</code>.</p>
+      <p><strong>Input Hash:</strong> {{ audit_vault.input_hash }} · <strong>Rule Pack:</strong> {{ metadata.rule_pack_version }}</p>
+      <p><strong>Zero-Knowledge Proof:</strong> {{ audit_vault.zk_proof_status }}</p>
+    </section>
+
+    <footer>
+      <p><strong>Compliance Notice:</strong> All calculations are planning estimates only. Clients must consult a licensed CPA or EA before executing strategies.</p>
+      <p>Generated by WIRED CHAOS TAX SUITE ENGINE · Session {{ metadata.session_id }}</p>
+    </footer>
+  </body>
+</html>
