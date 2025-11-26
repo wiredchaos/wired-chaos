@@ -1,0 +1,168 @@
+[
+  {
+    "id": "CRYPTO_HIFO_LOT_OPTIMIZATION",
+    "name": "Specific ID / HIFO Selection",
+    "category": "Capital Gains",
+    "description": "Select highest-in, first-out lots across wallets to minimize realized capital gains on digital assets.",
+    "eligibility": [
+      { "expr": "hasMultipleLots('digital_assets')" },
+      { "expr": "tracksLotLevelData()" }
+    ],
+    "calc": "maximize_loss_or_minimize_gain_by_highest_basis(client_profile, tax_dataset)",
+    "outputs": ["gain_saved", "basis_adjusted", "lot_actions"],
+    "risk_score": 28,
+    "documentation": [
+      "Wallet export with lot IDs",
+      "Exchange trade confirmations"
+    ]
+  },
+  {
+    "id": "CRYPTO_TAX_LOSS_HARVEST",
+    "name": "Digital Asset Loss Harvesting",
+    "category": "Capital Gains",
+    "description": "Realize losses on underperforming tokens while respecting wash-sale analogs and repurchase plans.",
+    "eligibility": [
+      { "expr": "hasUnrealizedLosses('digital_assets')" },
+      { "expr": "lossesExceedThreshold(500)" }
+    ],
+    "calc": "harvest_losses_with_repurchase_schedule(client_profile, tax_dataset)",
+    "outputs": ["losses_harvested", "reentry_plan", "wash_sale_risk"],
+    "risk_score": 24,
+    "documentation": [
+      "Trade logs",
+      "Reinvestment policy"
+    ]
+  },
+  {
+    "id": "CRYPTO_MINING_ELECTION",
+    "name": "Mining Equipment §179 Election",
+    "category": "Mining",
+    "description": "Classify mining rigs for bonus/§179 expensing with business use allocation.",
+    "eligibility": [
+      { "expr": "hasMiningActivity()" },
+      { "expr": "purchasesQualifiedHardware()" }
+    ],
+    "calc": "apply_section179_to_mining_assets(client_profile, tax_dataset)",
+    "outputs": ["deduction_claimed", "basis_remaining", "cash_flow_effect"],
+    "risk_score": 30,
+    "documentation": [
+      "Hardware invoices",
+      "Mining logs"
+    ]
+  },
+  {
+    "id": "CRYPTO_STAKING_DEFERRAL",
+    "name": "Staking Income Timing",
+    "category": "Income",
+    "description": "Elect to defer staking rewards recognition when protocol allows claim control timing.",
+    "eligibility": [
+      { "expr": "hasStakingIncome()" },
+      { "expr": "protocolSupportsClaimTiming()" }
+    ],
+    "calc": "evaluate_staking_claim_strategy(client_profile, tax_dataset)",
+    "outputs": ["income_deferred", "audit_notes", "claim_schedule"],
+    "risk_score": 34,
+    "documentation": [
+      "Validator dashboard exports",
+      "Protocol terms"
+    ]
+  },
+  {
+    "id": "CRYPTO_AIRDROP_PLANNING",
+    "name": "Airdrop Event Timing",
+    "category": "Income",
+    "description": "Assess when to claim airdrops to coordinate with income thresholds and estimated tax payments.",
+    "eligibility": [
+      { "expr": "hasOutstandingAirdrops()" }
+    ],
+    "calc": "schedule_airdrop_claims(client_profile, tax_dataset)",
+    "outputs": ["claim_windows", "taxable_value", "estimated_tax_adjustment"],
+    "risk_score": 26,
+    "documentation": [
+      "Airdrop announcements",
+      "Wallet snapshots"
+    ]
+  },
+  {
+    "id": "CRYPTO_DAF_GIFTING",
+    "name": "Donor Advised Fund Crypto Gift",
+    "category": "Charitable",
+    "description": "Contribute appreciated tokens directly to a donor advised fund to avoid capital gains and secure deduction.",
+    "eligibility": [
+      { "expr": "hasAppreciatedDigitalAssets()" },
+      { "expr": "charitableIntentHigh()" }
+    ],
+    "calc": "value_crypto_daf_transfer(client_profile)",
+    "outputs": ["donation_fmv", "capital_gain_avoided", "deduction_amount"],
+    "risk_score": 20,
+    "documentation": [
+      "DAF receipt",
+      "Wallet transfer proof"
+    ]
+  },
+  {
+    "id": "CRYPTO_DEFI_FEE_TRACKING",
+    "name": "DeFi Transaction Fee Batching",
+    "category": "Compliance",
+    "description": "Aggregate and categorize gas fees, slippage, and protocol fees for deduction or basis adjustments.",
+    "eligibility": [
+      { "expr": "hasDefiTransactions()" }
+    ],
+    "calc": "aggregate_defi_fees_by_protocol(client_profile, tax_dataset)",
+    "outputs": ["deductible_fees", "capitalized_fees", "supporting_ledger"],
+    "risk_score": 18,
+    "documentation": [
+      "Blockchain explorer exports",
+      "Wallet analytics"
+    ]
+  },
+  {
+    "id": "CRYPTO_ETF_LOCATION",
+    "name": "Crypto ETF Asset Location",
+    "category": "ETF",
+    "description": "Optimize spot crypto ETF holdings between taxable and tax-deferred accounts for minimal leakage.",
+    "eligibility": [
+      { "expr": "holdsCryptoETF()" },
+      { "expr": "hasMultipleAccountTypes()" }
+    ],
+    "calc": "optimize_crypto_etf_location(client_profile, tax_dataset)",
+    "outputs": ["recommended_accounts", "yield_drag_reduction", "implementation_steps"],
+    "risk_score": 14,
+    "documentation": [
+      "Brokerage statements",
+      "Retirement account summary"
+    ]
+  },
+  {
+    "id": "CRYPTO_NFT_INVENTORY",
+    "name": "NFT Inventory Accounting",
+    "category": "NFT",
+    "description": "Apply inventory or collectible classification to NFT holdings with separate basis tracking.",
+    "eligibility": [
+      { "expr": "hasNFTActivity()" }
+    ],
+    "calc": "classify_nft_holdings(client_profile, tax_dataset)",
+    "outputs": ["inventory_value", "collectible_gain_rate", "recordkeeping_checklist"],
+    "risk_score": 29,
+    "documentation": [
+      "NFT marketplace exports",
+      "Valuation support"
+    ]
+  },
+  {
+    "id": "CRYPTO_AUDIT_TRAIL",
+    "name": "On-Chain Audit Trail Vault",
+    "category": "Compliance",
+    "description": "Hash wallet exports and strategy outputs into the audit vault with optional zero-knowledge proof anchors.",
+    "eligibility": [
+      { "expr": "requiresOnChainAudit()" }
+    ],
+    "calc": "commit_strategy_hashes_to_vault(client_profile, report)",
+    "outputs": ["vault_hash", "storage_location", "verification_steps"],
+    "risk_score": 12,
+    "documentation": [
+      "Vault transaction ID",
+      "Checksum manifest"
+    ]
+  }
+]

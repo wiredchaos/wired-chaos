@@ -19,6 +19,26 @@
 - **🎬 Video System**: Optional avatar linking for videos - works perfectly with or without creator avatars
 - **💼 Video Sales Page (VSP)**: Professional business onboarding with contract generation, e-signing, and SWARM automation
 - **🚀 SWARM Orchestrator**: Transform raw inputs into SEO content, keywords, and 589-coded riddles
+- **🌀 XRP Riddle Gate**: Cinematic access gate that unlocks WIRED CHAOS META after solving the Ripple riddle
+
+## 🔐 XRP Riddle Gate Experience
+
+- `/` renders a neon ripple splash screen with the **Key to the Ledger** riddle.
+- Accepts answers of `XRP` or `Ripple` (case and spacing agnostic).
+- Successful solves persist a `wc_unlock=xrp` cookie and `localStorage` flag, then route to `/esoteric.html`.
+- `/esoteric.html` reveals the WIRED CHAOS META layer with live signal scaffolding and a relock control.
+- Optional Cloudflare Worker (`workers/riddle-gate.js`) enforces cookie gating server-side and adds hardened security headers.
+
+📚 **Quick Start**
+
+```bash
+# Serve the static site (any static host works)
+npx serve public
+
+# Optional: run the cookie gate in Cloudflare Workers
+# wrangler deploy workers/riddle-gate.js
+```
+
 
 ## 🆕 SWARM Orchestrator Pipeline
 

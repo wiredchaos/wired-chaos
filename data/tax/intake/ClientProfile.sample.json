@@ -1,0 +1,74 @@
+{
+  "client_id": "LEDGERMIND-001",
+  "tax_year": 2025,
+  "filing_status": "MFJ",
+  "state": "CA",
+  "dependents": 2,
+  "contact": {
+    "primary_email": "samantha@wiredchaos.io",
+    "phone": "+1-415-555-0199"
+  },
+  "income_sources": {
+    "w2": [
+      {
+        "employer": "WC Media LLC",
+        "wages": 185000,
+        "federal_withheld": 24500,
+        "state_withheld": 11000,
+        "retirement_deferral": 19000
+      }
+    ],
+    "k1": [
+      {
+        "entity": "WC Media LLC",
+        "entity_type": "S_Corp",
+        "ownership_pct": 100,
+        "ordinary_income": 185000,
+        "section199a_wages": 65000,
+        "unadjusted_basis": 120000
+      }
+    ],
+    "digital_assets": [
+      {
+        "asset": "BTC",
+        "wallet": "xpub123",
+        "activity": ["buy", "sell", "stake"],
+        "lots": [
+          { "acq_date": "2024-01-15", "quantity": 0.8, "cost_basis": 28000 },
+          { "acq_date": "2024-11-04", "quantity": 0.5, "cost_basis": 22000 }
+        ],
+        "proceeds": 58000
+      },
+      {
+        "asset": "ETH",
+        "wallet": "0xalpha",
+        "activity": ["LP", "harvest"],
+        "income_usd": 6500,
+        "gas_fees": 950
+      },
+      {
+        "asset": "IBIT",
+        "type": "ETF",
+        "lots": [
+          { "acq_date": "2024-01-15", "shares": 50, "cost_basis": 20500 }
+        ]
+      }
+    ]
+  },
+  "deductions_paid": {
+    "mortgage_interest": 18000,
+    "state_tax_paid": 10000,
+    "charity_cash": 2500,
+    "charity_crypto": 0
+  },
+  "health": {
+    "hsa_eligible": true,
+    "hsa_contributed": 2000,
+    "fsa_balance": 1500
+  },
+  "preferences": {
+    "audit_risk_tolerance": "moderate",
+    "target_cash_outlay": 20000,
+    "crypto_reporting_stack": "zerion"
+  }
+}
