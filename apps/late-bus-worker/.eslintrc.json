@@ -1,0 +1,11 @@
+{
+  "extends": ["eslint:recommended"],
+  "env": {
+    "worker": true,
+    "es2022": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {}
+}
