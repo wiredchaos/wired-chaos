@@ -1,0 +1,14 @@
+services:
+  codex:
+    enabled: true
+    modules:
+      - prbot
+      - governance
+      - tax
+      - emergent
+    hooks:
+      pr_review: app.codex.hooks.pr_review.review_open_prs
+    schedules:
+      nightly_pr_review:
+        hook: codex.pr.review
+        cron: "33 3 * * *"  # 03:33 every day

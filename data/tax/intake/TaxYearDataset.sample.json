@@ -1,0 +1,52 @@
+{
+  "tax_year": 2025,
+  "federal": {
+    "standard_deduction": 29200,
+    "personal_exemptions": 0,
+    "brackets": [
+      { "rate": 0.1, "threshold": 0 },
+      { "rate": 0.12, "threshold": 22000 },
+      { "rate": 0.22, "threshold": 94000 },
+      { "rate": 0.24, "threshold": 201050 },
+      { "rate": 0.32, "threshold": 383900 },
+      { "rate": 0.35, "threshold": 487450 },
+      { "rate": 0.37, "threshold": 731200 }
+    ],
+    "qbi_limitations": {
+      "phase_in_start": 383900,
+      "phase_in_end": 483900,
+      "w2_limit": 0.5
+    }
+  },
+  "state": {
+    "name": "California",
+    "abbreviation": "CA",
+    "standard_deduction": 10504,
+    "brackets": [
+      { "rate": 0.01, "threshold": 0 },
+      { "rate": 0.02, "threshold": 18410 },
+      { "rate": 0.04, "threshold": 43630 },
+      { "rate": 0.06, "threshold": 68935 },
+      { "rate": 0.08, "threshold": 96470 },
+      { "rate": 0.093, "threshold": 122428 },
+      { "rate": 0.103, "threshold": 625372 },
+      { "rate": 0.113, "threshold": 750442 }
+    ],
+    "ptet_available": true
+  },
+  "digital_asset_lookup": {
+    "wash_sale_guidance": "monitor",
+    "long_term_days": 366,
+    "staking_income_timing": "claim_control",
+    "audit_risk_weights": {
+      "HIFO": 0.25,
+      "LossHarvest": 0.3,
+      "DeFi": 0.35
+    }
+  },
+  "strategy_policies": {
+    "max_parallel_strategies": 25,
+    "default_risk_tolerance": "moderate",
+    "vault_hash_algorithm": "SHA-256"
+  }
+}
