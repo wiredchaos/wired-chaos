@@ -30,6 +30,7 @@
     "deploy:webhook": "bash scripts/deploy-webhook-processor.sh",
     "gamma:activate": "bash scripts/activate-gamma-templates.sh",
     "monitor:performance": "bash scripts/monitor-performance.sh",
+    "services:codex-emergent": "node backend/codex-emergent/src/server.js",
     "site:wipe": "pwsh scripts/site-wipe-fresh-build.ps1 -Force",
     "site:wipe:safe": "pwsh scripts/site-wipe-fresh-build.ps1",
     "site:wipe:unix": "bash scripts/site-wipe-fresh-build.sh",

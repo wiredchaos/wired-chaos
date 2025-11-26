@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://wiredchaos.ai/schemas/StrategyRule.schema.json",
+  "title": "StrategyRule",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "category",
+    "eligibility",
+    "calc",
+    "risk_score"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9_\-]+$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "eligibility": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["expr"],
+        "properties": {
+          "expr": {"type": "string"},
+          "description": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "calc": {
+      "type": "string"
+    },
+    "outputs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "risk_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "docs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

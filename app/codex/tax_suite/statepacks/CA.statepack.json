@@ -1,0 +1,21 @@
+{
+  "state": "CA",
+  "tax_year": 2025,
+  "standard_deduction": {
+    "SINGLE": 5202,
+    "MFJ": 10404,
+    "MFS": 5202,
+    "HOH": 10404,
+    "QUALIFYING_WIDOW": 10404
+  },
+  "ptet": {
+    "available": true,
+    "rate": 0.095,
+    "credit_rate": 1.0
+  },
+  "nexus_flags": [
+    "marketplace_facilitator",
+    "economic_nexus"
+  ],
+  "notes": "Simplified California values for prototype modeling."
+}

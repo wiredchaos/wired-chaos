@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Wired Chaos Tax Optimization Report</title>
+    <style>
+      body { font-family: "Inter", Arial, sans-serif; margin: 0; padding: 24px; color: #111827; }
+      header { border-bottom: 2px solid #111827; margin-bottom: 24px; padding-bottom: 12px; }
+      h1 { font-size: 28px; margin: 0; }
+      .summary { background: #f3f4f6; padding: 16px; border-radius: 8px; margin-bottom: 24px; }
+      table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+      th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e5e7eb; }
+      th { background: #111827; color: white; }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+      .chip { padding: 4px 10px; border-radius: 9999px; background: #1f2937; color: white; font-size: 12px; }
+      footer { font-size: 12px; color: #6b7280; border-top: 1px solid #e5e7eb; padding-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Project LedgerMind &mdash; Tax Strategy Summary</h1>
+      <p>Calc ID: {{ calc_id }}</p>
+    </header>
+
+    <section class="summary">
+      <h2>Baseline Liability</h2>
+      <ul>
+        <li>Adjusted Gross Income: {{ baseline.agi | round(2) }}</li>
+        <li>Deduction Applied: {{ baseline.deduction | round(2) }}</li>
+        <li>Taxable Income: {{ baseline.taxable_income | round(2) }}</li>
+        <li>Federal Tax: {{ baseline.federal_tax | round(2) }}</li>
+        <li>State Tax: {{ baseline.state_tax | round(2) }}</li>
+        <li>Total Tax: {{ baseline.total_tax | round(2) }}</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Ranked Strategies</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Strategy</th>
+            <th>Savings (USD)</th>
+            <th>Cash Outlay</th>
+            <th>Risk Score</th>
+            <th>Risk Adjusted Benefit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for strategy in strategies %}
+          <tr>
+            <td>{{ strategy.rank }}</td>
+            <td>{{ strategy.name }}</td>
+            <td>{{ strategy.savings | round(2) }}</td>
+            <td>{{ strategy.cash_outlay | round(2) }}</td>
+            <td>{{ strategy.risk_score }}</td>
+            <td>{{ strategy.risk_adjusted_benefit | round(2) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Audit Notes</h2>
+      {% for strategy in strategies %}
+        {% if strategy.audit_notes %}
+          <h3>{{ strategy.name }}</h3>
+          <ul>
+          {% for note in strategy.audit_notes %}
+            <li>{{ note }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endfor %}
+    </section>
+
+    <footer>
+      <p>Generated on {{ now().strftime('%Y-%m-%d %H:%M:%S') }} UTC.</p>
+      <p>All calculations are illustrative estimates and do not constitute legal or tax advice.</p>
+    </footer>
+  </body>
+</html>
+
