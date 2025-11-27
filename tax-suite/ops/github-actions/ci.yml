@@ -1,0 +1,50 @@
+name: tax-suite-ci
+on:
+  pull_request:
+    paths:
+      - "tax-suite/**"
+  push:
+    branches: [ feat/tax-suite/irs-mef-transmitter-v1 ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with: { node-version: 20 }
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: XML schema validation (sample)
+        run: |
+          sudo apt-get update && sudo apt-get install -y libxml2-utils
+          echo '<Return/>' > /tmp/sample.xml
+          # If you have XSDs, place them under packages/tax-xml/schemas and validate here
+
+      - name: Install transmitter deps
+        working-directory: tax-suite/apps/mef-transmitter
+        run: npm install
+
+      - name: Build transmitter
+        working-directory: tax-suite/apps/mef-transmitter
+        run: |
+          npm run build
+          docker build -t mef-transmitter:${{ github.sha }} .
+
+      - name: Install worker deps
+        working-directory: tax-suite/apps/gateway-worker
+        run: npm install
+
+      - name: Build worker
+        working-directory: tax-suite/apps/gateway-worker
+        run: npm run build
+
+      - name: Build tax XML helpers
+        working-directory: tax-suite/packages/tax-xml
+        run: |
+          npm install
+          npm run build
