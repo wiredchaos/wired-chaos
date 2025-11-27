@@ -1,0 +1,39 @@
+### POST /fragments/trade
+POST https://api.wired-chaos.dev/fragments/trade
+Content-Type: application/json
+X-WIRED-TRACE: atlas::red-light-district::{{context_id}}
+Authorization: Bearer {{access_token}}
+
+{
+  "fragmentId": "RLD-XRPL-32",
+  "counterparty": "swarm://node/rld-trader-09",
+  "proof": {
+    "signature": "demo-signature",
+    "nonce": "{{timestamp}}"
+  },
+  "metadata": {
+    "atlasContext": "atlas_redlight_main.atx",
+    "notes": "Phase A trade validation run"
+  }
+}
+
+### POST /cipher/decode
+POST https://api.wired-chaos.dev/cipher/decode
+Content-Type: application/json
+X-WIRED-TRACE: atlas::red-light-district::{{context_id}}
+Authorization: Bearer {{access_token}}
+
+{
+  "glyph": "RLD-CIPHER-19",
+  "payload": "dGVzdC1wYXlsb2Fk",
+  "options": {
+    "algorithm": "quantum-holo",
+    "expectedShard": "xrpl://fragments/RLD-CIPHER-19"
+  }
+}
+
+### GET /glyphs/holographic
+GET https://api.wired-chaos.dev/glyphs/holographic?district=red-light&limit=5
+Accept: application/json
+X-WIRED-TRACE: atlas::red-light-district::{{context_id}}
+Authorization: Bearer {{access_token}}

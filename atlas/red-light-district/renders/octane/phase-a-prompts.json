@@ -1,0 +1,62 @@
+[
+  {
+    "id": "establishing-neon-parallax",
+    "camera": {
+      "angle": "establishing",
+      "focalLength": 24,
+      "heightMeters": 18,
+      "movement": "slow dolly-in"
+    },
+    "prompt": "Octane render of WIRED CHAOS motherboard city · red light district skyline · rainy midnight · neon katakana billboards · holo-rickshaw traffic · volumetric fog · cinematic contrast · anamorphic lens flares",
+    "metadata": {
+      "watermark": "WIRED CHAOS ∴ RLD",
+      "loreFragment": "RLD-AXON-01",
+      "notes": "Use as the hero wide shot introducing the district."
+    }
+  },
+  {
+    "id": "detail-holo-graffiti",
+    "camera": {
+      "angle": "detail",
+      "focalLength": 65,
+      "heightMeters": 1.7,
+      "movement": "handheld micro-pan"
+    },
+    "prompt": "Octane render macro shot · cyberpunk alley · bioluminescent graffiti reacting to proximity sensors · chrome rain droplets · fiber optic cables exposed · magenta + cyan rim lights",
+    "metadata": {
+      "watermark": "WIRED CHAOS MICRO",
+      "loreFragment": "RLD-NANOTAG-07",
+      "notes": "Pairs with sensory log entry about adaptive graffiti sentience."
+    }
+  },
+  {
+    "id": "proof-terminal-trade",
+    "camera": {
+      "angle": "proof-terminal",
+      "focalLength": 35,
+      "heightMeters": 1.4,
+      "movement": "locked off"
+    },
+    "prompt": "Octane render · underground trade terminal · XRPL shard vending machine · amber emergency lighting · translucent UI overlays hovering in mid-air · tactile glass keyboard · sparks from maintenance drone",
+    "metadata": {
+      "watermark": "WIRED CHAOS XRPL",
+      "loreFragment": "RLD-XRPL-32",
+      "notes": "Used to illustrate memory fragment trading ritual."
+    }
+  },
+  {
+    "id": "cipher-wall-inspection",
+    "camera": {
+      "angle": "cipher-wall",
+      "focalLength": 40,
+      "heightMeters": 2.3,
+      "movement": "vertical tilt"
+    },
+    "prompt": "Octane render · abandoned speakeasy vault · wall of rotating holographic glyphs · ultraviolet spill lighting · quantum cipher rings · glitch particles suspended in air · archival wires snaking into the ceiling",
+    "metadata": {
+      "watermark": "WIRED CHAOS SIGIL",
+      "loreFragment": "RLD-CIPHER-19",
+      "notes": "Reference for puzzle wall assets and cipher decryption sequence."
+    }
+  }
+]

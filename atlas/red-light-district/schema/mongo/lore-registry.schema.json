@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wired-chaos.io/schemas/lore-registry.schema.json",
+  "title": "WIRED CHAOS Lore Registry · Red Light District",
+  "type": "object",
+  "required": [
+    "_id",
+    "fragmentId",
+    "district",
+    "media",
+    "links"
+  ],
+  "properties": {
+    "_id": {
+      "description": "Mongo ObjectId",
+      "bsonType": "objectId"
+    },
+    "fragmentId": {
+      "type": "string",
+      "pattern": "^RLD-[A-Z]+-[0-9]{2}$",
+      "description": "XRPL-compatible fragment identifier"
+    },
+    "district": {
+      "type": "string",
+      "const": "red-light"
+    },
+    "title": {
+      "type": "string",
+      "description": "Human readable fragment headline"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Lore synopsis for in-universe memory logs"
+    },
+    "media": {
+      "type": "object",
+      "required": [
+        "promptRef",
+        "atlasDrivePath",
+        "storage"
+      ],
+      "properties": {
+        "promptRef": {
+          "type": "string"
+        },
+        "atlasDrivePath": {
+          "type": "string"
+        },
+        "watermark": {
+          "type": "string"
+        },
+        "storage": {
+          "type": "object",
+          "required": [
+            "primary",
+            "backup"
+          ],
+          "properties": {
+            "primary": {
+              "type": "string",
+              "format": "uri"
+            },
+            "backup": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      }
+    },
+    "links": {
+      "type": "object",
+      "required": [
+        "xrpl",
+        "atlasContext",
+        "relatedFragments"
+      ],
+      "properties": {
+        "xrpl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "atlasContext": {
+          "type": "string"
+        },
+        "relatedFragments": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^RLD-[A-Z]+-[0-9]{2}$"
+          }
+        }
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "renderedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ingestedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "latencyMs": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  }
+}

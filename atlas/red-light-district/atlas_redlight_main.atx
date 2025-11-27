@@ -1,0 +1,61 @@
+# Atlas Notebook · WIRED CHAOS · Red Light District Phase A
+
+## 🔧 Workspace Bootstrap
+- Project slug: `wiredchaos/red-light-district`
+- Folder map mirrors this notebook:
+  - `/renders/octane/phase-a-prompts.json`
+  - `/metadata/grok/phase-a-metadata.json`
+  - `/api/cipher/cipher-core.http`
+  - `/schema/mongo/lore-registry.schema.json`
+
+Use the **Run Script → `scripts/atlas/setup-phase-a.js`** cell to regenerate scaffolding when
+new teammates join.
+
+```atlas
+!node ../../scripts/atlas/setup-phase-a.js --project red-light-district
+```
+
+---
+
+## 🎥 Octane Prompt Stack
+Load `renders/octane/phase-a-prompts.json` into the Asset Builder. Each entry
+includes:
+- Camera angle signature (establishing / detail / proof terminal / cipher wall)
+- Atmosphere + lighting cues aligned with motherboard city lore
+- Render watermark directives (`metadata.watermark`)
+
+---
+
+## 🧬 GROK Metadata Registry
+`metadata/grok/phase-a-metadata.json` maps each render to:
+- Memory fragment ID (XRPL-compatible UUID)
+- Lore registry cross-links (`lore.registrySlug`)
+- Storage target (Atlas Drive → R2 mirror)
+
+Attach the metadata file next to rendered assets to keep the provenance chain intact.
+
+---
+
+## 🔐 Cipher Core API Harness
+Use `api/cipher/cipher-core.http` in the Atlas API Playground to validate endpoints:
+- `POST /fragments/trade`
+- `POST /cipher/decode`
+- `GET /glyphs/holographic`
+
+Requests ship with synthetic payloads and expected signatures. Update the `X-WIRED-TRACE`
+header to bind runs to Atlas contexts.
+
+---
+
+## 🗄️ Lore Registry Schema Reference
+Import `schema/mongo/lore-registry.schema.json` into the Atlas DataFrame inspector to mirror
+Mongo collections locally. The schema provides validation rules for memory fragments and
+asset linkage nodes.
+
+---
+
+## ✅ Next Steps
+1. Render the four cinematic angles via Octane using the provided prompts.
+2. Store outputs alongside the metadata JSON to register the fragments.
+3. Exercise cipher endpoints with the provided HTTP harness and capture logs in Atlas.
+4. Sync XRPL memory fragments back into the motherboard city map for live previews.
