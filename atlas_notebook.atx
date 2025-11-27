@@ -1,0 +1,22 @@
+# RLD — Atlas Main
+## Setup
+- load env
+- mount project drive
+- register Mongo + (later) XRPL connector
+
+## Render Prompts (per shot)
+- establishing: prompt text + metadata preview
+- details: prompt text + metadata preview
+- env_story: prompt text + metadata preview
+- proof_terminal: prompt text + metadata preview
+- cipher_wall: prompt text + metadata preview
+
+## Asset Log Table
+- dataframe: file path | shot | hash | metadata path | timestamp
+
+## API Stubs (Phase B prep)
+- run api/server.ts
+- test /health, /cipher/encode, /cipher/decode
+
+## Export
+- bundle zip for Gamma/Wix upload

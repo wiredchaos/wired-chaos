@@ -1,0 +1,6 @@
+Corner nook with hidden slot for encrypted message drops; wall layered with holographic street art,
+XRPL memory threads mapped as cyan strings, accent pink stickers with red-eye sigil,
+discarded chip trays reflecting puddle light, subtle camera movement implied, 35mm, shoulder height,
+diegetic lighting only from signage and puddles, soft fog roll, decals: WIRED CHAOS, 33.3 FM DOGECHAIN,
+render_only, omit_prompt_text_in_output
+NEG: text legibility issues on brand marks, incorrect colors, graffiti readability glitches

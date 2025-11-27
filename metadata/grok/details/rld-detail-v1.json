@@ -1,0 +1,12 @@
+{
+  "artist": "@neurometax",
+  "copyright": "© WIRED CHAOS / 33.3FM DOGECHAIN — All Rights Reserved",
+  "collection": "WIRED CHAOS Ecosystem",
+  "tag": "GROK Metadata Integration",
+  "description": "Close-up of the cipher stall — koi-like holographic glyphs over cyan barbed-wire filigree, glitch red ticker streaming fragment IDs, rain-beaded carbon panels, and a single lore fragment chip glowing in focus.",
+  "wired_chaos_palette": { "black":"#000000","neon_cyan":"#00FFFF","glitch_red":"#FF3131","electric_green":"#39FF14","accent_pink":"#FF00FF" },
+  "watermark": { "text":"WIRED CHAOS / 33.3 FM DOGECHAIN","position":"diagonal_-30deg_bottom-right","opacity":0.18 },
+  "scene": { "module":"Red Light District — ARG Hub","lore_anchor":"Motherboard City / Akira Codex Interchange","continuity_flags":["neon_cyan_barbed_wire","red_eyes_signal","glass_effect_panels"] },
+  "camera": { "lens_mm": 50, "exposure_hint":"night_rain_wet_surfaces","render_engine":"Octane" },
+  "file": { "slug":"rld-detail-v1-333", "alt_text":"WIRED CHAOS Red Light District — cipher stall macro with glowing lore fragment chip and neon cyan filigree" }
+}

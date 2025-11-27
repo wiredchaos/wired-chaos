@@ -1,0 +1,6 @@
+Macro detail: pop-up cipher stall under glass canopy, holographic glyphs float like koi,
+neon cyan barbed-wire filigree wraps terminal edges, glitch red ticker shows fragment IDs,
+micro-condensation on carbon panels, rain beads, soft rim light, 50mm lens,
+bokeh neon orbs, shallow depth of field on a single lore fragment chip (cyan core, red rim),
+render_only, omit_prompt_text_in_output
+NEG: fingerprints on lens, grease smears, plastic toy look, purple cast

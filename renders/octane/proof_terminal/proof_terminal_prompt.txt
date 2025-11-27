@@ -1,0 +1,7 @@
+Freestanding verification kiosk with glass effect UI; layered holograms show:
+[VERIFY FRAGMENT] [DECODE GLYPH] [DROP ENCRYPTED NOTE]
+UI glow neon cyan primary, glitch red error edges, electric green success ticks,
+angled camera 28mm, slight dutch tilt, wet ground reflections, emissive scanlines,
+security drone shadow in fog, watermark metadata only,
+render_only, omit_prompt_text_in_output
+NEG: UI lorem ipsum, purple gradients, plastic shine

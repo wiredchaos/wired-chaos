@@ -1,0 +1,37 @@
+{
+  "artist": "@neurometax",
+  "copyright": "© WIRED CHAOS / 33.3FM DOGECHAIN — All Rights Reserved",
+  "collection": "WIRED CHAOS Ecosystem",
+  "tag": "GROK Metadata Integration",
+  "description": {
+    "storefront": "Cyberpunk storefront in the WIRED CHAOS mall, glowing with neon cyan, glitch red, and electric green. Part of the 33.3FM DOGECHAIN broadcast ecosystem.",
+    "merch": "Stealth apparel from WIRED CHAOS — cryptic glowing eyes and barbed wire woven into black streetwear. A hidden signal from the 33.3FM DOGECHAIN ecosystem.",
+    "logo": "Symbol of WIRED CHAOS — glowing red eyes and cyan barbed wire. A cryptic mark transmitting on 33.3FM DOGECHAIN."
+  },
+  "wired_chaos_palette": {
+    "black": "#000000",
+    "neon_cyan": "#00FFFF",
+    "glitch_red": "#FF3131",
+    "electric_green": "#39FF14",
+    "accent_pink": "#FF00FF"
+  },
+  "watermark": {
+    "text": "WIRED CHAOS / 33.3 FM DOGECHAIN",
+    "position": "diagonal_-30deg_bottom-right",
+    "opacity": 0.18
+  },
+  "scene": {
+    "module": "Red Light District — ARG Hub",
+    "lore_anchor": "Motherboard City / Akira Codex Interchange",
+    "continuity_flags": ["neon_cyan_barbed_wire", "red_eyes_signal", "glass_effect_panels"]
+  },
+  "camera": {
+    "fov": "24–50mm equivalents per shot",
+    "exposure_hint": "night_rain_wet_surfaces",
+    "render_engine": "Octane"
+  },
+  "file": {
+    "slug": "rld-{shot}-{v}-{seed}",
+    "alt_text": "WIRED CHAOS Red Light District — {shot} — neon cyan, glitch red, electric green, glass effect, motherboard street grid"
+  }
+}
