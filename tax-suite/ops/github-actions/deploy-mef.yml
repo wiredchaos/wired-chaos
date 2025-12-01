@@ -1,0 +1,72 @@
+name: deploy-mef
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - "tax-suite/apps/mef-transmitter/**"
+      - "tax-suite/apps/gateway-worker/**"
+      - "tax-suite/ops/terraform/**"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
+      TF_VAR_project: wiredchaos-tax
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init/Plan/Apply
+        working-directory: tax-suite/ops/terraform
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          terraform init -upgrade
+          terraform plan -out tf.plan
+          terraform apply -auto-approve tf.plan
+
+  deploy-transmitter:
+    needs: terraform
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & Push
+        working-directory: tax-suite/apps/mef-transmitter
+        env:
+          AWS_REGION: us-east-1
+          ECR_REPO: ${{ vars.ECR_REPO_MEFTX }}
+        run: |
+          docker build -t $ECR_REPO:latest -t $ECR_REPO:${{ github.sha }} .
+          docker push $ECR_REPO:latest
+          docker push $ECR_REPO:${{ github.sha }}
+
+      - name: Update ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ secrets.ECS_TASK_DEF_JSON }}
+          service: ${{ vars.ECS_SERVICE_NAME }}
+          cluster: ${{ vars.ECS_CLUSTER_NAME }}
+          wait-for-service-stability: true
+
+  deploy-worker:
+    needs: terraform
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish Worker
+        working-directory: tax-suite/apps/gateway-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: |
+          npm i -g wrangler
+          wrangler deploy --var TAX_EFILE_ENABLED:true
