@@ -16,6 +16,7 @@ import axios from "axios";
 import { getSuiteUrl } from "./utils/env";
 import { StudentUnion, VRLobby, ConsignmentStore, ProductDashboard, AdminPanel } from "./components/StudentUnion";
 import GrantsForFounders from "./components/GrantsForFounders";
+import Game from "./components/game/Game";
 import Dashboard from "./pages/Dashboard";
 import Resources from "./pages/Resources";
 
@@ -1677,6 +1678,9 @@ function App() {
           {/* Educational Courses */}
           <Route path="/university/edu/grants-for-founders" element={<GrantsForFounders />} />
           
+          {/* VRG33589 NFT Game System */}
+          <Route path="/game" element={<Game />} />
+          <Route path="/game/eternal-loop" element={<Game />} />
           {/* WIRED CHAOS Platform - InsightX Dashboard + Resources */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/resources" element={<Resources />} />
