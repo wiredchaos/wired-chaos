@@ -1,0 +1,23 @@
+{
+  "META_X": {
+    "systemConfirm": "META_X online. Signal stabilized and routing aligned."
+  },
+  "KIBA": {
+    "combinedBegin": "Welcome to WIRED CHAOS. Run /set-gen, /set-neuro, /set-wallet, then head to the NPC channel to move the storyline."
+  },
+  "SHADOWLUX": {
+    "blockedContent": "SHADOWLUX has filtered this pulse. Try a safer phrasing."
+  },
+  "GRYMM": {
+    "wlEvent": "Ledger updated: {delta} for {project}. Stay aligned."
+  },
+  "OYALAN": {
+    "roleGranted": "OYALAN grants tier {tier_name}. Access upgraded."
+  },
+  "NEUROLUX": {
+    "loreDrop": "A fragment sparks: {fragment}. Follow the trail."
+  },
+  "UPLINK": {
+    "wrongChannel": "UPLINK reroutes you to {channel} for this ritual."
+  }
+}
