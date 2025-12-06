@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "WIRED CHAOS - Full Stack Web3 Application",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "apps/bot"
+  ],
   "scripts": {
     "build:css": "rollup -c rollup.config.mjs",
     "cdn:version": "node scripts/cdn_version.js && node scripts/cdn_latest.js",
